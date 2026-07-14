@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0F1511">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgencyRoot · Talia Ren</title>
+<link rel="preload" href="fonts/Poppins/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+  @font-face {
+    font-family: 'Poppins';
+    src: url('fonts/Poppins/Poppins-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('fonts/Poppins/Poppins-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'DM Sans';
+    src: url('fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Outfit';
+    src: url('fonts/Outfit/Outfit-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: italic; font-display: block;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; background:#0F1511; }
+  html { scrollbar-gutter: stable; }
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.1s;
+    animation-timing-function: ease;
+  }
+  body { font-family:'Outfit', sans-serif; overflow-x:hidden; display:flex; flex-direction:column; min-height:100vh; }
+
+  /* ── Nav ── */
+  nav {
+    position:fixed; top:20px; left:50%; transform:translateX(-50%);
+    z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    width:300px;
+    padding:12px 32px;
+    background:rgba(78,101,87,0.60);
+    backdrop-filter:blur(80px) saturate(160%);
+    -webkit-backdrop-filter:blur(80px) saturate(160%);
+    border-radius:999px;
+    box-sizing:border-box;
+    white-space:nowrap;
+  }
+  .nav-logo {
+    display:flex; align-items:center; flex-shrink:0; text-decoration:none;
+  }
+  .nav-logo img { width:28px; height:28px; display:block; transition:transform .2s ease-out; will-change:transform; }
+  .nav-logo:hover img, .nav-logo.js-hover img { transform:rotate(15deg) scale(1.07); }
+  .nav-logo:active img { transform:rotate(0deg) scale(1); }
+  .nav-link {
+    font-family:'DM Sans',sans-serif; font-size:.9rem; font-weight:500;
+    color:#F8F8F8; text-decoration:none; transition:color .2s; letter-spacing:.01em;
+  }
+  .nav-link:hover, .nav-link:active { color:#41E981; }
+
+  /* ── Main content placeholder ── */
+  main { flex:1; min-height:100vh; }
+
+  /* ── Footer ── */
+  footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
+  .footer-top { display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:102px 0 2px 0; }
+  .footer-bottom { display:flex; flex-direction:column; align-items:center; gap:12px; padding:28px 0 44px; border-top:1px solid rgba(28,25,23,.05); }
+  .footer-icons { display:flex; align-items:center; gap:32px; }
+  .footer-roast { flex:0 0 360px; position:relative; height:240px; overflow:visible; }
+  @media (max-width:768px) {
+    footer { padding:0 24px; }
+    .footer-top { flex-direction:column; padding:36px 0; gap:0; }
+    .footer-roast { display:none; }
+    .footer-bottom { padding:24px 0 36px; }
+  }
+  .campfire-svg-wrap { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+  @keyframes flame-flicker {
+    0%,100% { transform:scaleY(1) scaleX(1); }
+    20% { transform:scaleY(1.1) scaleX(0.92); }
+    50% { transform:scaleY(0.93) scaleX(1.07); }
+    75% { transform:scaleY(1.07) scaleX(0.95); }
+  }
+  @keyframes ember-rise {
+    0% { transform:translateY(0) scale(1); opacity:0.9; }
+    100% { transform:translateY(-42px) scale(0.1); opacity:0; }
+  }
+  .fire-svg .flame { transform-box:fill-box; transform-origin:center 90%; }
+  .fire-svg .f-back   { animation:flame-flicker 1.2s ease-in-out infinite; }
+  .fire-svg .f-mid1   { animation:flame-flicker 0.85s ease-in-out infinite 0.15s; }
+  .fire-svg .f-mid2   { animation:flame-flicker 0.95s ease-in-out infinite 0.3s; }
+  .fire-svg .f-front1 { animation:flame-flicker 0.7s ease-in-out infinite 0.1s; }
+  .fire-svg .f-front2 { animation:flame-flicker 0.75s ease-in-out infinite 0.4s; }
+  .fire-svg .f-core   { animation:flame-flicker 0.6s ease-in-out infinite 0.05s; }
+  .fire-svg .f-tip    { animation:flame-flicker 0.55s ease-in-out infinite 0.2s; }
+  .fire-svg .em1 { animation:ember-rise 2s ease-out infinite; }
+  .fire-svg .em2 { animation:ember-rise 1.7s ease-out infinite 0.8s; }
+  .fire-svg .em3 { animation:ember-rise 2.4s ease-out infinite 1.5s; }
+  .mallow-stick-el {
+    position:absolute; cursor:grab; user-select:none; touch-action:none; z-index:10;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+    transform: rotate(35deg);
+    transform-origin: center center;
+  }
+  .mallow-stick-el:active { cursor:grabbing; }
+  .roast-hint {
+    position:absolute; left:50%; transform:translateX(-50%); top:14px;
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic;
+    font-size:1.15rem; letter-spacing:0.02em; color:#ccc;
+    pointer-events:none; white-space:nowrap; transition:opacity 0.8s;
+  }
+  .roast-status {
+    position:absolute; top:22px; left:50%; transform:translateX(-50%);
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1rem;
+    color:#888; pointer-events:none; opacity:0; white-space:nowrap; transition:opacity 0.5s;
+  }
+  .footer-icon-btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    color:#777; background:transparent; border:none; cursor:pointer;
+    transition:color 0.18s;
+    text-decoration:none;
+    padding:0;
+  }
+  .footer-icon-btn:hover { color:#e0e0e0; }
+  .footer-quote { font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:3rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Talia Ren">
+    <img src="logo.png" width="32" height="32" alt="Talia Ren">
+  </a>
+  <a class="nav-link" href="index.html#projects">Works</a>
+  <a class="nav-link" href="play.html">Play</a>
+  <a class="nav-link" href="about.html">About</a>
+</nav>
+
+<main style="display:flex; align-items:center; justify-content:center;">
+  <p style="font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1.15rem; color:#ccc; letter-spacing:0.02em;">Coming soon...</p>
+</main>
+
+<footer>
+  <div class="footer-top">
+    <p class="footer-quote">The universe is, and we are.</p>
+    <div class="footer-roast" id="footer-roast">
+      <div class="campfire-svg-wrap" id="campfire-svg-wrap">
+        <svg class="fire-svg" viewBox="0 0 120 95" width="180" height="143" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="fr-glow" cx="50%" cy="100%" r="65%">
+              <stop offset="0%" stop-color="#ff7700" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#ff7700" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="60" cy="90" rx="50" ry="13" fill="url(#fr-glow)"/>
+          <line x1="18" y1="75" x2="82" y2="67" stroke="#5D4037" stroke-width="8" stroke-linecap="round"/>
+          <line x1="22" y1="67" x2="88" y2="75" stroke="#4E342E" stroke-width="8" stroke-linecap="round"/>
+          <circle class="em1" cx="44" cy="68" r="2.2" fill="#ff8c00"/>
+          <circle class="em2" cx="63" cy="65" r="1.6" fill="#ffcc00"/>
+          <circle class="em3" cx="76" cy="70" r="2" fill="#ff6b00"/>
+          <ellipse class="flame f-back"   cx="60" cy="46" rx="22" ry="28" fill="#c03000"/>
+          <ellipse class="flame f-mid1"   cx="51" cy="51" rx="15" ry="20" fill="#e05000"/>
+          <ellipse class="flame f-mid2"   cx="69" cy="52" rx="14" ry="18" fill="#e06200"/>
+          <ellipse class="flame f-front1" cx="54" cy="56" rx="10" ry="14" fill="#ff7700"/>
+          <ellipse class="flame f-front2" cx="66" cy="57" rx="9"  ry="12" fill="#ff8800"/>
+          <ellipse class="flame f-core"   cx="60" cy="60" rx="7"  ry="9"  fill="#ffcc00"/>
+          <ellipse class="flame f-tip"    cx="60" cy="65" rx="4"  ry="5"  fill="#fff3a0"/>
+        </svg>
+      </div>
+      <div class="mallow-stick-el" id="mallow-stick-el">
+        <svg viewBox="0 0 34 160" width="34" height="160" style="overflow:visible">
+          <line x1="17" y1="38" x2="17" y2="158" stroke="#8B6914" stroke-width="4" stroke-linecap="round"/>
+          <rect id="mallow-rect" x="4" y="4" width="26" height="32" rx="10" fill="#fff8f4" stroke="#e8ddd0" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="roast-hint" id="roast-hint">Drag to toast a marshmallow</div>
+      <div class="roast-status" id="roast-status"></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-icons">
+      <a class="footer-icon-btn" href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="footer-icon-btn" href="https://github.com/TaliaRen" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a class="footer-icon-btn" href="https://www.instagram.com/qingyi_ren" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+      <button class="footer-icon-btn" id="footer-email-btn" aria-label="Copy email">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </button>
+    </div>
+    <p class="footer-credit">Inspired by Outer Wilds &amp; Jigsaw Puzzle, built with Claude</p>
+  </div>
+</footer>
+
+<script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  document.addEventListener('mousemove', e => {
+    sessionStorage.setItem('mx', e.clientX);
+    sessionStorage.setItem('my', e.clientY);
+  }, { passive: true });
+
+  (function() {
+    const el = document.querySelector('.nav-logo');
+    if (!el) return;
+    el.addEventListener('mouseenter', () => el.classList.add('js-hover'));
+    el.addEventListener('mouseleave', () => el.classList.remove('js-hover'));
+    const lx = parseFloat(sessionStorage.getItem('mx'));
+    const ly = parseFloat(sessionStorage.getItem('my'));
+    if (!isNaN(lx) && !isNaN(ly)) {
+      const r = el.getBoundingClientRect();
+      if (lx >= r.left && lx <= r.right && ly >= r.top && ly <= r.bottom) {
+        el.classList.add('js-hover');
+        document.addEventListener('mousemove', function watch(e) {
+          const r2 = el.getBoundingClientRect();
+          if (e.clientX < r2.left || e.clientX > r2.right || e.clientY < r2.top || e.clientY > r2.bottom) {
+            el.classList.remove('js-hover');
+            document.removeEventListener('mousemove', watch);
+          }
+        }, { passive: true });
+      }
+    }
+  })();
+
+  });
+
+(function() {
+  const btn = document.getElementById('footer-email-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    navigator.clipboard.writeText('taliaren0826@gmail.com').catch(() => {});
+  });
+})();
+
+(function() {
+  const scene    = document.getElementById('footer-roast');
+  const stickEl  = document.getElementById('mallow-stick-el');
+  const mallow   = document.getElementById('mallow-rect');
+  const fireWrap = document.getElementById('campfire-svg-wrap');
+  const hint     = document.getElementById('roast-hint');
+  const statusEl = document.getElementById('roast-status');
+  if (!scene || !stickEl) return;
+
+  let dragging=false, dragOX=0, dragOY=0;
+  let posX=0, posY=0;
+  let toastLevel=0, dropped=false, hinted=false, lastTS=null, audioActive=false;
+  let _cachedPosX=null, _cachedPosY=null;
+
+  let aCtx=null, aGain=null;
+  function startAudio() {
+    if (aCtx) return;
+    try {
+      aCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const sr=aCtx.sampleRate, dur=4;
+      const buf=aCtx.createBuffer(1,sr*dur,sr);
+      const d=buf.getChannelData(0);
+      let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0;
+      for (let i=0;i<sr*dur;i++) {
+        const w=Math.random()*2-1;
+        b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+        b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+        b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+        let v=(b0+b1+b2+b3+b4+b5)*0.11;
+        if (Math.random()<0.0008) v+=(Math.random()-0.5)*0.5;
+        d[i]=Math.max(-1,Math.min(1,v*0.12));
+      }
+      const src=aCtx.createBufferSource();
+      src.buffer=buf; src.loop=true;
+      aGain=aCtx.createGain(); aGain.gain.value=0;
+      src.connect(aGain); aGain.connect(aCtx.destination);
+      src.start();
+    } catch(e){}
+  }
+  function setVol(v) {
+    if (!aGain) return;
+    aGain.gain.setTargetAtTime(Math.max(0,v), aCtx.currentTime, 0.3);
+  }
+
+  function init() {
+    if (_cachedPosX===null) {
+      const sr=scene.getBoundingClientRect();
+      const fr=fireWrap.getBoundingClientRect();
+      const fx=fr.left-sr.left+fr.width/2;
+      const fy=fr.top-sr.top+22;
+      const offset=Math.min(200, sr.width*0.45);
+      _cachedPosX=fx-17-offset;
+      _cachedPosY=fy-20;
+    }
+    posX=_cachedPosX;
+    posY=_cachedPosY;
+    stickEl.style.left=posX+'px';
+    stickEl.style.top=posY+'px';
+    stickEl.style.filter='';
+  }
+
+  function mallowTip() {
+    const sr=scene.getBoundingClientRect();
+    const er=stickEl.getBoundingClientRect();
+    return { x:er.left-sr.left+94, y:er.top-sr.top+26 };
+  }
+  function fireTip() {
+    const sr=scene.getBoundingClientRect();
+    const fr=fireWrap.getBoundingClientRect();
+    return { x:fr.left-sr.left+fr.width/2, y:fr.top-sr.top+26 };
+  }
+  function dist(a,b){ return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2); }
+
+  function updateColor() {
+    const stops=[[255,248,244],[252,218,135],[228,148,55],[155,80,30]];
+    const raw=toastLevel*(stops.length-1);
+    const lo=Math.floor(raw), hi=Math.min(stops.length-1,lo+1);
+    const f=raw-lo;
+    const [r,g,b]=stops[lo].map((c,i)=>Math.round(c+(stops[hi][i]-c)*f));
+    mallow.setAttribute('fill',`rgb(${r},${g},${b})`);
+    mallow.setAttribute('stroke',`rgb(${Math.max(0,r-28)},${Math.max(0,g-28)},${Math.max(0,b-18)})`);
+  }
+
+  function doDrop() {
+    dropped=true; audioActive=false;
+    setVol(0);
+    const fill=mallow.getAttribute('fill');
+    const stroke=mallow.getAttribute('stroke');
+    const sr=scene.getBoundingClientRect();
+    const fr=fireWrap.getBoundingClientRect();
+    const placeX=fr.left-sr.left+fr.width+10;
+    const placed=document.createElement('div');
+    placed.style.cssText=`position:absolute;left:${placeX}px;bottom:14px;pointer-events:none;z-index:5;transform:translateY(-12px);opacity:0;transition:transform 0.3s ease,opacity 0.2s ease;`;
+    placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
+    scene.appendChild(placed);
+    requestAnimationFrame(()=>{ placed.style.transform='translateY(0)'; placed.style.opacity='1'; });
+    statusEl.style.opacity='0';
+    setTimeout(()=>{
+      placed.style.transition='opacity 1s ease';
+      placed.style.opacity='0';
+      setTimeout(()=>placed.remove(), 1100);
+    }, 4000);
+    setTimeout(()=>{
+      toastLevel=0; dropped=false; lastTS=null;
+      updateColor(); init();
+    }, 500);
+  }
+
+  function loop(ts) {
+    if (!dropped) {
+      const dt=lastTS ? Math.min((ts-lastTS)/1000, 0.05) : 0;
+      lastTS=ts;
+      const tip=mallowTip(), fire=fireTip();
+      const d=dist(tip,fire);
+      const R=75;
+      if (d<R) {
+        const intensity=Math.pow(1-d/R, 0.7);
+        setVol(audioActive ? 0.6+intensity*1.4 : 0);
+        toastLevel=Math.min(1, toastLevel+dt*(1/5));
+        updateColor();
+        stickEl.style.filter=`drop-shadow(0 0 ${Math.round(intensity*16)}px rgba(255,140,0,${(intensity*0.75).toFixed(2)}))`;
+        if (toastLevel>=1) doDrop();
+      } else {
+        setVol(audioActive && d<R*2.5 ? 0.06 : 0);
+        stickEl.style.filter='drop-shadow(0 2px 6px rgba(0,0,0,0.1))';
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+
+  stickEl.addEventListener('pointerdown', e=>{
+    if (dropped) return;
+    e.preventDefault();
+    stickEl.setPointerCapture(e.pointerId);
+    dragging=true; audioActive=true;
+    startAudio();
+    const sr=scene.getBoundingClientRect();
+    dragOX=e.clientX-sr.left-posX;
+    dragOY=e.clientY-sr.top-posY;
+    if (!hinted){ hinted=true; hint.style.opacity='0'; }
+    stickEl.style.zIndex='20';
+  });
+  stickEl.addEventListener('pointermove', e=>{
+    if (!dragging||dropped) return;
+    const sr=scene.getBoundingClientRect();
+    posX=e.clientX-sr.left-dragOX;
+    posY=e.clientY-sr.top-dragOY;
+    stickEl.style.left=posX+'px';
+    stickEl.style.top=posY+'px';
+  });
+  const endDrag=()=>{ dragging=false; };
+  stickEl.addEventListener('pointerup', endDrag);
+  stickEl.addEventListener('pointercancel', endDrag);
+
+  requestAnimationFrame(()=>{ init(); requestAnimationFrame(loop); });
+  window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
+})();
+</script>
+</body>
+</html>

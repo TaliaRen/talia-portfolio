@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/renqingyi/Desktop/Portfolio2026 -type d -iname \"*background*\" 2>/dev/null; find /Users/renqingyi/Desktop -maxdepth 3 -type d -iname \"*background*\" 2>/dev/null)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  }
+}

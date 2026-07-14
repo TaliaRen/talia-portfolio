@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0F1511">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiDi First-Ride Experience · Talia Ren</title>
+<link rel="preload" href="fonts/Poppins/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('fonts/Poppins/Poppins-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('fonts/Poppins/Poppins-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'DM Sans';
+    src: url('fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Outfit';
+    src: url('fonts/Outfit/Outfit-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: italic; font-display: block;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; background:#0F1511; }
+  html { scrollbar-gutter: stable; }
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.1s;
+    animation-timing-function: ease;
+  }
+  body { font-family:'Outfit', sans-serif; overflow-x:hidden; display:flex; flex-direction:column; min-height:100vh; }
+
+  /* ── Nav ── */
+  nav {
+    position:fixed; top:20px; left:50%; transform:translateX(-50%);
+    z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    width:300px;
+    padding:12px 32px;
+    background:rgba(78,101,87,0.60);
+    backdrop-filter:blur(80px) saturate(160%);
+    -webkit-backdrop-filter:blur(80px) saturate(160%);
+    border-radius:999px;
+    box-sizing:border-box;
+    white-space:nowrap;
+  }
+  .nav-logo {
+    display:flex; align-items:center; flex-shrink:0; text-decoration:none;
+  }
+  .nav-logo img { width:28px; height:28px; display:block; transition:transform .2s ease-out; will-change:transform; }
+  .nav-logo:hover img, .nav-logo.js-hover img { transform:rotate(15deg) scale(1.07); }
+  .nav-logo:active img { transform:rotate(0deg) scale(1); }
+  .nav-link {
+    font-family:'DM Sans',sans-serif; font-size:.9rem; font-weight:500;
+    color:#F8F8F8; text-decoration:none; transition:color .2s; letter-spacing:.01em;
+  }
+  .nav-link:hover, .nav-link:active { color:#41E981; }
+
+  /* ── Main content placeholder ── */
+  main { flex:1; }
+
+  /* ── Footer ── */
+  footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
+  .footer-top { display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:102px 0 2px 0; }
+  .footer-bottom { display:flex; flex-direction:column; align-items:center; gap:12px; padding:28px 0 44px; border-top:1px solid rgba(28,25,23,.05); }
+  .footer-icons { display:flex; align-items:center; gap:32px; }
+  .footer-roast { flex:0 0 360px; position:relative; height:240px; overflow:visible; }
+  @media (max-width:768px) {
+    footer { padding:0 24px; }
+    .footer-top { flex-direction:column; padding:36px 0; gap:0; }
+    .footer-roast { display:none; }
+    .footer-bottom { padding:24px 0 36px; }
+  }
+  .campfire-svg-wrap { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+  @keyframes flame-flicker {
+    0%,100% { transform:scaleY(1) scaleX(1); }
+    20% { transform:scaleY(1.1) scaleX(0.92); }
+    50% { transform:scaleY(0.93) scaleX(1.07); }
+    75% { transform:scaleY(1.07) scaleX(0.95); }
+  }
+  @keyframes ember-rise {
+    0% { transform:translateY(0) scale(1); opacity:0.9; }
+    100% { transform:translateY(-42px) scale(0.1); opacity:0; }
+  }
+  .fire-svg .flame { transform-box:fill-box; transform-origin:center 90%; }
+  .fire-svg .f-back   { animation:flame-flicker 1.2s ease-in-out infinite; }
+  .fire-svg .f-mid1   { animation:flame-flicker 0.85s ease-in-out infinite 0.15s; }
+  .fire-svg .f-mid2   { animation:flame-flicker 0.95s ease-in-out infinite 0.3s; }
+  .fire-svg .f-front1 { animation:flame-flicker 0.7s ease-in-out infinite 0.1s; }
+  .fire-svg .f-front2 { animation:flame-flicker 0.75s ease-in-out infinite 0.4s; }
+  .fire-svg .f-core   { animation:flame-flicker 0.6s ease-in-out infinite 0.05s; }
+  .fire-svg .f-tip    { animation:flame-flicker 0.55s ease-in-out infinite 0.2s; }
+  .fire-svg .em1 { animation:ember-rise 2s ease-out infinite; }
+  .fire-svg .em2 { animation:ember-rise 1.7s ease-out infinite 0.8s; }
+  .fire-svg .em3 { animation:ember-rise 2.4s ease-out infinite 1.5s; }
+  .mallow-stick-el {
+    position:absolute; cursor:grab; user-select:none; touch-action:none; z-index:10;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+    transform: rotate(35deg);
+    transform-origin: center center;
+  }
+  .mallow-stick-el:active { cursor:grabbing; }
+  .roast-hint {
+    position:absolute; left:50%; transform:translateX(-50%); top:14px;
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic;
+    font-size:1.15rem; letter-spacing:0.02em; color:#ccc;
+    pointer-events:none; white-space:nowrap; transition:opacity 0.8s;
+  }
+  .roast-status {
+    position:absolute; top:22px; left:50%; transform:translateX(-50%);
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1rem;
+    color:#888; pointer-events:none; opacity:0; white-space:nowrap; transition:opacity 0.5s;
+  }
+  .footer-icon-btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    color:#777; background:transparent; border:none; cursor:pointer;
+    transition:color 0.18s;
+    text-decoration:none;
+    padding:0;
+  }
+  .footer-icon-btn:hover { color:#e0e0e0; }
+  .footer-quote { font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:3rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Talia Ren">
+    <img src="logo.png" width="32" height="32" alt="Talia Ren">
+  </a>
+  <a class="nav-link" href="index.html#projects">Works</a>
+  <a class="nav-link" href="play.html">Play</a>
+  <a class="nav-link" href="about.html">About</a>
+</nav>
+
+<style>
+  /* ── Sidebar ── */
+  .case-sidebar {
+    position:fixed; left:40px; top:50%; transform:translateY(-50%);
+    z-index:100;
+    display:flex; flex-direction:column; gap:20px;
+  }
+  .case-sidebar a {
+    font-family:'Outfit',sans-serif; font-size:.78rem; font-weight:300;
+    color:rgba(255,255,255,0.35); letter-spacing:.06em; text-transform:uppercase;
+    text-decoration:none;
+    transition:color 0.2s;
+    position:relative; padding-left:16px;
+  }
+  .case-sidebar a::before {
+    content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+    width:6px; height:1px; background:currentColor;
+    transition:width 0.2s, color 0.2s;
+  }
+  .case-sidebar a.active,
+  .case-sidebar a:hover {
+    color:rgba(255,255,255,0.75);
+  }
+  .case-sidebar a.active::before { width:12px; }
+  @media(max-width:1100px) { .case-sidebar { display:none; } }
+
+  .didi-hero-section {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-height:100vh;
+    padding:120px 196px 80px;
+    gap:64px;
+  }
+  .didi-top {
+    display:flex; flex-direction:column; gap:10px;
+    width:100%; max-width:860px;
+  }
+  .didi-logo-lockup {
+    display:flex; align-items:center; gap:10px;
+  }
+  .didi-logo-lockup img { height:44px; width:auto; }
+  .didi-logo-lockup span {
+    font-family:'Outfit',sans-serif; font-size:1.1rem; font-weight:500;
+    color:rgba(255,255,255,0.9); letter-spacing:.01em;
+  }
+  .didi-headline {
+    font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:300;
+    color:#fff; line-height:1.3;
+  }
+  .didi-meta {
+    display:flex; flex-wrap:nowrap; gap:80px; align-items:flex-start;
+    width:100%; max-width:860px;
+    padding-top:40px;
+  }
+  .didi-meta-col {}
+  .didi-meta-col label {
+    font-family:'Outfit',sans-serif; font-size:.8rem; font-weight:300;
+    color:#FF9C6E; letter-spacing:.08em; text-transform:uppercase;
+    display:block; margin-bottom:12px;
+  }
+  .didi-meta-col p {
+    font-family:'Outfit',sans-serif; font-size:1.045rem; font-weight:200;
+    color:rgba(255,255,255,0.92); line-height:1.9; margin:0;
+  }
+  @media(max-width:860px) {
+    .didi-hero-section { padding:120px 32px 80px; gap:48px; }
+    .didi-headline { font-size:1.75rem; }
+    .didi-meta { grid-template-columns:repeat(2,1fr); gap:32px; }
+    .didi-meta-col:not(:last-child) { border-right:none; margin-right:0; }
+  }
+  @media(max-width:480px) {
+    .didi-hero-section { padding:100px 24px 60px; }
+    .didi-meta { grid-template-columns:1fr; }
+  }
+
+  /* ── Overview content ── */
+  .didi-overview-section {
+    padding:0 196px 180px;
+    display:flex; flex-direction:column;
+    align-items:center; gap:48px;
+  }
+  .didi-overview-text {
+    width:100%; max-width:860px;
+    display:flex; flex-direction:column; gap:48px;
+  }
+  .didi-section-block { display:flex; flex-direction:column; gap:24px; }
+  .didi-block-label {
+    font-family:'Outfit',sans-serif; font-size:.75rem; font-weight:300;
+    color:#FF9C6E; letter-spacing:.1em; text-transform:uppercase;
+  }
+  .didi-block-text {
+    font-family:'Outfit',sans-serif; font-size:1.075rem; font-weight:300;
+    color:rgba(255,255,255,0.85); line-height:1.8; margin:0;
+  }
+  .didi-impact-metrics {
+    display:flex; gap:64px; align-items:flex-end;
+  }
+  .didi-metric { display:flex; flex-direction:column; gap:6px; }
+  .didi-metric-num {
+    font-family:'Cormorant Infant',serif; font-size:3.2rem; font-weight:400;
+    color:#fff; letter-spacing:-.01em;
+  }
+  .didi-metric-sub {
+    font-family:'Outfit',sans-serif; font-size:.945rem; font-weight:300;
+    color:rgba(255,255,255,0.5);
+  }
+  .didi-cover-img {
+    width:100%; max-width:860px;
+    display:flex; flex-direction:column; gap:32px;
+  }
+  .didi-cover-img img { width:100%; height:auto; display:block; border-radius:16px; }
+  @media(max-width:860px) {
+    .didi-overview-section { padding:0 32px 80px; gap:48px; }
+  }
+
+  /* ── Anchor scroll offset ── */
+  #overview, #problem, #solution-1, #solution-2, #solution-3, #takeaways { scroll-margin-top: 140px; }
+
+  /* ── Problem section ── */
+  .didi-problem-section {
+    padding:0 196px 180px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .didi-problem-inner {
+    width:100%; max-width:860px;
+    display:flex; flex-direction:column; gap:72px;
+  }
+  .didi-problem-header {
+    font-family:'Outfit',sans-serif; font-size:.75rem; font-weight:300;
+    color:#FF9C6E; letter-spacing:.1em; text-transform:uppercase;
+    margin-bottom:calc(16px - 72px);
+  }
+  .didi-problem-item { display:flex; flex-direction:column; gap:24px; }
+  .didi-problem-title {
+    font-family:'Outfit',sans-serif; font-size:1.6rem; font-weight:400;
+    color:#fff; line-height:1.25;
+  }
+  .didi-problem-body {
+    font-family:'Outfit',sans-serif; font-size:1.075rem; font-weight:300;
+    color:rgba(255,255,255,0.75); line-height:1.8; margin:0;
+  }
+  @media(max-width:860px) {
+    .didi-problem-section { padding:0 32px 80px; }
+  }
+
+  /* ── Understanding Users section ── */
+  .didi-users-section {
+    padding:0 196px 180px;
+    display:flex; flex-direction:column; align-items:center;
+    scroll-margin-top:140px;
+  }
+  .didi-users-inner {
+    width:100%; max-width:860px;
+    display:flex; flex-direction:column; gap:72px;
+  }
+  .didi-users-label { margin-bottom:calc(16px - 72px); }
+  .didi-users-content { display:flex; flex-direction:column; gap:48px; }
+  .didi-users-text { display:flex; flex-direction:column; gap:24px; }
+  .didi-users-title {
+    font-family:'Outfit',sans-serif; font-size:1.6rem; font-weight:400;
+    color:#fff; line-height:1.25;
+  }
+  .didi-mindsets { display:flex; flex-direction:row; gap:32px; }
+  .didi-mindset-item {
+    display:flex; flex-direction:row; align-items:flex-start; gap:16px; flex:1;
+  }
+  .didi-mindset-img {
+    width:68px; height:auto; border-radius:12px; object-fit:contain; display:block;
+  }
+  .didi-mindset-text { display:flex; flex-direction:column; gap:6px; }
+  .didi-mindset-name {
+    font-family:'Outfit',sans-serif; font-size:1.075rem; font-weight:500;
+    color:#fff;
+    padding-left:12px;
+    border-left:2px solid #FF9C6E;
+  }
+  .didi-mindset-desc {
+    font-family:'Outfit',sans-serif; font-size:1.005rem; font-weight:300;
+    color:rgba(255,255,255,0.65); line-height:1.7;
+    padding-left:12px;
+  }
+  .didi-users-quote {
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:14px; padding:28px;
+    font-family:'Outfit',sans-serif; font-size:.92rem; font-weight:300;
+    color:rgba(255,255,255,0.8); line-height:1.75;
+  }
+  .didi-users-tags {
+    display:flex; flex-wrap:wrap; gap:12px;
+  }
+  .didi-users-tag {
+    font-family:'Outfit',sans-serif; font-size:.85rem; font-weight:300;
+    font-style:italic; color:rgba(255,255,255,0.7);
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:999px; padding:8px 18px;
+  }
+  @media(max-width:860px) {
+    .didi-users-section { padding:0 32px 80px; }
+    .didi-users-body { grid-template-columns:1fr; }
+  }
+
+  /* ── Solution section ── */
+  .didi-solution-section {
+    padding:0 196px 180px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .didi-solution-inner {
+    width:100%; max-width:860px;
+    display:flex; flex-direction:column; gap:72px;
+  }
+  .didi-solution-label { margin-bottom:calc(16px - 72px); }
+  .didi-solution-content { display:flex; flex-direction:column; gap:48px; }
+  .didi-solution-img { width:100%; height:auto; border-radius:16px; display:block; }
+  .didi-decisions { display:flex; flex-direction:column; gap:8px; }
+  .didi-decision-card {
+    background:rgba(255,255,255,0.10);
+    border-radius:14px; padding:24px 28px;
+    display:flex; flex-direction:column; gap:0;
+    cursor:default; transition:background 0.2s;
+  }
+  .didi-decision-card:hover { background:rgba(255,255,255,0.20); }
+  .didi-decision-main { display:flex; flex-direction:column; gap:12px; }
+  .didi-decision-title {
+    font-family:'Outfit',sans-serif; font-size:1.075rem; font-weight:500;
+    color:#fff; margin:0;
+  }
+  .didi-decision-body {
+    font-family:'Outfit',sans-serif; font-size:1.075rem; font-weight:300;
+    color:rgba(255,255,255,0.45); line-height:1.7; margin:0;
+  }
+  .didi-decision-hint {
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:'Outfit',sans-serif; font-size:.78rem; font-weight:300;
+    color:#FF9C6E; letter-spacing:.04em; margin-bottom:calc(16px - 48px);
+  }
+  .didi-decision-expand {
+    display:grid; grid-template-rows:0fr;
+    transition:grid-template-rows 0.35s cubic-bezier(0.4,0,0.2,1);
+    will-change:grid-template-rows;
+  }
+  .didi-decision-card:hover .didi-decision-expand { grid-template-rows:1fr; }
+  .didi-decisions .didi-decision-card:nth-child(1) .didi-decision-expand { transition-duration:0.55s; }
+  .didi-decisions .didi-decision-card:nth-child(2) .didi-decision-expand { transition-duration:0.5s; }
+  .didi-decision-expand-inner {
+    overflow:hidden; contain:layout style;
+    opacity:0; transition:opacity 0.25s ease 0.1s;
+  }
+  .didi-decision-card:hover .didi-decision-expand-inner { opacity:1; }
+  .didi-decision-imgs {
+    display:flex; gap:16px; align-items:flex-start; padding-top:16px;
+  }
+  .didi-decision-imgs img {
+    flex:1; min-width:0; width:100%; height:auto;
+    border-radius:12px; display:block; object-fit:contain;
+  }
+  .didi-decision-img-col {
+    flex:1; min-width:0; display:flex; flex-direction:column; gap:12px;
+  }
+  .didi-decision-img-col img {
+    width:100%; height:auto; border-radius:12px; display:block; object-fit:contain;
+  }
+  .didi-decision-caption {
+    list-style:disc; padding-left:1.1em; margin:0;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .didi-decision-caption li {
+    font-family:'Outfit',sans-serif; font-size:.9rem; font-weight:300;
+    color:rgba(255,255,255,0.88); line-height:1.7;
+  }
+  @media(max-width:860px) {
+    .didi-solution-section { padding:0 32px 80px; }
+  }
+
+  /* More works section */
+  .didi-moreworks {
+    padding:160px 196px 180px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .didi-moreworks-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:48px; }
+  .didi-moreworks-title {
+    font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:400; font-style:italic;
+    color:#fff; line-height:1.2;
+  }
+  .didi-moreworks-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .didi-work-card {
+    position:relative; border-radius:16px; overflow:hidden;
+    padding:20px 22px; min-height:140px;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    text-decoration:none;
+    transition:opacity 0.2s;
+  }
+  .didi-work-card:hover { opacity:0.88; }
+  .didi-work-cover {
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover;
+  }
+  .didi-work-overlay {
+    position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,0.52) 0%, transparent 55%);
+  }
+  .didi-work-info { position:relative; z-index:1; }
+  .didi-work-name {
+    font-family:'Outfit',sans-serif; font-size:.95rem; font-weight:500;
+    color:#fff; line-height:1.3;
+  }
+  .didi-work-arrow {
+    position:absolute; top:18px; right:20px; z-index:1;
+    font-size:1rem; color:rgba(255,255,255,0.55);
+    transition:transform 0.3s;
+  }
+  .didi-work-card:hover .didi-work-arrow { transform:translate(2px,-2px); }
+  @media(max-width:860px) {
+    .didi-moreworks { padding:100px 32px 80px; }
+    .didi-moreworks-grid { grid-template-columns:1fr; }
+  }
+</style>
+
+<aside class="case-sidebar">
+  <a href="#overview" class="active">Overview</a>
+  <a href="#problem">Problem</a>
+  <a href="#understanding-users">Understanding Users</a>
+  <a href="#solution-1">Solution 1</a>
+  <a href="#solution-2">Solution 2</a>
+  <a href="#solution-3">Solution 3</a>
+  <a href="#takeaways">Takeaways</a>
+</aside>
+
+<main>
+  <div class="didi-hero-section" id="overview">
+    <div class="didi-top">
+      <div class="didi-logo-lockup">
+        <img src="company logo/didi.png" alt="DiDi">
+      </div>
+      <h1 class="didi-headline">Optimizing the first-ride experience across both digital and physical touch points</h1>
+    </div>
+    <div class="didi-meta">
+      <div class="didi-meta-col">
+        <label>Timeline</label>
+        <p>Summer 2023</p>
+      </div>
+      <div class="didi-meta-col">
+        <label>Team</label>
+        <p>2 UX Designer<br>1 Product Manager<br>1 Marketing Manager</p>
+      </div>
+      <div class="didi-meta-col">
+        <label>Role</label>
+        <p>UX Design<br>UX Research<br>Go-to-Market Design</p>
+      </div>
+      <div class="didi-meta-col">
+        <label>Tools</label>
+        <p>Figma<br>Photoshop<br>Illustrator<br>Pen & Paper</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overview content -->
+  <div class="didi-overview-section">
+    <div class="didi-overview-text">
+      <div class="didi-section-block">
+        <span class="didi-block-label">Context</span>
+        <p class="didi-block-text">DiDi is China's largest mobility platform, serving over 550 million users. DiDi Luxe is its premium service, offering luxury cars and professional drivers to deliver a five-star travel experience</p>
+        <p class="didi-block-text">In 2023, I interned at DiDi Luxe department as a UX Designer, collaborating with the team to launch the first-order service, aimed at enhancing first-time passenger experience</p>
+      </div>
+      <div class="didi-section-block">
+        <span class="didi-block-label">Impact</span>
+        <div class="didi-impact-metrics">
+          <div class="didi-metric">
+            <span class="didi-metric-num">+ 33%</span>
+            <span class="didi-metric-sub">Customized riding service adoption</span>
+          </div>
+          <div class="didi-metric">
+            <span class="didi-metric-num">+ 18%</span>
+            <span class="didi-metric-sub">NPS (Net Promoter Score)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="didi-cover-img">
+      <div style="width:100%; max-width:860px; display:flex; flex-direction:column; gap:24px; margin-bottom:32px;">
+        <span class="didi-block-label">Design Snapshot</span>
+        <p class="didi-block-text" style="color:rgba(255,255,255,0.75);">I redesigned DiDi's premium customized ride booking experience, helping users better understand vehicle options, personalize their trip, and book with greater confidence</p>
+      </div>
+      <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
+        <source src="didi/didi screen recording.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Problem section -->
+  <section class="didi-problem-section" id="problem">
+    <div class="didi-problem-inner">
+      <span class="didi-problem-header">Problem</span>
+      <div class="didi-problem-item">
+        <h2 class="didi-problem-title">Underutilized premium feature</h2>
+        <p class="didi-problem-body">The customized service was frequently overlooked, as many new users skipped or abandoned it. This weakened the intended premium impression of DiDi Luxe's five-star experience, which is central to its brand positioning</p>
+      </div>
+      <div class="didi-problem-item">
+        <h2 class="didi-problem-title">Slow new user growth</h2>
+        <p class="didi-problem-body">Many potential users were not aware of or familiar with DiDi Luxe, which limited its visibility and slowed new user growth</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="didi-users-section" id="understanding-users">
+    <div class="didi-users-inner">
+      <span class="didi-block-label didi-users-label">Understanding Users</span>
+      <div class="didi-users-content">
+        <div class="didi-users-text">
+          <h2 class="didi-users-title">First-time passenger mindsets</h2>
+          <p class="didi-block-text">First-time passengers expect DiDi Luxe to stand out from regular rides. They are willing to pay more if the experience feels unique, personalized, and memorable</p>
+        </div>
+        <div class="didi-mindsets">
+          <div class="didi-mindset-item">
+            <img class="didi-mindset-img" src="didi/user1.png" alt="Situation driven">
+            <div class="didi-mindset-text">
+              <span class="didi-mindset-name">Situation driven</span>
+              <p class="didi-mindset-desc">Choosing Luxe when other rides are hard to get</p>
+            </div>
+          </div>
+          <div class="didi-mindset-item">
+            <img class="didi-mindset-img" src="didi/user2.png" alt="Experience driven">
+            <div class="didi-mindset-text">
+              <span class="didi-mindset-name">Experience driven</span>
+              <p class="didi-mindset-desc">Creating memorable or special moments</p>
+            </div>
+          </div>
+          <div class="didi-mindset-item">
+            <img class="didi-mindset-img" src="didi/user3.png" alt="Curiosity driven">
+            <div class="didi-mindset-text">
+              <span class="didi-mindset-name">Curiosity driven</span>
+              <p class="didi-mindset-desc">Willing to try something new and different</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution 1 section -->
+  <section class="didi-solution-section" id="solution-1">
+    <div class="didi-solution-inner">
+      <span class="didi-block-label didi-solution-label">Solution 1</span>
+      <div class="didi-solution-content">
+        <div class="didi-users-text">
+          <h2 class="didi-problem-title">Redesign customized riding service feature</h2>
+        </div>
+        <img src="didi/before&after.png" alt="Before and After" class="didi-solution-img">
+
+        <div class="didi-users-text" style="margin-top:24px">
+          <h2 class="didi-problem-title">Key design decisions</h2>
+          <p class="didi-block-text">I started with a design audit of the existing customized service page, identifying issues in visual clarity, usability, information structure, and the lack of a strong premium brand impression</p>
+        </div>
+
+        <span class="didi-decision-hint">
+          <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1v10.5l3-2.5 1.5 4 1.5-.5-1.5-4H9L1 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Hover each card to see related designs
+        </span>
+        <div class="didi-decisions">
+          <div class="didi-decision-card">
+            <div class="didi-decision-main">
+              <p class="didi-decision-title">Clarify hierarchy and improve usability</p>
+              <p class="didi-decision-body">Organize structure and visual priority so that users can quickly understand options and make confident choices</p>
+            </div>
+            <div class="didi-decision-expand">
+              <div class="didi-decision-expand-inner">
+                <div class="didi-decision-imgs">
+                  <div class="didi-decision-img-col">
+                    <img src="didi/select vehicle.png" alt="Select Vehicle">
+                    <ul class="didi-decision-caption">
+                      <li>Made the car the main focus for better hierarchy</li>
+                      <li>Reduced choice overload by showing one choice at a time</li>
+                      <li>Added key descriptors to highlight the car's features</li>
+
+                    </ul>
+                  </div>
+                  <div class="didi-decision-img-col">
+                    <img src="didi/trip preferences.png" alt="Trip Preferences">
+                    <ul class="didi-decision-caption">
+                      <li>Explanation text reduced ambiguity and built user confidence</li>
+                      <li>Reduced repeated setup</li>
+                    </ul>
+                  </div>
+                  <div class="didi-decision-img-col">
+                    <img src="didi/notes.png" alt="Notes">
+                    <ul class="didi-decision-caption">
+                      <li>Quick Texts simplified communication by reducing typing effort and enabling faster customization</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="didi-decision-card">
+            <div class="didi-decision-main">
+              <p class="didi-decision-title">Reduce cognitive load</p>
+              <p class="didi-decision-body">Simplify interactions and minimize unnecessary steps to create a seamless flow</p>
+            </div>
+            <div class="didi-decision-expand">
+              <div class="didi-decision-expand-inner">
+                <div class="didi-decision-imgs" style="align-items:center;">
+                  <img src="didi/flow.png" alt="Flow" decoding="async" width="3772" height="1762" style="flex:0 0 62%;min-width:0;border-radius:12px;">
+                  <p style="flex:1;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:300;color:rgba(255,255,255,0.88);line-height:1.7;margin:0;margin-left:16px;">I redesigned the selection experience by introducing a centralized vehicle list for quick comparison and detailed vehicle pages that provided richer context, helping users choose the right vehicle faster and with greater confidence.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="didi-decision-card">
+            <div class="didi-decision-main">
+              <p class="didi-decision-title">Strengthen brand perception</p>
+              <p class="didi-decision-body">Highlight DiDi Luxe's premium positioning through refined visuals and copy to differentiate it from standard services</p>
+            </div>
+            <div class="didi-decision-expand">
+              <div class="didi-decision-expand-inner">
+                <div class="didi-decision-imgs" style="align-items:stretch;">
+                  <div class="didi-decision-img-col" style="max-width:320px;">
+                    <img src="didi/brand.png" alt="Brand">
+                    <img src="didi/name.png" alt="Name">
+                  </div>
+                  <ul class="didi-decision-caption" style="flex:1;justify-content:center;gap:16px;padding-left:0;list-style:none;margin-left:16px;">
+                    <li style="padding-left:0;font-size:.9rem;color:rgba(255,255,255,0.88);">
+                      Deep blue tone, calm and elegant, more aligned with a high-end travel identity
+                    </li>
+                    <li style="padding-left:0;font-size:.9rem;color:rgba(255,255,255,0.88);">
+                      Realistic interior background directly communicates the luxury experience
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="didi-solution-section" id="solution-2">
+    <div class="didi-solution-inner">
+      <span class="didi-block-label didi-solution-label">Solution 2</span>
+      <div class="didi-solution-content">
+        <div class="didi-users-text">
+          <h2 class="didi-problem-title">Create physical first-order welcome card</h2>
+          <p class="didi-block-text">According to the <span style="color:#FF9C6E;">REWARD EFFECT</span>, when people receive benefit such as discounts or points after using a product or service, they tend to develop a more positive attitude toward it. This motivates them to use or recommend the product again. To address the problem of low awareness and slowing new user growth, we planned a reward that delivers a personalized and memorable experience, encouraging users to re-engage with DiDi Luxe</p>
+        </div>
+        <img src="didi/card.png" alt="Welcome Card" class="didi-solution-img">
+      </div>
+    </div>
+  </section>
+
+  <section class="didi-solution-section" id="solution-3">
+    <div class="didi-solution-inner">
+      <span class="didi-block-label didi-solution-label">Solution 3</span>
+      <div class="didi-solution-content">
+        <div class="didi-users-text">
+          <h2 class="didi-problem-title">Design visual assets for marketing campaign</h2>
+          <p class="didi-block-text">To enhance awareness and attract more first-time users, I collaborated with the marketing and operations teams on visual assets for the first-order campaign. Within two days, I designed the hero image, pop-up window, and banner to showcase the refreshed customized service page and reinforce Luxe's premium identity</p>
+        </div>
+        <img src="didi/marketing.png" alt="Marketing Campaign" class="didi-solution-img" style="max-width:520px;align-self:center;border-radius:0;">
+      </div>
+    </div>
+  </section>
+
+  <section class="didi-solution-section" id="takeaways">
+    <div class="didi-solution-inner">
+      <span class="didi-block-label didi-solution-label">Takeaways</span>
+      <div class="didi-solution-content">
+        <div class="didi-users-text">
+          <h2 class="didi-problem-title">What I've learned</h2>
+          <ul style="list-style:disc;padding-left:1.2em;display:flex;flex-direction:column;gap:20px;margin:0;">
+            <li style="font-family:'Outfit',sans-serif;font-size:1.075rem;font-weight:300;color:rgba(255,255,255,0.75);line-height:1.8;">In consumer-facing services like ride-hailing, designing a premium experience goes beyond interfaces. It requires coordinating online and offline touch points to build consistency and trust</li>
+            <li style="font-family:'Outfit',sans-serif;font-size:1.075rem;font-weight:300;color:rgba(255,255,255,0.75);line-height:1.8;">Working under tight deadlines and budget negotiations taught me to prioritize effectively, make strategic trade-offs, while still delivering impactful solutions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<footer>
+  <div class="footer-top">
+    <p class="footer-quote">The universe is, and we are.</p>
+    <div class="footer-roast" id="footer-roast">
+      <div class="campfire-svg-wrap" id="campfire-svg-wrap">
+        <svg class="fire-svg" viewBox="0 0 120 95" width="180" height="143" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="fr-glow" cx="50%" cy="100%" r="65%">
+              <stop offset="0%" stop-color="#ff7700" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#ff7700" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="60" cy="90" rx="50" ry="13" fill="url(#fr-glow)"/>
+          <line x1="18" y1="75" x2="82" y2="67" stroke="#5D4037" stroke-width="8" stroke-linecap="round"/>
+          <line x1="22" y1="67" x2="88" y2="75" stroke="#4E342E" stroke-width="8" stroke-linecap="round"/>
+          <circle class="em1" cx="44" cy="68" r="2.2" fill="#ff8c00"/>
+          <circle class="em2" cx="63" cy="65" r="1.6" fill="#ffcc00"/>
+          <circle class="em3" cx="76" cy="70" r="2" fill="#ff6b00"/>
+          <ellipse class="flame f-back"   cx="60" cy="46" rx="22" ry="28" fill="#c03000"/>
+          <ellipse class="flame f-mid1"   cx="51" cy="51" rx="15" ry="20" fill="#e05000"/>
+          <ellipse class="flame f-mid2"   cx="69" cy="52" rx="14" ry="18" fill="#e06200"/>
+          <ellipse class="flame f-front1" cx="54" cy="56" rx="10" ry="14" fill="#ff7700"/>
+          <ellipse class="flame f-front2" cx="66" cy="57" rx="9"  ry="12" fill="#ff8800"/>
+          <ellipse class="flame f-core"   cx="60" cy="60" rx="7"  ry="9"  fill="#ffcc00"/>
+          <ellipse class="flame f-tip"    cx="60" cy="65" rx="4"  ry="5"  fill="#fff3a0"/>
+        </svg>
+      </div>
+      <div class="mallow-stick-el" id="mallow-stick-el">
+        <svg viewBox="0 0 34 160" width="34" height="160" style="overflow:visible">
+          <line x1="17" y1="38" x2="17" y2="158" stroke="#8B6914" stroke-width="4" stroke-linecap="round"/>
+          <rect id="mallow-rect" x="4" y="4" width="26" height="32" rx="10" fill="#fff8f4" stroke="#e8ddd0" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="roast-hint" id="roast-hint">Drag to toast a marshmallow</div>
+      <div class="roast-status" id="roast-status"></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-icons">
+      <a class="footer-icon-btn" href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="footer-icon-btn" href="https://github.com/TaliaRen" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a class="footer-icon-btn" href="https://www.instagram.com/qingyi_ren" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+      <button class="footer-icon-btn" id="footer-email-btn" aria-label="Copy email">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </button>
+    </div>
+    <p class="footer-credit">Inspired by Outer Wilds &amp; Jigsaw Puzzle, built with Claude</p>
+  </div>
+</footer>
+
+<script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  document.addEventListener('mousemove', e => {
+    sessionStorage.setItem('mx', e.clientX);
+    sessionStorage.setItem('my', e.clientY);
+  }, { passive: true });
+
+  (function() {
+    const el = document.querySelector('.nav-logo');
+    if (!el) return;
+    el.addEventListener('mouseenter', () => el.classList.add('js-hover'));
+    el.addEventListener('mouseleave', () => el.classList.remove('js-hover'));
+    const lx = parseFloat(sessionStorage.getItem('mx'));
+    const ly = parseFloat(sessionStorage.getItem('my'));
+    if (!isNaN(lx) && !isNaN(ly)) {
+      const r = el.getBoundingClientRect();
+      if (lx >= r.left && lx <= r.right && ly >= r.top && ly <= r.bottom) {
+        el.classList.add('js-hover');
+        document.addEventListener('mousemove', function watch(e) {
+          const r2 = el.getBoundingClientRect();
+          if (e.clientX < r2.left || e.clientX > r2.right || e.clientY < r2.top || e.clientY > r2.bottom) {
+            el.classList.remove('js-hover');
+            document.removeEventListener('mousemove', watch);
+          }
+        }, { passive: true });
+      }
+    }
+  })();
+
+  document.querySelector('a.nav-link[href="play.html"]')?.addEventListener('click', e => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+(function() {
+  const btn = document.getElementById('footer-email-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    navigator.clipboard.writeText('taliaren0826@gmail.com').catch(() => {});
+  });
+})();
+
+(function() {
+  const scene    = document.getElementById('footer-roast');
+  const stickEl  = document.getElementById('mallow-stick-el');
+  const mallow   = document.getElementById('mallow-rect');
+  const fireWrap = document.getElementById('campfire-svg-wrap');
+  const hint     = document.getElementById('roast-hint');
+  const statusEl = document.getElementById('roast-status');
+  if (!scene || !stickEl) return;
+
+  let dragging=false, dragOX=0, dragOY=0;
+  let posX=0, posY=0;
+  let toastLevel=0, dropped=false, hinted=false, lastTS=null, audioActive=false;
+  let _cachedPosX=null, _cachedPosY=null;
+
+  let aCtx=null, aGain=null;
+  function startAudio() {
+    if (aCtx) return;
+    try {
+      aCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const sr=aCtx.sampleRate, dur=4;
+      const buf=aCtx.createBuffer(1,sr*dur,sr);
+      const d=buf.getChannelData(0);
+      let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0;
+      for (let i=0;i<sr*dur;i++) {
+        const w=Math.random()*2-1;
+        b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+        b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+        b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+        let v=(b0+b1+b2+b3+b4+b5)*0.11;
+        if (Math.random()<0.0008) v+=(Math.random()-0.5)*0.5;
+        d[i]=Math.max(-1,Math.min(1,v*0.12));
+      }
+      const src=aCtx.createBufferSource();
+      src.buffer=buf; src.loop=true;
+      aGain=aCtx.createGain(); aGain.gain.value=0;
+      src.connect(aGain); aGain.connect(aCtx.destination);
+      src.start();
+    } catch(e){}
+  }
+  function setVol(v) {
+    if (!aGain) return;
+    aGain.gain.setTargetAtTime(Math.max(0,v), aCtx.currentTime, 0.3);
+  }
+
+  function init() {
+    if (_cachedPosX===null) {
+      const sr=scene.getBoundingClientRect();
+      const fr=fireWrap.getBoundingClientRect();
+      const fx=fr.left-sr.left+fr.width/2;
+      const fy=fr.top-sr.top+22;
+      const offset=Math.min(200, sr.width*0.45);
+      _cachedPosX=fx-17-offset;
+      _cachedPosY=fy-20;
+    }
+    posX=_cachedPosX;
+    posY=_cachedPosY;
+    stickEl.style.left=posX+'px';
+    stickEl.style.top=posY+'px';
+    stickEl.style.filter='';
+  }
+
+  function mallowTip() {
+    const sr=scene.getBoundingClientRect();
+    const er=stickEl.getBoundingClientRect();
+    return { x:er.left-sr.left+94, y:er.top-sr.top+26 };
+  }
+  function fireTip() {
+    const sr=scene.getBoundingClientRect();
+    const fr=fireWrap.getBoundingClientRect();
+    return { x:fr.left-sr.left+fr.width/2, y:fr.top-sr.top+26 };
+  }
+  function dist(a,b){ return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2); }
+
+  function updateColor() {
+    const stops=[[255,248,244],[252,218,135],[228,148,55],[155,80,30]];
+    const raw=toastLevel*(stops.length-1);
+    const lo=Math.floor(raw), hi=Math.min(stops.length-1,lo+1);
+    const f=raw-lo;
+    const [r,g,b]=stops[lo].map((c,i)=>Math.round(c+(stops[hi][i]-c)*f));
+    mallow.setAttribute('fill',`rgb(${r},${g},${b})`);
+    mallow.setAttribute('stroke',`rgb(${Math.max(0,r-28)},${Math.max(0,g-28)},${Math.max(0,b-18)})`);
+  }
+
+  function doDrop() {
+    dropped=true; audioActive=false;
+    setVol(0);
+    const fill=mallow.getAttribute('fill');
+    const stroke=mallow.getAttribute('stroke');
+    const sr=scene.getBoundingClientRect();
+    const fr=fireWrap.getBoundingClientRect();
+    const placeX=fr.left-sr.left+fr.width+10;
+    const placed=document.createElement('div');
+    placed.style.cssText=`position:absolute;left:${placeX}px;bottom:14px;pointer-events:none;z-index:5;transform:translateY(-12px);opacity:0;transition:transform 0.3s ease,opacity 0.2s ease;`;
+    placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
+    scene.appendChild(placed);
+    requestAnimationFrame(()=>{ placed.style.transform='translateY(0)'; placed.style.opacity='1'; });
+    statusEl.style.opacity='0';
+    setTimeout(()=>{
+      placed.style.transition='opacity 1s ease';
+      placed.style.opacity='0';
+      setTimeout(()=>placed.remove(), 1100);
+    }, 4000);
+    setTimeout(()=>{
+      toastLevel=0; dropped=false; lastTS=null;
+      updateColor(); init();
+    }, 500);
+  }
+
+  function loop(ts) {
+    if (!dropped) {
+      const dt=lastTS ? Math.min((ts-lastTS)/1000, 0.05) : 0;
+      lastTS=ts;
+      const tip=mallowTip(), fire=fireTip();
+      const d=dist(tip,fire);
+      const R=75;
+      if (d<R) {
+        const intensity=Math.pow(1-d/R, 0.7);
+        setVol(audioActive ? 0.6+intensity*1.4 : 0);
+        toastLevel=Math.min(1, toastLevel+dt*(1/5));
+        updateColor();
+        stickEl.style.filter=`drop-shadow(0 0 ${Math.round(intensity*16)}px rgba(255,140,0,${(intensity*0.75).toFixed(2)}))`;
+        if (toastLevel>=1) doDrop();
+      } else {
+        setVol(audioActive && d<R*2.5 ? 0.06 : 0);
+        stickEl.style.filter='drop-shadow(0 2px 6px rgba(0,0,0,0.1))';
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+
+  stickEl.addEventListener('pointerdown', e=>{
+    if (dropped) return;
+    e.preventDefault();
+    stickEl.setPointerCapture(e.pointerId);
+    dragging=true; audioActive=true;
+    startAudio();
+    const sr=scene.getBoundingClientRect();
+    dragOX=e.clientX-sr.left-posX;
+    dragOY=e.clientY-sr.top-posY;
+    if (!hinted){ hinted=true; hint.style.opacity='0'; }
+    stickEl.style.zIndex='20';
+  });
+  stickEl.addEventListener('pointermove', e=>{
+    if (!dragging||dropped) return;
+    const sr=scene.getBoundingClientRect();
+    posX=e.clientX-sr.left-dragOX;
+    posY=e.clientY-sr.top-dragOY;
+    stickEl.style.left=posX+'px';
+    stickEl.style.top=posY+'px';
+  });
+  const endDrag=()=>{ dragging=false; };
+  stickEl.addEventListener('pointerup', endDrag);
+  stickEl.addEventListener('pointercancel', endDrag);
+
+  requestAnimationFrame(()=>{ init(); requestAnimationFrame(loop); });
+  window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
+})();
+
+// ── Sidebar scroll highlight ──
+(function() {
+  const links = document.querySelectorAll('.case-sidebar a');
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  function update() {
+    let current = 0;
+    sections.forEach((sec, i) => {
+      if (sec && window.scrollY >= sec.offsetTop - window.innerHeight / 2) current = i;
+    });
+    links.forEach((a, i) => a.classList.toggle('active', i === current));
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>

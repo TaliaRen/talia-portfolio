@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0F1511">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome</title>
+<link rel="preload" href="fonts/Poppins/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<style>
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('fonts/Poppins/Poppins-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('fonts/Poppins/Poppins-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'DM Sans';
+    src: url('fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Outfit';
+    src: url('fonts/Outfit/Outfit-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: block;
+  }
+
+  :root { --bg:#0F1511; --ink:#1C1917; --muted:#78716C; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scrollbar-gutter: stable; background:#0F1511; }
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.1s;
+    animation-timing-function: ease;
+  }
+  body { background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--ink); overflow-x:hidden; }
+
+  /* ── Nav ── */
+  nav {
+    position:fixed; top:20px; left:50%; transform:translateX(-50%);
+    z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    width:300px;
+    padding:12px 32px;
+    background:rgba(78,101,87,0.60);
+    backdrop-filter:blur(80px) saturate(160%);
+    -webkit-backdrop-filter:blur(80px) saturate(160%);
+    border-radius:999px;
+    box-sizing:border-box;
+    white-space:nowrap;
+  }
+  .nav-logo {
+    display:flex; align-items:center; flex-shrink:0; text-decoration:none;
+  }
+  .nav-logo img { width:28px; height:28px; display:block; transition:transform .2s ease-out; will-change:transform; }
+  .nav-logo:hover img, .nav-logo.js-hover img { transform:rotate(15deg) scale(1.07); }
+  .nav-logo:active img { transform:rotate(0deg) scale(1); }
+  .nav-link {
+    font-family:'DM Sans',sans-serif; font-size:.9rem; font-weight:500;
+    color:#F8F8F8; text-decoration:none; transition:color .2s; letter-spacing:.01em;
+  }
+  .nav-link:hover, .nav-link:active { color:#41E981; }
+
+  #hero {
+    height:100vh; position:relative;
+    display:flex; align-items:center; justify-content:center;
+    padding: 80px 48px 0;
+    overflow:visible;
+  }
+
+  @media (max-width:959px) { #hero { padding:80px 20px 0; } }
+  @media (max-width:559px) { #hero { padding:80px 16px 0; } }
+
+  /* ── Static hero (iPad & below) ── */
+  #static-hero { display:none; }
+  @media (max-width:600px) {
+    #puzzle-wrap { display:none; }
+    #puzzle-hint { display:none; }
+    #static-hero {
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center;
+      position:absolute; inset:0;
+      text-align:center; padding:0 32px;
+    }
+    @keyframes fadeSlideUp {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    #static-notice {
+      font-family:'Cormorant Infant', Georgia, serif;
+      font-style: italic;
+      font-size:1.15rem; color:rgba(250,247,242,0.55); letter-spacing:0.02em;
+      position:absolute; bottom:8%; left:0; right:0;
+      text-align:center;
+      animation: fadeSlideUp 0.8s ease 0.4s both;
+    }
+    #static-text h1 {
+      font-family:'DM Sans', sans-serif;
+      font-weight:600; font-size:clamp(16px, 4vw, 28px);
+      color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
+    }
+    #static-text p {
+      font-family:'Cormorant Infant', Georgia, serif;
+      font-style: italic;
+      font-size:clamp(11px, 2.5vw, 15px);
+      color:rgba(250,247,242,0.65); margin:0 0 0 0;
+    }
+    #static-text { display:flex; flex-direction:column; gap:14px; max-width:560px; }
+    .static-sticker {
+      position:absolute; pointer-events:none;
+      width:clamp(52px, 13vw, 90px); height:auto;
+    }
+  }
+
+
+  #puzzle-wrap {
+    position:relative;
+    /* sized by JS */
+  }
+  #puzzle-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: 'Cormorant Infant', Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: #ccc;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  #puzzle-hint.visible { opacity: 1; }
+  #puzzle-hint.hidden  { opacity: 0; }
+
+  .piece {
+    position:absolute;
+    cursor:grab;
+    user-select:none;
+    touch-action:none;
+    filter:drop-shadow(0 4px 12px rgba(0,0,0,.22));
+    transition:filter .2s;
+  }
+  .piece:hover { filter:drop-shadow(0 6px 16px rgba(0,0,0,.30)); }
+  .piece.dragging { cursor:grabbing; filter:drop-shadow(0 8px 20px rgba(0,0,0,.36)); z-index:500!important; }
+  .piece.assembling {
+    transition: left      1.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                top       1.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 1.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                filter    0.8s ease;
+    pointer-events:none;
+  }
+  .piece.snapped { pointer-events:none; filter:none; transition: filter 0.8s ease; }
+  .piece.entering {
+    transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                top  0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  /* Hero icons (post-assembly) */
+  .hero-icon {
+    position: absolute;
+    z-index: 60;
+    cursor: pointer;
+    transform: rotate(var(--rot, 0deg)) scale(1);
+    transform-origin: center center;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .hero-icon:hover {
+    transform: rotate(var(--rot, 0deg)) scale(1.12);
+  }
+  .hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  @keyframes spinRecord {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .hero-icon.spinning > img {
+    animation: spinRecord 2s linear infinite;
+    transform-origin: center center;
+  }
+  @keyframes tipFadeIn {
+    from { opacity: 0; transform: translateY(-50%) rotate(calc(-1 * var(--rot, 0deg))) translateX(6px); }
+    to   { opacity: 1; transform: translateY(-50%) rotate(calc(-1 * var(--rot, 0deg))) translateX(0); }
+  }
+  .hero-icon-tip {
+    position: absolute;
+    top: 50%;
+    right: calc(100% - 10px);
+    left: auto;
+    transform: translateY(-50%) rotate(calc(-1 * var(--rot, 0deg)));
+    font-family: 'Cause', sans-serif;
+    font-style: normal;
+    font-size: 10px;
+    color: #ffffff;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    background: rgba(20, 80, 45, 0.75);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 4px 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    color: #ffffff;
+  }
+  .hero-icon-tip.tip-top {
+    top: auto;
+    bottom: calc(100% - 20px);
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) rotate(calc(-1 * var(--rot, 0deg)));
+  }
+  .hero-icon-tip.tip-right {
+    top: 50%;
+    left: calc(100% - 4px);
+    right: auto;
+    transform: translateY(-50%) rotate(calc(-1 * var(--rot, 0deg)));
+  }
+  .hero-icon-tip.tip-right-overlap {
+    top: 50%;
+    left: 100%;
+    right: auto;
+    transform: translateY(-50%) rotate(calc(-1 * var(--rot, 0deg)));
+  }
+  .hero-icon-tip.tip-top-align-center {
+    top: auto;
+    bottom: calc(100% - 10px);
+    right: calc(50% - 40px);
+    left: auto;
+    transform: rotate(calc(-1 * var(--rot, 0deg)));
+  }
+  .hero-icon-tip.tip-top-right {
+    top: auto;
+    bottom: calc(100% + 6px);
+    right: auto;
+    left: 0;
+    transform: rotate(calc(-1 * var(--rot, 0deg)));
+    white-space: pre;
+    text-align: left;
+  }
+  .hero-icon-tip.tip-always-on {
+    animation: tipFadeIn 0.6s ease 0.3s both;
+  }
+  .hero-icon:hover .hero-icon-tip { opacity: 1; }
+
+
+
+  /* CONTACT MODAL */
+  #contact-modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.22);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    z-index: 1000; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  #contact-modal.open { display: flex; }
+  #contact-modal.visible { opacity: 1; }
+  /* Puzzle background on all modal boxes */
+  [id$="-modal-box"] { overflow: hidden; }
+  [id$="-modal-box"]::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background: url('background/puzzle background.png') center/cover no-repeat;
+    opacity: 0.15; border-radius: inherit;
+  }
+  [id$="-modal-box"] > * { position: relative; z-index: 1; }
+
+  #contact-modal-box {
+    background: #fff; border-radius: 20px; padding: 32px 32px 28px;
+    max-width: 380px; width: 90%; position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.13);
+    transform: scale(0.93) translateY(16px);
+    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.25s ease;
+    opacity: 0;
+  }
+  #contact-modal.visible #contact-modal-box { transform: scale(1) translateY(0); opacity: 1; }
+  #contact-modal-box h2 {
+    font-family: 'Outfit', sans-serif; font-weight: 600;
+    font-size: 1.2rem; color: #1a1a1a; margin-bottom: 20px;
+  }
+  .cm-info-rows { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .cm-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 13px 16px; border-radius: 12px; background: #F5F5F4;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .cm-row:hover { background: #EEEDE9; }
+  .cm-row-left {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: #2C2C2A;
+  }
+  .cm-row-left svg { flex-shrink: 0; color: #999; }
+  .cm-row-action {
+    font-family: 'Outfit', sans-serif; font-size: 0.75rem;
+    color: #ccc; font-weight: 500; transition: color 0.2s, opacity 0.18s ease;
+    white-space: nowrap;
+  }
+  .cm-row:hover .cm-row-action { color: #4A7C59; }
+  .cm-row.copied .cm-row-action { color: #4A7C59; }
+  .cm-row-action.fading { opacity: 0; }
+  .cm-divider { height: 1px; background: #F0EFEC; margin-bottom: 20px; }
+  .cm-socials { display: flex; gap: 12px; justify-content: center; }
+  .cm-social-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #F5F5F4; color: #555;
+    text-decoration: none; transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .cm-social-btn:hover { background: #E8F5EE; color: #4A7C59; transform: translateY(-2px); }
+  #contact-modal-close {
+    position: absolute; top: 14px; right: 18px;
+    background: none; border: none; font-size: 0.95rem;
+    color: #bbb; cursor: pointer; transition: color 0.2s; line-height: 1;
+  }
+  #contact-modal-close:hover { color: #555; }
+
+  /* LOCATION MODAL */
+  #location-modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.22);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    z-index: 1000; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  #location-modal.open { display: flex; }
+  #location-modal.visible { opacity: 1; }
+  #location-modal-box {
+    background: #fff; border-radius: 20px; padding: 28px 24px 24px;
+    max-width: 960px; width: 96%; position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.13);
+    transform: scale(0.93) translateY(16px);
+    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.25s ease;
+    opacity: 0;
+  }
+  #location-modal.visible #location-modal-box { transform: scale(1) translateY(0); opacity: 1; }
+  #location-modal-box > h2 {
+    font-family: 'Outfit', sans-serif; font-weight: 600;
+    font-size: 1.2rem; color: #1a1a1a; margin-bottom: 20px;
+  }
+  #location-modal-close {
+    position: absolute; top: 14px; right: 18px;
+    background: none; border: none; font-size: 0.95rem;
+    color: #bbb; cursor: pointer; transition: color 0.2s; line-height: 1;
+  }
+  #location-modal-close:hover { color: #555; }
+  #location-map { position: relative; }
+  #location-line { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  #location-timeline {
+    display: flex; align-items: flex-start;
+    padding-bottom: 8px;
+  }
+  .loc-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 6px; position: relative; z-index: 1; padding: 0 12px;
+  }
+  /* Taiyuan, Beijing, New York = high row; Shanghai, Bloomington = low row */
+  .loc-item:nth-child(1) { margin-top: 24px; }
+  .loc-item:nth-child(2) { margin-top: 60px; }
+  .loc-item:nth-child(3) { margin-top: 0px; flex: 1.35; }
+  .loc-item:nth-child(4) { margin-top: 120px; flex: 1.35; }
+  .loc-item:nth-child(5) { margin-top: 0px; flex: 1.35; }
+  .loc-img {
+    width: 100%; max-height: 118px;
+    object-fit: contain; display: block;
+  }
+  /* Per-location size tweaks */
+  .loc-item:nth-child(1) .loc-img { max-height: 86px; }   /* Taiyuan — smaller */
+  .loc-item:nth-child(2) .loc-img { max-height: 158px; }  /* Shanghai — taller */
+  .loc-item:nth-child(4) .loc-img { max-height: 86px; }   /* Bloomington — smaller */
+  .loc-city {
+    font-family: 'Outfit', sans-serif; font-size: 13.6px;
+    font-weight: 300; color: #1a1a1a; text-align: center; line-height: 1.3;
+  }
+  .loc-caption {
+    font-family: 'Outfit', sans-serif; font-size: 13.6px;
+    font-weight: 300; color: #999; text-align: center; line-height: 1.45;
+  }
+
+  /* ABOUT MODAL */
+  #about-modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.22);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    z-index: 1000; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  #about-modal.open { display: flex; }
+  #about-modal.visible { opacity: 1; }
+  #about-modal-box {
+    background: #fff; border-radius: 20px; padding: 32px 32px 28px;
+    width: 400px; max-width: calc(100vw - 32px); position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.13);
+    transform: scale(0.93) translateY(16px);
+    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.25s ease;
+    will-change: transform; backface-visibility: hidden;
+    opacity: 0;
+  }
+  #about-modal.visible #about-modal-box { transform: scale(1) translateY(0); opacity: 1; }
+  #about-modal-box h2 {
+    font-family: 'Outfit', sans-serif; font-weight: 600;
+    font-size: 1.1rem; color: #1a1a1a; margin-bottom: 16px;
+  }
+  .am-body {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .am-body p {
+    font-family: 'Outfit', sans-serif; font-weight: 300;
+    font-size: 0.85rem; color: #444; line-height: 1.7; margin: 0;
+  }
+  .am-sign {
+    font-family: 'Outfit', sans-serif; font-weight: 300;
+    font-size: 0.85rem; color: #aaa; margin-top: 4px;
+  }
+  #about-modal-close {
+    position: absolute; top: 14px; right: 18px;
+    background: none; border: none; font-size: 0.95rem;
+    color: #bbb; cursor: pointer; transition: color 0.2s; line-height: 1;
+  }
+  #about-modal-close:hover { color: #555; }
+
+  /* JOURNEY MODAL */
+  #journey-modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.22);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    z-index: 1000; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  #journey-modal.open { display: flex; }
+  #journey-modal.visible { opacity: 1; }
+  #journey-modal-box {
+    background: #fff; border-radius: 20px; padding: 40px 28px 36px;
+    width: 560px; max-width: calc(100vw - 32px); position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.13);
+    transform: scale(0.93) translateY(16px);
+    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.25s ease;
+    will-change: transform; backface-visibility: hidden;
+    opacity: 0;
+  }
+  #journey-modal.visible #journey-modal-box { transform: scale(1) translateY(0); opacity: 1; }
+  .jm-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  #journey-modal-box h2 {
+    font-family: 'Outfit', sans-serif; font-weight: 600;
+    font-size: 1.2rem; color: #1a1a1a; margin-bottom: 0;
+  }
+  .jm-resume-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 500;
+    color: #fff; background: rgba(20, 80, 45, 0.85);
+    border: none; border-radius: 999px; padding: 6px 14px;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.18s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .jm-resume-btn:hover { background: rgba(20, 80, 45, 1); transform: translateY(-1px); }
+  #journey-modal-close {
+    position: absolute; top: 14px; right: 18px;
+    background: none; border: none; font-size: 0.95rem;
+    color: #bbb; cursor: pointer; transition: color 0.2s; line-height: 1;
+  }
+  #journey-modal-close:hover { color: #555; }
+  .jm-list { display: flex; flex-direction: column; gap: 8px; }
+  .jm-card {
+    background: #F5F5F4; border-radius: 16px;
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    transition: background 0.15s;
+  }
+  .jm-card:hover { background: #EEEDE9; }
+  .jm-left { display: flex; flex-direction: column; }
+  .jm-right { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; }
+  .jm-role {
+    font-family: 'Outfit', sans-serif; font-weight: 400;
+    font-size: 0.92rem; color: #1a1a1a; line-height: 1.3;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .jm-role::before {
+    content: ''; display: inline-block; flex-shrink: 0;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: #3d6b4a;
+  }
+  .jm-tagline {
+    font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 0.78rem;
+    color: #888; margin-top: 7px; line-height: 1.4;
+  }
+  .jm-company {
+    font-family: 'Outfit', sans-serif; font-weight: 400;
+    font-size: 0.92rem; color: #555; line-height: 1.3; text-align: right;
+  }
+  .jm-year {
+    font-family: 'Outfit', sans-serif; font-weight: 300;
+    font-size: 0.78rem; color: #888; margin-top: 7px; text-align: right;
+  }
+
+  /* PROJECTS */
+  #projects { padding:90px 196px 80px; max-width:none; }
+  .projects-list { display:flex; flex-direction:column; gap:148px; align-items:center; }
+  .project-card {
+    display:flex; align-items:center; gap:64px;
+    width:100%;
+    text-decoration:none; color:inherit;
+  }
+  .project-card:nth-child(even) { flex-direction:row-reverse; }
+  .project-img-wrap {
+    flex:0 0 min(570px, 58%);
+    aspect-ratio:570/380;
+    border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05);
+    position:relative;
+    transition:transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .project-card:hover .project-img-wrap {
+    transform:scale(1.025);
+  }
+  .project-card:hover, .project-card:hover * { cursor:none; }
+  .project-company-logo {
+    position:absolute; bottom:16px; right:16px;
+    height:32px; width:auto;
+    opacity:0;
+    transition:opacity 0.3s ease;
+    pointer-events:none;
+    z-index:2;
+  }
+  .project-card:hover .project-company-logo {
+    opacity:1;
+  }
+  #proj-cursor-tip {
+    position:fixed; pointer-events:none; z-index:9999;
+    display:none;
+    font-family:'Outfit',sans-serif; font-size:.85rem; font-weight:300;
+    color:#ffffff; letter-spacing:.04em;
+    background:#427B58;
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:999px; padding:4px 14px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.15);
+    white-space:nowrap;
+    transform:translate(12px,-50%);
+  }
+  .project-img-wrap img:not(.project-cover):not(.project-cover-center):not(.project-cover-bottom):not(.project-company-logo), .project-img-wrap svg {
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .project-cover {
+    position:absolute; bottom:0; left:0;
+    width:90%; height:auto; display:block;
+  }
+  .project-cover-center {
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:85.3%; height:auto; display:block;
+  }
+  .project-cover-bottom {
+    position:absolute; bottom:0; left:50%;
+    transform:translateX(-50%);
+    width:72.1%; height:auto; display:block;
+  }
+  .project-body {
+    flex:1; min-width:0;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .project-tags { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px; }
+  .project-tag {
+    font-family:'Outfit',sans-serif; font-size:.85rem; font-weight:200;
+    color:rgba(255,255,255,0.7); letter-spacing:.03em;
+    background:rgba(255,255,255,0.07);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:999px; padding:4px 11px;
+  }
+  .project-title {
+    font-family:'Outfit',sans-serif; font-size:1.875rem; font-weight:400;
+    color:#fff; line-height:1.2; margin-bottom:14px;
+  }
+  .project-desc {
+    font-family:'Outfit',sans-serif; font-size:.95rem;
+    color:rgba(255,255,255,0.65); font-weight:200; font-size:1.07rem; line-height:1.7;
+    margin-bottom:0;
+  }
+  .project-link {
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:'Outfit',sans-serif; font-size:.82rem; font-weight:500;
+    color:rgba(255,255,255,0.35); letter-spacing:.02em;
+  }
+  @media (max-width:860px) {
+    #projects { padding:60px 32px; }
+    .projects-list { gap:52px; }
+    .project-card, .project-card:nth-child(even) { flex-direction:column; gap:28px; }
+    .project-img-wrap { flex:none; width:100%; border-radius:12px; }
+    .project-title { font-size:1.4rem; }
+    .project-desc { margin-bottom:0; }
+  }
+  @media (max-width:480px) {
+    #projects { padding:48px 20px; }
+    .projects-list { gap:44px; }
+    .project-title { font-size:1.25rem; }
+  }
+
+  footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
+  .footer-top { display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:102px 0 2px 0; }
+  .footer-bottom { display:flex; flex-direction:column; align-items:center; gap:12px; padding:28px 0 44px; border-top:1px solid rgba(28,25,23,.05); }
+  .footer-icons { display:flex; align-items:center; gap:32px; }
+  /* Campfire roasting scene */
+  .footer-roast { flex:0 0 360px; position:relative; height:240px; overflow:visible; }
+  @media (max-width:768px) {
+    footer { padding:0 24px; }
+    .footer-top { flex-direction:column; padding:36px 0; gap:0; }
+    .footer-roast { display:none; }
+    .footer-bottom { padding:24px 0 36px; }
+  }
+  .campfire-svg-wrap { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+  @keyframes flame-flicker {
+    0%,100% { transform:scaleY(1) scaleX(1); }
+    20% { transform:scaleY(1.1) scaleX(0.92); }
+    50% { transform:scaleY(0.93) scaleX(1.07); }
+    75% { transform:scaleY(1.07) scaleX(0.95); }
+  }
+  @keyframes ember-rise {
+    0% { transform:translateY(0) scale(1); opacity:0.9; }
+    100% { transform:translateY(-42px) scale(0.1); opacity:0; }
+  }
+  .fire-svg .flame { transform-box:fill-box; transform-origin:center 90%; }
+  .fire-svg .f-back   { animation:flame-flicker 1.2s ease-in-out infinite; }
+  .fire-svg .f-mid1   { animation:flame-flicker 0.85s ease-in-out infinite 0.15s; }
+  .fire-svg .f-mid2   { animation:flame-flicker 0.95s ease-in-out infinite 0.3s; }
+  .fire-svg .f-front1 { animation:flame-flicker 0.7s ease-in-out infinite 0.1s; }
+  .fire-svg .f-front2 { animation:flame-flicker 0.75s ease-in-out infinite 0.4s; }
+  .fire-svg .f-core   { animation:flame-flicker 0.6s ease-in-out infinite 0.05s; }
+  .fire-svg .f-tip    { animation:flame-flicker 0.55s ease-in-out infinite 0.2s; }
+  .fire-svg .em1 { animation:ember-rise 2s ease-out infinite; }
+  .fire-svg .em2 { animation:ember-rise 1.7s ease-out infinite 0.8s; }
+  .fire-svg .em3 { animation:ember-rise 2.4s ease-out infinite 1.5s; }
+  .mallow-stick-el {
+    position:absolute; cursor:grab; user-select:none; touch-action:none; z-index:10;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+    transform: rotate(35deg);
+    transform-origin: center center;
+  }
+  .mallow-stick-el:active { cursor:grabbing; }
+  .roast-hint {
+    position:absolute; left:50%; transform:translateX(-50%); top:14px;
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic;
+    font-size:1.15rem; letter-spacing:0.02em; color:#ccc;
+    pointer-events:none; white-space:nowrap; transition:opacity 0.8s;
+  }
+  .roast-status {
+    position:absolute; top:22px; left:50%; transform:translateX(-50%);
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1rem;
+    color:#888; pointer-events:none; opacity:0; white-space:nowrap; transition:opacity 0.5s;
+  }
+  .footer-icon-btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    color:#777; background:transparent; border:none; cursor:pointer;
+    transition:color 0.18s;
+    text-decoration:none;
+    padding:0;
+  }
+  .footer-icon-btn:hover { color:#e0e0e0; }
+  .footer-quote { font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:3rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo" aria-label="Talia Ren">
+    <img src="logo.png" width="32" height="32" alt="Talia Ren">
+  </a>
+  <a class="nav-link" href="#projects" id="nav-works">Works</a>
+  <a class="nav-link" href="play.html">Play</a>
+  <a class="nav-link" href="about.html">About</a>
+</nav>
+
+<section id="hero">
+  <div id="puzzle-wrap"></div>
+  <div id="puzzle-hint">- Drag the pieces to make it clear -</div>
+  <div id="static-hero">
+    <p id="static-notice">For the full interactive experience, visit on a desktop browser</p>
+    <div id="static-text">
+      <p>I design products like doing a jigsaw puzzle 🧩</p>
+      <h1>Starting from ambiguity, navigating constraints, and building clarity in the chaos</h1>
+    </div>
+    <img class="static-sticker" src="hero picture/about.png"       style="top:28%; left:2%; width:clamp(64px,16vw,108px);"   alt="">
+    <img class="static-sticker" src="hero picture/journey.png"     style="top:24%; right:2%; width:clamp(64px,16vw,108px);"  alt="">
+    <img class="static-sticker" src="hero picture/music.png"       style="top:62%; left:1%; width:clamp(40px,10vw,66px);"   alt="">
+    <img class="static-sticker" src="hero picture/contact.png"     style="top:65%; left:26%;"   alt="">
+    <img class="static-sticker" src="hero picture/location.png"    style="top:67%; left:58%;"   alt="">
+    <img class="static-sticker" src="hero picture/school.png"      style="top:65%; right:1%;"   alt="">
+    <img class="static-sticker" src="hero picture/vibe coding.png" style="top:20%; left:36%; width:clamp(64px,16vw,108px);"  alt="">
+  </div>
+</section>
+
+<!-- Contact modal -->
+<div id="contact-modal">
+  <div id="contact-modal-box">
+    <button id="contact-modal-close" aria-label="Close">✕</button>
+    <h2>Contact me anytime</h2>
+    <div class="cm-info-rows">
+      <div class="cm-row" data-copy="taliaren0826@gmail.com">
+        <div class="cm-row-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>taliaren0826@gmail.com</span>
+        </div>
+        <span class="cm-row-action"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
+      </div>
+      <div class="cm-row" data-copy="(812) 671-1392">
+        <div class="cm-row-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.29 6.29l1.14-1.14a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>(812) 671-1392</span>
+        </div>
+        <span class="cm-row-action"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
+      </div>
+    </div>
+    <div class="cm-divider"></div>
+    <div class="cm-socials">
+      <a class="cm-social-btn" href="https://www.linkedin.com/in/taliaren" target="_blank" aria-label="LinkedIn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="cm-social-btn" href="https://github.com/TaliaRen" target="_blank" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a class="cm-social-btn" href="https://www.instagram.com/qingyi_ren" target="_blank" aria-label="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="about-modal">
+  <div id="about-modal-box">
+    <button id="about-modal-close" aria-label="Close">✕</button>
+    <h2>Dear future collaborator,</h2>
+    <div class="am-body">
+      <p>If you've made it this far, you've probably noticed: I love jigsaw puzzles.</p>
+      <p>Not just the ones that come in a box, but the ones hidden inside unfamiliar industries, messy workflows, and ambiguous ideas.</p>
+      <p>I enjoy learning how new domains work, experimenting with AI in my design workflow, and staying curious about what's possible next.</p>
+      <p>If you're looking for someone who's endlessly curious and loves building thoughtful products with amazing people, I'd love to meet you.</p>
+      <p class="am-sign">Thanks for stopping by.</p>
+      <p class="am-sign">Talia</p>
+    </div>
+  </div>
+</div>
+
+<div id="journey-modal">
+  <div id="journey-modal-box">
+    <button id="journey-modal-close" aria-label="Close">✕</button>
+    <div class="jm-header">
+      <h2>Experience snapshot</h2>
+      <a class="jm-resume-btn" href="https://drive.google.com/file/d/18L6i2i82wumOynyx3SXIoT90a8N9UMtK/view?usp=sharing" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1v7M3 5.5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        PDF Resume
+      </a>
+    </div>
+    <div class="jm-list">
+
+      <div class="jm-card">
+        <div class="jm-left">
+          <span class="jm-role">AI Janitorial Bidding Platform</span>
+          <span class="jm-tagline">Taking an AI product from concept to MVP</span>
+        </div>
+        <div class="jm-right">
+          <span class="jm-company">25madison</span>
+          <span class="jm-year">2026</span>
+        </div>
+      </div>
+
+<div class="jm-card">
+        <div class="jm-left">
+          <span class="jm-role">Crop Insurance CRM AI Action Hub</span>
+          <span class="jm-tagline">Transforming traditional workflows with AI</span>
+        </div>
+        <div class="jm-right">
+          <span class="jm-company">AgencyRoot</span>
+          <span class="jm-year">2025</span>
+        </div>
+      </div>
+
+      <div class="jm-card">
+        <div class="jm-left">
+          <span class="jm-role">Merchant Order Management Platform</span>
+          <span class="jm-tagline">Integrating standalone tools into a unified platform</span>
+        </div>
+        <div class="jm-right">
+          <span class="jm-company">ByteDance</span>
+          <span class="jm-year">2025</span>
+        </div>
+      </div>
+
+      <div class="jm-card">
+        <div class="jm-left">
+          <span class="jm-role">Automation Flow Builder</span>
+          <span class="jm-tagline">Bridging communication through AI-powered visualization</span>
+        </div>
+        <div class="jm-right">
+          <span class="jm-company">Salesforce</span>
+          <span class="jm-year">2024</span>
+        </div>
+      </div>
+
+      <div class="jm-card">
+        <div class="jm-left">
+          <span class="jm-role">Customized Ride Booking</span>
+          <span class="jm-tagline">Personalizing premium mobility experiences</span>
+        </div>
+        <div class="jm-right">
+          <span class="jm-company">DiDi</span>
+          <span class="jm-year">2023</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="location-modal">
+  <div id="location-modal-box">
+    <button id="location-modal-close" aria-label="Close">✕</button>
+    <h2>I move a lot</h2>
+    <div id="location-map">
+      <svg id="location-line"></svg>
+      <div id="location-timeline">
+        <div class="loc-item">
+          <img class="loc-img" src="location picture/taiyuan, shanxi.png" alt="Taiyuan">
+          <span class="loc-city">Taiyuan, Shanxi</span>
+        </div>
+        <div class="loc-item">
+          <img class="loc-img" src="location picture/shanghai.png" alt="Shanghai">
+          <span class="loc-city">Shanghai</span>
+        </div>
+        <div class="loc-item">
+          <img class="loc-img" src="location picture/beijing.png" alt="Beijing">
+          <span class="loc-city">Beijing</span>
+        </div>
+        <div class="loc-item">
+          <img class="loc-img" src="location picture/bloomington, indiana.png" alt="Bloomington">
+          <span class="loc-city">Bloomington, Indiana</span>
+        </div>
+        <div class="loc-item">
+          <img class="loc-img" src="location picture/new york city.png" alt="New York City">
+          <span class="loc-city">New York City</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="projects">
+  <div class="projects-list">
+
+    <a class="project-card" href="agencyroot.html">
+      <div class="project-img-wrap" data-tip="Coming soon">
+        <img src="project cover/agencyroot bg.png" alt="">
+        <img src="project cover/agencyroot cover.png" alt="AgencyRoot" class="project-cover-center" style="border-radius:12px;">
+        <img src="company logo/agencyroot.png" alt="" class="project-company-logo" style="height:24px">
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">AI</span>
+          <span class="project-tag">End-to-end</span>
+          <span class="project-tag">B2B</span>
+        </div>
+        <h3 class="project-title">AgencyRoot</h3>
+        <p class="project-desc">Transforming repetitive CRM workflows with a lightweight AI action hub</p>
+
+      </div>
+    </a>
+
+    <a class="project-card" href="bytedance.html">
+      <div class="project-img-wrap" data-tip="21% increase in feature adoption">
+        <img src="project cover/bytedance bg.png" alt="">
+        <img src="project cover/bytedance Cover.png" alt="Doudian Order Tools" class="project-cover">
+        <img src="company logo/bytedance.png" alt="" class="project-company-logo" style="height:28px">
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">E-commerce</span>
+          <span class="project-tag">SaaS</span>
+          <span class="project-tag">Enterprise</span>
+        </div>
+        <h3 class="project-title">Doudian Order Tools</h3>
+        <p class="project-desc">Helping merchants handle exception orders without leaving their primary order-processing workflow</p>
+
+      </div>
+    </a>
+
+
+
+    <a class="project-card" href="salesforce.html">
+      <div class="project-img-wrap" data-tip="Cutting alignment cycles by 46%">
+        <img src="project cover/salesforce bg.png" alt="">
+        <img src="project cover/salesforce cover.png" alt="Salesforce Flow Builder" class="project-cover-center">
+        <img src="company logo/salesforce.png" alt="" class="project-company-logo">
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">Sponsored</span>
+          <span class="project-tag">AI</span>
+          <span class="project-tag">B2B</span>
+          <span class="project-tag">SaaS</span>
+        </div>
+        <h3 class="project-title">Salesforce Flow Builder</h3>
+        <p class="project-desc">Supporting admin–client collaboration in automation building with an AI-powered simple diagram</p>
+
+      </div>
+    </a>
+
+    <a class="project-card" href="didi.html">
+      <div class="project-img-wrap" data-tip="Improving user adoption by 33%">
+        <img src="project cover/didi bg.png" alt="">
+        <img src="project cover/didi cover.png" alt="DiDi First-Ride Experience" class="project-cover-bottom">
+        <img src="company logo/didi.png" alt="" class="project-company-logo">
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">Mobile</span>
+          <span class="project-tag">B2C</span>
+        </div>
+        <h3 class="project-title">DiDi First-Ride Experience</h3>
+        <p class="project-desc">Optimizing the first-ride experience across both digital and physical touch points</p>
+
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <p class="footer-quote">The universe is, and we are.</p>
+    <!-- Campfire roasting scene -->
+    <div class="footer-roast" id="footer-roast">
+    <div class="campfire-svg-wrap" id="campfire-svg-wrap">
+      <svg class="fire-svg" viewBox="0 0 120 95" width="180" height="143" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="fr-glow" cx="50%" cy="100%" r="65%">
+            <stop offset="0%" stop-color="#ff7700" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#ff7700" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="60" cy="90" rx="50" ry="13" fill="url(#fr-glow)"/>
+        <line x1="18" y1="75" x2="82" y2="67" stroke="#5D4037" stroke-width="8" stroke-linecap="round"/>
+        <line x1="22" y1="67" x2="88" y2="75" stroke="#4E342E" stroke-width="8" stroke-linecap="round"/>
+        <circle class="em1" cx="44" cy="68" r="2.2" fill="#ff8c00"/>
+        <circle class="em2" cx="63" cy="65" r="1.6" fill="#ffcc00"/>
+        <circle class="em3" cx="76" cy="70" r="2" fill="#ff6b00"/>
+        <ellipse class="flame f-back"   cx="60" cy="46" rx="22" ry="28" fill="#c03000"/>
+        <ellipse class="flame f-mid1"   cx="51" cy="51" rx="15" ry="20" fill="#e05000"/>
+        <ellipse class="flame f-mid2"   cx="69" cy="52" rx="14" ry="18" fill="#e06200"/>
+        <ellipse class="flame f-front1" cx="54" cy="56" rx="10" ry="14" fill="#ff7700"/>
+        <ellipse class="flame f-front2" cx="66" cy="57" rx="9"  ry="12" fill="#ff8800"/>
+        <ellipse class="flame f-core"   cx="60" cy="60" rx="7"  ry="9"  fill="#ffcc00"/>
+        <ellipse class="flame f-tip"    cx="60" cy="65" rx="4"  ry="5"  fill="#fff3a0"/>
+      </svg>
+    </div>
+    <!-- Marshmallow on stick (draggable) -->
+    <div class="mallow-stick-el" id="mallow-stick-el">
+      <svg viewBox="0 0 34 160" width="34" height="160" style="overflow:visible">
+        <line x1="17" y1="38" x2="17" y2="158" stroke="#8B6914" stroke-width="4" stroke-linecap="round"/>
+        <rect id="mallow-rect" x="4" y="4" width="26" height="32" rx="10" fill="#fff8f4" stroke="#e8ddd0" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="roast-hint" id="roast-hint">Drag to toast a marshmallow</div>
+    <div class="roast-status" id="roast-status"></div>
+  </div>
+  </div><!-- end footer-top -->
+  <div class="footer-bottom">
+    <div class="footer-icons">
+      <a class="footer-icon-btn" href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="footer-icon-btn" href="https://github.com/TaliaRen" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a class="footer-icon-btn" href="https://www.instagram.com/qingyi_ren" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      </a>
+      <button class="footer-icon-btn" id="footer-email-btn" aria-label="Copy email">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </button>
+    </div>
+    <p class="footer-credit">Inspired by Outer Wilds &amp; Jigsaw Puzzle, built with Claude</p>
+  </div>
+</footer>
+
+<script>
+history.scrollRestoration = 'manual';
+
+document.addEventListener('mousemove', e => {
+  sessionStorage.setItem('mx', e.clientX);
+  sessionStorage.setItem('my', e.clientY);
+}, { passive: true });
+
+(function() {
+  const el = document.querySelector('.nav-logo');
+  if (!el) return;
+  el.addEventListener('mouseenter', () => el.classList.add('js-hover'));
+  el.addEventListener('mouseleave', () => el.classList.remove('js-hover'));
+  const lx = parseFloat(sessionStorage.getItem('mx'));
+  const ly = parseFloat(sessionStorage.getItem('my'));
+  if (!isNaN(lx) && !isNaN(ly)) {
+    const r = el.getBoundingClientRect();
+    if (lx >= r.left && lx <= r.right && ly >= r.top && ly <= r.bottom) {
+      el.classList.add('js-hover');
+      document.addEventListener('mousemove', function watch(e) {
+        const r2 = el.getBoundingClientRect();
+        if (e.clientX < r2.left || e.clientX > r2.right || e.clientY < r2.top || e.clientY > r2.bottom) {
+          el.classList.remove('js-hover');
+          document.removeEventListener('mousemove', watch);
+        }
+      }, { passive: true });
+    }
+  }
+})();
+(function () {
+  const DPR = window.devicePixelRatio || 1;
+  const ILLUS_BG = '#F8F4EF';
+
+  // ── Edge tables ───────────────────────────────────────────────────────
+  // EDGES[col][row] = {top, right, bottom, left}; +1=tab out, -1=socket in, 0=flat
+  // All shared edges verified: adjacent pair sums to 0.
+  const EDGES_4x2 = [
+    [{top:0,right:-1,bottom:1, left:0},{top:1, right:1, bottom:0, left:0}],
+    [{top:0,right:1, bottom:-1,left:-1},{top:-1,right:-1,bottom:0,left:1}],
+    [{top:0,right:-1,bottom:1, left:1},{top:1, right:1, bottom:0, left:-1}],
+    [{top:0,right:0, bottom:-1,left:-1},{top:-1,right:0, bottom:0, left:1}],
+  ];
+  // 2×2 for mobile
+  const EDGES_2x2 = [
+    [{top:0,right:1, bottom:1, left:0},{top:-1,right:-1,bottom:0,left:0}],
+    [{top:0,right:0, bottom:-1,left:-1},{top:1, right:0, bottom:0, left:1}],
+  ];
+
+  function edgeSign(EDGES, c, r, side) {
+    const e = EDGES[c][r];
+    return [e.top, e.right, e.bottom, e.left][side];
+  }
+
+  function jigsawPath(ctx, pw, ph, tabH, top, right, bottom, left) {
+    const r = tabH, PI = Math.PI;
+    ctx.beginPath(); ctx.moveTo(0, 0);
+    if (!top)   { ctx.lineTo(pw, 0); }
+    else        { ctx.lineTo(pw/2-r,0); ctx.arc(pw/2,0,r,PI,0,top===1); ctx.lineTo(pw,0); }
+    if (!right) { ctx.lineTo(pw, ph); }
+    else        { ctx.lineTo(pw,ph/2-r); ctx.arc(pw,ph/2,r,-PI/2,PI/2,right!==1); ctx.lineTo(pw,ph); }
+    if (!bottom){ ctx.lineTo(0, ph); }
+    else        { ctx.lineTo(pw/2+r,ph); ctx.arc(pw/2,ph,r,0,PI,bottom!==1); ctx.lineTo(0,ph); }
+    if (!left)  { ctx.lineTo(0, 0); }
+    else        { ctx.lineTo(0,ph/2+r); ctx.arc(0,ph/2,r,PI/2,-PI/2,left===1); ctx.lineTo(0,0); }
+    ctx.closePath();
+  }
+
+  // ── Puzzle photo illustration ─────────────────────────────────────────
+  // 8 photos from "puzzle picture/" arranged in a COLS×ROWS grid.
+  // Each piece samples its (col, row) cell from this canvas.
+  function drawIllustration(ctx, W, H, bgImg, stickers) {
+    ctx.clearRect(0, 0, W, H);
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, '#F4EBDE');
+    bgGrad.addColorStop(1, '#D9E2EA');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Direct overlay — puzzle background image at 30% opacity
+    if (bgImg && bgImg.naturalWidth) {
+      const scale = Math.max(W / bgImg.naturalWidth, H / bgImg.naturalHeight);
+      const tw = bgImg.naturalWidth * scale, th = bgImg.naturalHeight * scale;
+      const dx = (W - tw) / 2, dy = (H - th) / 2;
+      ctx.save();
+      ctx.globalAlpha = 0.24;
+      ctx.drawImage(bgImg, dx, dy, tw, th);
+      ctx.restore();
+    }
+
+// ── Text wrap helper ──────────────────────────────────────────────
+    function wrapText(text, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let line = '';
+      for (const word of words) {
+        const test = line ? line + ' ' + word : word;
+        if (ctx.measureText(test).width > maxWidth && line) {
+          lines.push(line);
+          line = word;
+        } else {
+          line = test;
+        }
+      }
+      if (line) lines.push(line);
+      return lines;
+    }
+
+    const cx2 = W / 2;
+    const maxTextW = W * 0.82;
+    ctx.textAlign = 'center';
+
+    // Font sizes scale with puzzle width (baseline: W=1040)
+    const fs1 = Math.max(11, Math.round(18 * W / 1040));
+    const fs2 = Math.max(12, Math.round(28 * W / 1040));
+    const lh1 = fs1 * 1.6;
+    const lh2 = fs2 * 1.55;
+    const gap12 = Math.max(6, Math.round(H * 0.04));
+
+    // Measure wrapped lines
+    ctx.font = `italic ${fs1}px "Cormorant Infant", Georgia, serif`;
+    const lines1 = wrapText('I design products like doing a jigsaw puzzle 🧩', maxTextW);
+
+    ctx.font = `600 ${fs2}px "DM Sans", sans-serif`;
+    const lines2 = ['Starting from ambiguity, navigating constraints, and', 'building clarity in the chaos'];
+
+    const blockH = lines1.length * lh1 + gap12 + lines2.length * lh2;
+    const blockTop = (H - blockH) / 2 - H * 0.08 - 10;
+
+    // Draw line 1 (centered, -20px up from original)
+    ctx.font = `italic ${fs1}px "Cormorant Infant", Georgia, serif`;
+    ctx.fillStyle = '#5F5E5A';
+    ctx.globalAlpha = 1;
+    let y1 = blockTop + fs1 + 2;
+    lines1.forEach(l => { ctx.fillText(l, cx2, y1); y1 += lh1; });
+
+    // Draw line 2
+    ctx.font = `600 ${fs2}px "DM Sans", sans-serif`;
+    ctx.fillStyle = '#173824';
+    let y2 = blockTop + lines1.length * lh1 + gap12 + fs2;
+    lines2.forEach(l => { ctx.fillText(l, cx2, y2); y2 += lh2; });
+    ctx.textAlign = 'left';
+
+    // ── Stickers: fixed layout matching reference design ─────────────
+    // Order: 0=About, 1=Contact, 2=Journey, 3=Location, 4=music, 5=school, 6=vibe coding
+    if (stickers && stickers.length) {
+      const layout = [
+        { cx: 0.299, cy: 0.261, size: 0.110, angle: -0.08 }, // About (person)
+        { cx: 0.167, cy: 0.716, size: 0.075, angle:  0.10 }, // Contact (envelope)
+        { cx: 0.686, cy: 0.816, size: 0.145, angle: -0.22 }, // Journey (passport)
+        { cx: 0.070, cy: 0.787, size: 0.078, angle: -0.05 }, // Location (globe)
+        { cx: 0.940, cy: 0.101, size: 0.058, angle:  0.00 }, // music (vinyl)
+        { cx: 0.170, cy: 0.887, size: 0.068, angle:  0.12 }, // school (graduation cap)
+        { cx: 0.88,  cy: 0.816, size: 0.185, angle: -0.12 }, // vibe coding (laptop) — +20px down
+      ];
+
+      stickers.forEach((img, i) => {
+        if (!img || !layout[i]) return;
+        const { cx, cy, size, angle } = layout[i];
+        const sz = W * size;
+        const aspect = img.naturalWidth / img.naturalHeight;
+        const sw = sz * Math.min(1, aspect);
+        const sh = sz * Math.min(1, 1 / aspect);
+        ctx.save();
+        ctx.translate(cx * W, cy * H);
+        ctx.rotate(angle);
+        ctx.drawImage(img, -sw / 2, -sh / 2, sw, sh);
+        ctx.restore();
+      });
+    }
+  }
+
+  // ── Responsive config ─────────────────────────────────────────────────
+  // PW = min(260, floor(availW / COLS)) — fills available width, capped at 260.
+  // This keeps pieces as large as possible at every viewport size.
+  // Mobile switches to 2 cols so pieces stay a reasonable size.
+  function getConfig() {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    if (vw >= 560) {
+      const MARGIN  = vw >= 960 ? 48 : 20;
+      const colScale = Math.min(1, vw / 1440);
+      const COL_W   = Math.round(220 * colScale);
+      const COL_GAP = Math.round(60  * colScale);
+      const availW  = vw - MARGIN * 2, availH = vh - 80 - 16;
+      const PW      = Math.min(260, Math.floor(availW / 4));
+      const SCALE_SCATTER = 140 / 260;
+      return { COLS:4, ROWS:2, PW, MARGIN, COL_W, COL_GAP, availW, availH,
+               EDGES:EDGES_4x2, mobile:false, SCALE_SCATTER };
+    } else {
+      // Mobile: 2×2
+      const MARGIN = 16;
+      const availW = vw - MARGIN * 2, availH = vh - 80 - 16;
+      const PW = Math.min(260, Math.floor(availW / 2));
+      return { COLS:2, ROWS:2, PW, MARGIN, COL_W:0, COL_GAP:0, availW, availH,
+               EDGES:EDGES_2x2, mobile:true, SCALE_SCATTER: 0.72 };
+    }
+  }
+
+  // ── Build puzzle ──────────────────────────────────────────────────────
+  function buildPuzzle() {
+    const cfg = getConfig();
+    const { COLS, ROWS, PW, MARGIN, COL_W, COL_GAP, availW, availH,
+            EDGES, mobile, SCALE_SCATTER } = cfg;
+    const PH = PW;
+    const TAB_H = Math.round(PW * 0.13);
+    const PAD   = TAB_H + 10;
+    const W  = COLS * PW, H  = ROWS * PH;
+    const CW = PW + PAD * 2, CH = PH + PAD * 2;
+    const scatterW = availW, scatterH = availH;
+    const midX0 = Math.max(0, Math.floor((availW - W) / 2));
+    const assembleOffX = midX0, assembleOffY = (scatterH - H) / 2;
+    const VS = (CW * SCALE_SCATTER) / 2;
+
+    const wrap = document.getElementById('puzzle-wrap');
+    wrap.style.cssText = `width:${scatterW}px;height:${scatterH}px;position:relative;overflow:visible;`;
+
+    // ── Scatter positions ─────────────────────────────────────────────
+    const scatterPos = {}, scatterRotations = {};
+    const shuffledIdx = Array.from({ length: COLS * ROWS }, (_, i) => i)
+      .sort(() => Math.random() - 0.5);
+
+    if (mobile) {
+      // 4 quadrants for 2×2
+      shuffledIdx.forEach((idx, i) => {
+        const qx = (i % 2) * (scatterW / 2), qy = Math.floor(i / 2) * (scatterH / 2);
+        const qW = scatterW / 2, qH = scatterH / 2;
+        const cx = qx + qW * 0.15 + Math.random() * qW * 0.7;
+        const cy = qy + qH * 0.15 + Math.random() * qH * 0.7;
+        scatterPos[idx] = { x: Math.round(cx - CW / 2), y: Math.round(cy - CH / 2) };
+        scatterRotations[idx] = Math.round((Math.random() - 0.5) * 40);
+      });
+    } else {
+      // Side columns with band subdivision
+      const COL_H  = Math.round(scatterH * 0.65);
+      const COL_Y0 = Math.round((scatterH - COL_H) * 0.25);
+      const leftX0  = COL_GAP - MARGIN, leftX1  = leftX0 + COL_W;
+      const rightX1 = scatterW - COL_GAP + MARGIN, rightX0 = rightX1 - COL_W;
+
+      function colScatter(x0, x1, n) {
+        const bandH = COL_H / n, cx = (x0 + x1) / 2;
+        return Array.from({ length: n }, (_, i) => i).sort(() => Math.random() - 0.5).map(b => {
+          const y0 = COL_Y0 + b * bandH, y1 = COL_Y0 + (b + 1) * bandH;
+          const bx = cx + (Math.random() - 0.5) * COL_W * 0.45;
+          const cyMin = y0 + VS + 4, cyMax = Math.max(cyMin + 1, y1 - VS - 4);
+          const by = cyMin + Math.random() * (cyMax - cyMin);
+          return { x: Math.round(bx - CW / 2), y: Math.round(by - CH / 2) };
+        });
+      }
+
+      const half = Math.ceil(COLS * ROWS / 2);
+      const lIdx = shuffledIdx.slice(0, half), rIdx = shuffledIdx.slice(half);
+      colScatter(leftX0,  leftX1,  lIdx.length).forEach((p, i) => { scatterPos[lIdx[i]] = p; });
+      colScatter(rightX0, rightX1, rIdx.length).forEach((p, i) => { scatterPos[rIdx[i]] = p; });
+      shuffledIdx.forEach(idx => { scatterRotations[idx] = Math.round((Math.random() - 0.5) * 50); });
+    }
+
+    // ── Illustration canvas (offscreen, full assembled size) ──────────
+    const illusCanvas = document.createElement('canvas');
+    illusCanvas.width  = W * DPR;
+    illusCanvas.height = H * DPR;
+    const illusCtx = illusCanvas.getContext('2d');
+    illusCtx.scale(DPR, DPR);
+
+    // bgImg is loaded before buildPuzzle is called; passed via closure
+    drawIllustration(illusCtx, W, H, _bgImg, _stickers);
+
+    // Draw a piece using the illustration as texture
+    function drawPiece(pcx, c, r, top, right, bottom, left, strokeAlpha) {
+      pcx.clearRect(0, 0, CW, CH);
+      pcx.save(); pcx.translate(PAD, PAD);
+      jigsawPath(pcx, PW, PH, TAB_H, top, right, bottom, left);
+      pcx.clip();
+      pcx.fillStyle = ILLUS_BG;
+      pcx.fillRect(-PAD-2, -PAD-2, CW+4, CH+4);
+      pcx.drawImage(illusCanvas,
+        (c*PW - PAD)*DPR, (r*PH - PAD)*DPR, CW*DPR, CH*DPR,
+        -PAD, -PAD, CW, CH);
+      pcx.restore();
+      if (strokeAlpha > 0) {
+        pcx.save(); pcx.translate(PAD, PAD);
+        jigsawPath(pcx, PW, PH, TAB_H, top, right, bottom, left);
+        pcx.strokeStyle = `rgba(120,108,94,${strokeAlpha.toFixed(3)})`;
+        pcx.lineWidth = 1.5; pcx.stroke(); pcx.restore();
+      }
+    }
+
+    // ── Ghost ─────────────────────────────────────────────────────────
+    const ghost = document.createElement('canvas');
+    ghost.width = CW * DPR; ghost.height = CH * DPR;
+    ghost.style.cssText = `position:absolute;width:${CW}px;height:${CH}px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:0;`;
+    const gctx = ghost.getContext('2d'); gctx.scale(DPR, DPR);
+    wrap.appendChild(ghost);
+
+    function showGhost(piece) {
+      ghost.style.left = piece.correctX + 'px'; ghost.style.top = piece.correctY + 'px';
+      gctx.clearRect(0, 0, CW, CH); gctx.save(); gctx.translate(PAD, PAD);
+      jigsawPath(gctx, PW, PH, TAB_H, piece.top, piece.right, piece.bottom, piece.left);
+      gctx.fillStyle = 'rgba(255,255,255,0.06)'; gctx.fill();
+      gctx.setLineDash([6, 5]); gctx.strokeStyle = 'rgba(255,255,255,0.40)';
+      gctx.lineWidth = 2; gctx.stroke(); gctx.restore();
+      ghost.style.opacity = '1';
+    }
+    function hideGhost() { ghost.style.opacity = '0'; }
+
+    // ── Build pieces ──────────────────────────────────────────────────
+    const pieces = []; let assembled = false;
+
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+      const idx = r * COLS + c;
+      const top    = edgeSign(EDGES, c, r, 0), right  = edgeSign(EDGES, c, r, 1);
+      const bottom = edgeSign(EDGES, c, r, 2), left   = edgeSign(EDGES, c, r, 3);
+      const pc = document.createElement('canvas');
+      pc.width = CW * DPR; pc.height = CH * DPR;
+      pc.style.width = CW + 'px'; pc.style.height = CH + 'px';
+      pc.className = 'piece'; pc.style.zIndex = idx + 2;
+      const pcx = pc.getContext('2d'); pcx.scale(DPR, DPR);
+      drawPiece(pcx, c, r, top, right, bottom, left, 0.42);
+      const correctX = assembleOffX + c * PW - PAD, correctY = assembleOffY + r * PH - PAD;
+      const sp = scatterPos[idx], rot = scatterRotations[idx] || 0;
+      const scatterCenterX = scatterW / 2;
+      const offScreenX = sp.x < scatterCenterX ? -CW - 100 : scatterW + 100;
+      pc.style.left = offScreenX + 'px'; pc.style.top = sp.y + 'px';
+      pc.style.transform = `rotate(${rot}deg) scale(${SCALE_SCATTER})`;
+      pc.style.transformOrigin = '50% 50%';
+      const piece = { el:pc, ctx:pcx, idx, correctX, correctY, x:sp.x, y:sp.y,
+                      col:c, row:r, rot, top, right, bottom, left };
+      pieces.push(piece); wrap.appendChild(pc); addDrag(piece);
+      // Slide in from off-screen with staggered delay
+      pc.classList.add('entering');
+      setTimeout(() => {
+        pc.style.left = sp.x + 'px';
+        setTimeout(() => pc.classList.remove('entering'), 950);
+      }, 80 + idx * 40);
+    }
+    // Seamless overlay: sits ABOVE pieces (z-index:50), fades in over them — pieces stay opaque underneath.
+    // This avoids the opacity-doubling darkening bug (pieces stay at opacity:1 throughout).
+    const underlay = document.createElement('canvas');
+    underlay.width = W * DPR; underlay.height = H * DPR;
+    underlay.style.cssText = `position:absolute;width:${W}px;height:${H}px;left:${assembleOffX}px;top:${assembleOffY}px;z-index:50;pointer-events:none;opacity:0;`;
+    wrap.appendChild(underlay);
+    const underlayCtx = underlay.getContext('2d');
+    underlayCtx.scale(DPR, DPR);
+    drawIllustration(underlayCtx, W, H, _bgImg, _stickers);
+
+    // Show hint after last piece finishes sliding in
+    const lastDelay = 80 + (pieces.length - 1) * 40 + 950;
+    setTimeout(() => {
+      const hint = document.getElementById('puzzle-hint');
+      if (hint && !assembled) hint.classList.add('visible');
+    }, lastDelay + 200);
+
+    // ── Seam fade ─────────────────────────────────────────────────────
+    function redrawPiece(p, a) {
+      drawPiece(p.ctx, p.col, p.row, p.top, p.right, p.bottom, p.left, a);
+    }
+    function createHeroIcons(offX, offY) {
+      wrap.querySelectorAll('.hero-icon').forEach(el => el.remove());
+      // Sync with drawIllustration layout array (order: About, Contact, Journey, Location, music, school, vibe coding)
+      const layout = [
+        { cx: 0.299, cy: 0.261, size: 0.110, angle: -0.08 },
+        { cx: 0.167, cy: 0.716, size: 0.075, angle:  0.10 },
+        { cx: 0.686, cy: 0.816, size: 0.145, angle: -0.22 },
+        { cx: 0.070, cy: 0.787, size: 0.078, angle: -0.05 },
+        { cx: 0.940, cy: 0.101, size: 0.058, angle:  0.00 },
+        { cx: 0.170, cy: 0.887, size: 0.068, angle:  0.12 },
+        { cx: 0.880, cy: 0.816, size: 0.185, angle: -0.12 },
+      ];
+      layout.forEach(({ cx, cy, size, angle }, i) => {
+        const img = _stickers[i];
+        if (!img || !img.naturalWidth) return;
+        const sz = Math.round(W * size);
+        const left = offX + cx * W - sz / 2;
+        const top  = offY + cy * H - sz / 2;
+        const rotDeg = Math.round(angle * 180 / Math.PI);
+        const div = document.createElement('div');
+        div.className = 'hero-icon';
+        div.style.cssText = `width:${sz}px;height:${sz}px;left:${left}px;top:${top}px;`;
+        div.style.setProperty('--rot', rotDeg + 'deg');
+        const im = document.createElement('img');
+        im.src = img.src;
+        const tt = document.createElement('span');
+        tt.className = 'hero-icon-tip';
+        tt.textContent = i === 6 ? "AI is a part of my everyday work"
+                       : i === 3 ? "Currently in NYC"
+                       : i === 5 ? "IUB HCI Graduate"
+                       : i === 1 ? "Say hello!"
+                       : i === 4 ? "Outer Wilds"
+                       : i === 2 ? "Products I've designed since 2023"
+                       : "Hi, I'm Talia";
+        if (i === 6) tt.classList.add('tip-top');
+        if (i === 3) tt.classList.add('tip-top-right');
+        if (i === 5) tt.classList.add('tip-right');
+        if (i === 1) tt.classList.add('tip-right-overlap');
+        if (i === 2) tt.classList.add('tip-top-align-center');
+        // About / person sticker (index 0): always show tip + play About sound on click
+        if (i === 0) {
+          tt.classList.add('tip-always-on');
+
+          div.addEventListener('click', () => {
+            playSound('sound effect/about.mp3');
+            if (window._openAboutModal) window._openAboutModal();
+          });
+        }
+        // Contact sticker (index 1): open contact modal + play sound
+        if (i === 1) {
+          div.addEventListener('click', () => {
+            playSound('sound effect/contact.mp3');
+            if (window._openContactModal) window._openContactModal();
+          });
+        }
+        // Music sticker (index 4): play music sound and spin on click, click again to stop
+        if (i === 4) {
+          let musicAudio = null;
+          div.addEventListener('click', () => {
+            if (div.classList.contains('spinning')) {
+              div.classList.remove('spinning');
+              if (musicAudio) { musicAudio.pause(); musicAudio.currentTime = 0; musicAudio = null; }
+            } else {
+              div.classList.add('spinning');
+              musicAudio = new Audio('sound effect/music.mp3');
+              musicAudio.loop = true;
+              musicAudio.play().catch(() => {});
+              musicAudio.addEventListener('ended', () => { div.classList.remove('spinning'); musicAudio = null; });
+            }
+          });
+        }
+        // Journey sticker (index 2): open journey modal + play page turn sound
+        if (i === 2) {
+          div.addEventListener('click', () => {
+            playSound('sound effect/page turn.mp3');
+            if (window._openJourneyModal) window._openJourneyModal();
+          });
+        }
+        // Location sticker (index 3): play location sound + open location modal
+        if (i === 3) {
+          div.addEventListener('click', () => {
+            playSound('sound effect/location.mp3');
+            if (window._openLocationModal) window._openLocationModal();
+          });
+        }
+        // School sticker (index 5): play school sound on click
+        if (i === 5) {
+          div.addEventListener('click', () => {
+            playSound('sound effect/school.mp3');
+          });
+        }
+        // Vibe coding sticker (index 6): play typing sound on click
+        if (i === 6) {
+          div.addEventListener('click', () => {
+            playSound('sound effect/typing.mp3');
+          });
+        }
+        div.appendChild(im);
+        div.appendChild(tt);
+        wrap.appendChild(div);
+      });
+    }
+
+    function fadeSeams() {
+      const dur=700, t0=performance.now();
+      (function step(n){
+        const progress=Math.min(1,(n-t0)/dur);
+        const ease=1-Math.pow(1-progress,3); // ease-out cubic
+        const a=0.42*(1-ease);
+        pieces.forEach(p=>redrawPiece(p,a));
+        if(progress<1) requestAnimationFrame(step);
+      })(t0);
+    }
+
+    // ── Assemble ──────────────────────────────────────────────────────
+    function triggerAssemble() {
+      if (assembled) return; assembled = true; hideGhost();
+      const hint = document.getElementById('puzzle-hint');
+      if (hint) hint.classList.add('hidden');
+      pieces.forEach((p, i) => {
+        p.el.classList.add('assembling'); p.el.style.transitionDelay = (i * 80) + 'ms';
+        p.x = p.correctX; p.y = p.correctY; p.rot = 0;
+        p.el.style.left = p.x + 'px'; p.el.style.top = p.y + 'px';
+        p.el.style.transform = 'rotate(0deg) scale(1)';
+      });
+      setTimeout(() => {
+        pieces.forEach(p => { p.el.classList.remove('assembling'); p.el.style.transitionDelay=''; p.el.classList.add('snapped'); });
+        wasAssembled = true;
+        const hint = document.getElementById('puzzle-hint');
+        if (hint) hint.classList.add('hidden');
+
+        // Brief pause after snap so pieces fully settle before dissolve begins
+        setTimeout(() => {
+        const strokeDur = 150, overlayDur = 220;
+        const fadeT0 = performance.now();
+        (function fadeStep(now) {
+          const elapsed = now - fadeT0;
+          const sp = Math.min(1, elapsed / strokeDur);
+          const op = Math.min(1, elapsed / overlayDur);
+          const sEase = 1 - Math.pow(1 - sp, 3);
+          const oEase = 1 - Math.pow(1 - op, 3);
+          pieces.forEach(pc => redrawPiece(pc, 0.42 * (1 - sEase)));
+          underlay.style.opacity = oEase;
+          if (op < 1) { requestAnimationFrame(fadeStep); return; }
+          pieces.forEach(pc => redrawPiece(pc, 0));
+          underlay.style.opacity = '1';
+          pieces.forEach(pc => { pc.el.style.display = 'none'; });
+          // Redraw underlay without stickers so hero icons don't double-layer on hover
+          underlayCtx.clearRect(0, 0, W, H);
+          drawIllustration(underlayCtx, W, H, _bgImg, []);
+          createHeroIcons(assembleOffX, assembleOffY);
+          sessionStorage.setItem('puzzleAssembled', '1');
+        })(fadeT0);
+        }, 300); // let pieces fully settle visually before dissolve
+      }, (pieces.length - 1) * 80 + 1700 + 200);
+    }
+
+    // ── Drag ──────────────────────────────────────────────────────────
+    function addDrag(piece) {
+      const el = piece.el; let ox, oy, sx, sy;
+      el.addEventListener('mousedown', e => {
+        if (assembled) return; e.preventDefault();
+        el.classList.add('dragging'); el.style.zIndex = 999;
+        ox=e.clientX; oy=e.clientY; sx=piece.x; sy=piece.y; showGhost(piece);
+        let hintDismissed = false;
+        const mm = e2 => {
+          piece.x=sx+e2.clientX-ox; piece.y=sy+e2.clientY-oy; el.style.left=piece.x+'px'; el.style.top=piece.y+'px';
+          if (!hintDismissed) { hintDismissed=true; const hint=document.getElementById('puzzle-hint'); if (hint) hint.classList.add('hidden'); }
+        };
+        const mu = () => {
+          el.classList.remove('dragging'); el.style.zIndex=piece.idx+2;
+          if (Math.hypot(piece.x-piece.correctX, piece.y-piece.correctY) < 80) triggerAssemble(); else hideGhost();
+          document.removeEventListener('mousemove',mm); document.removeEventListener('mouseup',mu);
+        };
+        document.addEventListener('mousemove',mm); document.addEventListener('mouseup',mu);
+      });
+      el.addEventListener('touchstart', e => {
+        if (assembled) return; e.preventDefault();
+        const t=e.touches[0]; el.classList.add('dragging'); el.style.zIndex=999;
+        ox=t.clientX; oy=t.clientY; sx=piece.x; sy=piece.y; showGhost(piece);
+        const tm = e2 => { const t2=e2.touches[0]; piece.x=sx+t2.clientX-ox; piece.y=sy+t2.clientY-oy; el.style.left=piece.x+'px'; el.style.top=piece.y+'px'; };
+        const tu = () => {
+          el.classList.remove('dragging');
+          if (Math.hypot(piece.x-piece.correctX, piece.y-piece.correctY) < 80) triggerAssemble(); else hideGhost();
+          el.removeEventListener('touchmove',tm); el.removeEventListener('touchend',tu);
+        };
+        el.addEventListener('touchmove',tm,{passive:false}); el.addEventListener('touchend',tu);
+      }, {passive:false});
+    }
+
+    // Restore assembled state immediately on resize (no animation)
+    if (wasAssembled) {
+      assembled = true;
+      pieces.forEach(p => { p.el.style.display = 'none'; });
+      const overlay = document.createElement('canvas');
+      overlay.width  = W * DPR;
+      overlay.height = H * DPR;
+      overlay.style.cssText = `position:absolute;width:${W}px;height:${H}px;left:${assembleOffX}px;top:${assembleOffY}px;z-index:50;pointer-events:none;`;
+      const overlayCtx2 = overlay.getContext('2d');
+      overlayCtx2.scale(DPR, DPR);
+      drawIllustration(overlayCtx2, W, H, _bgImg, []);
+      wrap.appendChild(overlay);
+      createHeroIcons(assembleOffX, assembleOffY);
+      return;
+    }
+
+    // Mobile: auto-assemble after brief scatter reveal
+    if (mobile) setTimeout(() => triggerAssemble(), 900);
+  }
+
+  // ── Init & resize ─────────────────────────────────────────────────────
+  // On hard refresh, reset puzzle state; preserve it on link navigation
+  if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+    sessionStorage.removeItem('puzzleAssembled');
+  }
+  let wasAssembled = sessionStorage.getItem('puzzleAssembled') === '1'; // persists across resizes and page navigation
+  let _bgImg = null;
+  let _stickers = [];
+
+  function loadImg(src) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
+  const stickerSrcs = [
+    'hero picture/about.png',
+    'hero picture/contact.png',
+    'hero picture/journey.png',
+    'hero picture/location.png',
+    'hero picture/music.png',
+    'hero picture/school.png',
+    'hero picture/vibe coding.png'
+  ];
+
+  Promise.all([
+    document.fonts.load('600 34px "DM Sans"'),
+    document.fonts.load('italic 400 18px "Cormorant Infant"'),
+    document.fonts.ready,
+    loadImg('background/puzzle background.png'),
+    ...stickerSrcs.map(loadImg)
+  ]).then(results => {
+    _bgImg = results[3];
+    _stickers = results.slice(4);
+    buildPuzzle();
+  });
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      document.getElementById('puzzle-wrap').innerHTML = '';
+      buildPuzzle();
+    }, 250);
+  });
+})();
+
+function playSound(src) {
+  const audio = new Audio(src);
+  audio.play().catch(() => {});
+}
+
+// Scroll lock — freezes body in place without touching overflow, so scrollbar stays visible
+let _lockScrollY = 0;
+function lockScroll() {
+  _lockScrollY = window.scrollY;
+  const sw = window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.paddingRight = sw + 'px';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${_lockScrollY}px`;
+  document.body.style.width = '100%';
+}
+function unlockScroll() {
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  document.body.style.paddingRight = '';
+  window.scrollTo(0, _lockScrollY);
+}
+
+// Journey modal
+(function() {
+  const modal = document.getElementById('journey-modal');
+  function openJourney() {
+    lockScroll();
+    modal.classList.add('open');
+    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('visible')));
+  }
+  function closeJourney() {
+    modal.classList.remove('visible');
+    setTimeout(() => { modal.classList.remove('open'); unlockScroll(); }, 260);
+  }
+  window._openJourneyModal = openJourney;
+  document.getElementById('journey-modal-close').addEventListener('click', closeJourney);
+  modal.addEventListener('click', e => { if (e.target === modal) closeJourney(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeJourney(); });
+})();
+
+// About modal
+(function() {
+  const modal = document.getElementById('about-modal');
+  function openAbout() {
+    lockScroll();
+    modal.classList.add('open');
+    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('visible')));
+  }
+  function closeAbout() {
+    modal.classList.remove('visible');
+    setTimeout(() => { modal.classList.remove('open'); unlockScroll(); }, 260);
+  }
+  window._openAboutModal = openAbout;
+  document.getElementById('about-modal-close').addEventListener('click', closeAbout);
+  modal.addEventListener('click', e => { if (e.target === modal) closeAbout(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeAbout(); });
+})();
+
+// Location modal
+(function() {
+  const modal = document.getElementById('location-modal');
+
+  function drawLine() {
+    const svg = document.getElementById('location-line');
+    const map = document.getElementById('location-map');
+    const imgs = document.querySelectorAll('.loc-img');
+    if (!svg || !map || !imgs.length) return;
+    const mapRect = map.getBoundingClientRect();
+    // Each point: right-edge midpoint and left-edge midpoint, plus center-y
+    const pts = Array.from(imgs).map(img => {
+      const r = img.getBoundingClientRect();
+      return {
+        cy: r.top + r.height / 2 - mapRect.top,
+        lx: r.left - mapRect.left + 4,
+        rx: r.right - mapRect.left - 4,
+      };
+    });
+    const W = mapRect.width, H = mapRect.height;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W);
+    svg.setAttribute('height', H);
+    // Cubic bezier — horizontal tangents at both ends, creates smooth S-curve
+    // cp1 extends right from start at same y; cp2 extends left from end at same y
+    let lines = '';
+    for (let i = 0; i < pts.length - 1; i++) {
+      const sx = pts[i].rx, sy = pts[i].cy;
+      const ex = pts[i+1].lx, ey = pts[i+1].cy;
+      const span = ex - sx;
+      const cp1x = sx + span * 0.55, cp1y = sy;
+      const cp2x = ex - span * 0.55, cp2y = ey;
+      lines += `<path d="M ${sx.toFixed(1)},${sy.toFixed(1)} C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}" fill="none" stroke="#4A6B4F" stroke-opacity="0.5" stroke-width="1.5" stroke-dasharray="5 4" stroke-linecap="round"/>`;
+    }
+    svg.innerHTML = lines;
+  }
+
+  function openLocation() {
+    lockScroll();
+    modal.classList.add('open');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      modal.classList.add('visible');
+      requestAnimationFrame(drawLine);
+    }));
+  }
+  function closeLocation() {
+    modal.classList.remove('visible');
+    setTimeout(() => { modal.classList.remove('open'); unlockScroll(); }, 260);
+  }
+
+  window._openLocationModal = openLocation;
+
+  document.getElementById('location-modal-close').addEventListener('click', closeLocation);
+  modal.addEventListener('click', e => { if (e.target === modal) closeLocation(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeLocation(); });
+  window.addEventListener('resize', () => { if (modal.classList.contains('open')) drawLine(); });
+})();
+
+// Contact modal
+(function() {
+  const modal = document.getElementById('contact-modal');
+
+  function openContact() {
+    lockScroll();
+    modal.classList.add('open');
+    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('visible')));
+  }
+  function closeContact() {
+    modal.classList.remove('visible');
+    setTimeout(() => { modal.classList.remove('open'); unlockScroll(); }, 260);
+  }
+
+  // Triggered from sticker click (index 1)
+  window._openContactModal = openContact;
+
+  document.getElementById('contact-modal-close').addEventListener('click', closeContact);
+  modal.addEventListener('click', e => { if (e.target === modal) closeContact(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeContact(); });
+
+  // Copy rows
+  document.querySelectorAll('.cm-row').forEach(row => {
+    let timer = null;
+    row.addEventListener('click', () => {
+      navigator.clipboard.writeText(row.dataset.copy).catch(() => {});
+      const label = row.querySelector('.cm-row-action');
+      const original = label.innerHTML;
+      if (timer) clearTimeout(timer);
+      // fade out → swap → fade in
+      label.style.opacity = '0';
+      setTimeout(() => {
+        label.textContent = 'Copied!';
+        row.classList.add('copied');
+        label.style.opacity = '1';
+        timer = setTimeout(() => {
+          label.style.opacity = '0';
+          setTimeout(() => {
+            label.innerHTML = original;
+            row.classList.remove('copied');
+            label.style.opacity = '1';
+            timer = null;
+          }, 180);
+        }, 2000);
+      }, 180);
+    });
+  });
+})();
+
+// Footer email copy
+  (function() {
+    const btn = document.getElementById('footer-email-btn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText('taliaren0826@gmail.com').catch(() => {});
+    });
+  })();
+
+// Campfire marshmallow roasting
+(function() {
+  const scene    = document.getElementById('footer-roast');
+  const stickEl  = document.getElementById('mallow-stick-el');
+  const mallow   = document.getElementById('mallow-rect');
+  const fireWrap = document.getElementById('campfire-svg-wrap');
+  const hint     = document.getElementById('roast-hint');
+  const statusEl = document.getElementById('roast-status');
+  if (!scene || !stickEl) return;
+
+  let dragging=false, dragOX=0, dragOY=0;
+  let posX=0, posY=0;
+  let toastLevel=0, dropped=false, hinted=false, lastTS=null, audioActive=false;
+  let _cachedPosX=null, _cachedPosY=null;
+
+  // Fire crackle via Web Audio API
+  let aCtx=null, aGain=null;
+  function startAudio() {
+    if (aCtx) return;
+    try {
+      aCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const sr=aCtx.sampleRate, dur=4;
+      const buf=aCtx.createBuffer(1,sr*dur,sr);
+      const d=buf.getChannelData(0);
+      let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0;
+      for (let i=0;i<sr*dur;i++) {
+        const w=Math.random()*2-1;
+        b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+        b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+        b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+        let v=(b0+b1+b2+b3+b4+b5)*0.11;
+        if (Math.random()<0.0008) v+=(Math.random()-0.5)*0.5;
+        d[i]=Math.max(-1,Math.min(1,v*0.12));
+      }
+      const src=aCtx.createBufferSource();
+      src.buffer=buf; src.loop=true;
+      aGain=aCtx.createGain(); aGain.gain.value=0;
+      src.connect(aGain); aGain.connect(aCtx.destination);
+      src.start();
+    } catch(e){}
+  }
+  function setVol(v) {
+    if (!aGain) return;
+    aGain.gain.setTargetAtTime(Math.max(0,v), aCtx.currentTime, 0.3);
+  }
+
+  function init() {
+    if (_cachedPosX===null) {
+      const sr=scene.getBoundingClientRect();
+      const fr=fireWrap.getBoundingClientRect();
+      const fx=fr.left-sr.left+fr.width/2;
+      const fy=fr.top-sr.top+22;
+      const offset=Math.min(200, sr.width*0.45);
+      _cachedPosX=fx-17-offset;
+      _cachedPosY=fy-20;
+    }
+    posX=_cachedPosX;
+    posY=_cachedPosY;
+    stickEl.style.left=posX+'px';
+    stickEl.style.top=posY+'px';
+    stickEl.style.filter='';
+  }
+
+  function mallowTip() {
+    const sr=scene.getBoundingClientRect();
+    const er=stickEl.getBoundingClientRect();
+    return { x:er.left-sr.left+94, y:er.top-sr.top+26 };
+  }
+  function fireTip() {
+    const sr=scene.getBoundingClientRect();
+    const fr=fireWrap.getBoundingClientRect();
+    return { x:fr.left-sr.left+fr.width/2, y:fr.top-sr.top+26 };
+  }
+  function dist(a,b){ return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2); }
+
+  function updateColor() {
+    const stops=[[255,248,244],[252,218,135],[228,148,55],[155,80,30]];
+    const raw=toastLevel*(stops.length-1);
+    const lo=Math.floor(raw), hi=Math.min(stops.length-1,lo+1);
+    const f=raw-lo;
+    const [r,g,b]=stops[lo].map((c,i)=>Math.round(c+(stops[hi][i]-c)*f));
+    mallow.setAttribute('fill',`rgb(${r},${g},${b})`);
+    mallow.setAttribute('stroke',`rgb(${Math.max(0,r-28)},${Math.max(0,g-28)},${Math.max(0,b-18)})`);
+  }
+
+  function doDrop() {
+    dropped=true; audioActive=false;
+    setVol(0);
+    // Capture toasted color
+    const fill=mallow.getAttribute('fill');
+    const stroke=mallow.getAttribute('stroke');
+    // Place toasted marshmallow to the right of the fire
+    const sr=scene.getBoundingClientRect();
+    const fr=fireWrap.getBoundingClientRect();
+    const placeX=fr.left-sr.left+fr.width+10;
+    const placed=document.createElement('div');
+    placed.style.cssText=`position:absolute;left:${placeX}px;bottom:14px;pointer-events:none;z-index:5;transform:translateY(-12px);opacity:0;transition:transform 0.3s ease,opacity 0.2s ease;`;
+    placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
+    scene.appendChild(placed);
+    requestAnimationFrame(()=>{ placed.style.transform='translateY(0)'; placed.style.opacity='1'; });
+    // Status
+    statusEl.style.opacity='0';
+    // Fade placed marshmallow
+    setTimeout(()=>{
+      placed.style.transition='opacity 1s ease';
+      placed.style.opacity='0';
+      setTimeout(()=>placed.remove(), 1100);
+    }, 4000);
+    // Reset stick quickly so user can toast again
+    setTimeout(()=>{
+      toastLevel=0; dropped=false; lastTS=null;
+      updateColor(); init();
+    }, 500);
+  }
+
+  function loop(ts) {
+    if (!dropped) {
+      const dt=lastTS ? Math.min((ts-lastTS)/1000, 0.05) : 0;
+      lastTS=ts;
+      const tip=mallowTip(), fire=fireTip();
+      const d=dist(tip,fire);
+      const R=75;
+      if (d<R) {
+        const intensity=Math.pow(1-d/R, 0.7);
+        setVol(audioActive ? 0.6+intensity*1.4 : 0);
+        toastLevel=Math.min(1, toastLevel+dt*(1/5));
+        updateColor();
+        stickEl.style.filter=`drop-shadow(0 0 ${Math.round(intensity*16)}px rgba(255,140,0,${(intensity*0.75).toFixed(2)}))`;
+        if (toastLevel>=1) doDrop();
+      } else {
+        setVol(audioActive && d<R*2.5 ? 0.06 : 0);
+        stickEl.style.filter='drop-shadow(0 2px 6px rgba(0,0,0,0.1))';
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+
+  stickEl.addEventListener('pointerdown', e=>{
+    if (dropped) return;
+    e.preventDefault();
+    stickEl.setPointerCapture(e.pointerId);
+    dragging=true; audioActive=true;
+    startAudio();
+    const sr=scene.getBoundingClientRect();
+    dragOX=e.clientX-sr.left-posX;
+    dragOY=e.clientY-sr.top-posY;
+    if (!hinted){ hinted=true; hint.style.opacity='0'; }
+    stickEl.style.zIndex='20';
+  });
+  stickEl.addEventListener('pointermove', e=>{
+    if (!dragging||dropped) return;
+    const sr=scene.getBoundingClientRect();
+    posX=e.clientX-sr.left-dragOX;
+    posY=e.clientY-sr.top-dragOY;
+    stickEl.style.left=posX+'px';
+    stickEl.style.top=posY+'px';
+  });
+  const endDrag=()=>{ dragging=false; };
+  stickEl.addEventListener('pointerup', endDrag);
+  stickEl.addEventListener('pointercancel', endDrag);
+
+  requestAnimationFrame(()=>{ init(); requestAnimationFrame(loop); });
+  window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
+})();
+
+// Works nav: scroll without writing #projects to URL (so refresh returns to top)
+document.getElementById('nav-works')?.addEventListener('click', e => {
+  e.preventDefault();
+  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+});
+
+// Project card cursor tooltip
+(function() {
+  const tip = document.createElement('div');
+  tip.id = 'proj-cursor-tip';
+  document.body.appendChild(tip);
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    const wrap = card.querySelector('.project-img-wrap');
+    card.addEventListener('mouseenter', () => {
+      tip.textContent = wrap.dataset.tip || 'View project →';
+      tip.style.display = 'block';
+    });
+    card.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+  });
+
+  document.addEventListener('mousemove', e => {
+    tip.style.left = e.clientX + 'px';
+    tip.style.top  = e.clientY + 'px';
+  }, { passive: true });
+})();
+
+</script>
+</body>
+</html>
