@@ -296,7 +296,7 @@
   [id$="-modal-box"] { overflow: hidden; }
   [id$="-modal-box"]::before {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
-    background: url('background/puzzle background.png') center/cover no-repeat;
+    background: url('background/puzzle background.jpg') center/cover no-repeat;
     opacity: 0.15; border-radius: inherit;
   }
   [id$="-modal-box"] > * { position: relative; z-index: 1; }
@@ -887,7 +887,7 @@
 
     <a class="project-card" href="agencyroot.html">
       <div class="project-img-wrap" data-tip="Coming soon">
-        <img src="project cover/agencyroot bg.png" alt="">
+        <img src="project cover/agencyroot bg.jpg" alt="">
         <img src="project cover/agencyroot cover.png" alt="AgencyRoot" class="project-cover-center" style="border-radius:12px;">
         <img src="company logo/agencyroot.png" alt="" class="project-company-logo" style="height:24px">
       </div>
@@ -905,7 +905,7 @@
 
     <a class="project-card" href="bytedance.html">
       <div class="project-img-wrap" data-tip="21% increase in feature adoption">
-        <img src="project cover/bytedance bg.png" alt="">
+        <img src="project cover/bytedance bg.jpg" alt="">
         <img src="project cover/bytedance Cover.png" alt="Doudian Order Tools" class="project-cover">
         <img src="company logo/bytedance.png" alt="" class="project-company-logo" style="height:28px">
       </div>
@@ -925,7 +925,7 @@
 
     <a class="project-card" href="salesforce.html">
       <div class="project-img-wrap" data-tip="Cutting alignment cycles by 46%">
-        <img src="project cover/salesforce bg.png" alt="">
+        <img src="project cover/salesforce bg.jpg" alt="">
         <img src="project cover/salesforce cover.png" alt="Salesforce Flow Builder" class="project-cover-center">
         <img src="company logo/salesforce.png" alt="" class="project-company-logo">
       </div>
@@ -944,7 +944,7 @@
 
     <a class="project-card" href="didi.html">
       <div class="project-img-wrap" data-tip="Improving user adoption by 33%">
-        <img src="project cover/didi bg.png" alt="">
+        <img src="project cover/didi bg.jpg" alt="">
         <img src="project cover/didi cover.png" alt="DiDi First-Ride Experience" class="project-cover-bottom">
         <img src="company logo/didi.png" alt="" class="project-company-logo">
       </div>
@@ -1616,7 +1616,7 @@ document.addEventListener('mousemove', e => {
     document.fonts.load('600 34px "DM Sans"'),
     document.fonts.load('italic 400 18px "Cormorant Infant"'),
     document.fonts.ready,
-    loadImg('background/puzzle background.png'),
+    loadImg('background/puzzle background.jpg'),
     ...stickerSrcs.map(loadImg)
   ]).then(results => {
     _bgImg = results[3];
