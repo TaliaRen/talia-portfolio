@@ -82,13 +82,21 @@
 
   /* ── Play grid ── */
   .play-section {
-    padding: 140px 196px 120px;
-    display: flex; flex-direction: column; gap: 80px;
+    padding: 140px 120px 120px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
   }
-  .play-row {
-    display: flex; align-items: center; gap: 80px;
+  .play-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 48px 40px 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 32px;
   }
-  .play-row--reverse { flex-direction: row-reverse; }
 
   /* ── Phone mockup ── */
   .phone-mockup {
@@ -150,23 +158,16 @@
 
   /* ── Play info ── */
   .play-info {
-    flex: 1; display: flex; flex-direction: column; gap: 24px;
-  }
-  .play-tag {
-    display: inline-flex; align-self: flex-start;
-    font-family: 'Outfit', sans-serif; font-size: .72rem; font-weight: 400;
-    letter-spacing: .1em; text-transform: uppercase;
-    padding: 6px 14px; border-radius: 999px;
-    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+    width: 100%; display: flex; flex-direction: column; gap: 16px;
   }
   .play-title {
-    font-family: 'Cormorant Infant', serif; font-style: italic;
-    font-size: 2.4rem; font-weight: 400;
-    color: #fff; line-height: 1.15;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem; font-weight: 400;
+    color: #fff; line-height: 1.2;
   }
   .play-desc {
-    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 300;
-    color: rgba(255,255,255,0.6); line-height: 1.75;
+    font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 300;
+    color: rgba(255,255,255,0.6); line-height: 1.7;
   }
   .play-link {
     display: inline-flex; align-self: flex-start; align-items: center; gap: 8px;
@@ -175,13 +176,12 @@
     border-bottom: 1px solid rgba(255,255,255,0.3);
     padding-bottom: 2px;
     transition: border-color .2s, color .2s;
+    margin-top: 8px;
   }
   .play-link:hover { border-color: #fff; }
 
   @media (max-width: 960px) {
-    .play-section { padding: 120px 32px 80px; }
-    .play-row { flex-direction: column; gap: 48px; }
-    .play-row--reverse { flex-direction: column; }
+    .play-section { padding: 120px 32px 80px; grid-template-columns: 1fr; }
   }
 
   /* ── Footer ── */
@@ -262,21 +262,20 @@
 <main>
   <div class="play-section">
 
-    <div class="play-row">
+    <div class="play-card">
       <!-- Phone mockup -->
       <div class="phone-mockup">
         <div class="phone-island"></div>
         <div class="phone-screen">
-          <iframe src="vibe coding/truth or dare/index.html" scrolling="no" title="Truthly"></iframe>
+          <iframe src="https://truthordare-self.vercel.app/" scrolling="no" title="Truthly"></iframe>
         </div>
       </div>
 
       <!-- Info -->
       <div class="play-info">
-        <span class="play-tag">Vibe Coding</span>
-        <h2 class="play-title">Truthly — Truth or Dare</h2>
-        <p class="play-desc">A beautifully designed Truth or Dare app built for parties and late-night hangouts. Swipe through questions, dare your friends, and let the night unfold.</p>
-        <a class="play-link" href="vibe coding/truth or dare/index.html" target="_blank">Try it full screen ↗</a>
+        <h2 class="play-title">Truthly</h2>
+        <p class="play-desc">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages, creating playful, flexible, and frictionless interactions</p>
+        <a class="play-link" href="https://truthordare-self.vercel.app/" target="_blank">Try it full screen ↗</a>
       </div>
     </div>
 
