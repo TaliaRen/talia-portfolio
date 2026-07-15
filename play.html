@@ -81,14 +81,36 @@
   main { flex:1; }
 
   /* ── Play grid ── */
+  .play-wrapper {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 180px 80px 120px;
+    width: 100%;
+  }
+  .play-filters {
+    display: flex; gap: 10px;
+    margin-bottom: 48px;
+  }
+  .play-filter {
+    font-family: 'Outfit', sans-serif; font-size: .875rem; font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    padding: 7px 18px;
+    cursor: pointer;
+    transition: color .2s, background .2s, border-color .2s;
+  }
+  .play-filter:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.10); }
+  .play-filter.active {
+    color: #fff;
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.25);
+  }
   .play-section {
-    padding: 140px 80px 120px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
-    max-width: 1360px;
-    margin: 0 auto;
-    width: 100%;
     align-items: start;
   }
   .play-card {
@@ -98,6 +120,10 @@
     padding: 0;
     display: flex; flex-direction: column; align-items: center; gap: 0;
     min-width: 0;
+    transition: opacity .25s, transform .25s;
+  }
+  .play-card.hidden {
+    display: none;
   }
   .play-card-images {
     display: flex; gap: 16px; width: 100%;
@@ -105,7 +131,7 @@
   }
   .play-card-images img {
     flex: 1; min-width: 0;
-    aspect-ratio: 1 / 1;
+    height: 260px;
     object-fit: cover; object-position: center;
     display: block;
   }
@@ -113,6 +139,37 @@
     padding: 32px 40px 40px;
     display: flex; flex-direction: column; gap: 16px;
     width: 100%;
+  }
+
+  /* ── DIY card collage ── */
+  .diy-collage {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-top: 40px;
+    flex-shrink: 0;
+  }
+  .diy-img {
+    position: absolute;
+    object-fit: cover;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  }
+  .diy-img-1 {
+    width: 52%;
+    height: 200px;
+    left: 48px;
+    top: 28px;
+    transform: rotate(-5deg);
+    z-index: 1;
+  }
+  .diy-img-2 {
+    width: 46%;
+    height: 180px;
+    right: 44px;
+    top: 60px;
+    transform: rotate(7deg);
+    z-index: 2;
   }
 
   /* ── Phone mockup ── */
@@ -223,7 +280,8 @@
   .play-link:hover { border-color: #fff; }
 
   @media (max-width: 960px) {
-    .play-section { padding: 120px 32px 80px; grid-template-columns: 1fr; }
+    .play-wrapper { padding: 120px 32px 80px; }
+    .play-section { grid-template-columns: 1fr; }
   }
 
   /* ── Footer ── */
@@ -302,42 +360,61 @@
 </nav>
 
 <main>
-  <div class="play-section">
+  <div class="play-wrapper">
+    <div class="play-filters">
+      <button class="play-filter active" data-filter="all">All</button>
+      <button class="play-filter" data-filter="vibe-coding">Vibe Coding</button>
+      <button class="play-filter" data-filter="physical">Physical</button>
+      <button class="play-filter" data-filter="visual">Visual</button>
+    </div>
+    <div class="play-section">
 
-    <div class="play-card">
-      <div style="padding:48px 40px 0; width:100%; display:flex; align-items:center; justify-content:center; gap:20px;">
-        <div style="width:40px;"></div>
-        <div class="phone-mockup">
-          <div class="phone-island"></div>
-          <div class="phone-screen">
-            <iframe src="https://truthordare-self.vercel.app/" scrolling="no" title="Truthly"></iframe>
+      <div class="play-card" data-category="vibe-coding">
+        <div style="padding:48px 40px 0; width:100%; display:flex; align-items:center; justify-content:center; gap:20px;">
+          <div style="width:40px;"></div>
+          <div class="phone-mockup">
+            <div class="phone-island"></div>
+            <div class="phone-screen">
+              <iframe src="https://truthordare-self.vercel.app/" scrolling="no" title="Truthly"></iframe>
+            </div>
           </div>
+          <p style="font-family:'Cormorant Infant',serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,0.45); white-space:nowrap;">Click me</p>
         </div>
-        <p style="font-family:'Cormorant Infant',serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,0.45); white-space:nowrap;">Click me</p>
-      </div>
-      <div class="play-card-body">
-        <div class="play-title-row">
-          <h2 class="play-title">Truthly</h2>
-          <span class="play-tooltip">i
-            <span class="play-tooltip-text">Inspired by a friend who loves playing Truth or Dare but always spends too much time searching for good prompts</span>
-          </span>
+        <div class="play-card-body">
+          <div class="play-title-row">
+            <h2 class="play-title">Truthly</h2>
+            <span class="play-tooltip">i
+              <span class="play-tooltip-text">Inspired by a friend who loves playing Truth or Dare but always spends too much time searching for good prompts</span>
+            </span>
+          </div>
+          <p class="play-desc">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages, creating playful, flexible, and frictionless interactions</p>
+          <a class="play-link" href="https://truthordare-self.vercel.app/" target="_blank">View it full screen ↗</a>
         </div>
-        <p class="play-desc">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages, creating playful, flexible, and frictionless interactions</p>
-        <a class="play-link" href="https://truthordare-self.vercel.app/" target="_blank">View it full screen ↗</a>
       </div>
-    </div>
 
-    <div class="play-card">
-      <div class="play-card-images">
-        <img src="playground/temple of heaven.png" alt="Geometric illustration">
-        <img src="playground/true temple of heaven.png" alt="Real Temple of Heaven">
+      <div class="play-card" data-category="visual">
+        <div class="play-card-images">
+          <img src="playground/temple of heaven.png" alt="Geometric illustration">
+          <img src="playground/true temple of heaven.png" alt="Real Temple of Heaven">
+        </div>
+        <div class="play-card-body">
+          <h2 class="play-title">Geometric illustrations</h2>
+          <p class="play-desc">A geometric illustration created in Adobe Illustrator, turning memorable architecture into playful visual stories</p>
+        </div>
       </div>
-      <div class="play-card-body">
-        <h2 class="play-title">Geometric illustrations</h2>
-        <p class="play-desc">A geometric illustration created in Adobe Illustrator, turning memorable architecture into playful visual stories</p>
-      </div>
-    </div>
 
+      <div class="play-card" data-category="physical">
+        <div class="diy-collage">
+          <img class="diy-img diy-img-1" src="playground/pumpkin.jpg" alt="Pumpkin carving">
+          <img class="diy-img diy-img-2" src="playground/pottery.jpg" alt="Pottery">
+        </div>
+        <div class="play-card-body">
+          <h2 class="play-title">DIY</h2>
+          <p class="play-desc">Little things I make with my hands, simply for the joy of creating</p>
+        </div>
+      </div>
+
+    </div>
   </div>
 </main>
 
@@ -596,6 +673,25 @@
 
   requestAnimationFrame(()=>{ init(); requestAnimationFrame(loop); });
   window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
+})();
+
+(function() {
+  const filters = document.querySelectorAll('.play-filter');
+  const cards = document.querySelectorAll('.play-card');
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(card => {
+        if (f === 'all' || card.dataset.category === f) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
 })();
 </script>
 </body>
