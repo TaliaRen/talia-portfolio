@@ -77,8 +77,112 @@
   }
   .nav-link:hover, .nav-link:active { color:#41E981; }
 
-  /* ── Main content placeholder ── */
-  main { flex:1; min-height:100vh; }
+  /* ── Main content ── */
+  main { flex:1; }
+
+  /* ── Play grid ── */
+  .play-section {
+    padding: 140px 196px 120px;
+    display: flex; flex-direction: column; gap: 80px;
+  }
+  .play-row {
+    display: flex; align-items: center; gap: 80px;
+  }
+  .play-row--reverse { flex-direction: row-reverse; }
+
+  /* ── Phone mockup ── */
+  .phone-mockup {
+    flex: 0 0 auto;
+    position: relative;
+    width: 280px;
+    height: 596px;
+    background: #111;
+    border-radius: 46px;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,0.12),
+      0 0 0 8px #1a1a1a,
+      0 0 0 9.5px rgba(255,255,255,0.07),
+      0 32px 80px rgba(0,0,0,0.6);
+  }
+  /* side buttons */
+  .phone-mockup::before {
+    content: '';
+    position: absolute;
+    right: -10px; top: 120px;
+    width: 4px; height: 60px;
+    background: #1a1a1a;
+    border-radius: 0 3px 3px 0;
+    box-shadow: 0 72px 0 #1a1a1a;
+  }
+  .phone-mockup::after {
+    content: '';
+    position: absolute;
+    left: -10px; top: 100px;
+    width: 4px; height: 36px;
+    background: #1a1a1a;
+    border-radius: 3px 0 0 3px;
+    box-shadow: 0 52px 0 #1a1a1a, 0 100px 0 #1a1a1a;
+  }
+  /* Dynamic Island */
+  .phone-island {
+    position: absolute;
+    top: 14px; left: 50%; transform: translateX(-50%);
+    width: 88px; height: 28px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 10;
+  }
+  /* Screen */
+  .phone-screen {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 46px;
+    overflow: hidden;
+  }
+  .phone-screen iframe {
+    width: 390px;
+    height: 844px;
+    border: none;
+    transform-origin: top left;
+    transform: scale(0.7179);
+    pointer-events: all;
+  }
+
+  /* ── Play info ── */
+  .play-info {
+    flex: 1; display: flex; flex-direction: column; gap: 24px;
+  }
+  .play-tag {
+    display: inline-flex; align-self: flex-start;
+    font-family: 'Outfit', sans-serif; font-size: .72rem; font-weight: 400;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 999px;
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+  }
+  .play-title {
+    font-family: 'Cormorant Infant', serif; font-style: italic;
+    font-size: 2.4rem; font-weight: 400;
+    color: #fff; line-height: 1.15;
+  }
+  .play-desc {
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 300;
+    color: rgba(255,255,255,0.6); line-height: 1.75;
+  }
+  .play-link {
+    display: inline-flex; align-self: flex-start; align-items: center; gap: 8px;
+    font-family: 'Outfit', sans-serif; font-size: .9rem; font-weight: 400;
+    color: #fff; text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 2px;
+    transition: border-color .2s, color .2s;
+  }
+  .play-link:hover { border-color: #fff; }
+
+  @media (max-width: 960px) {
+    .play-section { padding: 120px 32px 80px; }
+    .play-row { flex-direction: column; gap: 48px; }
+    .play-row--reverse { flex-direction: column; }
+  }
 
   /* ── Footer ── */
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
@@ -155,8 +259,28 @@
   <a class="nav-link" href="about.html">About</a>
 </nav>
 
-<main style="display:flex; align-items:center; justify-content:center;">
-  <p style="font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1.15rem; color:#ccc; letter-spacing:0.02em;">Coming soon...</p>
+<main>
+  <div class="play-section">
+
+    <div class="play-row">
+      <!-- Phone mockup -->
+      <div class="phone-mockup">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <iframe src="vibe coding/truth or dare/index.html" scrolling="no" title="Truthly"></iframe>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="play-info">
+        <span class="play-tag">Vibe Coding</span>
+        <h2 class="play-title">Truthly — Truth or Dare</h2>
+        <p class="play-desc">A beautifully designed Truth or Dare app built for parties and late-night hangouts. Swipe through questions, dare your friends, and let the night unfold.</p>
+        <a class="play-link" href="vibe coding/truth or dare/index.html" target="_blank">Try it full screen ↗</a>
+      </div>
+    </div>
+
+  </div>
 </main>
 
 <footer>
