@@ -9,7 +9,13 @@
 <link rel="preload" href="fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <style>
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; font-style: normal; font-display: block;
+  }
   @font-face {
     font-family: 'Poppins';
     src: url('fonts/Poppins/Poppins-Regular.woff2') format('woff2');
@@ -77,8 +83,307 @@
   }
   .nav-link:hover, .nav-link:active { color:#41E981; }
 
-  /* ── Main content placeholder ── */
-  main { flex:1; min-height:100vh; }
+  /* ── Main content ── */
+  main { flex:1; }
+
+  /* ── Sidebar ── */
+  .case-sidebar {
+    position:fixed; left:40px; top:50%; transform:translateY(-50%);
+    z-index:100; display:flex; flex-direction:column; gap:20px;
+  }
+  .case-sidebar a {
+    font-family:'Outfit',sans-serif; font-size:.78rem; font-weight:300;
+    color:rgba(255,255,255,0.35); letter-spacing:.06em; text-transform:uppercase;
+    text-decoration:none; transition:color 0.2s;
+    position:relative; padding-left:16px;
+  }
+  .case-sidebar a::before {
+    content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+    width:6px; height:1px; background:currentColor; transition:width 0.2s, color 0.2s;
+  }
+  .case-sidebar a.active, .case-sidebar a:hover { color:rgba(255,255,255,0.75); }
+  .case-sidebar a.active::before { width:12px; }
+  @media(max-width:1100px) { .case-sidebar { display:none; } }
+
+  /* ── Anchor scroll offset ── */
+  #overview, #background, #problem, #research, #solution, #iteration, #takeaways { scroll-margin-top: 140px; }
+
+  /* ── Research section ── */
+  .bt-research-section {
+    padding: 0 196px 180px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .bt-research-inner {
+    width: 100%; max-width: 860px;
+    display: flex; flex-direction: column; gap: 48px;
+  }
+  .bt-research-header {
+    font-family: 'Outfit', sans-serif; font-size: .75rem; font-weight: 300;
+    color: #63BDEE; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .bt-research-title {
+    font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 400;
+    color: #fff; line-height: 1.25;
+  }
+  .bt-compare-grid {
+    display: flex; gap: 32px; align-items: flex-start;
+  }
+  .bt-compare-col {
+    flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px;
+  }
+  .bt-compare-pill {
+    display: inline-flex; align-self: flex-start;
+    font-family: 'Outfit', sans-serif; font-size: .875rem; font-weight: 400;
+    padding: 7px 18px; border-radius: 999px;
+  }
+  .bt-compare-pill--system {
+    background: rgba(255,255,255,0.18); color: #fff;
+  }
+  .bt-compare-pill--merchant {
+    background: #63BDEE; color: #0F1511;
+  }
+  .bt-compare-heading {
+    font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 400;
+    color: #fff; line-height: 1.3; margin: 0;
+  }
+  .bt-compare-heading--merchant { color: #63BDEE; }
+  .bt-compare-body {
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 300;
+    color: rgba(255,255,255,0.65); line-height: 1.75; margin: 0;
+  }
+  .bt-compare-img {
+    width: 100%; height: 240px;
+    object-fit: contain; object-position: left center;
+    display: block; border-radius: 12px;
+  }
+  .bt-solution-section {
+    padding: 0 196px 180px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .bt-solution-inner {
+    width: 100%; max-width: 860px;
+    display: flex; flex-direction: column; gap: 48px;
+  }
+  .bt-solution-header {
+    font-family: 'Outfit', sans-serif; font-size: .75rem; font-weight: 300;
+    color: #63BDEE; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .bt-solution-title {
+    font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 400;
+    color: #fff; line-height: 1.25;
+  }
+  .bt-solution-block {
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .bt-solution-img {
+    width: 100%; display: block; border-radius: 12px; margin: 0;
+  }
+  .bt-solution-img--before {
+    width: 70%;
+    border-radius: 0;
+    background: transparent;
+  }
+  .bt-tradeoff-list {
+    display: flex; flex-direction: row; gap: 16px;
+  }
+  .bt-tradeoff-card {
+    padding: 18px 24px; border-radius: 14px;
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 300;
+    color: #fff; line-height: 1.5;
+    background: transparent;
+  }
+  .bt-tradeoff-card--pro {
+    border: 1px solid rgba(99,189,238,0.45);
+    background: rgba(99,189,238,0.12);
+  }
+  .bt-tradeoff-card--con {
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+  }
+  @media(max-width:860px) {
+    .bt-solution-section { padding: 0 32px 80px; }
+  }
+  .bt-iteration-section {
+    padding: 0 196px 180px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .bt-iteration-inner {
+    width: 100%; max-width: 860px;
+    display: flex; flex-direction: column; gap: 48px;
+  }
+  .bt-iteration-header {
+    font-family: 'Outfit', sans-serif; font-size: .75rem; font-weight: 300;
+    color: #63BDEE; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .bt-iteration-title {
+    font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 400;
+    color: #fff; line-height: 1.25;
+  }
+  .bt-iteration-block {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .bt-iteration-label {
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 300;
+    color: rgba(255,255,255,0.75); line-height: 1.5; margin: 0;
+  }
+  .bt-iteration-label strong {
+    font-weight: 400; color: #fff;
+  }
+  .bt-iteration-video {
+    width: 100%; border-radius: 12px; display: block;
+  }
+  .bt-iteration-critique {
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 300;
+    color: #fff; line-height: 1.5; margin: 0;
+    padding: 18px 24px; border-radius: 14px;
+    border: 1px solid rgba(255,107,107,0.45);
+    background: rgba(255,107,107,0.08);
+  }
+  @media(max-width:860px) {
+    .bt-iteration-section { padding: 0 32px 80px; }
+  }
+  @media(max-width:860px) {
+    .bt-research-section { padding: 0 32px 80px; }
+    .bt-compare-grid { flex-direction: column; }
+  }
+
+  /* ── Problem section ── */
+  .bt-problem-section {
+    padding: 0 196px 180px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .bt-problem-inner {
+    width: 100%; max-width: 860px;
+    display: flex; flex-direction: column; gap: 48px;
+  }
+  .bt-problem-header {
+    font-family: 'Outfit', sans-serif; font-size: .75rem; font-weight: 300;
+    color: #63BDEE; letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: calc(16px - 48px);
+  }
+  .bt-problem-item { display: flex; flex-direction: column; gap: 24px; }
+  .bt-problem-title {
+    font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 400;
+    color: #fff; line-height: 1.25;
+  }
+  .bt-problem-body {
+    font-family: 'Outfit', sans-serif; font-size: 1.075rem; font-weight: 300;
+    color: rgba(255,255,255,0.75); line-height: 1.8; margin: 0;
+  }
+  @media(max-width:860px) {
+    .bt-problem-section { padding: 0 32px 80px; }
+  }
+
+  /* ── Background section ── */
+  .bt-bg-section {
+    padding: 0 196px 180px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .bt-bg-inner {
+    width: 100%; max-width: 860px;
+    display: flex; flex-direction: column; gap: 48px;
+  }
+  .bt-bg-header {
+    font-family: 'Outfit', sans-serif; font-size: .75rem; font-weight: 300;
+    color: #63BDEE; letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: calc(16px - 48px);
+  }
+  .bt-bg-title {
+    font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 400;
+    color: #fff; line-height: 1.25;
+  }
+  .bt-bg-body {
+    font-family: 'Outfit', sans-serif; font-size: 1.075rem; font-weight: 300;
+    color: rgba(255,255,255,0.75); line-height: 1.8; margin: 0;
+  }
+  @media(max-width:860px) {
+    .bt-bg-section { padding: 0 32px 80px; }
+  }
+
+  /* ── Overview section ── */
+  .bt-overview-section {
+    padding: 0 196px 180px;
+    display: flex; flex-direction: column; align-items: center; gap: 48px;
+  }
+  .bt-overview-text {
+    width: 100%; max-width: 860px;
+    display: flex; flex-direction: column; gap: 48px;
+  }
+  .bt-section-block { display: flex; flex-direction: column; gap: 24px; }
+  .bt-block-label {
+    font-family: 'Outfit', sans-serif; font-size: .75rem; font-weight: 300;
+    color: #63BDEE; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .bt-block-text {
+    font-family: 'Outfit', sans-serif; font-size: 1.075rem; font-weight: 300;
+    color: rgba(255,255,255,0.85); line-height: 1.8; margin: 0;
+  }
+  .bt-impact-metrics { display: flex; gap: 64px; align-items: flex-end; }
+  .bt-cover-frame {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 860px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bt-cover-frame img { width: 100%; height: auto; display: block; }
+  .bt-cover-frame video {
+    position: absolute;
+    width: 80%; height: auto;
+    display: block;
+    border-radius: 16px;
+    clip-path: inset(0 1px 1px 0 round 16px);
+  }
+  .bt-metric { display: flex; flex-direction: column; gap: 6px; }
+  .bt-metric-num {
+    font-family: 'Cormorant Infant', serif; font-size: 21px; font-weight: 400;
+    color: #fff; letter-spacing: -.01em;
+  }
+  .bt-metric-sub {
+    font-family: 'Outfit', sans-serif; font-size: .945rem; font-weight: 300;
+    color: rgba(255,255,255,0.5);
+  }
+  @media(max-width:860px) {
+    .bt-overview-section { padding: 0 32px 80px; }
+    .bt-impact-metrics { flex-wrap: wrap; gap: 32px; }
+  }
+
+  /* ── Hero section ── */
+  .bt-hero-section {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-height:100vh; padding:120px 196px 80px; gap:64px;
+  }
+  .bt-top {
+    display:flex; flex-direction:column; gap:12px;
+    width:100%; max-width:860px;
+  }
+  .bt-logo-lockup {
+    display:flex; align-items:center; gap:14px;
+  }
+  .bt-logo-lockup img { height:52px; width:auto; }
+  .bt-headline {
+    font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:300;
+    color:#fff; line-height:1.3;
+  }
+  .bt-meta {
+    display:flex; flex-wrap:nowrap; gap:80px; align-items:flex-start;
+    width:100%; max-width:860px; padding-top:40px;
+  }
+  .bt-meta-col label {
+    font-family:'Outfit',sans-serif; font-size:.8rem; font-weight:300;
+    color:#63BDEE; letter-spacing:.08em; text-transform:uppercase;
+    display:block; margin-bottom:12px;
+  }
+  .bt-meta-col p {
+    font-family:'Outfit',sans-serif; font-size:1.045rem; font-weight:200;
+    color:rgba(255,255,255,0.92); line-height:1.9; margin:0;
+  }
+  @media(max-width:860px) {
+    .bt-hero-section { padding:120px 32px 80px; gap:48px; }
+    .bt-headline { font-size:1.75rem; }
+    .bt-meta { flex-wrap:wrap; gap:32px; }
+  }
+  @media(max-width:480px) {
+    .bt-hero-section { padding:100px 24px 60px; }
+  }
 
   /* ── Footer ── */
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
@@ -155,8 +460,208 @@
   <a class="nav-link" href="about.html">About</a>
 </nav>
 
-<main style="display:flex; align-items:center; justify-content:center;">
-  <p style="font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1.15rem; color:#ccc; letter-spacing:0.02em;">Coming soon...</p>
+<aside class="case-sidebar">
+  <a href="#overview" class="active">Overview</a>
+  <a href="#background">Background</a>
+  <a href="#problem">Problem</a>
+  <a href="#research">Research</a>
+  <a href="#solution">Solution</a>
+  <a href="#iteration">Iteration</a>
+  <a href="#takeaways">Takeaways</a>
+</aside>
+
+<main>
+  <section class="bt-hero-section" id="overview">
+    <div class="bt-top">
+      <div class="bt-logo-lockup">
+        <img src="company logo/agencyroot.png" alt="AgencyRoot">
+      </div>
+      <h1 class="bt-headline">Transforming repetitive CRM workflows with a lightweight AI action hub</h1>
+    </div>
+    <div class="bt-meta">
+      <div class="bt-meta-col">
+        <label>Timeline</label>
+        <p>Summer 2025</p>
+      </div>
+      <div class="bt-meta-col">
+        <label>Team</label>
+        <p>1 Product Managers<br>3 Developers</p>
+      </div>
+      <div class="bt-meta-col">
+        <label>Role</label>
+        <p>Product Design<br>Problem Framing<br>UX Research</p>
+      </div>
+      <div class="bt-meta-col">
+        <label>Tools</label>
+        <p>Figma</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="bt-overview-section">
+    <div class="bt-overview-text">
+      <div class="bt-section-block">
+        <span class="bt-block-label">Context</span>
+        <p class="bt-block-text">This project was completed during my internship at ByteDance, within the Douyin E-commerce team (TikTok Shop China), focusing on the merchant-facing platform: <span style="color:#63BDEE;">Doudian</span></p>
+      </div>
+      <div class="bt-section-block">
+        <span class="bt-block-label">Impact</span>
+        <div class="bt-impact-metrics">
+          <div class="bt-metric">
+            <span class="bt-metric-num">+ 27%</span>
+            <span class="bt-metric-sub">Adoption for Order Tools</span>
+          </div>
+          <div class="bt-metric">
+            <span class="bt-metric-num">+ 12%</span>
+            <span class="bt-metric-sub">Screen efficiency</span>
+          </div>
+          <div class="bt-metric">
+            <span class="bt-metric-num">- 5%</span>
+            <span class="bt-metric-sub">CPO (Calls per Order)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width:100%; max-width:860px; display:flex; flex-direction:column; gap:24px;">
+      <span class="bt-block-label">Design Snapshot</span>
+      <p class="bt-block-text" style="color:rgba(255,255,255,0.75);">I integrated Order Tools into Order Management, enabling merchants to handle exception orders without leaving their primary workflow. To accommodate the integration, I also restructured the filtering area to improve screen efficiency and optimize the use of vertical space</p>
+    </div>
+    <div class="bt-cover-frame">
+      <img src="project cover/bytedance bg.jpg" alt="">
+      <video autoplay loop muted playsinline>
+        <source src="bytedance/final version.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <section class="bt-bg-section" id="background">
+    <div class="bt-bg-inner">
+      <span class="bt-bg-header">Background</span>
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <h2 class="bt-bg-title">Where merchants get their work done</h2>
+        <p class="bt-bg-body">Douyin E-commerce merchants process thousands of orders every day in <span style="color:#63BDEE; font-weight:400;">Order Management</span>. But when exceptions arise, such as address changes or shipping negotiations, they rely on a separate module, <span style="color:#63BDEE; font-weight:400;">Order Tools</span>, to handle these cases</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bt-problem-section" id="problem">
+    <div class="bt-problem-inner">
+      <span class="bt-problem-header">Problem</span>
+      <div class="bt-problem-item">
+        <h2 class="bt-problem-title">Out of context, out of use</h2>
+        <div style="display:flex; gap:48px; align-items:flex-start;">
+          <p class="bt-problem-body" style="flex:1;">Order Tools lived outside merchants' primary workflow, forcing them to constantly switch context whenever they needed to take action. Instead of supporting high-frequency operational tasks, the fragmented experience interrupted merchants' workflow and made critical tools difficult to discover and use, ultimately resulting in low adoption of Order Tools</p>
+          <img src="bytedance/problem.png" alt="Problem" style="flex:0 0 360px; width:360px; height:auto; display:block; border-radius:16px;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bt-research-section" id="research">
+    <div class="bt-research-inner">
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <span class="bt-research-header">Research</span>
+        <h2 class="bt-research-title">A system–merchant mismatch</h2>
+      </div>
+      <div class="bt-compare-grid">
+        <div class="bt-compare-col">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <h3 class="bt-compare-heading">Feature-driven</h3>
+            <span class="bt-compare-pill bt-compare-pill--system">System Flow</span>
+          </div>
+          <p class="bt-compare-body">The system is structured around features and modules. Order Management and Order Tools are treated as two separate destinations, each with its own entry point</p>
+          <img class="bt-compare-img" src="bytedance/system flow.png" alt="System Flow">
+        </div>
+        <div class="bt-compare-col">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <h3 class="bt-compare-heading bt-compare-heading--merchant">Action-driven</h3>
+            <span class="bt-compare-pill bt-compare-pill--merchant">Merchant Logic</span>
+          </div>
+          <p class="bt-compare-body">Merchants, however, don't think in features. They focus on what needs attention right now and what action to take next</p>
+          <img class="bt-compare-img" src="bytedance/merchant logic.png" alt="Merchant Logic">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bt-solution-section" id="solution">
+    <div class="bt-solution-inner">
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <span class="bt-solution-header">Solution</span>
+        <h2 class="bt-solution-title">How did I integrate order tools into the workflow?</h2>
+      </div>
+      <div class="bt-solution-block">
+        <span class="bt-compare-pill bt-compare-pill--system" style="align-self:flex-start;">Before</span>
+        <img class="bt-solution-img bt-solution-img--before" src="bytedance/before1.png" alt="Before">
+      </div>
+      <div class="bt-solution-block">
+        <span class="bt-compare-pill bt-compare-pill--merchant" style="align-self:flex-start;">After</span>
+        <img class="bt-solution-img" src="bytedance/solution1.png" alt="After">
+        <div class="bt-tradeoff-list">
+          <div class="bt-tradeoff-card bt-tradeoff-card--pro">Value-led cues that turns information to actions</div>
+          <div class="bt-tradeoff-card bt-tradeoff-card--pro">Designed for scale and edge cases</div>
+          <div class="bt-tradeoff-card bt-tradeoff-card--con">Higher engineering and design system investment</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bt-solution-section">
+    <div class="bt-solution-inner">
+      <h2 class="bt-solution-title">How did I make room for integration?</h2>
+      <div class="bt-solution-block">
+        <span class="bt-compare-pill bt-compare-pill--system" style="align-self:flex-start;">Before</span>
+        <img class="bt-solution-img bt-solution-img--before" src="bytedance/before2.png" alt="Before">
+      </div>
+      <div class="bt-solution-block">
+        <span class="bt-compare-pill bt-compare-pill--merchant" style="align-self:flex-start;">After</span>
+        <img class="bt-solution-img" src="bytedance/solution2.png" alt="After">
+      </div>
+    </div>
+  </section>
+
+  <section class="bt-iteration-section" id="iteration">
+    <div class="bt-iteration-inner">
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <span class="bt-iteration-header">Iteration</span>
+        <h2 class="bt-iteration-title">Why didn't we move forward with them?</h2>
+      </div>
+      <div style="display:flex; gap:32px; align-items:flex-start;">
+        <div class="bt-iteration-block" style="flex:1; min-width:0;">
+          <p class="bt-iteration-label"><strong>V1:</strong> A button that opens Order Tools with a side panel</p>
+          <video class="bt-iteration-video" autoplay loop muted playsinline>
+            <source src="bytedance/v1.mp4" type="video/mp4">
+          </video>
+          <p class="bt-iteration-critique">Improved access and order management context, but did not change how users decide when and why to take action</p>
+        </div>
+        <div class="bt-iteration-block" style="flex:1; min-width:0;">
+          <p class="bt-iteration-label"><strong>V2:</strong> An overview showing all pending actions</p>
+          <video class="bt-iteration-video" autoplay loop muted playsinline>
+            <source src="bytedance/v2.mp4" type="video/mp4">
+          </video>
+          <p class="bt-iteration-critique">Data points aggregation caused information overload, making it harder to guide action as the system scaled</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bt-solution-section" id="takeaways">
+    <div class="bt-solution-inner">
+      <div style="display:flex; flex-direction:column; gap:48px;">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <span class="bt-solution-header">Takeaways</span>
+          <h2 class="bt-solution-title">What I've learned</h2>
+        </div>
+        <div style="display:flex; gap:48px; align-items:flex-start;">
+          <ul style="list-style:disc; padding-left:1.2em; display:flex; flex-direction:column; gap:20px; margin:0; flex:1;">
+            <li style="font-family:'Outfit',sans-serif; font-size:1.075rem; font-weight:300; color:rgba(255,255,255,0.75); line-height:1.8;">Products constantly evolve through the addition, removal, and adjustment of features, and being able to anticipate and accommodate this change is central to building scalable products</li>
+            <li style="font-family:'Outfit',sans-serif; font-size:1.075rem; font-weight:300; color:rgba(255,255,255,0.75); line-height:1.8;">In a mature ecosystem, users rely on muscle memory. Design interventions should focus on seamless integration rather than radical change</li>
+          </ul>
+          <img src="bytedance/badge.png" alt="Badge" style="width:160px; flex-shrink:0;">
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -245,7 +750,19 @@
     }
   })();
 
-  });
+(function() {
+  const links = document.querySelectorAll('.case-sidebar a');
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  function update() {
+    let current = 0;
+    sections.forEach((sec, i) => {
+      if (sec && window.scrollY >= sec.offsetTop - window.innerHeight / 2) current = i;
+    });
+    links.forEach((a, i) => a.classList.toggle('active', i === current));
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
 
 (function() {
   const btn = document.getElementById('footer-email-btn');
