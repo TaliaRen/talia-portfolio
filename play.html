@@ -82,16 +82,17 @@
 
   /* ── Play grid ── */
   .play-section {
-    padding: 140px 120px 120px;
+    padding: 140px 80px 120px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
-    max-width: 1200px;
+    max-width: 1360px;
     margin: 0 auto;
     width: 100%;
+    align-items: start;
   }
   .play-card {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.16);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 24px;
     padding: 48px 40px 40px;
@@ -102,8 +103,8 @@
   .phone-mockup {
     flex: 0 0 auto;
     position: relative;
-    width: 280px;
-    height: 596px;
+    width: 250px;
+    height: 532px;
     background: #111;
     border-radius: 46px;
     box-shadow:
@@ -135,7 +136,7 @@
   .phone-island {
     position: absolute;
     top: 14px; left: 50%; transform: translateX(-50%);
-    width: 88px; height: 28px;
+    width: 80px; height: 25px;
     background: #000;
     border-radius: 20px;
     z-index: 10;
@@ -152,7 +153,7 @@
     height: 844px;
     border: none;
     transform-origin: top left;
-    transform: scale(0.7179);
+    transform: scale(0.641);
     pointer-events: all;
   }
 
@@ -160,11 +161,36 @@
   .play-info {
     width: 100%; display: flex; flex-direction: column; gap: 16px;
   }
+  .play-title-row {
+    display: flex; align-items: center; gap: 10px;
+  }
   .play-title {
     font-family: 'Outfit', sans-serif;
     font-size: 1.4rem; font-weight: 400;
     color: #fff; line-height: 1.2;
   }
+  .play-tooltip {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.55);
+    font-family: 'Outfit', sans-serif; font-size: .68rem; font-weight: 400;
+    cursor: default;
+  }
+  .play-tooltip-text {
+    position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+    width: 260px;
+    background: #1E2620;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-family: 'Outfit', sans-serif; font-size: .85rem; font-weight: 300;
+    color: rgba(255,255,255,0.75); line-height: 1.6;
+    opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .play-tooltip:hover .play-tooltip-text { opacity: 1; visibility: visible; }
   .play-desc {
     font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 300;
     color: rgba(255,255,255,0.6); line-height: 1.7;
@@ -273,10 +299,19 @@
 
       <!-- Info -->
       <div class="play-info">
-        <h2 class="play-title">Truthly</h2>
+        <div class="play-title-row">
+          <h2 class="play-title">Truthly</h2>
+          <span class="play-tooltip">i
+            <span class="play-tooltip-text">Fully vibe-coded with Claude Code and deployed as a PWA — installable on your phone like a native app</span>
+          </span>
+        </div>
         <p class="play-desc">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages, creating playful, flexible, and frictionless interactions</p>
         <a class="play-link" href="https://truthordare-self.vercel.app/" target="_blank">Try it full screen ↗</a>
       </div>
+    </div>
+
+    <div class="play-card">
+      <p style="font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1.1rem; color:rgba(255,255,255,0.4); padding:80px 0;">Coming soon...</p>
     </div>
 
   </div>
