@@ -270,8 +270,17 @@
     font-family: 'Outfit', sans-serif; font-size: 1.075rem; font-weight: 300;
     color: rgba(255,255,255,0.75); line-height: 1.8; margin: 0;
   }
+  .bt-problem-row { display:flex; gap:48px; align-items:flex-start; }
+  .bt-problem-row-img {
+    flex:0 0 280px; width:280px; height:auto; display:block;
+    border-radius:16px; align-self:center;
+  }
   @media(max-width:860px) {
     .bt-problem-section { padding: 0 32px 80px; }
+  }
+  @media(max-width:700px) {
+    .bt-problem-row { flex-direction:column; }
+    .bt-problem-row-img { width:100%; flex:none; align-self:stretch; }
   }
 
   /* ── Background section ── */
@@ -529,19 +538,19 @@
       <span class="bt-problem-header">Problem</span>
       <div class="bt-problem-item">
         <h2 class="bt-problem-title">Repetitive workflows made simple tasks inefficient at scale</h2>
-        <div style="display:flex; gap:48px; align-items:flex-start;">
+        <div class="bt-problem-row">
           <div style="display:flex; flex-direction:column; gap:24px; flex:1;">
             <p class="bt-problem-body">Crop insurance agents manage client records, policy details, and large volumes of documents. Even simple tasks required them to search for the right client, navigate across multiple pages and locate the appropriate feature.</p>
             <p class="bt-problem-body">One task was manageable. At scale, however, the same workflow had to be repeated dozens of times, turning a straightforward task into hours of manual, repetitive work.</p>
           </div>
-          <img src="agencyroot/problem1.png" alt="Problem 1" style="flex:0 0 280px; width:280px; height:auto; display:block; border-radius:16px; align-self:center;">
+          <img class="bt-problem-row-img" src="agencyroot/problem1.png" alt="Problem 1">
         </div>
       </div>
       <div class="bt-problem-item">
         <h2 class="bt-problem-title">AI create another layer of complexity</h2>
-        <div style="display:flex; gap:48px; align-items:flex-start;">
+        <div class="bt-problem-row">
           <p class="bt-problem-body" style="flex:1;">Crop insurance agents relied on familiar tools and established workflows, and many had limited experience with AI-powered products. Introducing AI could add a new interaction model for users to learn, potentially creating more friction instead of reducing it.</p>
-          <img src="agencyroot/problem2.png" alt="Problem 2" style="flex:0 0 280px; width:280px; height:auto; display:block; border-radius:16px; align-self:center;">
+          <img class="bt-problem-row-img" src="agencyroot/problem2.png" alt="Problem 2">
         </div>
       </div>
     </div>
