@@ -331,12 +331,14 @@
   .bt-cover-frame {
     position: relative; z-index: 1;
     width: 100%; max-width: 860px;
+    aspect-ratio: 1.7 / 1;
+    overflow: hidden;
     display: flex; align-items: center; justify-content: center;
   }
-  .bt-cover-frame img { width: 100%; height: auto; display: block; }
+  .bt-cover-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .bt-cover-frame video {
     position: absolute;
-    width: 80%; height: auto;
+    width: 82%; height: auto;
     display: block;
     border-radius: 16px;
     clip-path: inset(0 1px 1px 0 round 16px);
@@ -563,8 +565,8 @@
           <h2 class="bt-solution-title">A lightweight AI action hub for everyday CRM tasks</h2>
         </div>
         <div style="display:flex; flex-direction:column; gap:24px;">
-          <p class="bt-problem-body">I designed a lightweight AI Action Hub embedded within AgencyRoot's navbar, making it accessible from anywhere in the CRM. Instead of introducing a separate AI workspace or asking users to write open-ended prompts, the hub presents clear, guided actions based on tasks agents already perform.</p>
-          <p class="bt-problem-body">From one consistent entry point, agents can upload documents, send messages, and add notes without navigating through individual client records. Each workflow asks only for the information needed to complete the task, then gives users a chance to review the result before anything is saved or sent.</p>
+          <p class="bt-problem-body">I designed a lightweight AI Action Hub embedded within AgencyRoot's navbar, making it accessible from anywhere in the platform. Instead of asking users to write open-ended prompts, the hub presents clear, guided actions based on tasks agents already perform.</p>
+          <p class="bt-problem-body">From one consistent entry point, agents can upload documents, send messages, and add notes to multiple clients without opening each client record individually. Each workflow guides users through the necessary steps and keeps the AI-analyzed result visible for review before it is sent.</p>
         </div>
       </div>
       <video autoplay loop muted playsinline style="width:100%; height:auto; display:block; border-radius:16px;">
@@ -579,14 +581,14 @@
           <img src="agencyroot/concept1.png" alt="Concept 1: Smart filter" style="width:100%; height:auto; display:block; border-radius:16px;">
           <div>
             <p class="bt-problem-body" style="color:#fff; margin-bottom:8px;"><strong>Concept 1: Smart filter</strong></p>
-            <p class="bt-problem-body">Familiar and lightweight, but limited to finding information within the current page. It could not support broader actions across the CRM.</p>
+            <p class="bt-problem-body">Limited to finding information within the current page. It could not support broader actions across the CRM.</p>
           </div>
         </div>
         <div style="flex:1; display:flex; flex-direction:column; gap:16px;">
           <img src="agencyroot/concept2.png" alt="Concept 2: Conversational assistant" style="width:100%; height:auto; display:block; border-radius:16px;">
           <div>
             <p class="bt-problem-body" style="color:#fff; margin-bottom:8px;"><strong>Concept 2: Conversational assistant</strong></p>
-            <p class="bt-problem-body">Flexible and capable, but introduced a larger interface and required users to understand what to ask and how to interact with AI.</p>
+            <p class="bt-problem-body">Larger interface and required users to understand what to ask and how to interact with AI.</p>
           </div>
         </div>
       </div>
