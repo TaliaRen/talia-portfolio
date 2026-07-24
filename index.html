@@ -1513,6 +1513,7 @@ document.addEventListener('mousemove', e => {
     // ── Assemble ──────────────────────────────────────────────────────
     function triggerAssemble() {
       if (assembled) return; assembled = true; hideGhost();
+      if (typeof gtag === 'function') gtag('event', 'puzzle_completed');
       const hint = document.getElementById('puzzle-hint');
       if (hint) hint.classList.add('hidden');
       pieces.forEach((p, i) => {
@@ -1554,10 +1555,16 @@ document.addEventListener('mousemove', e => {
     }
 
     // ── Drag ──────────────────────────────────────────────────────────
+    let puzzleDragTracked = false;
+    function trackPuzzleDragStart() {
+      if (puzzleDragTracked) return; puzzleDragTracked = true;
+      if (typeof gtag === 'function') gtag('event', 'puzzle_drag_start');
+    }
     function addDrag(piece) {
       const el = piece.el; let ox, oy, sx, sy;
       el.addEventListener('mousedown', e => {
         if (assembled) return; e.preventDefault();
+        trackPuzzleDragStart();
         el.classList.add('dragging'); el.style.zIndex = 999;
         ox=e.clientX; oy=e.clientY; sx=piece.x; sy=piece.y; showGhost(piece);
         let hintDismissed = false;
@@ -1574,6 +1581,7 @@ document.addEventListener('mousemove', e => {
       });
       el.addEventListener('touchstart', e => {
         if (assembled) return; e.preventDefault();
+        trackPuzzleDragStart();
         const t=e.touches[0]; el.classList.add('dragging'); el.style.zIndex=999;
         ox=t.clientX; oy=t.clientY; sx=piece.x; sy=piece.y; showGhost(piece);
         const tm = e2 => { const t2=e2.touches[0]; piece.x=sx+t2.clientX-ox; piece.y=sy+t2.clientY-oy; el.style.left=piece.x+'px'; el.style.top=piece.y+'px'; };
