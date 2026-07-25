@@ -735,7 +735,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section id="hero">
   <div id="puzzle-wrap"></div>
-  <div id="puzzle-hint">- Drag the pieces to make it clear -</div>
+  <div id="puzzle-hint">- Drag to piece it together -</div>
   <div id="static-hero">
     <p id="static-notice">For the full interactive experience, visit on a desktop browser</p>
     <div id="static-text">
@@ -1403,7 +1403,7 @@ document.addEventListener('mousemove', e => {
     setTimeout(() => {
       const hint = document.getElementById('puzzle-hint');
       if (hint && !assembled) hint.classList.add('visible');
-    }, lastDelay + 200);
+    }, lastDelay - 150);
 
     // ── Seam fade ─────────────────────────────────────────────────────
     function redrawPiece(p, a) {
