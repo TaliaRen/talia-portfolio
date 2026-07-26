@@ -28,6 +28,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 
   @font-face {
@@ -62,6 +63,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: 'Cormorant Infant';
     src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Fraunces';
+    src: url('fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf') format('truetype');
+    font-weight: 600;
     font-style: normal;
     font-display: block;
   }
@@ -144,7 +152,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       animation: fadeSlideUp 0.8s ease 0.4s both;
     }
     #static-text h1 {
-      font-family:'DM Sans', sans-serif;
+      font-family:'Fraunces', serif;
       font-weight:600; font-size:clamp(16px, 4vw, 28px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
@@ -265,11 +273,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     left: 50%;
     transform: translateX(-50%) rotate(calc(-1 * var(--rot, 0deg)));
   }
-  .hero-icon-tip.tip-right {
-    top: 50%;
-    left: calc(100% - 4px);
+  .hero-icon-tip.tip-top-up {
+    top: auto;
+    bottom: calc(100% - 4px);
     right: auto;
-    transform: translateY(-50%) rotate(calc(-1 * var(--rot, 0deg)));
+    left: 50%;
+    transform: translateX(-50%) rotate(calc(-1 * var(--rot, 0deg)));
+  }
+  .hero-icon-tip.tip-right {
+    top: 16px;
+    left: calc(100% - 20px);
+    right: auto;
+    transform: rotate(calc(-1 * var(--rot, 0deg)));
   }
   .hero-icon-tip.tip-right-overlap {
     top: 50%;
@@ -739,8 +754,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div id="static-hero">
     <p id="static-notice">For the full interactive experience, visit on a desktop browser</p>
     <div id="static-text">
-      <p>I design products like doing a jigsaw puzzle 🧩</p>
-      <h1>Starting from ambiguity, navigating constraints, and building clarity in the chaos</h1>
+      <p>I design products like doing a jigsaw puzzle</p>
+      <h1>Starting from ambiguity, navigating constraints, and building products 0 → 1</h1>
     </div>
     <img class="static-sticker" src="hero picture/about.png"       style="top:28%; left:2%; width:clamp(64px,16vw,108px);"   alt="">
     <img class="static-sticker" src="hero picture/journey.png"     style="top:24%; right:2%; width:clamp(64px,16vw,108px);"  alt="">
@@ -1162,52 +1177,41 @@ document.addEventListener('mousemove', e => {
       return lines;
     }
 
-    const cx2 = W / 2;
-    const maxTextW = W * 0.82;
-    ctx.textAlign = 'center';
+    ctx.textAlign = 'left';
 
     // Font sizes scale with puzzle width (baseline: W=1040)
     const fs1 = Math.max(11, Math.round(18 * W / 1040));
-    const fs2 = Math.max(12, Math.round(28 * W / 1040));
-    const lh1 = fs1 * 1.6;
-    const lh2 = fs2 * 1.55;
-    const gap12 = Math.max(6, Math.round(H * 0.04));
+    const fs2 = Math.max(12, Math.round(28 * W / 1040)) + 4;
+    const lh2 = 48;
 
-    // Measure wrapped lines
-    ctx.font = `italic ${fs1}px "Cormorant Infant", Georgia, serif`;
-    const lines1 = wrapText('I design products like doing a jigsaw puzzle 🧩', maxTextW);
+    const lines2 = ['Starting from ambiguity, navigating constraints,', 'and building products 0 → 1'];
 
-    ctx.font = `600 ${fs2}px "DM Sans", sans-serif`;
-    const lines2 = ['Starting from ambiguity, navigating constraints, and', 'building clarity in the chaos'];
+    // Text block sits top-left, independent of the avatar (now bottom-left)
+    const textX = W * 0.10;
 
-    const blockH = lines1.length * lh1 + gap12 + lines2.length * lh2;
-    const blockTop = (H - blockH) / 2 - H * 0.08 - 10;
-
-    // Draw line 1 (centered, -20px up from original)
+    // Tagline
     ctx.font = `italic ${fs1}px "Cormorant Infant", Georgia, serif`;
     ctx.fillStyle = '#5F5E5A';
     ctx.globalAlpha = 1;
-    let y1 = blockTop + fs1 + 2;
-    lines1.forEach(l => { ctx.fillText(l, cx2, y1); y1 += lh1; });
+    ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.19 + 20);
 
-    // Draw line 2
-    ctx.font = `600 ${fs2}px "DM Sans", sans-serif`;
+    // Headline
+    ctx.font = `600 ${fs2}px "Fraunces", serif`;
     ctx.fillStyle = '#173824';
-    let y2 = blockTop + lines1.length * lh1 + gap12 + fs2;
-    lines2.forEach(l => { ctx.fillText(l, cx2, y2); y2 += lh2; });
-    ctx.textAlign = 'left';
+    let y2 = H * 0.28 + 24;
+    lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
 
     // ── Stickers: fixed layout matching reference design ─────────────
     // Order: 0=About, 1=Contact, 2=Journey, 3=Location, 4=music, 5=school, 6=vibe coding
     if (stickers && stickers.length) {
       const layout = [
-        { cx: 0.299, cy: 0.261, size: 0.110, angle: -0.08 }, // About (person)
-        { cx: 0.167, cy: 0.716, size: 0.075, angle:  0.10 }, // Contact (envelope)
-        { cx: 0.686, cy: 0.816, size: 0.145, angle: -0.22 }, // Journey (passport)
-        { cx: 0.070, cy: 0.787, size: 0.078, angle: -0.05 }, // Location (globe)
-        { cx: 0.940, cy: 0.101, size: 0.058, angle:  0.00 }, // music (vinyl)
-        { cx: 0.170, cy: 0.887, size: 0.068, angle:  0.12 }, // school (graduation cap)
-        { cx: 0.88,  cy: 0.816, size: 0.185, angle: -0.12 }, // vibe coding (laptop) — +20px down
+        { cx: 0.128, cy: 0.801, size: 0.125, angle:  0.00 }, // About (person, bottom-left)
+        { cx: 0.940, cy: 0.844, size: 0.059, angle:  0.00 }, // Contact (phone, aligned with record)
+        { cx: 0.607, cy: 0.824, size: 0.114, angle:  0.00 }, // Journey (passport, bottom-right row)
+        { cx: 0.770, cy: 0.847, size: 0.072, angle:  0.00 }, // Location (globe, bottom-right row)
+        { cx: 0.940, cy: 0.101, size: 0.055, angle:  0.00 }, // music (vinyl, top-right)
+        { cx: 0.701, cy: 0.854, size: 0.057, angle:  0.00 }, // school (cap, bottom-right row)
+        { cx: 0.857, cy: 0.818, size: 0.115, angle:  0.00 }, // vibe coding (laptop, bottom-right row)
       ];
 
       stickers.forEach((img, i) => {
@@ -1409,17 +1413,68 @@ document.addEventListener('mousemove', e => {
     function redrawPiece(p, a) {
       drawPiece(p.ctx, p.col, p.row, p.top, p.right, p.bottom, p.left, a);
     }
+
+    // ── Pile puzzle-folder stickers densely into the top-left corner ──
+    function scatterPuzzleStickers(offX, offY, instant) {
+      wrap.querySelectorAll('.puzzle-sticker').forEach(el => el.remove());
+      const srcs = [1,2,3,4,5,6,7,8].map(n => `hero picture/puzzle/p${n}.png`);
+      const COUNT = 34;
+      const cornerX = offX, cornerY = offY;
+      const items = [];
+      // Top-edge arm: hugs the corner, tapering rightward
+      for (let i = 0; i < COUNT; i++) {
+        const src = srcs[i % srcs.length];
+        const t = Math.pow(Math.random(), 2) * 0.45; // 0–0.45, biased toward the corner
+        const x = offX + t * W + (Math.random() - 0.5) * 30;
+        const y = cornerY + (Math.random() - 0.5) * 44;
+        const size = 22 + Math.random() * 42;
+        const rot = 0;
+        const z = 60 + Math.floor(Math.random() * 16);
+        items.push({ src, x, y, size, rot, z });
+      }
+      // Left-edge arm: hugs the corner, tapering downward
+      for (let i = 0; i < COUNT; i++) {
+        const src = srcs[i % srcs.length];
+        const t = Math.pow(Math.random(), 2) * 0.45; // 0–0.45, biased toward the corner
+        const y = offY + t * H + (Math.random() - 0.5) * 30;
+        const x = cornerX + (Math.random() - 0.5) * 44;
+        const size = 22 + Math.random() * 42;
+        const rot = 0;
+        const z = 60 + Math.floor(Math.random() * 16);
+        items.push({ src, x, y, size, rot, z });
+      }
+      // Shuffle reveal order so the pile builds up unevenly, not left-to-right
+      const order = items.map((_, i) => i);
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      order.forEach((idx, revealI) => {
+        const it = items[idx];
+        const img = document.createElement('img');
+        img.src = it.src;
+        img.className = 'puzzle-sticker';
+        img.style.cssText = `position:absolute; left:${it.x - it.size/2}px; top:${it.y - it.size/2}px; width:${it.size}px; height:${it.size}px; object-fit:contain; pointer-events:none; z-index:${it.z}; opacity:${instant?1:0}; transform:scale(${instant?1:0.4}) rotate(${it.rot}deg); transition:opacity .4s ease, transform .4s cubic-bezier(0.34,1.4,0.64,1);`;
+        wrap.appendChild(img);
+        if (instant) return;
+        const groupDelay = Math.floor(revealI / 3) * 130;
+        setTimeout(() => {
+          img.style.opacity = '1';
+          img.style.transform = `scale(1) rotate(${it.rot}deg)`;
+        }, groupDelay + Math.random() * 80);
+      });
+    }
     function createHeroIcons(offX, offY) {
       wrap.querySelectorAll('.hero-icon').forEach(el => el.remove());
       // Sync with drawIllustration layout array (order: About, Contact, Journey, Location, music, school, vibe coding)
       const layout = [
-        { cx: 0.299, cy: 0.261, size: 0.110, angle: -0.08 },
-        { cx: 0.167, cy: 0.716, size: 0.075, angle:  0.10 },
-        { cx: 0.686, cy: 0.816, size: 0.145, angle: -0.22 },
-        { cx: 0.070, cy: 0.787, size: 0.078, angle: -0.05 },
-        { cx: 0.940, cy: 0.101, size: 0.058, angle:  0.00 },
-        { cx: 0.170, cy: 0.887, size: 0.068, angle:  0.12 },
-        { cx: 0.880, cy: 0.816, size: 0.185, angle: -0.12 },
+        { cx: 0.128, cy: 0.801, size: 0.125, angle:  0.00 },
+        { cx: 0.940, cy: 0.844, size: 0.059, angle:  0.00 },
+        { cx: 0.607, cy: 0.824, size: 0.114, angle:  0.00 },
+        { cx: 0.770, cy: 0.847, size: 0.072, angle:  0.00 },
+        { cx: 0.940, cy: 0.101, size: 0.055, angle:  0.00 },
+        { cx: 0.701, cy: 0.854, size: 0.057, angle:  0.00 },
+        { cx: 0.857, cy: 0.818, size: 0.115, angle:  0.00 },
       ];
       layout.forEach(({ cx, cy, size, angle }, i) => {
         const img = _stickers[i];
@@ -1444,13 +1499,13 @@ document.addEventListener('mousemove', e => {
                        : i === 2 ? "Products I've designed since 2023"
                        : "Hi, I'm Talia";
         if (i === 6) tt.classList.add('tip-top');
-        if (i === 3) tt.classList.add('tip-top-right');
-        if (i === 5) tt.classList.add('tip-right');
-        if (i === 1) tt.classList.add('tip-right-overlap');
+        if (i === 3) tt.classList.add('tip-top-up');
+        if (i === 5) tt.classList.add('tip-top-up');
+        if (i === 1) tt.classList.add('tip-top-up');
         if (i === 2) tt.classList.add('tip-top-align-center');
         // About / person sticker (index 0): always show tip + play About sound on click
         if (i === 0) {
-          tt.classList.add('tip-always-on');
+          tt.classList.add('tip-always-on', 'tip-right');
 
           div.addEventListener('click', () => {
             playSound('sound effect/about.mp3');
@@ -1560,6 +1615,7 @@ document.addEventListener('mousemove', e => {
           underlayCtx.clearRect(0, 0, W, H);
           drawIllustration(underlayCtx, W, H, _bgImg, []);
           createHeroIcons(assembleOffX, assembleOffY);
+          scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
         })(fadeT0);
         }, 300); // let pieces fully settle visually before dissolve
@@ -1612,6 +1668,7 @@ document.addEventListener('mousemove', e => {
       drawIllustration(overlayCtx2, W, H, _bgImg, []);
       wrap.appendChild(overlay);
       createHeroIcons(assembleOffX, assembleOffY);
+      scatterPuzzleStickers(assembleOffX, assembleOffY, true);
       return;
     }
 
@@ -1650,12 +1707,13 @@ document.addEventListener('mousemove', e => {
   Promise.all([
     document.fonts.load('600 34px "DM Sans"'),
     document.fonts.load('italic 400 18px "Cormorant Infant"'),
+    document.fonts.load('600 34px "Fraunces"'),
     document.fonts.ready,
     loadImg('background/puzzle background.jpg'),
     ...stickerSrcs.map(loadImg)
   ]).then(results => {
-    _bgImg = results[3];
-    _stickers = results.slice(4);
+    _bgImg = results[4];
+    _stickers = results.slice(5);
     buildPuzzle();
   });
   let resizeTimer;
