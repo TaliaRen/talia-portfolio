@@ -28,6 +28,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 
   @font-face {
@@ -62,6 +63,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: 'Cormorant Infant';
     src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Fraunces';
+    src: url('fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf') format('truetype');
+    font-weight: 600;
     font-style: normal;
     font-display: block;
   }
@@ -144,7 +152,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       animation: fadeSlideUp 0.8s ease 0.4s both;
     }
     #static-text h1 {
-      font-family:'DM Sans', sans-serif;
+      font-family:'Fraunces', serif;
       font-weight:600; font-size:clamp(16px, 4vw, 28px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
@@ -1188,7 +1196,7 @@ document.addEventListener('mousemove', e => {
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.19 + 20);
 
     // Headline
-    ctx.font = `600 ${fs2}px "DM Sans", sans-serif`;
+    ctx.font = `600 ${fs2}px "Fraunces", serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.28 + 24;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -1198,12 +1206,12 @@ document.addEventListener('mousemove', e => {
     if (stickers && stickers.length) {
       const layout = [
         { cx: 0.128, cy: 0.801, size: 0.125, angle:  0.00 }, // About (person, bottom-left)
-        { cx: 0.940, cy: 0.844, size: 0.059, angle:  0.00 }, // Contact (phone, aligned with record)
+        { cx: 0.940, cy: 0.849, size: 0.059, angle:  0.00 }, // Contact (phone, aligned with record)
         { cx: 0.607, cy: 0.824, size: 0.114, angle:  0.00 }, // Journey (passport, bottom-right row)
-        { cx: 0.770, cy: 0.847, size: 0.072, angle:  0.00 }, // Location (globe, bottom-right row)
+        { cx: 0.770, cy: 0.837, size: 0.072, angle:  0.00 }, // Location (globe, bottom-right row)
         { cx: 0.940, cy: 0.101, size: 0.055, angle:  0.00 }, // music (vinyl, top-right)
         { cx: 0.701, cy: 0.854, size: 0.057, angle:  0.00 }, // school (cap, bottom-right row)
-        { cx: 0.857, cy: 0.818, size: 0.115, angle:  0.00 }, // vibe coding (laptop, bottom-right row)
+        { cx: 0.857, cy: 0.818, size: 0.125, angle:  0.00 }, // vibe coding (laptop, bottom-right row)
       ];
 
       stickers.forEach((img, i) => {
@@ -1410,27 +1418,27 @@ document.addEventListener('mousemove', e => {
     function scatterPuzzleStickers(offX, offY, instant) {
       wrap.querySelectorAll('.puzzle-sticker').forEach(el => el.remove());
       const srcs = [1,2,3,4,5,6,7,8].map(n => `hero picture/puzzle/p${n}.png`);
-      const COUNT = 34;
+      const COUNT = 22;
       const cornerX = offX, cornerY = offY;
       const items = [];
-      // Top-edge arm: hugs the corner, tapering rightward
+      // Top-edge arm: hugs the corner, tapering rightward, spread out more loosely
       for (let i = 0; i < COUNT; i++) {
         const src = srcs[i % srcs.length];
-        const t = Math.pow(Math.random(), 2) * 0.45; // 0–0.45, biased toward the corner
-        const x = offX + t * W + (Math.random() - 0.5) * 30;
-        const y = cornerY + (Math.random() - 0.5) * 44;
-        const size = 22 + Math.random() * 42;
+        const t = Math.pow(Math.random(), 1.5) * 0.62; // wider spread, less piled at the corner
+        const x = offX + t * W + (Math.random() - 0.5) * 40;
+        const y = cornerY + (Math.random() - 0.5) * 56;
+        const size = 20 + Math.random() * 38;
         const rot = 0;
         const z = 60 + Math.floor(Math.random() * 16);
         items.push({ src, x, y, size, rot, z });
       }
-      // Left-edge arm: hugs the corner, tapering downward
+      // Left-edge arm: hugs the corner, tapering downward, spread out more loosely
       for (let i = 0; i < COUNT; i++) {
         const src = srcs[i % srcs.length];
-        const t = Math.pow(Math.random(), 2) * 0.45; // 0–0.45, biased toward the corner
-        const y = offY + t * H + (Math.random() - 0.5) * 30;
-        const x = cornerX + (Math.random() - 0.5) * 44;
-        const size = 22 + Math.random() * 42;
+        const t = Math.pow(Math.random(), 1.5) * 0.62; // wider spread, less piled at the corner
+        const y = offY + t * H + (Math.random() - 0.5) * 40;
+        const x = cornerX + (Math.random() - 0.5) * 56;
+        const size = 20 + Math.random() * 38;
         const rot = 0;
         const z = 60 + Math.floor(Math.random() * 16);
         items.push({ src, x, y, size, rot, z });
@@ -1461,12 +1469,12 @@ document.addEventListener('mousemove', e => {
       // Sync with drawIllustration layout array (order: About, Contact, Journey, Location, music, school, vibe coding)
       const layout = [
         { cx: 0.128, cy: 0.801, size: 0.125, angle:  0.00 },
-        { cx: 0.940, cy: 0.844, size: 0.059, angle:  0.00 },
+        { cx: 0.940, cy: 0.849, size: 0.059, angle:  0.00 },
         { cx: 0.607, cy: 0.824, size: 0.114, angle:  0.00 },
-        { cx: 0.770, cy: 0.847, size: 0.072, angle:  0.00 },
+        { cx: 0.770, cy: 0.837, size: 0.072, angle:  0.00 },
         { cx: 0.940, cy: 0.101, size: 0.055, angle:  0.00 },
         { cx: 0.701, cy: 0.854, size: 0.057, angle:  0.00 },
-        { cx: 0.857, cy: 0.818, size: 0.115, angle:  0.00 },
+        { cx: 0.857, cy: 0.818, size: 0.125, angle:  0.00 },
       ];
       layout.forEach(({ cx, cy, size, angle }, i) => {
         const img = _stickers[i];
@@ -1696,6 +1704,9 @@ document.addEventListener('mousemove', e => {
     'hero picture/vibe coding.png'
   ];
 
+  // Font loads are best-effort: if one fails (e.g. a missing/renamed file),
+  // it must not reject the whole chain and block the puzzle from building.
+  document.fonts.load('600 34px "Fraunces"').catch(() => {});
   Promise.all([
     document.fonts.load('600 34px "DM Sans"'),
     document.fonts.load('italic 400 18px "Cormorant Infant"'),
