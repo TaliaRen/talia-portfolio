@@ -1182,7 +1182,7 @@ document.addEventListener('mousemove', e => {
     // Font sizes scale with puzzle width (baseline: W=1040)
     const fs1 = Math.max(11, Math.round(18 * W / 1040));
     const fs2 = Math.max(12, Math.round(28 * W / 1040)) + 4;
-    const lh2 = 48;
+    const lh2 = Math.round(fs2 * 1.5);
 
     const lines2 = ['Starting from ambiguity, navigating constraints,', 'and building products 0 → 1'];
 
