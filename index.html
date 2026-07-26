@@ -28,7 +28,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 
   @font-face {
@@ -63,13 +62,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: 'Cormorant Infant';
     src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900;
-    font-style: normal;
-    font-display: block;
-  }
-  @font-face {
-    font-family: 'Fraunces';
-    src: url('fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf') format('truetype');
-    font-weight: 600;
     font-style: normal;
     font-display: block;
   }
@@ -152,7 +144,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       animation: fadeSlideUp 0.8s ease 0.4s both;
     }
     #static-text h1 {
-      font-family:'Fraunces', serif;
+      font-family:'DM Sans', sans-serif;
       font-weight:600; font-size:clamp(16px, 4vw, 28px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
@@ -1196,7 +1188,7 @@ document.addEventListener('mousemove', e => {
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.19 + 20);
 
     // Headline
-    ctx.font = `600 ${fs2}px "Fraunces", serif`;
+    ctx.font = `600 ${fs2}px "DM Sans", sans-serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.28 + 24;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -1707,13 +1699,12 @@ document.addEventListener('mousemove', e => {
   Promise.all([
     document.fonts.load('600 34px "DM Sans"'),
     document.fonts.load('italic 400 18px "Cormorant Infant"'),
-    document.fonts.load('600 34px "Fraunces"'),
     document.fonts.ready,
     loadImg('background/puzzle background.jpg'),
     ...stickerSrcs.map(loadImg)
   ]).then(results => {
-    _bgImg = results[4];
-    _stickers = results.slice(5);
+    _bgImg = results[3];
+    _stickers = results.slice(4);
     buildPuzzle();
   });
   let resizeTimer;
