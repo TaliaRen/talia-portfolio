@@ -1289,7 +1289,7 @@ document.addEventListener('mousemove', e => {
     const drawStar4 = (cx, cy, r, alpha) => {
       trailCtx.save();
       trailCtx.globalAlpha = alpha;
-      trailCtx.fillStyle = '#FFD060';
+      trailCtx.fillStyle = '#ffffff';
       trailCtx.beginPath();
       for (let i = 0; i < 8; i++) {
         const a = (i / 8) * Math.PI * 2 - Math.PI / 2;
@@ -1308,9 +1308,9 @@ document.addEventListener('mousemove', e => {
         const ox = (Math.random() - 0.5) * 28, oy = (Math.random() - 0.5) * 28;
         const r  = 0.7 + Math.random() * 2.2;
         const a  = 0.45 + Math.random() * 0.55;
-        const L  = 62 + Math.random() * 18;      // gold lightness
-        const S  = 75 + Math.random() * 20;      // rich saturation
-        const H  = 38 + Math.random() * 18;      // gold hue
+        const L  = 88 + Math.random() * 12;      // near-white lightness
+        const S  = Math.random() * 18;            // barely-saturated
+        const H  = 200 + Math.random() * 40;     // cool silver hue
         trailCtx.globalAlpha = a;
         trailCtx.fillStyle = `hsl(${H},${S}%,${L}%)`;
         trailCtx.beginPath();
