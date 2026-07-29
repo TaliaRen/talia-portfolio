@@ -1277,7 +1277,7 @@ document.addEventListener('mousemove', e => {
     if (!trailCanvas) {
       trailCanvas = document.createElement('canvas');
       trailCanvas.className = 'trail-canvas';
-      trailCanvas.style.cssText = `position:absolute;left:0;top:0;pointer-events:none;z-index:95;`;
+      trailCanvas.style.cssText = `position:absolute;left:0;top:0;pointer-events:none;z-index:49;`;
       wrap.appendChild(trailCanvas);
     }
     trailCanvas.width = scatterW;
@@ -1288,7 +1288,7 @@ document.addEventListener('mousemove', e => {
     trailCtx.lineWidth = 18;
     let trailActive = false; // enabled only after puzzle assembled
     let trailX = null, trailY = null, trailMidX = null, trailMidY = null;
-    let trailHue = Math.random() * 360, trailPauseTimer = null;
+    let trailHue = Math.random() * 360, trailPauseTimer = null, trailBroke = false;
     // Smooth per-frame fade-out via destination-out
     const trailFade = () => {
       trailCtx.save();
@@ -1300,7 +1300,8 @@ document.addEventListener('mousemove', e => {
     };
     requestAnimationFrame(trailFade);
     const resetTrail = () => {
-      trailX = null; trailY = null; trailMidX = null; trailMidY = null;
+      // mark a break without clearing position — avoids jump line on resume
+      trailBroke = true; trailMidX = null; trailMidY = null;
       trailHue = Math.random() * 360;
     };
     wrap.addEventListener('mousemove', (e) => {
@@ -1309,7 +1310,7 @@ document.addEventListener('mousemove', e => {
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
       const inPuzzle = x >= assembleOffX && x <= assembleOffX + W && y >= assembleOffY && y <= assembleOffY + H;
       const dist = trailX !== null ? Math.hypot(x - trailX, y - trailY) : 0;
-      if (trailX !== null && inPuzzle && dist > 3) {
+      if (trailX !== null && inPuzzle && dist > 3 && !trailBroke) {
         const midX = (trailX + x) / 2, midY = (trailY + y) / 2;
         trailCtx.save();
         trailCtx.globalCompositeOperation = 'source-over';
@@ -1324,18 +1325,22 @@ document.addEventListener('mousemove', e => {
           trailCtx.moveTo(trailX, trailY);
           trailCtx.lineTo(midX, midY);
         }
-        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.03)`;
+        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.02)`;
         trailCtx.stroke();
         trailCtx.restore();
         trailMidX = midX; trailMidY = midY;
       }
+      if (trailBroke) { trailMidX = null; trailMidY = null; trailBroke = false; }
       trailX = inPuzzle ? x : null;
       trailY = inPuzzle ? y : null;
       if (!inPuzzle) { trailMidX = null; trailMidY = null; }
       clearTimeout(trailPauseTimer);
       trailPauseTimer = setTimeout(resetTrail, 120);
     });
-    wrap.addEventListener('mouseleave', resetTrail);
+    wrap.addEventListener('mouseleave', () => {
+      trailX = null; trailY = null; trailMidX = null; trailMidY = null;
+      trailBroke = false; trailHue = Math.random() * 360;
+    });
 
     // ── Scatter positions ─────────────────────────────────────────────
     const scatterPos = {}, scatterRotations = {};
