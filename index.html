@@ -1272,6 +1272,37 @@ document.addEventListener('mousemove', e => {
     const wrap = document.getElementById('puzzle-wrap');
     wrap.style.cssText = `width:${scatterW}px;height:${scatterH}px;position:relative;overflow:visible;`;
 
+    // ── Mouse trail canvas ────────────────────────────────────────────
+    let trailCanvas = wrap.querySelector('.trail-canvas');
+    if (!trailCanvas) {
+      trailCanvas = document.createElement('canvas');
+      trailCanvas.className = 'trail-canvas';
+      trailCanvas.style.cssText = `position:absolute;left:0;top:0;pointer-events:none;z-index:95;`;
+      wrap.appendChild(trailCanvas);
+    }
+    trailCanvas.width = scatterW;
+    trailCanvas.height = scatterH;
+    const trailCtx = trailCanvas.getContext('2d');
+    trailCtx.lineCap = 'round';
+    trailCtx.lineJoin = 'round';
+    trailCtx.lineWidth = 2;
+    let trailX = null, trailY = null, trailHue = Math.random() * 360, trailPauseTimer = null;
+    wrap.addEventListener('mousemove', (e) => {
+      const rect = wrap.getBoundingClientRect();
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      if (trailX !== null) {
+        trailCtx.beginPath();
+        trailCtx.moveTo(trailX, trailY);
+        trailCtx.lineTo(x, y);
+        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.18)`;
+        trailCtx.stroke();
+      }
+      trailX = x; trailY = y;
+      clearTimeout(trailPauseTimer);
+      trailPauseTimer = setTimeout(() => { trailX = null; trailY = null; trailHue = Math.random() * 360; }, 120);
+    });
+    wrap.addEventListener('mouseleave', () => { trailX = null; trailY = null; trailHue = Math.random() * 360; });
+
     // ── Scatter positions ─────────────────────────────────────────────
     const scatterPos = {}, scatterRotations = {};
     const shuffledIdx = Array.from({ length: COLS * ROWS }, (_, i) => i)
