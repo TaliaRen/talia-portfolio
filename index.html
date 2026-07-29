@@ -1285,23 +1285,37 @@ document.addEventListener('mousemove', e => {
     const trailCtx = trailCanvas.getContext('2d');
     trailCtx.lineCap = 'round';
     trailCtx.lineJoin = 'round';
-    trailCtx.lineWidth = 5;
+    trailCtx.lineWidth = 10;
     let trailX = null, trailY = null, trailHue = Math.random() * 360, trailPauseTimer = null;
+    // Fade-out loop: gradually erases canvas content for a fade-away effect
+    let trailLastFade = 0;
+    const trailFade = (ts) => {
+      if (ts - trailLastFade > 60) {
+        trailCtx.save();
+        trailCtx.globalCompositeOperation = 'destination-out';
+        trailCtx.fillStyle = 'rgba(0,0,0,0.028)';
+        trailCtx.fillRect(assembleOffX, assembleOffY, W, H);
+        trailCtx.restore();
+        trailLastFade = ts;
+      }
+      requestAnimationFrame(trailFade);
+    };
+    requestAnimationFrame(trailFade);
     wrap.addEventListener('mousemove', (e) => {
       const rect = wrap.getBoundingClientRect();
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      // only draw inside the puzzle rectangle
       const inPuzzle = x >= assembleOffX && x <= assembleOffX + W && y >= assembleOffY && y <= assembleOffY + H;
       const dist = trailX !== null ? Math.hypot(x - trailX, y - trailY) : 0;
-      if (trailX !== null && inPuzzle && dist > 2) {
+      if (trailX !== null && inPuzzle && dist > 3) {
         trailCtx.save();
+        trailCtx.globalCompositeOperation = 'source-over';
         trailCtx.beginPath();
         trailCtx.rect(assembleOffX, assembleOffY, W, H);
         trailCtx.clip();
         trailCtx.beginPath();
         trailCtx.moveTo(trailX, trailY);
         trailCtx.lineTo(x, y);
-        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.05)`;
+        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.02)`;
         trailCtx.stroke();
         trailCtx.restore();
       }
