@@ -1285,46 +1285,57 @@ document.addEventListener('mousemove', e => {
     const trailCtx = trailCanvas.getContext('2d');
     trailCtx.lineCap = 'round';
     trailCtx.lineJoin = 'round';
-    trailCtx.lineWidth = 10;
-    let trailX = null, trailY = null, trailHue = Math.random() * 360, trailPauseTimer = null;
-    // Fade-out loop: gradually erases canvas content for a fade-away effect
-    let trailLastFade = 0;
-    const trailFade = (ts) => {
-      if (ts - trailLastFade > 60) {
-        trailCtx.save();
-        trailCtx.globalCompositeOperation = 'destination-out';
-        trailCtx.fillStyle = 'rgba(0,0,0,0.028)';
-        trailCtx.fillRect(assembleOffX, assembleOffY, W, H);
-        trailCtx.restore();
-        trailLastFade = ts;
-      }
+    trailCtx.lineWidth = 18;
+    let trailActive = false; // enabled only after puzzle assembled
+    let trailX = null, trailY = null, trailMidX = null, trailMidY = null;
+    let trailHue = Math.random() * 360, trailPauseTimer = null;
+    // Smooth per-frame fade-out via destination-out
+    const trailFade = () => {
+      trailCtx.save();
+      trailCtx.globalCompositeOperation = 'destination-out';
+      trailCtx.fillStyle = 'rgba(0,0,0,0.008)';
+      trailCtx.fillRect(assembleOffX, assembleOffY, W, H);
+      trailCtx.restore();
       requestAnimationFrame(trailFade);
     };
     requestAnimationFrame(trailFade);
+    const resetTrail = () => {
+      trailX = null; trailY = null; trailMidX = null; trailMidY = null;
+      trailHue = Math.random() * 360;
+    };
     wrap.addEventListener('mousemove', (e) => {
+      if (!trailActive) return;
       const rect = wrap.getBoundingClientRect();
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
       const inPuzzle = x >= assembleOffX && x <= assembleOffX + W && y >= assembleOffY && y <= assembleOffY + H;
       const dist = trailX !== null ? Math.hypot(x - trailX, y - trailY) : 0;
       if (trailX !== null && inPuzzle && dist > 3) {
+        const midX = (trailX + x) / 2, midY = (trailY + y) / 2;
         trailCtx.save();
         trailCtx.globalCompositeOperation = 'source-over';
         trailCtx.beginPath();
         trailCtx.rect(assembleOffX, assembleOffY, W, H);
         trailCtx.clip();
         trailCtx.beginPath();
-        trailCtx.moveTo(trailX, trailY);
-        trailCtx.lineTo(x, y);
-        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.02)`;
+        if (trailMidX !== null) {
+          trailCtx.moveTo(trailMidX, trailMidY);
+          trailCtx.quadraticCurveTo(trailX, trailY, midX, midY);
+        } else {
+          trailCtx.moveTo(trailX, trailY);
+          trailCtx.lineTo(midX, midY);
+        }
+        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.03)`;
         trailCtx.stroke();
         trailCtx.restore();
+        trailMidX = midX; trailMidY = midY;
       }
       trailX = inPuzzle ? x : null;
       trailY = inPuzzle ? y : null;
+      if (!inPuzzle) { trailMidX = null; trailMidY = null; }
       clearTimeout(trailPauseTimer);
-      trailPauseTimer = setTimeout(() => { trailX = null; trailY = null; trailHue = Math.random() * 360; }, 120);
+      trailPauseTimer = setTimeout(resetTrail, 120);
     });
-    wrap.addEventListener('mouseleave', () => { trailX = null; trailY = null; trailHue = Math.random() * 360; });
+    wrap.addEventListener('mouseleave', resetTrail);
 
     // ── Scatter positions ─────────────────────────────────────────────
     const scatterPos = {}, scatterRotations = {};
@@ -1468,6 +1479,7 @@ document.addEventListener('mousemove', e => {
 
     // ── Pile puzzle-folder stickers densely into the top-left corner ──
     function scatterPuzzleStickers(offX, offY, instant) {
+      trailActive = true;
       wrap.querySelectorAll('.puzzle-sticker').forEach(el => el.remove());
       // reduced light-green (p1 1x), kept dark-green (p7,p8 2x), boosted yellow (p4,p5,p6 3x/2x)
       const srcNums = [1,7,7,8,8,2,2,3,3,4,4,4,5,5,6,6];
