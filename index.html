@@ -1285,19 +1285,27 @@ document.addEventListener('mousemove', e => {
     const trailCtx = trailCanvas.getContext('2d');
     trailCtx.lineCap = 'round';
     trailCtx.lineJoin = 'round';
-    trailCtx.lineWidth = 2;
+    trailCtx.lineWidth = 5;
     let trailX = null, trailY = null, trailHue = Math.random() * 360, trailPauseTimer = null;
     wrap.addEventListener('mousemove', (e) => {
       const rect = wrap.getBoundingClientRect();
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      if (trailX !== null) {
+      // only draw inside the puzzle rectangle
+      const inPuzzle = x >= assembleOffX && x <= assembleOffX + W && y >= assembleOffY && y <= assembleOffY + H;
+      if (trailX !== null && inPuzzle) {
+        trailCtx.save();
+        trailCtx.beginPath();
+        trailCtx.rect(assembleOffX, assembleOffY, W, H);
+        trailCtx.clip();
         trailCtx.beginPath();
         trailCtx.moveTo(trailX, trailY);
         trailCtx.lineTo(x, y);
-        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.18)`;
+        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.38)`;
         trailCtx.stroke();
+        trailCtx.restore();
       }
-      trailX = x; trailY = y;
+      trailX = inPuzzle ? x : null;
+      trailY = inPuzzle ? y : null;
       clearTimeout(trailPauseTimer);
       trailPauseTimer = setTimeout(() => { trailX = null; trailY = null; trailHue = Math.random() * 360; }, 120);
     });
