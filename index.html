@@ -1292,7 +1292,8 @@ document.addEventListener('mousemove', e => {
       const x = e.clientX - rect.left, y = e.clientY - rect.top;
       // only draw inside the puzzle rectangle
       const inPuzzle = x >= assembleOffX && x <= assembleOffX + W && y >= assembleOffY && y <= assembleOffY + H;
-      if (trailX !== null && inPuzzle) {
+      const dist = trailX !== null ? Math.hypot(x - trailX, y - trailY) : 0;
+      if (trailX !== null && inPuzzle && dist > 2) {
         trailCtx.save();
         trailCtx.beginPath();
         trailCtx.rect(assembleOffX, assembleOffY, W, H);
@@ -1300,7 +1301,7 @@ document.addEventListener('mousemove', e => {
         trailCtx.beginPath();
         trailCtx.moveTo(trailX, trailY);
         trailCtx.lineTo(x, y);
-        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.38)`;
+        trailCtx.strokeStyle = `hsla(${trailHue},65%,55%,0.05)`;
         trailCtx.stroke();
         trailCtx.restore();
       }
