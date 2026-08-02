@@ -1237,17 +1237,19 @@ document.addEventListener('mousemove', e => {
     const rowImgs = [8, 9, 10, 11, 12].map(i => _stickers[i]).filter(img => img && img.naturalWidth);
     if (rowImgs.length) {
       const iconSz = Math.round(bgH * 0.80);
-      const cxs = [0.18, 0.35, 0.51, 0.67, 0.84];
-      const dxs = [30, 0, 40, 0, 0];
-      const dys = [0, 70, 0, 70, 0];
+      const cxs  = [0.18, 0.35, 0.51, 0.67, 0.84];
+      const dxs  = [30, 0, 40, 0, 0];
+      const dys  = [0, 70, 0, 70, 0];
+      const szMs = [1, 1, 1, 0.70, 1];
       const baseIY = bgY + (bgH - iconSz) / 2;
       rowImgs.forEach((img, i) => {
-        const ix = cxs[i] * W - iconSz / 2 + dxs[i];
+        const sz = iconSz * szMs[i];
+        const ix = cxs[i] * W - sz / 2 + dxs[i];
         const iy = baseIY + dys[i];
         const aspect = img.naturalWidth / img.naturalHeight;
-        const iw = iconSz * Math.min(1, aspect);
-        const ih = iconSz * Math.min(1, 1 / aspect);
-        ctx.drawImage(img, ix + (iconSz - iw) / 2, iy + (iconSz - ih) / 2, iw, ih);
+        const iw = sz * Math.min(1, aspect);
+        const ih = sz * Math.min(1, 1 / aspect);
+        ctx.drawImage(img, ix + (sz - iw) / 2, iy + (sz - ih) / 2, iw, ih);
       });
     }
   }
@@ -1674,21 +1676,23 @@ document.addEventListener('mousemove', e => {
         const cxs    = [0.18, 0.35, 0.51, 0.67, 0.84];
         const dxs    = [30, 0, 40, 0, 0];
         const dys    = [0, 70, 0, 70, 0];
+        const szMs   = [1, 1, 1, 0.70, 1];
         const baseRowY = offY + H - bgH + Math.round((bgH - iconSz) / 2);
         rowSrcs.forEach((img, i) => {
-          const icv = document.createElement('canvas');
+          const sz   = iconSz * szMs[i];
+          const icv  = document.createElement('canvas');
           icv.className = 'hero-row-icon';
-          icv.width  = iconSz * DPR;
-          icv.height = iconSz * DPR;
-          const left = offX + cxs[i] * W - iconSz / 2 + dxs[i];
+          icv.width  = sz * DPR;
+          icv.height = sz * DPR;
+          const left = offX + cxs[i] * W - sz / 2 + dxs[i];
           const top  = baseRowY + dys[i];
-          icv.style.cssText = `position:absolute;left:${left}px;top:${top}px;width:${iconSz}px;height:${iconSz}px;z-index:52;transition:transform 0.2s ease;transform-origin:center center;`;
+          icv.style.cssText = `position:absolute;left:${left}px;top:${top}px;width:${sz}px;height:${sz}px;z-index:52;transition:transform 0.2s ease;transform-origin:center center;`;
           const iCtx = icv.getContext('2d');
           iCtx.scale(DPR, DPR);
           const aspect = img.naturalWidth / img.naturalHeight;
-          const iw = iconSz * Math.min(1, aspect);
-          const ih = iconSz * Math.min(1, 1 / aspect);
-          iCtx.drawImage(img, (iconSz - iw) / 2, (iconSz - ih) / 2, iw, ih);
+          const iw = sz * Math.min(1, aspect);
+          const ih = sz * Math.min(1, 1 / aspect);
+          iCtx.drawImage(img, (sz - iw) / 2, (sz - ih) / 2, iw, ih);
           icv.addEventListener('mouseenter', () => { icv.style.transform = 'scale(1.15)'; });
           icv.addEventListener('mouseleave', () => { icv.style.transform = 'scale(1)'; });
           wrap.appendChild(icv);
