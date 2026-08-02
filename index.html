@@ -1695,6 +1695,9 @@ document.addEventListener('mousemove', e => {
           iCtx.drawImage(img, (sz - iw) / 2, (sz - ih) / 2, iw, ih);
           icv.addEventListener('mouseenter', () => { icv.style.transform = 'scale(1.15)'; });
           icv.addEventListener('mouseleave', () => { icv.style.transform = 'scale(1)'; });
+          const sfx = ['sound effect/location.mp3','sound effect/about.mp3','sound effect/typing.mp3','sound effect/contact.mp3','sound effect/page turn.mp3'][i];
+          icv.style.cursor = 'pointer';
+          icv.addEventListener('click', () => { const a = new Audio(sfx); a.play().catch(()=>{}); });
           wrap.appendChild(icv);
         });
       }
