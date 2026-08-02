@@ -1635,11 +1635,10 @@ document.addEventListener('mousemove', e => {
         wrap.appendChild(div);
       }
 
-      // bg.png — full puzzle width, aligned to bottom edge
+      // bg.png — full puzzle width, aligned to bottom (588×142 natural size)
       const bgEl = _stickers[7];
-      let bgH = 0;
+      const bgH = Math.round(W * 142 / 588);
       if (bgEl && bgEl.naturalWidth) {
-        bgH = Math.round(W * bgEl.naturalHeight / bgEl.naturalWidth);
         const el = document.createElement('img');
         el.src = bgEl.src;
         el.className = 'hero-bg-img';
@@ -1647,21 +1646,21 @@ document.addEventListener('mousemove', e => {
         wrap.appendChild(el);
       }
 
-      // Row: world, me, ai, call, work (stickers indices 8–12)
+      // Row: world, me, ai, call, work — centered inside the bg strip
       const rowSrcs = [8, 9, 10, 11, 12].map(i => _stickers[i]).filter(img => img && img.naturalWidth);
       if (rowSrcs.length) {
-        const iconSz = Math.round(H * 0.28);
+        const iconSz = Math.round(bgH * 0.72);
         const gap    = Math.round(W * 0.025);
         const totalW = rowSrcs.length * iconSz + (rowSrcs.length - 1) * gap;
         const startX = offX + (W - totalW) / 2;
-        const rowY   = offY + (H - bgH - iconSz) / 2;
+        const rowY   = offY + H - bgH + Math.round((bgH - iconSz) / 2);
         rowSrcs.forEach((img, i) => {
           const div = document.createElement('div');
           div.className = 'hero-row-icon';
           div.style.cssText = `position:absolute;left:${startX + i * (iconSz + gap)}px;top:${rowY}px;width:${iconSz}px;height:${iconSz}px;z-index:52;`;
           const im = document.createElement('img');
           im.src = img.src;
-          im.style.cssText = `width:100%;height:100%;object-fit:contain;display:block;transition:transform 0.2s ease;`;
+          im.style.cssText = `width:100%;height:100%;object-fit:contain;display:block;transition:transform 0.2s ease;transform-origin:center bottom;`;
           div.addEventListener('mouseenter', () => { im.style.transform = 'scale(1.25)'; });
           div.addEventListener('mouseleave', () => { im.style.transform = 'scale(1)'; });
           div.appendChild(im);
