@@ -1618,7 +1618,7 @@ document.addEventListener('mousemove', e => {
       });
 
     }
-    function createHeroIcons(offX, offY, hidden) {
+    function createHeroIcons(offX, offY) {
       wrap.querySelectorAll('.hero-icon, .hero-bg-img, .hero-row-icon').forEach(el => el.remove());
 
       // Music icon only (index 4 in _stickers)
@@ -1629,7 +1629,7 @@ document.addEventListener('mousemove', e => {
         const top  = offY + 0.101 * H - sz / 2;
         const div = document.createElement('div');
         div.className = 'hero-icon';
-        div.style.cssText = `width:${sz}px;height:${sz}px;left:${left}px;top:${top}px;${hidden ? 'opacity:0;' : ''}`;
+        div.style.cssText = `width:${sz}px;height:${sz}px;left:${left}px;top:${top}px;`;
         div.style.setProperty('--rot', '0deg');
         const im = document.createElement('img');
         im.src = musicImg.src;
@@ -1662,7 +1662,7 @@ document.addEventListener('mousemove', e => {
         bgCv.className = 'hero-bg-img';
         bgCv.width  = W * DPR;
         bgCv.height = bgH * DPR;
-        bgCv.style.cssText = `position:absolute;left:${offX}px;top:${offY + H - bgH}px;width:${W}px;height:${bgH}px;pointer-events:none;z-index:51;${hidden ? 'opacity:0;' : ''}`;
+        bgCv.style.cssText = `position:absolute;left:${offX}px;top:${offY + H - bgH}px;width:${W}px;height:${bgH}px;pointer-events:none;z-index:51;`;
         const bCtx = bgCv.getContext('2d');
         bCtx.scale(DPR, DPR);
         bCtx.drawImage(bgEl, 0, 0, W, bgH);
@@ -1686,7 +1686,7 @@ document.addEventListener('mousemove', e => {
           icv.height = sz * DPR;
           const left = offX + cxs[i] * W - sz / 2 + dxs[i];
           const top  = baseRowY + dys[i];
-          icv.style.cssText = `position:absolute;left:${left}px;top:${top}px;width:${sz}px;height:${sz}px;z-index:52;transition:transform 0.2s ease;transform-origin:center center;${hidden ? 'opacity:0;' : ''}`;
+          icv.style.cssText = `position:absolute;left:${left}px;top:${top}px;width:${sz}px;height:${sz}px;z-index:52;transition:transform 0.2s ease;transform-origin:center center;`;
           const iCtx = icv.getContext('2d');
           iCtx.scale(DPR, DPR);
           const aspect = img.naturalWidth / img.naturalHeight;
@@ -1727,7 +1727,7 @@ document.addEventListener('mousemove', e => {
         wasAssembled = true;
         const hint = document.getElementById('puzzle-hint');
         if (hint) hint.classList.add('hidden');
-        createHeroIcons(assembleOffX, assembleOffY, true); // pre-draw hidden; revealed at fade end
+        createHeroIcons(assembleOffX, assembleOffY);
 
         // Brief pause after snap so pieces fully settle before dissolve begins
         setTimeout(() => {
@@ -1744,8 +1744,6 @@ document.addEventListener('mousemove', e => {
           if (op < 1) { requestAnimationFrame(fadeStep); return; }
           pieces.forEach(pc => redrawPiece(pc, 0));
           underlay.style.opacity = '1';
-          // Reveal icons and hide pieces in the same frame — no gap
-          wrap.querySelectorAll('.hero-icon, .hero-bg-img, .hero-row-icon').forEach(el => el.style.opacity = '1');
           pieces.forEach(pc => { pc.el.style.display = 'none'; });
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
