@@ -1236,7 +1236,7 @@ document.addEventListener('mousemove', e => {
     }
     const rowImgs = [8, 9, 10, 11, 12].map(i => _stickers[i]).filter(img => img && img.naturalWidth);
     if (rowImgs.length) {
-      const iconSz = Math.round(bgH * 1.35);
+      const iconSz = Math.round(bgH * 0.80);
       const cxs = [0.18, 0.35, 0.51, 0.67, 0.84];
       const dxs = [30, 0, 40, 0, 0];
       const dys = [0, 70, 0, 70, 0];
@@ -1670,7 +1670,7 @@ document.addEventListener('mousemove', e => {
       // Row: world, me, ai, call, work — canvas elements inside bg strip
       const rowSrcs = [8, 9, 10, 11, 12].map(i => _stickers[i]).filter(img => img && img.naturalWidth);
       if (rowSrcs.length) {
-        const iconSz = Math.round(bgH * 1.35);
+        const iconSz = Math.round(bgH * 0.80);
         const cxs    = [0.18, 0.35, 0.51, 0.67, 0.84];
         const dxs    = [30, 0, 40, 0, 0];
         const dys    = [0, 70, 0, 70, 0];
