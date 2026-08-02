@@ -85,15 +85,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   * { margin:0; padding:0; box-sizing:border-box; cursor:none !important; }
   .cursor-dot {
     position: fixed;
-    width: 16px;
-    height: 16px;
-    background: #56DE8C;
+    width: 14px;
+    height: 14px;
+    background: #4A7C59;
     border-radius: 50%;
     pointer-events: none;
     z-index: 99999;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.15s ease;
+    transition: opacity 0.15s ease, width 0.15s ease, height 0.15s ease;
   }
 
   html { scrollbar-gutter: stable; background:#0F1511; }
@@ -2253,6 +2253,16 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
     dot.style.opacity = '1';
   }, { passive: true });
   document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('.hero-icon')) {
+      dot.style.width = '16px'; dot.style.height = '16px';
+    }
+  }, { passive: true });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('.hero-icon')) {
+      dot.style.width = '14px'; dot.style.height = '14px';
+    }
+  }, { passive: true });
 })();
 
 </script>
