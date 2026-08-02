@@ -1600,106 +1600,74 @@ document.addEventListener('mousemove', e => {
 
     }
     function createHeroIcons(offX, offY) {
-      wrap.querySelectorAll('.hero-icon').forEach(el => el.remove());
-      // Sync with drawIllustration layout array (order: About, Contact, Journey, Location, music, school, vibe coding)
-      const layout = [
-        { cx: 0.128, cy: 0.801, size: 0.125, angle:  0.00 },
-        { cx: 0.944, cy: 0.849, size: 0.059, angle:  0.00 },
-        { cx: 0.603, cy: 0.824, size: 0.114, angle:  0.00 },
-        { cx: 0.770, cy: 0.837, size: 0.072, angle:  0.00 },
-        { cx: 0.940, cy: 0.101, size: 0.055, angle:  0.00 },
-        { cx: 0.699, cy: 0.854, size: 0.057, angle:  0.00 },
-        { cx: 0.859, cy: 0.818, size: 0.125, angle:  0.00 },
-      ];
-      layout.forEach(({ cx, cy, size, angle }, i) => {
-        const img = _stickers[i];
-        if (!img || !img.naturalWidth) return;
-        const sz = Math.round(W * size);
-        const left = offX + cx * W - sz / 2;
-        const top  = offY + cy * H - sz / 2;
-        const rotDeg = Math.round(angle * 180 / Math.PI);
+      wrap.querySelectorAll('.hero-icon, .hero-bg-img, .hero-row-icon').forEach(el => el.remove());
+
+      // Music icon only (index 4 in _stickers)
+      const musicImg = _stickers[4];
+      if (musicImg && musicImg.naturalWidth) {
+        const sz = Math.round(W * 0.055);
+        const left = offX + 0.940 * W - sz / 2;
+        const top  = offY + 0.101 * H - sz / 2;
         const div = document.createElement('div');
         div.className = 'hero-icon';
         div.style.cssText = `width:${sz}px;height:${sz}px;left:${left}px;top:${top}px;`;
-        div.style.setProperty('--rot', rotDeg + 'deg');
+        div.style.setProperty('--rot', '0deg');
         const im = document.createElement('img');
-        im.src = img.src;
+        im.src = musicImg.src;
         const tt = document.createElement('span');
         tt.className = 'hero-icon-tip';
-        tt.textContent = i === 6 ? "AI is a part of my everyday work"
-                       : i === 3 ? "Currently in NYC"
-                       : i === 5 ? "IUB HCI Graduate"
-                       : i === 1 ? "Say hello!"
-                       : i === 4 ? "Outer Wilds"
-                       : i === 2 ? "Products I've designed since 2023"
-                       : "Hi, I'm Talia";
-        if (i === 6) tt.classList.add('tip-top');
-        if (i === 3) tt.classList.add('tip-top-up');
-        if (i === 5) tt.classList.add('tip-top-up');
-        if (i === 1) tt.classList.add('tip-top-up');
-        if (i === 2) tt.classList.add('tip-top-align-center');
-        // About / person sticker (index 0): always show tip + play About sound on click
-        if (i === 0) {
-          tt.classList.add('tip-always-on', 'tip-right');
-
-          div.addEventListener('click', () => {
-            playSound('sound effect/about.mp3');
-            if (window._openAboutModal) window._openAboutModal();
-          });
-        }
-        // Contact sticker (index 1): open contact modal + play sound
-        if (i === 1) {
-          div.addEventListener('click', () => {
-            playSound('sound effect/contact.mp3');
-            if (window._openContactModal) window._openContactModal();
-          });
-        }
-        // Music sticker (index 4): play music sound and spin on click, click again to stop
-        if (i === 4) {
-          let musicAudio = null;
-          div.addEventListener('click', () => {
-            if (div.classList.contains('spinning')) {
-              div.classList.remove('spinning');
-              if (musicAudio) { musicAudio.pause(); musicAudio.currentTime = 0; musicAudio = null; }
-            } else {
-              div.classList.add('spinning');
-              musicAudio = new Audio('sound effect/music.mp3');
-              musicAudio.loop = true;
-              musicAudio.play().catch(() => {});
-              musicAudio.addEventListener('ended', () => { div.classList.remove('spinning'); musicAudio = null; });
-            }
-          });
-        }
-        // Journey sticker (index 2): open journey modal + play page turn sound
-        if (i === 2) {
-          div.addEventListener('click', () => {
-            playSound('sound effect/page turn.mp3');
-            if (window._openJourneyModal) window._openJourneyModal();
-          });
-        }
-        // Location sticker (index 3): play location sound + open location modal
-        if (i === 3) {
-          div.addEventListener('click', () => {
-            playSound('sound effect/location.mp3');
-            if (window._openLocationModal) window._openLocationModal();
-          });
-        }
-        // School sticker (index 5): play school sound on click
-        if (i === 5) {
-          div.addEventListener('click', () => {
-            playSound('sound effect/school.mp3');
-          });
-        }
-        // Vibe coding sticker (index 6): play typing sound on click
-        if (i === 6) {
-          div.addEventListener('click', () => {
-            playSound('sound effect/typing.mp3');
-          });
-        }
+        tt.textContent = 'Outer Wilds';
+        let musicAudio = null;
+        div.addEventListener('click', () => {
+          if (div.classList.contains('spinning')) {
+            div.classList.remove('spinning');
+            if (musicAudio) { musicAudio.pause(); musicAudio.currentTime = 0; musicAudio = null; }
+          } else {
+            div.classList.add('spinning');
+            musicAudio = new Audio('sound effect/music.mp3');
+            musicAudio.loop = true;
+            musicAudio.play().catch(() => {});
+            musicAudio.addEventListener('ended', () => { div.classList.remove('spinning'); musicAudio = null; });
+          }
+        });
         div.appendChild(im);
         div.appendChild(tt);
         wrap.appendChild(div);
-      });
+      }
+
+      // bg.png — full puzzle width, aligned to bottom edge
+      const bgEl = _stickers[7];
+      let bgH = 0;
+      if (bgEl && bgEl.naturalWidth) {
+        bgH = Math.round(W * bgEl.naturalHeight / bgEl.naturalWidth);
+        const el = document.createElement('img');
+        el.src = bgEl.src;
+        el.className = 'hero-bg-img';
+        el.style.cssText = `position:absolute;left:${offX}px;top:${offY + H - bgH}px;width:${W}px;height:${bgH}px;object-fit:cover;pointer-events:none;z-index:51;`;
+        wrap.appendChild(el);
+      }
+
+      // Row: world, me, ai, call, work (stickers indices 8–12)
+      const rowSrcs = [8, 9, 10, 11, 12].map(i => _stickers[i]).filter(img => img && img.naturalWidth);
+      if (rowSrcs.length) {
+        const iconSz = Math.round(H * 0.28);
+        const gap    = Math.round(W * 0.025);
+        const totalW = rowSrcs.length * iconSz + (rowSrcs.length - 1) * gap;
+        const startX = offX + (W - totalW) / 2;
+        const rowY   = offY + (H - bgH - iconSz) / 2;
+        rowSrcs.forEach((img, i) => {
+          const div = document.createElement('div');
+          div.className = 'hero-row-icon';
+          div.style.cssText = `position:absolute;left:${startX + i * (iconSz + gap)}px;top:${rowY}px;width:${iconSz}px;height:${iconSz}px;z-index:52;`;
+          const im = document.createElement('img');
+          im.src = img.src;
+          im.style.cssText = `width:100%;height:100%;object-fit:contain;display:block;transition:transform 0.2s ease;`;
+          div.addEventListener('mouseenter', () => { im.style.transform = 'scale(1.25)'; });
+          div.addEventListener('mouseleave', () => { im.style.transform = 'scale(1)'; });
+          div.appendChild(im);
+          wrap.appendChild(div);
+        });
+      }
     }
 
     function fadeSeams() {
@@ -1836,7 +1804,13 @@ document.addEventListener('mousemove', e => {
     'hero picture/location.webp',
     'hero picture/music.webp',
     'hero picture/school.webp',
-    'hero picture/vibe coding.webp'
+    'hero picture/vibe coding.webp',
+    'hero picture/bg.png',
+    'hero picture/world.png',
+    'hero picture/me.png',
+    'hero picture/ai.png',
+    'hero picture/call.png',
+    'hero picture/work.png'
   ];
 
   // Font loads are best-effort: if one fails (e.g. a missing/renamed file),
