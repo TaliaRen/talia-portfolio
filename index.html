@@ -82,7 +82,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   :root { --bg:#0F1511; --ink:#1C1917; --muted:#78716C; }
-  * { margin:0; padding:0; box-sizing:border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; cursor:none !important; }
+  .cursor-dot {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #4A7C59;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
 
   html { scrollbar-gutter: stable; background:#0F1511; }
   @view-transition { navigation: auto; }
@@ -2228,6 +2240,19 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
     tip.style.left = e.clientX + 'px';
     tip.style.top  = e.clientY + 'px';
   }, { passive: true });
+})();
+
+// Custom cursor dot
+(function() {
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  document.body.appendChild(dot);
+  document.addEventListener('mousemove', e => {
+    dot.style.left = e.clientX + 'px';
+    dot.style.top  = e.clientY + 'px';
+    dot.style.opacity = '1';
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
 })();
 
 </script>
