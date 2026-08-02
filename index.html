@@ -1149,10 +1149,7 @@ document.addEventListener('mousemove', e => {
   // Each piece samples its (col, row) cell from this canvas.
   function drawIllustration(ctx, W, H, bgImg, stickers) {
     ctx.clearRect(0, 0, W, H);
-    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-    bgGrad.addColorStop(0, '#F4EBDE');
-    bgGrad.addColorStop(1, '#D9E2EA');
-    ctx.fillStyle = bgGrad;
+    ctx.fillStyle = '#F6F3EB';
     ctx.fillRect(0, 0, W, H);
 
     // Direct overlay — puzzle background image at 30% opacity
@@ -1233,6 +1230,33 @@ document.addEventListener('mousemove', e => {
         ctx.rotate(angle);
         ctx.drawImage(img, -sw / 2, -sh / 2, sw, sh);
         ctx.restore();
+      });
+    }
+  }
+
+  // ── Puzzle extras: bg strip + icon row (drawn onto any canvas) ──────────
+  function drawPuzzleExtras(ctx, W, H) {
+    const bgW  = Math.round(W * 0.8);
+    const bgH  = Math.round(bgW * 142 / 588);
+    const bgX  = (W - bgW) / 2;
+    const bgY  = H - bgH;
+    const bgImgEl = _stickers[7];
+    if (bgImgEl && bgImgEl.naturalWidth) {
+      ctx.drawImage(bgImgEl, bgX, bgY, bgW, bgH);
+    }
+    const rowImgs = [8, 9, 10, 11, 12].map(i => _stickers[i]).filter(img => img && img.naturalWidth);
+    if (rowImgs.length) {
+      const iconSz = Math.round(bgH * 0.72);
+      const gap    = Math.round(W * 0.025);
+      const totalRW = rowImgs.length * iconSz + (rowImgs.length - 1) * gap;
+      let ix = (W - totalRW) / 2;
+      const iy = bgY + (bgH - iconSz) / 2;
+      rowImgs.forEach(img => {
+        const aspect = img.naturalWidth / img.naturalHeight;
+        const iw = iconSz * Math.min(1, aspect);
+        const ih = iconSz * Math.min(1, 1 / aspect);
+        ctx.drawImage(img, ix + (iconSz - iw) / 2, iy + (iconSz - ih) / 2, iw, ih);
+        ix += iconSz + gap;
       });
     }
   }
@@ -1416,6 +1440,7 @@ document.addEventListener('mousemove', e => {
 
     // bgImg is loaded before buildPuzzle is called; passed via closure
     drawIllustration(illusCtx, W, H, _bgImg, _stickers);
+    drawPuzzleExtras(illusCtx, W, H);
 
     // Draw a piece using the illustration as texture
     function drawPiece(pcx, c, r, top, right, bottom, left, strokeAlpha) {
@@ -1494,6 +1519,7 @@ document.addEventListener('mousemove', e => {
     const underlayCtx = underlay.getContext('2d');
     underlayCtx.scale(DPR, DPR);
     drawIllustration(underlayCtx, W, H, _bgImg, _stickers);
+    drawPuzzleExtras(underlayCtx, W, H);
 
     // Show hint after last piece finishes sliding in
     const lastDelay = 80 + (pieces.length - 1) * 40 + 950;
@@ -1642,7 +1668,8 @@ document.addEventListener('mousemove', e => {
         const el = document.createElement('img');
         el.src = bgEl.src;
         el.className = 'hero-bg-img';
-        el.style.cssText = `position:absolute;left:${offX}px;top:${offY + H - bgH}px;width:${W}px;height:${bgH}px;object-fit:cover;pointer-events:none;z-index:51;`;
+        const bgW2 = Math.round(W * 0.8);
+        el.style.cssText = `position:absolute;left:${offX + (W - bgW2) / 2}px;top:${offY + H - bgH}px;width:${bgW2}px;height:${bgH}px;object-fit:cover;pointer-events:none;z-index:51;`;
         wrap.appendChild(el);
       }
 
@@ -1716,6 +1743,7 @@ document.addEventListener('mousemove', e => {
           // Redraw underlay without stickers so hero icons don't double-layer on hover
           underlayCtx.clearRect(0, 0, W, H);
           drawIllustration(underlayCtx, W, H, _bgImg, []);
+          drawPuzzleExtras(underlayCtx, W, H);
           createHeroIcons(assembleOffX, assembleOffY);
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
@@ -1768,6 +1796,7 @@ document.addEventListener('mousemove', e => {
       const overlayCtx2 = overlay.getContext('2d');
       overlayCtx2.scale(DPR, DPR);
       drawIllustration(overlayCtx2, W, H, _bgImg, []);
+      drawPuzzleExtras(overlayCtx2, W, H);
       wrap.appendChild(overlay);
       createHeroIcons(assembleOffX, assembleOffY);
       scatterPuzzleStickers(assembleOffX, assembleOffY, true);
