@@ -1512,7 +1512,7 @@ document.addEventListener('mousemove', e => {
     wrap.appendChild(underlay);
     const underlayCtx = underlay.getContext('2d');
     underlayCtx.scale(DPR, DPR);
-    drawIllustration(underlayCtx, W, H, _bgImg, _stickers);
+    drawIllustration(underlayCtx, W, H, _bgImg, []);
 
     // Show hint after last piece finishes sliding in
     const lastDelay = 80 + (pieces.length - 1) * 40 + 950;
@@ -1727,6 +1727,7 @@ document.addEventListener('mousemove', e => {
         wasAssembled = true;
         const hint = document.getElementById('puzzle-hint');
         if (hint) hint.classList.add('hidden');
+        createHeroIcons(assembleOffX, assembleOffY);
 
         // Brief pause after snap so pieces fully settle before dissolve begins
         setTimeout(() => {
@@ -1744,10 +1745,6 @@ document.addEventListener('mousemove', e => {
           pieces.forEach(pc => redrawPiece(pc, 0));
           underlay.style.opacity = '1';
           pieces.forEach(pc => { pc.el.style.display = 'none'; });
-          // Redraw underlay without stickers so hero icons don't double-layer on hover
-          underlayCtx.clearRect(0, 0, W, H);
-          drawIllustration(underlayCtx, W, H, _bgImg, []);
-          createHeroIcons(assembleOffX, assembleOffY);
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
         })(fadeT0);
