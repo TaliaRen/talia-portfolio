@@ -1210,6 +1210,7 @@ document.addEventListener('mousemove', e => {
 
       stickers.forEach((img, i) => {
         if (!img || !layout[i]) return;
+        if (i !== 4) return; // only music icon; all others removed
         const { cx, cy, size, angle } = layout[i];
         const sz = W * size;
         const aspect = img.naturalWidth / img.naturalHeight;
