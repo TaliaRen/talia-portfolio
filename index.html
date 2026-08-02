@@ -1732,7 +1732,6 @@ document.addEventListener('mousemove', e => {
           // Redraw underlay without stickers so hero icons don't double-layer on hover
           underlayCtx.clearRect(0, 0, W, H);
           drawIllustration(underlayCtx, W, H, _bgImg, []);
-          drawPuzzleExtras(underlayCtx, W, H);
           createHeroIcons(assembleOffX, assembleOffY);
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
@@ -1785,7 +1784,6 @@ document.addEventListener('mousemove', e => {
       const overlayCtx2 = overlay.getContext('2d');
       overlayCtx2.scale(DPR, DPR);
       drawIllustration(overlayCtx2, W, H, _bgImg, []);
-      drawPuzzleExtras(overlayCtx2, W, H);
       wrap.appendChild(overlay);
       createHeroIcons(assembleOffX, assembleOffY);
       scatterPuzzleStickers(assembleOffX, assembleOffY, true);
