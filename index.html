@@ -1152,16 +1152,6 @@ document.addEventListener('mousemove', e => {
     ctx.fillStyle = '#F6F3EB';
     ctx.fillRect(0, 0, W, H);
 
-    // Direct overlay — puzzle background image at 30% opacity
-    if (bgImg && bgImg.naturalWidth) {
-      const scale = Math.max(W / bgImg.naturalWidth, H / bgImg.naturalHeight);
-      const tw = bgImg.naturalWidth * scale, th = bgImg.naturalHeight * scale;
-      const dx = (W - tw) / 2, dy = (H - th) / 2;
-      ctx.save();
-      ctx.globalAlpha = 0.24;
-      ctx.drawImage(bgImg, dx, dy, tw, th);
-      ctx.restore();
-    }
 
 // ── Text wrap helper ──────────────────────────────────────────────
     function wrapText(text, maxWidth) {
@@ -1236,9 +1226,9 @@ document.addEventListener('mousemove', e => {
 
   // ── Puzzle extras: bg strip + icon row (drawn onto any canvas) ──────────
   function drawPuzzleExtras(ctx, W, H) {
-    const bgW  = Math.round(W * 0.8);
+    const bgW  = W;
     const bgH  = Math.round(bgW * 142 / 588);
-    const bgX  = (W - bgW) / 2;
+    const bgX  = 0;
     const bgY  = H - bgH;
     const bgImgEl = _stickers[7];
     if (bgImgEl && bgImgEl.naturalWidth) {
@@ -1668,8 +1658,7 @@ document.addEventListener('mousemove', e => {
         const el = document.createElement('img');
         el.src = bgEl.src;
         el.className = 'hero-bg-img';
-        const bgW2 = Math.round(W * 0.8);
-        el.style.cssText = `position:absolute;left:${offX + (W - bgW2) / 2}px;top:${offY + H - bgH}px;width:${bgW2}px;height:${bgH}px;object-fit:cover;pointer-events:none;z-index:51;`;
+        el.style.cssText = `position:absolute;left:${offX}px;top:${offY + H - bgH}px;width:${W}px;height:${bgH}px;object-fit:cover;pointer-events:none;z-index:51;`;
         wrap.appendChild(el);
       }
 
