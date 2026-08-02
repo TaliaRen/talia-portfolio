@@ -1512,7 +1512,6 @@ document.addEventListener('mousemove', e => {
     const underlayCtx = underlay.getContext('2d');
     underlayCtx.scale(DPR, DPR);
     drawIllustration(underlayCtx, W, H, _bgImg, _stickers);
-    drawPuzzleExtras(underlayCtx, W, H);
 
     // Show hint after last piece finishes sliding in
     const lastDelay = 80 + (pieces.length - 1) * 40 + 950;
