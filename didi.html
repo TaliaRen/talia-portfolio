@@ -499,6 +499,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .didi-moreworks { padding:100px 32px 80px; }
     .didi-moreworks-grid { grid-template-columns:1fr; }
   }
+  * { cursor: none !important; }
+  .cursor-dot {
+    position: fixed;
+    width: 16px;
+    height: 16px;
+    background: #56DE8C;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
 </style>
 
 <aside class="case-sidebar">
@@ -1034,6 +1047,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
   window.addEventListener('scroll', update, { passive: true });
   update();
+})();
+
+// Custom cursor dot
+(function() {
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  document.body.appendChild(dot);
+  document.addEventListener('mousemove', e => {
+    dot.style.left = e.clientX + 'px';
+    dot.style.top  = e.clientY + 'px';
+    dot.style.opacity = '1';
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
 })();
 </script>
 </body>
