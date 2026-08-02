@@ -1731,6 +1731,8 @@ document.addEventListener('mousemove', e => {
         const hint = document.getElementById('puzzle-hint');
         if (hint) hint.classList.add('hidden');
         createHeroIcons(assembleOffX, assembleOffY);
+        // hide DOM icons during fade so they don't cover piece seam animation
+        wrap.querySelectorAll('.hero-icon,.hero-bg-img,.hero-row-icon').forEach(el => el.style.display = 'none');
 
         // Brief pause after snap so pieces fully settle before dissolve begins
         setTimeout(() => {
@@ -1747,6 +1749,7 @@ document.addEventListener('mousemove', e => {
           if (op < 1) { requestAnimationFrame(fadeStep); return; }
           pieces.forEach(pc => redrawPiece(pc, 0));
           underlay.style.opacity = '1';
+          wrap.querySelectorAll('.hero-icon,.hero-bg-img,.hero-row-icon').forEach(el => el.style.display = '');
           pieces.forEach(pc => { pc.el.style.display = 'none'; });
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
