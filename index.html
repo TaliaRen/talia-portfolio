@@ -1512,7 +1512,7 @@ document.addEventListener('mousemove', e => {
     wrap.appendChild(underlay);
     const underlayCtx = underlay.getContext('2d');
     underlayCtx.scale(DPR, DPR);
-    drawIllustration(underlayCtx, W, H, _bgImg, []);
+    drawIllustration(underlayCtx, W, H, _bgImg, _stickers);
     drawPuzzleExtras(underlayCtx, W, H);
 
     // Show hint after last piece finishes sliding in
@@ -1832,7 +1832,7 @@ document.addEventListener('mousemove', e => {
       overlay.style.cssText = `position:absolute;width:${W}px;height:${H}px;left:${assembleOffX}px;top:${assembleOffY}px;z-index:50;pointer-events:none;`;
       const overlayCtx2 = overlay.getContext('2d');
       overlayCtx2.scale(DPR, DPR);
-      drawIllustration(overlayCtx2, W, H, _bgImg, []);
+      drawIllustration(overlayCtx2, W, H, _bgImg, _stickers);
       drawPuzzleExtras(overlayCtx2, W, H);
       wrap.appendChild(overlay);
       createHeroIcons(assembleOffX, assembleOffY);
