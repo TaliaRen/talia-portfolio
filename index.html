@@ -1033,25 +1033,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </radialGradient>
         </defs>
         <ellipse cx="60" cy="90" rx="50" ry="13" fill="url(#fr-glow)"/>
-        <line x1="18" y1="75" x2="82" y2="67" stroke="#5D4037" stroke-width="8" stroke-linecap="round"/>
-        <line x1="22" y1="67" x2="88" y2="75" stroke="#4E342E" stroke-width="8" stroke-linecap="round"/>
+        <!-- Log A -->
+        <line x1="18" y1="75" x2="82" y2="67" stroke="#4A2C17" stroke-width="11" stroke-linecap="round"/>
+        <line x1="18" y1="75" x2="82" y2="67" stroke="#BD8752" stroke-width="8" stroke-linecap="round"/>
+        <line x1="29" y1="73.6" x2="71" y2="68.4" stroke="#9c6b3e" stroke-width="1" stroke-linecap="round" opacity="0.55"/>
+        <g transform="rotate(-8 18 75)">
+          <ellipse cx="18" cy="75" rx="6.4" ry="4.8" fill="#d3a06e" stroke="#4A2C17" stroke-width="1.2"/>
+          <ellipse cx="18" cy="75" rx="3.4" ry="2.3" fill="#8a5a34"/>
+        </g>
+        <g transform="rotate(-8 82 67)">
+          <ellipse cx="82" cy="67" rx="5.8" ry="4.4" fill="#d3a06e" stroke="#4A2C17" stroke-width="1.2"/>
+          <ellipse cx="82" cy="67" rx="3.1" ry="2.1" fill="#8a5a34"/>
+        </g>
+        <!-- Log B -->
+        <line x1="22" y1="67" x2="88" y2="75" stroke="#3E2A1C" stroke-width="11" stroke-linecap="round"/>
+        <line x1="22" y1="67" x2="88" y2="75" stroke="#A97645" stroke-width="8" stroke-linecap="round"/>
+        <line x1="33" y1="68.5" x2="77" y2="73.5" stroke="#8a5a34" stroke-width="1" stroke-linecap="round" opacity="0.55"/>
+        <g transform="rotate(8 22 67)">
+          <ellipse cx="22" cy="67" rx="6" ry="4.5" fill="#c08e5c" stroke="#3E2A1C" stroke-width="1.2"/>
+          <ellipse cx="22" cy="67" rx="3.2" ry="2.2" fill="#78492a"/>
+        </g>
+        <g transform="rotate(8 88 75)">
+          <ellipse cx="88" cy="75" rx="5.6" ry="4.2" fill="#c08e5c" stroke="#3E2A1C" stroke-width="1.2"/>
+          <ellipse cx="88" cy="75" rx="3" ry="2" fill="#78492a"/>
+        </g>
         <circle class="em1" cx="44" cy="68" r="2.2" fill="#ff8c00"/>
         <circle class="em2" cx="63" cy="65" r="1.6" fill="#ffcc00"/>
         <circle class="em3" cx="76" cy="70" r="2" fill="#ff6b00"/>
-        <ellipse class="flame f-back"   cx="60" cy="46" rx="22" ry="28" fill="#c03000"/>
-        <ellipse class="flame f-mid1"   cx="51" cy="51" rx="15" ry="20" fill="#e05000"/>
-        <ellipse class="flame f-mid2"   cx="69" cy="52" rx="14" ry="18" fill="#e06200"/>
-        <ellipse class="flame f-front1" cx="54" cy="56" rx="10" ry="14" fill="#ff7700"/>
-        <ellipse class="flame f-front2" cx="66" cy="57" rx="9"  ry="12" fill="#ff8800"/>
-        <ellipse class="flame f-core"   cx="60" cy="60" rx="7"  ry="9"  fill="#ffcc00"/>
-        <ellipse class="flame f-tip"    cx="60" cy="65" rx="4"  ry="5"  fill="#fff3a0"/>
+        <!-- Layered egg-shaped flame -->
+        <ellipse class="flame f-back"   cx="60" cy="44" rx="23" ry="30" fill="#d9540f" stroke="#5c2e0e" stroke-width="1.4"/>
+        <ellipse class="flame f-mid1"   cx="52" cy="50" rx="16" ry="22" fill="#ef7d1a"/>
+        <ellipse class="flame f-mid2"   cx="68" cy="51" rx="15" ry="20" fill="#f4952a"/>
+        <ellipse class="flame f-front1" cx="55" cy="57" rx="11" ry="15" fill="#ffc94d"/>
+        <ellipse class="flame f-front2" cx="65" cy="58" rx="10" ry="13" fill="#ffdb70"/>
+        <ellipse class="flame f-core"   cx="60" cy="62" rx="7"  ry="9"  fill="#fff2b8"/>
+        <ellipse class="flame f-tip"    cx="60" cy="67" rx="4.5" ry="5.5" fill="#fffbe8"/>
       </svg>
     </div>
     <!-- Marshmallow on stick (draggable) -->
     <div class="mallow-stick-el" id="mallow-stick-el">
       <svg viewBox="0 0 34 160" width="34" height="160" style="overflow:visible">
-        <line x1="17" y1="38" x2="17" y2="158" stroke="#8B6914" stroke-width="4" stroke-linecap="round"/>
-        <rect id="mallow-rect" x="4" y="4" width="26" height="32" rx="10" fill="#fff8f4" stroke="#e8ddd0" stroke-width="1.5"/>
+        <line x1="17" y1="40" x2="17" y2="158" stroke="#3d2b1f" stroke-width="5" stroke-linecap="round"/>
+        <line x1="17" y1="40" x2="17" y2="158" stroke="#c9a24a" stroke-width="1.6" stroke-linecap="round"/>
+        <rect id="mallow-rect" x="2" y="2" width="30" height="36" rx="14" fill="#fff8f4" stroke="#5c4632" stroke-width="1.8"/>
+        <path d="M10 9 Q8 21 10.5 33" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity="0.55" fill="none"/>
       </svg>
     </div>
     <div class="roast-hint" id="roast-hint">Drag to toast a marshmallow</div>
@@ -2157,7 +2182,7 @@ function unlockScroll() {
     const placeX=fr.left-sr.left+fr.width+10;
     const placed=document.createElement('div');
     placed.style.cssText=`position:absolute;left:${placeX}px;bottom:14px;pointer-events:none;z-index:5;transform:translateY(-12px);opacity:0;transition:transform 0.3s ease,opacity 0.2s ease;`;
-    placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
+    placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="1.8"/></svg>`;
     scene.appendChild(placed);
     requestAnimationFrame(()=>{ placed.style.transform='translateY(0)'; placed.style.opacity='1'; });
     // Status
