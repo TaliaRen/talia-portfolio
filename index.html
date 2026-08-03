@@ -1334,7 +1334,7 @@ document.addEventListener('mousemove', e => {
     const trailFade = () => {
       trailCtx.save();
       trailCtx.globalCompositeOperation = 'destination-out';
-      trailCtx.fillStyle = 'rgba(0,0,0,0.01)';
+      trailCtx.fillStyle = 'rgba(0,0,0,0.06)';
       trailCtx.fillRect(assembleOffX, assembleOffY, W, H);
       trailCtx.restore();
       requestAnimationFrame(trailFade);
