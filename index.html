@@ -1705,15 +1705,25 @@ document.addEventListener('mousemove', e => {
           const sfx = ['sound effect/location.mp3','sound effect/about.mp3','sound effect/typing.mp3','sound effect/contact.mp3','sound effect/page turn.mp3'][i];
           holder.addEventListener('click', () => { const a = new Audio(sfx); a.play().catch(()=>{}); });
 
-          // "me" icon (index 1, headphone girl): same tag + About modal as the old person sticker
-          if (i === 1) {
+          // Same tag + modal as the old scattered stickers, mapped onto their row-icon successors:
+          // world→Location, me→About, ai→Vibe coding, call→Contact, work→Journey
+          const tipInfo = [
+            { text: "Currently in NYC", cls: 'tip-top-right', modal: '_openLocationModal' },
+            { text: "Hi, I'm Talia", cls: 'tip-top', modal: '_openAboutModal' },
+            { text: "AI is a part of my everyday work", cls: 'tip-top', modal: null },
+            { text: "Say hello!", cls: 'tip-right-overlap', modal: '_openContactModal' },
+            { text: "Products I've designed since 2023", cls: 'tip-top-align-center', modal: '_openJourneyModal' },
+          ][i];
+          if (tipInfo) {
             const tt = document.createElement('span');
-            tt.className = 'hero-icon-tip tip-top';
-            tt.textContent = "Hi, I'm Talia";
+            tt.className = `hero-icon-tip ${tipInfo.cls}`;
+            tt.textContent = tipInfo.text;
             holder.appendChild(tt);
             holder.addEventListener('mouseenter', () => { tt.style.opacity = '1'; });
             holder.addEventListener('mouseleave', () => { tt.style.opacity = '0'; });
-            holder.addEventListener('click', () => { if (window._openAboutModal) window._openAboutModal(); });
+            if (tipInfo.modal) {
+              holder.addEventListener('click', () => { if (window[tipInfo.modal]) window[tipInfo.modal](); });
+            }
           }
 
           wrap.appendChild(holder);
