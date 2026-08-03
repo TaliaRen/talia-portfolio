@@ -1459,6 +1459,10 @@ document.addEventListener('mousemove', e => {
 
     // ── Build pieces ──────────────────────────────────────────────────
     const pieces = []; let assembled = false;
+    // Timestamp of the last time hero icons became interactive — used to ignore the
+    // synthetic mouseenter some browsers fire when a stationary cursor ends up over an
+    // element that just became hoverable (e.g. right as the puzzle finishes assembling).
+    let iconsRevealTS = 0;
 
     for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
       const idx = r * COLS + c;
@@ -1702,7 +1706,10 @@ document.addEventListener('mousemove', e => {
             tt.className = `hero-icon-tip ${tipInfo.cls}`;
             tt.textContent = tipInfo.text;
             holder.appendChild(tt);
-            holder.addEventListener('mouseenter', () => { tt.style.opacity = '1'; });
+            holder.addEventListener('mouseenter', () => {
+              if (performance.now() - iconsRevealTS < 250) return; // ignore spurious hover right as icons appear
+              tt.style.opacity = '1';
+            });
             holder.addEventListener('mouseleave', () => { tt.style.opacity = '0'; });
             if (tipInfo.modal) {
               holder.addEventListener('click', () => { if (window[tipInfo.modal]) window[tipInfo.modal](); });
@@ -1764,6 +1771,7 @@ document.addEventListener('mousemove', e => {
           pieces.forEach(pc => redrawPiece(pc, 0));
           underlay.style.opacity = '1';
           heroDomEls.forEach(el => { el.style.opacity = '1'; el.style.pointerEvents = ''; });
+          iconsRevealTS = performance.now();
           pieces.forEach(pc => { pc.el.style.display = 'none'; });
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
@@ -1819,6 +1827,7 @@ document.addEventListener('mousemove', e => {
       drawPuzzleExtras(overlayCtx2, W, H);
       wrap.appendChild(overlay);
       createHeroIcons(assembleOffX, assembleOffY);
+      iconsRevealTS = performance.now();
       scatterPuzzleStickers(assembleOffX, assembleOffY, true);
       return;
     }
