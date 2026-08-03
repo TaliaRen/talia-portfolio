@@ -1463,6 +1463,7 @@ document.addEventListener('mousemove', e => {
     // synthetic mouseenter some browsers fire when a stationary cursor ends up over an
     // element that just became hoverable (e.g. right as the puzzle finishes assembling).
     let iconsRevealTS = 0;
+    let aboutTip = null; // the "Hi, I'm Talia" tag — shown automatically at reveal time
 
     for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
       const idx = r * COLS + c;
@@ -1706,11 +1707,17 @@ document.addEventListener('mousemove', e => {
             tt.className = `hero-icon-tip ${tipInfo.cls}`;
             tt.textContent = tipInfo.text;
             holder.appendChild(tt);
-            holder.addEventListener('mouseenter', () => {
-              if (performance.now() - iconsRevealTS < 250) return; // ignore spurious hover right as icons appear
-              tt.style.opacity = '1';
-            });
-            holder.addEventListener('mouseleave', () => { tt.style.opacity = '0'; });
+            if (i === 1) {
+              // "me" (About): shows on its own the moment the puzzle finishes assembling,
+              // in sync with the corner pile appearing — not hover-gated like the others.
+              aboutTip = tt;
+            } else {
+              holder.addEventListener('mouseenter', () => {
+                if (performance.now() - iconsRevealTS < 250) return; // ignore spurious hover right as icons appear
+                tt.style.opacity = '1';
+              });
+              holder.addEventListener('mouseleave', () => { tt.style.opacity = '0'; });
+            }
             if (tipInfo.modal) {
               holder.addEventListener('click', () => { if (window[tipInfo.modal]) window[tipInfo.modal](); });
             }
@@ -1772,6 +1779,7 @@ document.addEventListener('mousemove', e => {
           underlay.style.opacity = '1';
           heroDomEls.forEach(el => { el.style.opacity = '1'; el.style.pointerEvents = ''; });
           iconsRevealTS = performance.now();
+          if (aboutTip) aboutTip.style.opacity = '1';
           pieces.forEach(pc => { pc.el.style.display = 'none'; });
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
@@ -1828,6 +1836,7 @@ document.addEventListener('mousemove', e => {
       wrap.appendChild(overlay);
       createHeroIcons(assembleOffX, assembleOffY);
       iconsRevealTS = performance.now();
+      if (aboutTip) aboutTip.style.opacity = '1';
       scatterPuzzleStickers(assembleOffX, assembleOffY, true);
       return;
     }
