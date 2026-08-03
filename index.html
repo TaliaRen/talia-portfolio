@@ -1513,6 +1513,7 @@ document.addEventListener('mousemove', e => {
     const underlayCtx = underlay.getContext('2d');
     underlayCtx.scale(DPR, DPR);
     drawIllustration(underlayCtx, W, H, _bgImg, []);
+    drawPuzzleExtras(underlayCtx, W, H);
 
     // Show hint after last piece finishes sliding in
     const lastDelay = 80 + (pieces.length - 1) * 40 + 950;
@@ -1731,8 +1732,11 @@ document.addEventListener('mousemove', e => {
         const hint = document.getElementById('puzzle-hint');
         if (hint) hint.classList.add('hidden');
         createHeroIcons(assembleOffX, assembleOffY);
-        // hide DOM icons during fade so they don't cover piece seam animation
-        wrap.querySelectorAll('.hero-icon,.hero-bg-img,.hero-row-icon').forEach(el => el.style.display = 'none');
+        // Keep interactive DOM icons invisible during the dissolve — the underlay
+        // (which now bakes in the same bg-strip/icons) crossfades in their place,
+        // so nothing pops when the DOM layer takes over at the very end.
+        const heroDomEls = wrap.querySelectorAll('.hero-icon,.hero-bg-img,.hero-row-icon');
+        heroDomEls.forEach(el => { el.style.opacity = '0'; el.style.pointerEvents = 'none'; });
 
         // Brief pause after snap so pieces fully settle before dissolve begins
         setTimeout(() => {
@@ -1749,7 +1753,7 @@ document.addEventListener('mousemove', e => {
           if (op < 1) { requestAnimationFrame(fadeStep); return; }
           pieces.forEach(pc => redrawPiece(pc, 0));
           underlay.style.opacity = '1';
-          wrap.querySelectorAll('.hero-icon,.hero-bg-img,.hero-row-icon').forEach(el => el.style.display = '');
+          heroDomEls.forEach(el => { el.style.opacity = '1'; el.style.pointerEvents = ''; });
           pieces.forEach(pc => { pc.el.style.display = 'none'; });
           scatterPuzzleStickers(assembleOffX, assembleOffY);
           sessionStorage.setItem('puzzleAssembled', '1');
@@ -1802,6 +1806,7 @@ document.addEventListener('mousemove', e => {
       const overlayCtx2 = overlay.getContext('2d');
       overlayCtx2.scale(DPR, DPR);
       drawIllustration(overlayCtx2, W, H, _bgImg, []);
+      drawPuzzleExtras(overlayCtx2, W, H);
       wrap.appendChild(overlay);
       createHeroIcons(assembleOffX, assembleOffY);
       scatterPuzzleStickers(assembleOffX, assembleOffY, true);
