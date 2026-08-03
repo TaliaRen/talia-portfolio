@@ -1312,22 +1312,6 @@ document.addEventListener('mousemove', e => {
     const trailCtx = trailCanvas.getContext('2d');
     let trailActive = false;
     let trailPrevX = null, trailPrevY = null, trailPauseTimer = null;
-    // Draw a 4-pointed star sparkle
-    const drawStar4 = (cx, cy, r, alpha) => {
-      trailCtx.save();
-      trailCtx.globalAlpha = alpha;
-      trailCtx.fillStyle = '#ffffff';
-      trailCtx.beginPath();
-      for (let i = 0; i < 8; i++) {
-        const a = (i / 8) * Math.PI * 2 - Math.PI / 2;
-        const d = i % 2 === 0 ? r : r * 0.22;
-        i === 0 ? trailCtx.moveTo(cx + Math.cos(a)*d, cy + Math.sin(a)*d)
-                : trailCtx.lineTo(cx + Math.cos(a)*d, cy + Math.sin(a)*d);
-      }
-      trailCtx.closePath();
-      trailCtx.fill();
-      trailCtx.restore();
-    };
     // Scatter silver glitter particles around a point
     const spawnGlitter = (px, py) => {
       const n = 5 + Math.floor(Math.random() * 5);
@@ -1343,7 +1327,6 @@ document.addEventListener('mousemove', e => {
         trailCtx.beginPath();
         trailCtx.arc(px + ox, py + oy, r, 0, Math.PI * 2);
         trailCtx.fill();
-        if (Math.random() < 0.18) drawStar4(px + ox * 0.6, py + oy * 0.6, r * 2.8, a * 0.8);
       }
       trailCtx.globalAlpha = 1;
     };
