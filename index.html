@@ -1710,6 +1710,7 @@ document.addEventListener('mousemove', e => {
             if (i === 1) {
               // "me" (About): shows on its own the moment the puzzle finishes assembling,
               // in sync with the corner pile appearing — not hover-gated like the others.
+              tt.style.bottom = 'calc(100% - 34px)'; // sit closer to the icon than tip-top's default
               aboutTip = tt;
             } else {
               holder.addEventListener('mouseenter', () => {
