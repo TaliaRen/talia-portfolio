@@ -91,7 +91,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     animation-timing-function: ease;
   }
   body { background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--ink); overflow-x:hidden; }
-  #star-field { position:fixed; inset:0; z-index:2; pointer-events:none; opacity:0; transition:opacity 0.15s linear; }
+  #star-field { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity 0.15s linear; }
 
   /* ── Nav ── */
   nav {
@@ -2515,7 +2515,7 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
     c.setAttribute('opacity', (0.3 + Math.random() * 0.6).toFixed(2));
     svg.appendChild(c);
   }
-  document.body.appendChild(svg);
+  document.body.insertBefore(svg, document.body.firstChild);
 
   let ticking = false;
   function updateFade() {
