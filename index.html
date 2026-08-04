@@ -678,7 +678,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @media (max-width:860px) {
     #projects { padding:60px 0; }
-    .project-card { flex-direction:column; gap:28px; }
+    .hero-globe-badge { display:none; }
+    .projects-carousel-viewport { overflow:visible; padding:0; }
+    .projects-list { flex-direction:column; gap:52px; align-items:center; }
+    .project-card { flex-direction:column; gap:28px; width:100% !important; padding:0 24px; }
     .project-img-wrap { flex:none; width:100%; border-radius:12px; }
     .project-title { font-size:1.4rem; }
     .project-desc { margin-bottom:0; }
@@ -2337,8 +2340,10 @@ function unlockScroll() {
   let index = 0;
   const PEEK = 0.2;
   const ACTIVE = 1 - PEEK * 2;
+  const mobileMQ = window.matchMedia('(max-width:860px)');
 
   function goTo(i, animate) {
+    if (mobileMQ.matches) return;
     index = Math.max(0, Math.min(cards.length - 1, i));
     balls.forEach((b, bi) => { b.classList.toggle('ring-active', bi === index); });
     const vw = viewport.clientWidth;
@@ -2355,6 +2360,16 @@ function unlockScroll() {
   }
 
   function layout(animate) {
+    if (mobileMQ.matches) {
+      // Mobile: plain stacked list, let CSS handle it — clear any desktop inline styles
+      cards.forEach(c => { c.style.width = ''; });
+      track.style.transition = 'none';
+      track.style.transform = '';
+      void track.offsetWidth;
+      track.style.transition = '';
+      balls.forEach((b, bi) => { b.classList.toggle('ring-active', bi === 0); });
+      return;
+    }
     const vw = viewport.clientWidth;
     const cardWidth = vw * ACTIVE;
     cards.forEach(c => { c.style.width = cardWidth + 'px'; });
@@ -2372,6 +2387,7 @@ function unlockScroll() {
   let dragging = false, startX = 0, startTransform = 0, moved = 0, suppressClick = false;
   viewport.style.touchAction = 'pan-y';
   viewport.addEventListener('pointerdown', e => {
+    if (mobileMQ.matches) return;
     dragging = true; moved = 0; startX = e.clientX;
     const vw = viewport.clientWidth;
     startTransform = vw * PEEK - index * (vw * ACTIVE);
