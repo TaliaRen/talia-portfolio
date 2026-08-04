@@ -138,7 +138,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .globe-sphere-svg { z-index:2; }
   .globe-ring-front { z-index:3; }
   .globe-ring-svg { opacity:0; transition:opacity 0.35s ease; }
-  .hero-globe-inner:hover .globe-ring-svg,
   .hero-globe-inner.ring-active .globe-ring-svg { opacity:1; }
 
   /* ── Static hero (iPad & below) ── */
@@ -2315,17 +2314,9 @@ function unlockScroll() {
     });
   })();
 
-// Hero globe badges: click shows the ring too, same as hover
-(function() {
-  document.querySelectorAll('.hero-globe-inner').forEach(inner => {
-    inner.addEventListener('click', () => {
-      inner.classList.toggle('ring-active');
-    });
-  });
-})();
-
 // Project carousel: click a globe ball to slide to its matching project card,
-// leaving a 1/5-width peek of the neighboring card on each side
+// leaving a 1/5-width peek of the neighboring card on each side. The ring
+// is an exclusive "selected" indicator — only the active ball shows it.
 (function() {
   const viewport = document.getElementById('projects-carousel-viewport');
   const track = document.getElementById('projects-list');
@@ -2339,6 +2330,7 @@ function unlockScroll() {
 
   function goTo(i, animate) {
     index = Math.max(0, Math.min(cards.length - 1, i));
+    balls.forEach((b, bi) => { b.classList.toggle('ring-active', bi === index); });
     const vw = viewport.clientWidth;
     const cardWidth = vw * ACTIVE;
     const x = vw * PEEK - index * cardWidth;
