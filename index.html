@@ -790,7 +790,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="hero-globe-badge">
 <div class="hero-globe-orbit">
   <svg class="globe-orbit-path" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="450" cy="70" rx="440" ry="16" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.4" stroke-dasharray="2 7" stroke-linecap="round"/>
+    <defs>
+      <filter id="orbitGlow" x="-50%" y="-200%" width="200%" height="500%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <ellipse cx="450" cy="70" rx="440" ry="32" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.6" filter="url(#orbitGlow)"/>
   </svg>
   <div class="hero-globe-inner" style="left:11.1%; top:36px; transform:translateX(-50%);">
     <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
