@@ -135,7 +135,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .globe-sphere-svg { z-index:2; }
   .globe-ring-front { z-index:3; }
   .globe-ring-svg { opacity:0; transition:opacity 0.35s ease; }
-  .hero-globe-inner:hover .globe-ring-svg { opacity:1; }
+  .hero-globe-inner:hover .globe-ring-svg,
+  .hero-globe-inner.ring-active .globe-ring-svg { opacity:1; }
 
   /* ── Static hero (iPad & below) ── */
   #static-hero { display:none; }
@@ -794,7 +795,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </linearGradient>
       </defs>
       <!-- back half: goes behind the sphere -->
-      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad)" stroke-width="9"/>
+      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad)" stroke-width="13" transform="rotate(-30 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -823,7 +824,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <!-- front half: passes in front of the sphere -->
-      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad)" stroke-width="9"/>
+      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad)" stroke-width="13" transform="rotate(-30 100 100)"/>
     </svg>
   </div>
 </div>
@@ -2132,6 +2133,15 @@ function unlockScroll() {
       navigator.clipboard.writeText('taliaren0826@gmail.com').catch(() => {});
     });
   })();
+
+// Hero globe badge: click shows the ring too, same as hover
+(function() {
+  const inner = document.getElementById('hero-globe-inner');
+  if (!inner) return;
+  inner.addEventListener('click', () => {
+    inner.classList.toggle('ring-active');
+  });
+})();
 
 // Campfire marshmallow roasting
 (function() {
