@@ -139,6 +139,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .globe-ring-front { z-index:3; }
   .globe-ring-svg { opacity:0; transition:opacity 0.35s ease; }
   .hero-globe-inner.ring-active .globe-ring-svg { opacity:1; }
+  @keyframes globeRingFlow { to { stroke-dashoffset:-280; } }
+  .globe-ring-flow { animation:globeRingFlow 4.5s linear infinite; }
 
   /* ── Static hero (iPad & below) ── */
   #static-hero { display:none; }
@@ -585,7 +587,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* PROJECTS */
   #projects { padding:90px 0 80px; max-width:none; }
-  .projects-carousel-viewport { overflow:hidden; width:100%; }
+  .projects-carousel-viewport { overflow:hidden; width:100%; padding:40px 0; box-sizing:border-box; }
   .projects-list { display:flex; flex-direction:row; flex-wrap:nowrap; transition:transform 0.55s cubic-bezier(0.65,0,0.35,1); will-change:transform; }
   .project-card {
     display:flex; align-items:center; gap:48px;
@@ -811,6 +813,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </linearGradient>
       </defs>
       <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -849,6 +852,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
   </div>
 
@@ -862,6 +866,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </linearGradient>
       </defs>
       <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-b)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -900,6 +905,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-b)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
   </div>
 
@@ -913,6 +919,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </linearGradient>
       </defs>
       <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-g)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -951,6 +958,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-g)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
   </div>
 
@@ -964,6 +972,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </linearGradient>
       </defs>
       <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-p)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -1002,6 +1011,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-p)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
   </div>
 </div>
@@ -2388,6 +2398,18 @@ function unlockScroll() {
   track.addEventListener('click', e => {
     if (suppressClick) { e.preventDefault(); e.stopPropagation(); suppressClick = false; }
   }, true);
+
+  // Trackpad two-finger swipe (fires as horizontal wheel events, not pointer events)
+  let wheelLocked = false;
+  viewport.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    if (wheelLocked) return;
+    if (e.deltaX > 15) { wheelLocked = true; goTo(index + 1); }
+    else if (e.deltaX < -15) { wheelLocked = true; goTo(index - 1); }
+    else return;
+    setTimeout(() => { wheelLocked = false; }, 500);
+  }, { passive: false });
 
   // Keyboard left/right, only while the carousel is in view
   function inView() {
