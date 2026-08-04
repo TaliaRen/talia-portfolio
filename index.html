@@ -2524,10 +2524,14 @@ function unlockScroll() {
   window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
 })();
 
-// Works nav: scroll without writing #projects to URL (so refresh returns to top)
+// Works nav: scroll to the globe row (with breathing room above), not the cards below it
 document.getElementById('nav-works')?.addEventListener('click', e => {
   e.preventDefault();
-  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  const target = document.querySelector('.hero-globe-badge');
+  if (!target) return;
+  const gap = 100;
+  const y = target.getBoundingClientRect().top + window.scrollY - gap;
+  window.scrollTo({ top: y, behavior: 'smooth' });
 });
 
 // Project card cursor tooltip
