@@ -585,14 +585,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* PROJECTS */
-  #projects { padding:90px 196px 80px; max-width:none; }
-  .projects-list { display:flex; flex-direction:column; gap:148px; align-items:center; }
+  #projects { padding:90px 0 80px; max-width:none; }
+  .projects-carousel-viewport { overflow:hidden; width:100%; }
+  .projects-list { display:flex; flex-direction:row; flex-wrap:nowrap; transition:transform 0.55s cubic-bezier(0.65,0,0.35,1); will-change:transform; }
   .project-card {
-    display:flex; align-items:center; gap:64px;
-    width:100%;
+    display:flex; align-items:center; gap:48px;
+    flex:0 0 auto;
+    padding:0 24px;
+    box-sizing:border-box;
     text-decoration:none; color:inherit;
   }
-  .project-card:nth-child(even) { flex-direction:row-reverse; }
   .project-img-wrap {
     flex:0 0 min(570px, 58%);
     aspect-ratio:570/380;
@@ -674,9 +676,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:rgba(255,255,255,0.35); letter-spacing:.02em;
   }
   @media (max-width:860px) {
-    #projects { padding:60px 32px; }
-    .projects-list { gap:52px; }
-    .project-card, .project-card:nth-child(even) { flex-direction:column; gap:28px; }
+    #projects { padding:60px 0; }
+    .project-card { flex-direction:column; gap:28px; }
     .project-img-wrap { flex:none; width:100%; border-radius:12px; }
     .project-title { font-size:1.4rem; }
     .project-desc { margin-bottom:0; }
@@ -1173,7 +1174,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <section id="projects">
-  <div class="projects-list">
+  <div class="projects-carousel-viewport" id="projects-carousel-viewport">
+  <div class="projects-list" id="projects-list">
 
     <a class="project-card" href="agencyroot.html">
       <div class="project-img-wrap" data-tip="Dozens of actions automated through AI">
@@ -1249,6 +1251,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </a>
 
+  </div>
   </div>
 </section>
 
@@ -2319,6 +2322,49 @@ function unlockScroll() {
       inner.classList.toggle('ring-active');
     });
   });
+})();
+
+// Project carousel: click a globe ball to slide to its matching project card,
+// leaving a 1/5-width peek of the neighboring card on each side
+(function() {
+  const viewport = document.getElementById('projects-carousel-viewport');
+  const track = document.getElementById('projects-list');
+  const balls = document.querySelectorAll('.hero-globe-inner');
+  const cards = document.querySelectorAll('.project-card');
+  if (!viewport || !track || !cards.length) return;
+
+  let index = 0;
+  const PEEK = 0.2;
+  const ACTIVE = 1 - PEEK * 2;
+
+  function goTo(i, animate) {
+    index = Math.max(0, Math.min(cards.length - 1, i));
+    const vw = viewport.clientWidth;
+    const cardWidth = vw * ACTIVE;
+    const x = vw * PEEK - index * cardWidth;
+    if (animate === false) {
+      track.style.transition = 'none';
+      track.style.transform = `translateX(${x}px)`;
+      void track.offsetWidth;
+      track.style.transition = '';
+    } else {
+      track.style.transform = `translateX(${x}px)`;
+    }
+  }
+
+  function layout(animate) {
+    const vw = viewport.clientWidth;
+    const cardWidth = vw * ACTIVE;
+    cards.forEach(c => { c.style.width = cardWidth + 'px'; });
+    goTo(index, animate);
+  }
+
+  balls.forEach((ball, i) => {
+    ball.addEventListener('click', () => goTo(i));
+  });
+
+  window.addEventListener('resize', () => layout(false));
+  layout(false);
 })();
 
 // Campfire marshmallow roasting
