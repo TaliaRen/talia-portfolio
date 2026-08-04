@@ -2658,8 +2658,9 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
 
   let ticking = false;
   function updateFade() {
+    const startAt = window.innerHeight * 0.5;
     const fadeDist = window.innerHeight * 1.1;
-    const p = Math.max(0, Math.min(1, window.scrollY / fadeDist));
+    const p = Math.max(0, Math.min(1, (window.scrollY - startAt) / (fadeDist - startAt)));
     svg.style.opacity = p;
     ticking = false;
   }
