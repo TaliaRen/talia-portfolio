@@ -131,11 +131,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .hero-globe-badge { display:flex; justify-content:center; padding:32px 0; }
   .hero-globe-inner { position:relative; width:110px; height:110px; cursor:pointer; }
   .globe-ring-svg, .globe-sphere-svg { position:absolute; top:0; left:0; width:100%; height:100%; overflow:visible; }
+  .globe-ring-back { z-index:1; }
+  .globe-sphere-svg { z-index:2; }
+  .globe-ring-front { z-index:3; }
   .globe-ring-svg { opacity:0; transition:opacity 0.35s ease; }
   .hero-globe-inner:hover .globe-ring-svg { opacity:1; }
-  @keyframes globeRingFlow { to { stroke-dashoffset:-192; } }
-  .globe-ring-dashes { animation:globeRingFlow 2.6s linear infinite; }
-  .globe-ring-svg.ring-paused .globe-ring-dashes { animation-play-state:paused; }
 
   /* ── Static hero (iPad & below) ── */
   #static-hero { display:none; }
@@ -785,7 +785,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="hero-globe-badge">
   <div class="hero-globe-inner" id="hero-globe-inner">
-    <svg class="globe-ring-svg" id="globe-ring-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <defs>
         <linearGradient id="globeRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#bfe0f7" stop-opacity="0.15"/>
@@ -793,8 +793,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <stop offset="100%" stop-color="#bfe0f7" stop-opacity="0.15"/>
         </linearGradient>
       </defs>
-      <ellipse cx="100" cy="100" rx="128" ry="40" fill="none" stroke="url(#globeRingGrad)" stroke-width="9"/>
-      <ellipse class="globe-ring-dashes" cx="100" cy="100" rx="128" ry="40" fill="none" stroke="#eaf6ff" stroke-width="1.6" stroke-dasharray="3 9" opacity="0.85"/>
+      <!-- back half: goes behind the sphere -->
+      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad)" stroke-width="9"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -820,6 +820,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </g>
       <ellipse cx="62" cy="52" rx="32" ry="19" fill="url(#globeGlare)" transform="rotate(-25 62 52)"/>
       <ellipse cx="55" cy="46" rx="5" ry="8" fill="#ffffff" opacity="0.85" transform="rotate(-20 55 46)"/>
+    </svg>
+    <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <!-- front half: passes in front of the sphere -->
+      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad)" stroke-width="9"/>
     </svg>
   </div>
 </div>
@@ -2128,16 +2132,6 @@ function unlockScroll() {
       navigator.clipboard.writeText('taliaren0826@gmail.com').catch(() => {});
     });
   })();
-
-// Hero globe badge: hover shows a spinning ring, click pauses it (ring stays visible)
-(function() {
-  const inner = document.getElementById('hero-globe-inner');
-  const ring  = document.getElementById('globe-ring-svg');
-  if (!inner || !ring) return;
-  inner.addEventListener('click', () => {
-    ring.classList.toggle('ring-paused');
-  });
-})();
 
 // Campfire marshmallow roasting
 (function() {
