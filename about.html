@@ -67,6 +67,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     animation-timing-function: ease;
   }
   body { font-family:'Outfit', sans-serif; overflow-x:hidden; }
+  #star-field { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity 0.15s linear; }
 
   /* ── Nav ── */
   nav {
@@ -768,6 +769,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   requestAnimationFrame(()=>{ init(); requestAnimationFrame(loop); });
   window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
+})();
+
+// Starfield overlay: fades in as you scroll down, fades back out scrolling up
+(function() {
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('id', 'star-field');
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', '100%');
+  svg.setAttribute('preserveAspectRatio', 'none');
+  const NUM = 90;
+  for (let i = 0; i < NUM; i++) {
+    const c = document.createElementNS(svgNS, 'circle');
+    c.setAttribute('cx', (Math.random() * 100) + '%');
+    c.setAttribute('cy', (Math.random() * 100) + '%');
+    c.setAttribute('r', (0.5 + Math.random() * 1.5).toFixed(2));
+    c.setAttribute('fill', '#ffffff');
+    c.setAttribute('opacity', (0.3 + Math.random() * 0.6).toFixed(2));
+    svg.appendChild(c);
+  }
+  document.body.insertBefore(svg, document.body.firstChild);
+
+  let ticking = false;
+  function updateFade() {
+    const startAt = window.innerHeight * 0.5;
+    const fadeDist = window.innerHeight * 1.1;
+    const p = Math.max(0, Math.min(1, (window.scrollY - startAt) / (fadeDist - startAt)));
+    svg.style.opacity = p;
+    ticking = false;
+  }
+  updateFade();
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(updateFade); ticking = true; }
+  }, { passive: true });
+  window.addEventListener('resize', updateFade);
 })();
 
 </script>
