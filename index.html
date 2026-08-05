@@ -617,7 +617,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     text-decoration:none; color:inherit;
   }
   .project-img-wrap {
-    flex:0 0 min(480px, 46%);
+    flex:0 0 min(540px, 52%);
     aspect-ratio:570/380;
     border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05);
     position:relative;
@@ -696,7 +696,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Outfit',sans-serif; font-size:.82rem; font-weight:500;
     color:rgba(255,255,255,0.35); letter-spacing:.02em;
   }
-  @media (max-width:860px) {
+  @media (max-width:600px) {
     #projects { padding:60px 0; }
     .hero-globe-badge { display:none; }
     .projects-carousel-viewport { overflow:visible; padding:0; }
@@ -2365,7 +2365,7 @@ function unlockScroll() {
   let index = 0;
   const PEEK = 0.13;
   const ACTIVE = 1 - PEEK * 2;
-  const mobileMQ = window.matchMedia('(max-width:860px)');
+  const mobileMQ = window.matchMedia('(max-width:600px)');
 
   function goTo(i, animate) {
     if (mobileMQ.matches) return;
