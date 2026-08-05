@@ -2858,6 +2858,18 @@ if (location.hash === '#about-section') {
   });
 }
 
+// If arriving with #projects in the URL (e.g. from another page), scroll to it
+// the same way the in-page Works nav click does, instead of the browser's native hash jump
+if (location.hash === '#projects') {
+  window.addEventListener('load', () => {
+    const target = document.querySelector('.selected-works-title');
+    if (target) {
+      const y = target.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  });
+}
+
 // Beyond the Screen slider: pause auto-scroll on hover
 (function() {
   const track = document.getElementById('sliderTrack');
