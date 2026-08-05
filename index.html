@@ -696,6 +696,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Outfit',sans-serif; font-size:.82rem; font-weight:500;
     color:rgba(255,255,255,0.35); letter-spacing:.02em;
   }
+  @media (max-width:960px) and (min-width:601px) {
+    .project-card { flex-direction:column; align-items:flex-start; gap:24px; }
+    .project-img-wrap { flex:none; width:100%; }
+    .project-title { font-size:1.6rem; }
+  }
   @media (max-width:600px) {
     #projects { padding:60px 0; }
     .hero-globe-badge { display:none; }
@@ -718,7 +723,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     align-items:flex-start;
     justify-content:center;
     gap:64px;
-    padding:80px 220px 120px;
+    padding:180px 220px 120px;
   }
   .about-left { flex:1; min-width:280px; display:flex; flex-direction:column; gap:28px; }
   .about-right { flex:0 1 490px; min-width:320px; position:relative; }
@@ -1366,16 +1371,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="about-section" id="about-section">
   <div class="about-left">
     <h1 class="about-greeting">Hey there, I'm Talia</h1>
-    <p class="about-body">I became a product designer because I was always curious about why some experiences feel confusing, frustrating, or harder than they need to be.<br><br>Design gave me a way to look beneath the surface, understand the people and systems behind a problem, and reshape them into something more thoughtful and useful.<br><br>Right now, I'm curious about how AI can reshape the way I work. I'm currently experimenting with using AI to understand unfamiliar domains, communicate ideas through demos, and automate repetitive design tasks. Lately, I've been experimenting with teaching AI my design system so it can help review consistency across spacing, colors, and components.</p>
+    <p class="about-body">I became a product designer because I was always curious about why some experiences feel confusing, frustrating, or harder than they need to be.<br><br>Design gave me a way to look beneath the surface, understand the people and systems behind a problem, and reshape them into something more thoughtful and useful.<br><br>Right now, I'm curious about how AI can reshape the way I work. I'm currently experimenting with using AI to understand unfamiliar domains, communicate ideas through demos, and automate repetitive design tasks.</p>
   </div>
   <div class="about-right">
     <div style="position:relative;">
       <img class="about-photo" src="about/picture.jpg" alt="Talia Ren">
     </div>
-    <div style="display:flex; justify-content:flex-start; margin-top:24px;">
+    <div style="display:flex; justify-content:flex-start; gap:12px; margin-top:24px;">
       <a class="resume-dl-btn" href="https://drive.google.com/file/d/1oRVtCad1dqRBeHDCrEvMN_wK6jZAY1EH/view?usp=sharing" target="_blank" rel="noopener">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M5 14l7 7 7-7"/><path d="M3 21h18"/></svg>
         Resume
+      </a>
+      <a class="resume-dl-btn" href="play.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></svg>
+        Playground
       </a>
     </div>
   </div>
