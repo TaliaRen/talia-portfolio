@@ -2606,22 +2606,29 @@ function unlockScroll() {
   layout(false);
 
   // Swipe / drag (mouse + touch via Pointer Events)
-  let dragging = false, startX = 0, startTransform = 0, moved = 0, suppressClick = false;
+  let pointerDown = false, dragging = false;
+  let startX = 0, startTransform = 0, moved = 0, suppressClick = false;
+  const DRAG_THRESHOLD = 8; // px of movement before we treat this as a drag, not a click
   viewport.style.touchAction = 'pan-y';
   viewport.addEventListener('pointerdown', e => {
     if (mobileMQ.matches) return;
-    dragging = true; moved = 0; startX = e.clientX;
+    pointerDown = true; dragging = false; moved = 0; startX = e.clientX;
     const vw = viewport.clientWidth;
     startTransform = vw * PEEK - index * (vw * ACTIVE);
-    track.style.transition = 'none';
-    viewport.setPointerCapture(e.pointerId);
   });
   viewport.addEventListener('pointermove', e => {
-    if (!dragging) return;
+    if (!pointerDown) return;
     moved = e.clientX - startX;
+    if (!dragging) {
+      if (Math.abs(moved) < DRAG_THRESHOLD) return;
+      dragging = true;
+      track.style.transition = 'none';
+    }
     track.style.transform = `translateX(${startTransform + moved}px)`;
   });
   function endDrag() {
+    if (!pointerDown) return;
+    pointerDown = false;
     if (!dragging) return;
     dragging = false;
     track.style.transition = '';
@@ -2629,7 +2636,7 @@ function unlockScroll() {
     if (moved < -threshold) goTo(index + 1);
     else if (moved > threshold) goTo(index - 1);
     else goTo(index);
-    if (Math.abs(moved) > 10) suppressClick = true;
+    suppressClick = true;
   }
   viewport.addEventListener('pointerup', endDrag);
   viewport.addEventListener('pointercancel', endDrag);
