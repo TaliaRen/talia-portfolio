@@ -1769,6 +1769,75 @@ document.addEventListener('mousemove', e => {
     const wrap = document.getElementById('puzzle-wrap');
     wrap.style.cssText = `width:${scatterW}px;height:${scatterH}px;position:relative;overflow:visible;`;
 
+    // ── Mouse trail canvas ────────────────────────────────────────────
+    let trailCanvas = wrap.querySelector('.trail-canvas');
+    if (!trailCanvas) {
+      trailCanvas = document.createElement('canvas');
+      trailCanvas.className = 'trail-canvas';
+      trailCanvas.style.cssText = `position:absolute;left:0;top:0;pointer-events:none;z-index:55;`;
+      wrap.appendChild(trailCanvas);
+    }
+    trailCanvas.width = scatterW;
+    trailCanvas.height = scatterH;
+    const trailCtx = trailCanvas.getContext('2d');
+    let trailActive = false;
+    let trailPrevX = null, trailPrevY = null, trailPauseTimer = null;
+    // Scatter silver glitter particles around a point
+    const spawnGlitter = (px, py) => {
+      const n = 5 + Math.floor(Math.random() * 5);
+      for (let i = 0; i < n; i++) {
+        const ox = (Math.random() - 0.5) * 28, oy = (Math.random() - 0.5) * 28;
+        const r  = 0.7 + Math.random() * 2.2;
+        const a  = 0.45 + Math.random() * 0.55;
+        const L  = 88 + Math.random() * 12;      // near-white lightness
+        const S  = Math.random() * 18;            // barely-saturated
+        const H  = 200 + Math.random() * 40;     // cool silver hue
+        trailCtx.globalAlpha = a;
+        trailCtx.fillStyle = `hsl(${H},${S}%,${L}%)`;
+        trailCtx.beginPath();
+        trailCtx.arc(px + ox, py + oy, r, 0, Math.PI * 2);
+        trailCtx.fill();
+      }
+      trailCtx.globalAlpha = 1;
+    };
+    // Per-frame gentle fade
+    const trailFade = () => {
+      trailCtx.save();
+      trailCtx.globalCompositeOperation = 'destination-out';
+      trailCtx.fillStyle = 'rgba(0,0,0,0.06)';
+      trailCtx.fillRect(assembleOffX, assembleOffY, W, H);
+      trailCtx.restore();
+      requestAnimationFrame(trailFade);
+    };
+    requestAnimationFrame(trailFade);
+    wrap.addEventListener('mousemove', (e) => {
+      if (!trailActive) return;
+      const rect = wrap.getBoundingClientRect();
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      const inPuzzle = x >= assembleOffX && x <= assembleOffX + W && y >= assembleOffY && y <= assembleOffY + H;
+      if (inPuzzle) {
+        trailCtx.save();
+        trailCtx.beginPath();
+        trailCtx.rect(assembleOffX, assembleOffY, W, H);
+        trailCtx.clip();
+        // seed glitter along the path between prev and current position
+        if (trailPrevX !== null) {
+          const dist = Math.hypot(x - trailPrevX, y - trailPrevY);
+          const steps = Math.max(1, Math.ceil(dist / 10));
+          for (let s = 0; s < steps; s++) {
+            const t = (s + 1) / steps;
+            spawnGlitter(trailPrevX + (x - trailPrevX) * t, trailPrevY + (y - trailPrevY) * t);
+          }
+        }
+        trailCtx.restore();
+      }
+      trailPrevX = inPuzzle ? x : null;
+      trailPrevY = inPuzzle ? y : null;
+      clearTimeout(trailPauseTimer);
+      trailPauseTimer = setTimeout(() => { trailPrevX = null; trailPrevY = null; }, 150);
+    });
+    wrap.addEventListener('mouseleave', () => { trailPrevX = null; trailPrevY = null; });
+
     // ── Scatter positions ─────────────────────────────────────────────
     const scatterPos = {}, scatterRotations = {};
     const shuffledIdx = Array.from({ length: COLS * ROWS }, (_, i) => i)
@@ -1918,6 +1987,7 @@ document.addEventListener('mousemove', e => {
 
     // ── Pile puzzle-folder stickers densely into the top-left corner ──
     function scatterPuzzleStickers(offX, offY, instant) {
+      trailActive = true;
       wrap.querySelectorAll('.puzzle-sticker').forEach(el => el.remove());
       // reduced light-green (p1 1x), kept dark-green (p7,p8 2x), boosted yellow (p4,p5,p6 3x/2x)
       const srcNums = [1,7,7,8,8,2,2,3,3,4,4,4,5,5,6,6];
@@ -2852,66 +2922,6 @@ if (location.hash === '#about-section') {
     if (!ticking) { requestAnimationFrame(updateFade); ticking = true; }
   }, { passive: true });
   window.addEventListener('resize', updateFade);
-})();
-
-// Global glitter mouse trail — active everywhere on the page, all the time
-(function() {
-  const canvas = document.createElement('canvas');
-  canvas.id = 'global-trail';
-  canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;';
-  document.body.appendChild(canvas);
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  function resize() {
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const spawnGlitter = (px, py) => {
-    const n = 5 + Math.floor(Math.random() * 5);
-    for (let i = 0; i < n; i++) {
-      const ox = (Math.random() - 0.5) * 28, oy = (Math.random() - 0.5) * 28;
-      const r  = 0.7 + Math.random() * 2.2;
-      const a  = 0.45 + Math.random() * 0.55;
-      const L  = 88 + Math.random() * 12;      // near-white lightness
-      const S  = Math.random() * 18;            // barely-saturated
-      const H  = 200 + Math.random() * 40;     // cool silver hue
-      ctx.globalAlpha = a;
-      ctx.fillStyle = `hsl(${H},${S}%,${L}%)`;
-      ctx.beginPath();
-      ctx.arc(px + ox, py + oy, r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-  };
-  const fade = () => {
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0,0,0,0.06)';
-    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-    ctx.restore();
-    requestAnimationFrame(fade);
-  };
-  requestAnimationFrame(fade);
-
-  let prevX = null, prevY = null, pauseTimer = null;
-  document.addEventListener('mousemove', (e) => {
-    const x = e.clientX, y = e.clientY;
-    if (prevX !== null) {
-      const dist = Math.hypot(x - prevX, y - prevY);
-      const steps = Math.max(1, Math.ceil(dist / 10));
-      for (let s = 0; s < steps; s++) {
-        const t = (s + 1) / steps;
-        spawnGlitter(prevX + (x - prevX) * t, prevY + (y - prevY) * t);
-      }
-    }
-    prevX = x; prevY = y;
-    clearTimeout(pauseTimer);
-    pauseTimer = setTimeout(() => { prevX = null; prevY = null; }, 150);
-  }, { passive: true });
 })();
 
 </script>
