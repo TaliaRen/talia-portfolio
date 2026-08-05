@@ -129,7 +129,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:959px) { #hero { padding:80px 20px 0; } }
   @media (max-width:559px) { #hero { padding:80px 16px 0; } }
 
-  .hero-globe-badge { display:flex; justify-content:center; padding:32px 24px; }
+  .hero-globe-badge { display:flex; justify-content:center; padding:96px 24px 32px; }
+  .ball-number {
+    position:absolute; left:50%; top:100%; transform:translateX(-50%);
+    margin-top:12px;
+    font-family:'Outfit',sans-serif; font-size:0.95rem; font-weight:500;
+    color:#ffffff; letter-spacing:.02em;
+    opacity:0; transition:opacity 0.3s ease;
+    pointer-events:none;
+  }
+  .hero-globe-inner.ring-active .ball-number { opacity:1; }
   .hero-globe-orbit { position:relative; width:100%; max-width:900px; height:140px; }
   .globe-orbit-path { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
   .hero-globe-inner { position:absolute; width:68px; height:68px; cursor:pointer; }
@@ -797,25 +806,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <svg class="globe-orbit-path" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <filter id="orbitGlow" x="-50%" y="-200%" width="200%" height="500%">
-        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feGaussianBlur stdDeviation="5" result="blur"/>
         <feMerge>
           <feMergeNode in="blur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
     </defs>
-    <ellipse cx="450" cy="70" rx="440" ry="32" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.6" filter="url(#orbitGlow)"/>
+    <ellipse cx="450" cy="70" rx="440" ry="32" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.6" filter="url(#orbitGlow)"/>
   </svg>
   <div class="hero-globe-inner" style="left:11.1%; top:55px; transform:translateX(-50%);">
     <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <defs>
         <linearGradient id="globeRingGrad-y" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#f2e6bf" stop-opacity="0.15"/>
-          <stop offset="50%" stop-color="#e8c66f" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="#f2e6bf" stop-opacity="0.15"/>
+          <stop offset="0%" stop-color="#f2e6bf" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#e8c66f" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#f2e6bf" stop-opacity="0.3"/>
         </linearGradient>
       </defs>
-      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -854,21 +863,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </g>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
+    <span class="ball-number">1</span>
   </div>
 
   <div class="hero-globe-inner" style="left:37%; top:67px; transform:translateX(-50%);">
     <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <defs>
         <linearGradient id="globeRingGrad-b" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#bfe0f7" stop-opacity="0.15"/>
-          <stop offset="50%" stop-color="#6fb3e8" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="#bfe0f7" stop-opacity="0.15"/>
+          <stop offset="0%" stop-color="#bfe0f7" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#6fb3e8" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#bfe0f7" stop-opacity="0.3"/>
         </linearGradient>
       </defs>
-      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-b)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-b)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -907,21 +917,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </g>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-b)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-b)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
+    <span class="ball-number">2</span>
   </div>
 
   <div class="hero-globe-inner" style="left:63%; top:67px; transform:translateX(-50%);">
     <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <defs>
         <linearGradient id="globeRingGrad-g" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#d9f0e0" stop-opacity="0.15"/>
-          <stop offset="50%" stop-color="#7fcf9d" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="#d9f0e0" stop-opacity="0.15"/>
+          <stop offset="0%" stop-color="#d9f0e0" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#7fcf9d" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#d9f0e0" stop-opacity="0.3"/>
         </linearGradient>
       </defs>
-      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-g)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-g)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -960,21 +971,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </g>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-g)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-g)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
+    <span class="ball-number">3</span>
   </div>
 
   <div class="hero-globe-inner" style="left:88.9%; top:55px; transform:translateX(-50%);">
     <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <defs>
         <linearGradient id="globeRingGrad-p" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#e9e0f5" stop-opacity="0.15"/>
-          <stop offset="50%" stop-color="#b49ce0" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="#e9e0f5" stop-opacity="0.15"/>
+          <stop offset="0%" stop-color="#e9e0f5" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#b49ce0" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#e9e0f5" stop-opacity="0.3"/>
         </linearGradient>
       </defs>
-      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-p)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-p)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -1013,9 +1025,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </g>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-p)" stroke-width="13" transform="rotate(-20 100 100)"/>
+      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-p)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
+    <span class="ball-number">4</span>
   </div>
 </div>
 </div>
