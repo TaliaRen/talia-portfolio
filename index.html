@@ -712,6 +712,77 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .project-title { font-size:1.25rem; }
   }
 
+  /* ── About section (merged from about.html) ── */
+  .about-section {
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    gap:64px;
+    padding:80px 220px 120px;
+  }
+  .about-left { flex:1; min-width:280px; display:flex; flex-direction:column; gap:28px; }
+  .about-right { flex:0 1 490px; min-width:320px; position:relative; }
+  .about-photo {
+    width:100%; aspect-ratio:4.5/3; object-fit:cover; object-position:center top;
+    border-radius:16px; display:block;
+  }
+  .resume-dl-btn {
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:'Outfit',sans-serif; font-size:0.95rem; font-weight:500;
+    color:#fff; background:rgba(255,255,255,0.12);
+    border:none; border-radius:10px; padding:11px 24px;
+    cursor:pointer; text-decoration:none;
+    transition:background 0.2s, transform 0.15s;
+    white-space:nowrap;
+  }
+  .resume-dl-btn:hover { background:#16A84E; transform:translateY(-1px); }
+  .about-greeting {
+    font-family:'Cormorant Infant', Georgia, serif;
+    font-style:italic; font-weight:400; font-size:3.4rem;
+    color:rgba(255,255,255,0.95); line-height:1.15;
+  }
+  .about-body {
+    font-family:'Outfit', sans-serif; font-weight:300; font-size:1rem;
+    line-height:1.85; color:rgba(255,255,255,0.70); max-width:100%;
+  }
+  @media (max-width:900px) {
+    .about-section { flex-direction:column; padding:60px 24px 60px; gap:40px; }
+    .about-right { flex:none; width:100%; max-width:400px; }
+    .about-greeting { font-size:2.4rem; }
+    .slider-section { padding-top:60px; }
+  }
+
+  /* ── Image slider ("Beyond the Screen") ── */
+  .slider-section { padding:80px 0 120px; overflow:hidden; contain:layout style; }
+  .slider-title {
+    font-family:'Cormorant Infant', Georgia, serif;
+    font-style:italic; font-weight:400; font-size:2.2rem;
+    color:rgba(255,255,255,0.95); line-height:1.15;
+    text-align:center; margin-bottom:100px;
+  }
+  .slider-track-wrap {
+    mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+    padding: 20px 0;
+  }
+  .slider-track { display:flex; gap:24px; width:max-content; animation: slider-scroll 30s linear infinite; will-change:transform; }
+  .slider-track.paused { animation-play-state: paused; }
+  @keyframes slider-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .slider-item { flex-shrink:0; width:220px; display:flex; flex-direction:column; gap:20px; cursor:default; }
+  .slider-img-wrap {
+    width:220px; height:293px; border-radius:14px; overflow:hidden;
+    box-shadow:0 8px 32px rgba(0,0,0,0.5); transition:transform .3s ease;
+  }
+  .slider-item:hover .slider-img-wrap { transform:scale(1.03); }
+  .slider-item img { width:100%; height:100%; object-fit:cover; display:block; }
+  .slider-caption {
+    font-family:'Outfit', sans-serif; font-size:0.82rem; font-weight:300;
+    color:rgba(255,255,255,0.82); letter-spacing:.03em; padding:0 2px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    opacity:0; transition:opacity .25s ease; margin-top:8px;
+  }
+  .slider-item:hover .slider-caption { opacity:1; }
+
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
   .footer-top { display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:102px 0 2px 0; }
   .footer-bottom { display:flex; flex-direction:column; align-items:center; gap:12px; padding:28px 0 44px; border-top:1px solid rgba(28,25,23,.05); }
@@ -790,7 +861,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
   <a class="nav-link" href="#projects" id="nav-works">Works</a>
   <a class="nav-link" href="play.html">Play</a>
-  <a class="nav-link" href="about.html">About</a>
+  <a class="nav-link" href="#about-section" id="nav-about">About</a>
 </nav>
 
 <section id="hero">
@@ -1289,6 +1360,123 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
 
   </div>
+  </div>
+</section>
+
+<div class="about-section" id="about-section">
+  <div class="about-left">
+    <h1 class="about-greeting">Hey there, I'm Talia</h1>
+    <p class="about-body">I became a product designer because I was always curious about why some experiences feel confusing, frustrating, or harder than they need to be.<br><br>Design gave me a way to look beneath the surface, understand the people and systems behind a problem, and reshape them into something more thoughtful and useful.<br><br>Right now, I'm curious about how AI can reshape the way I work. I'm currently experimenting with using AI to understand unfamiliar domains, communicate ideas through demos, and automate repetitive design tasks. Lately, I've been experimenting with teaching AI my design system so it can help review consistency across spacing, colors, and components.</p>
+  </div>
+  <div class="about-right">
+    <div style="position:relative;">
+      <img class="about-photo" src="about/picture.jpg" alt="Talia Ren">
+    </div>
+    <div style="display:flex; justify-content:flex-start; margin-top:24px;">
+      <a class="resume-dl-btn" href="https://drive.google.com/file/d/1oRVtCad1dqRBeHDCrEvMN_wK6jZAY1EH/view?usp=sharing" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M5 14l7 7 7-7"/><path d="M3 21h18"/></svg>
+        Resume
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Image Slider -->
+<section class="slider-section">
+  <h2 class="slider-title">Beyond the Screen</h2>
+  <div class="slider-track-wrap">
+    <div class="slider-track" id="sliderTrack">
+      <!-- set 1 -->
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">Can't stop travelling</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy"></div>
+        <span class="slider-caption">Capture every moment</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy"></div>
+        <span class="slider-caption">DIY enthusiast</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Flowers%20make%20me%20feel%20alive.JPG" alt="" loading="lazy"></div>
+        <span class="slider-caption">Flowers make me feel alive</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/cafe.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">I've worked at a Café</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/my%20first%201000-piece%20Puzzle.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">My first 1000-piece puzzle</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">My favorite musical</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/obsessed%20with%20good%20video%20games.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">Obsessed with good video games</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">One day, I'll visit every Disney Land</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">The best time of the year</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">Trying new things</span>
+      </div>
+      <!-- set 2 (duplicate for seamless loop) -->
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">Can't stop travelling</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy"></div>
+        <span class="slider-caption">Capture every moment</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy"></div>
+        <span class="slider-caption">DIY enthusiast</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Flowers%20make%20me%20feel%20alive.JPG" alt="" loading="lazy"></div>
+        <span class="slider-caption">Flowers make me feel alive</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/cafe.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">I've worked at a Café</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/my%20first%201000-piece%20Puzzle.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">My first 1000-piece puzzle</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">My favorite musical</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/obsessed%20with%20good%20video%20games.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">Obsessed with good video games</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">One day, I'll visit every Disney Land</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">The best time of the year</span>
+      </div>
+      <div class="slider-item">
+        <div class="slider-img-wrap"><img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy"></div>
+        <span class="slider-caption">Trying new things</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2639,6 +2827,37 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
   const y = target.getBoundingClientRect().top + window.scrollY - gap;
   window.scrollTo({ top: y, behavior: 'smooth' });
 });
+
+// About nav: scroll to the merged about section instead of navigating to about.html
+document.getElementById('nav-about')?.addEventListener('click', e => {
+  e.preventDefault();
+  const target = document.getElementById('about-section');
+  if (!target) return;
+  const gap = 40;
+  const y = target.getBoundingClientRect().top + window.scrollY - gap;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+});
+
+// If arriving with #about-section in the URL (e.g. from another page), scroll to it
+if (location.hash === '#about-section') {
+  window.addEventListener('load', () => {
+    const target = document.getElementById('about-section');
+    if (target) {
+      const y = target.getBoundingClientRect().top + window.scrollY - 40;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  });
+}
+
+// Beyond the Screen slider: pause auto-scroll on hover
+(function() {
+  const track = document.getElementById('sliderTrack');
+  if (!track) return;
+  track.querySelectorAll('.slider-item').forEach(item => {
+    item.addEventListener('mouseenter', () => track.classList.add('paused'));
+    item.addEventListener('mouseleave', () => track.classList.remove('paused'));
+  });
+})();
 
 // Project card cursor tooltip
 (function() {
