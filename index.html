@@ -129,11 +129,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:959px) { #hero { padding:80px 20px 0; } }
   @media (max-width:559px) { #hero { padding:80px 16px 0; } }
 
-  .hero-globe-badge { display:flex; justify-content:center; padding:96px 24px 32px; }
+  .hero-globe-badge { display:flex; flex-direction:column; align-items:center; padding:150px 24px 32px; }
+  .selected-works-title {
+    font-family:'Cormorant Infant', Georgia, serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:2.2rem;
+    color:rgba(255,255,255,0.95);
+    line-height:1.15;
+    text-align:center;
+    margin-bottom:48px;
+  }
   .ball-number {
     position:absolute; left:50%; top:100%; transform:translateX(-50%);
-    margin-top:12px;
-    font-family:'Outfit',sans-serif; font-size:0.95rem; font-weight:500;
+    margin-top:14px;
+    font-family:'Fraunces', serif; font-size:1.5rem; font-weight:600;
     color:#ffffff; letter-spacing:.02em;
     opacity:0; transition:opacity 0.3s ease;
     pointer-events:none;
@@ -606,7 +616,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     text-decoration:none; color:inherit;
   }
   .project-img-wrap {
-    flex:0 0 min(570px, 58%);
+    flex:0 0 min(480px, 46%);
     aspect-ratio:570/380;
     border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05);
     position:relative;
@@ -802,6 +812,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <div class="hero-globe-badge">
+<p class="selected-works-title">Selected Works</p>
 <div class="hero-globe-orbit">
   <svg class="globe-orbit-path" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
     <defs>
