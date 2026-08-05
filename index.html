@@ -138,7 +138,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:rgba(255,255,255,0.95);
     line-height:1.15;
     text-align:center;
-    margin-bottom:48px;
+    margin-bottom:16px;
   }
   .ball-number {
     position:absolute; left:50%; top:100%; transform:translateX(-50%);
@@ -723,7 +723,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     align-items:flex-start;
     justify-content:center;
     gap:64px;
-    padding:280px 220px 120px;
+    padding:220px 220px 120px;
   }
   .about-left { flex:1; min-width:280px; display:flex; flex-direction:column; gap:28px; }
   .about-right { flex:0 1 490px; min-width:320px; position:relative; }
@@ -2840,9 +2840,9 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
 // About nav: scroll to the merged about section instead of navigating to about.html
 document.getElementById('nav-about')?.addEventListener('click', e => {
   e.preventDefault();
-  const target = document.getElementById('about-section');
+  const target = document.querySelector('.about-greeting');
   if (!target) return;
-  const gap = 40;
+  const gap = 100;
   const y = target.getBoundingClientRect().top + window.scrollY - gap;
   window.scrollTo({ top: y, behavior: 'smooth' });
 });
@@ -2850,9 +2850,9 @@ document.getElementById('nav-about')?.addEventListener('click', e => {
 // If arriving with #about-section in the URL (e.g. from another page), scroll to it
 if (location.hash === '#about-section') {
   window.addEventListener('load', () => {
-    const target = document.getElementById('about-section');
+    const target = document.querySelector('.about-greeting');
     if (target) {
-      const y = target.getBoundingClientRect().top + window.scrollY - 40;
+      const y = target.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   });
