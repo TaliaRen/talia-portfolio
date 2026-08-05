@@ -2830,9 +2830,9 @@ function unlockScroll() {
 // Works nav: scroll to the globe row (with breathing room above), not the cards below it
 document.getElementById('nav-works')?.addEventListener('click', e => {
   e.preventDefault();
-  const target = document.querySelector('.hero-globe-badge');
+  const target = document.querySelector('.selected-works-title');
   if (!target) return;
-  const gap = 60;
+  const gap = 90;
   const y = target.getBoundingClientRect().top + window.scrollY - gap;
   window.scrollTo({ top: y, behavior: 'smooth' });
 });
@@ -2842,7 +2842,7 @@ document.getElementById('nav-about')?.addEventListener('click', e => {
   e.preventDefault();
   const target = document.querySelector('.about-greeting');
   if (!target) return;
-  const gap = 100;
+  const gap = 120;
   const y = target.getBoundingClientRect().top + window.scrollY - gap;
   window.scrollTo({ top: y, behavior: 'smooth' });
 });
@@ -2852,7 +2852,7 @@ if (location.hash === '#about-section') {
   window.addEventListener('load', () => {
     const target = document.querySelector('.about-greeting');
     if (target) {
-      const y = target.getBoundingClientRect().top + window.scrollY - 100;
+      const y = target.getBoundingClientRect().top + window.scrollY - 120;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   });
