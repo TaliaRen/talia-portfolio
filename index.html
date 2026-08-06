@@ -2137,6 +2137,7 @@ document.addEventListener('mousemove', e => {
         const dys    = [-4, 60, 4, 75, -6].map(v => v * bgH / 251);
         const szMs   = [1, 1, 1, 0.70, 1];
         const baseRowY = offY + H - bgH + (bgH - iconSz) / 2;
+        const hoverCheckList = [];
         rowSrcs.forEach((img, i) => {
           const sz   = iconSz * szMs[i];
           const left = offX + cxs[i] * W - sz / 2 + dxs[i];
@@ -2188,6 +2189,7 @@ document.addEventListener('mousemove', e => {
                 tt.style.opacity = '1';
               });
               holder.addEventListener('mouseleave', () => { tt.style.opacity = '0'; });
+              hoverCheckList.push({ holder, tt, icv });
             }
             if (tipInfo.modal) {
               holder.addEventListener('click', () => { if (window[tipInfo.modal]) window[tipInfo.modal](); });
@@ -2196,6 +2198,21 @@ document.addEventListener('mousemove', e => {
 
           wrap.appendChild(holder);
         });
+
+        // If the cursor is already sitting still over an icon right as it appears (no real
+        // mouseenter will fire for a stationary pointer), show that tooltip immediately instead
+        // of waiting for the user to move the mouse away and back.
+        const mx = parseFloat(sessionStorage.getItem('mx'));
+        const my = parseFloat(sessionStorage.getItem('my'));
+        if (!Number.isNaN(mx) && !Number.isNaN(my)) {
+          hoverCheckList.forEach(({ holder, tt, icv }) => {
+            const r = holder.getBoundingClientRect();
+            if (mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom) {
+              icv.style.transform = 'scale(1.15)';
+              tt.style.opacity = '1';
+            }
+          });
+        }
       }
     }
 
