@@ -772,14 +772,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const desktopMQ = window.matchMedia('(min-width:761px)');
   if (!desktopMQ.matches) return; // mobile falls back to a plain stacked list, no canvas JS needed
 
-  // Lay cards out in a single non-overlapping row, each shrunk down with a slight tilt
+  // Scatter cards loosely in a 2x2 grid of generously-sized cells — random jitter within
+  // each cell keeps the "scattered" feel while the cell spacing guarantees no overlap
   const CARD_SCALE = 0.68;
-  const ROW_Y = 150;
-  const COL_GAP = 340; // wider than a scaled card (420*0.68≈286px) so nothing overlaps
+  const cells = [
+    { x: 80,  y: 60  },
+    { x: 640, y: 40  },
+    { x: 60,  y: 700 },
+    { x: 660, y: 680 },
+  ];
   cards.forEach((card, i) => {
-    const rot = (Math.random() - 0.5) * 6;
-    card.style.left = Math.round(120 + i * COL_GAP) + 'px';
-    card.style.top  = ROW_Y + 'px';
+    const cell = cells[i] || { x: 80 + (i % 2) * 560, y: 60 + Math.floor(i / 2) * 640 };
+    const jx = (Math.random() - 0.5) * 50;
+    const jy = (Math.random() - 0.5) * 40;
+    const rot = (Math.random() - 0.5) * 8;
+    card.style.left = Math.round(cell.x + jx) + 'px';
+    card.style.top  = Math.round(cell.y + jy) + 'px';
     card.style.transform = `rotate(${rot.toFixed(1)}deg) scale(${CARD_SCALE})`;
     card.addEventListener('dragstart', e => e.preventDefault());
   });
