@@ -749,14 +749,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
   svg.setAttribute('preserveAspectRatio', 'none');
-  const NUM = 90;
+  const NUM = 50;
   for (let i = 0; i < NUM; i++) {
     const c = document.createElementNS(svgNS, 'circle');
     c.setAttribute('cx', (Math.random() * 100) + '%');
     c.setAttribute('cy', (Math.random() * 100) + '%');
     c.setAttribute('r', (0.5 + Math.random() * 1.5).toFixed(2));
     c.setAttribute('fill', '#ffffff');
-    c.setAttribute('opacity', (0.3 + Math.random() * 0.6).toFixed(2));
+    c.setAttribute('opacity', (0.15 + Math.random() * 0.35).toFixed(2));
     svg.appendChild(c);
   }
   document.body.insertBefore(svg, document.body.firstChild);
