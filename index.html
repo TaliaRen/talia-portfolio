@@ -2104,7 +2104,7 @@ document.addEventListener('mousemove', e => {
             div.classList.add('spinning');
             musicAudio = new Audio('sound effect/music.mp3');
             musicAudio.loop = true;
-            musicAudio.play().catch(() => {});
+            musicAudio.play().catch(err => { console.warn('Vinyl audio failed to play:', err); div.classList.remove('spinning'); });
             musicAudio.addEventListener('ended', () => { div.classList.remove('spinning'); musicAudio = null; });
           }
         });
