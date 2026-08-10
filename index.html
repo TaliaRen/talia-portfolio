@@ -1703,9 +1703,7 @@ document.addEventListener('mousemove', e => {
     const bgY  = H - bgH;
     const bgImgEl = _stickers[7];
     if (bgImgEl && bgImgEl.naturalWidth) {
-      const BG_SCALE = 0.9; // shrink the illustrated characters slightly, centered in the same strip
-      const dw = bgW * BG_SCALE, dh = bgH * BG_SCALE;
-      ctx.drawImage(bgImgEl, bgX + (bgW - dw) / 2, bgY + (bgH - dh) / 2, dw, dh);
+      ctx.drawImage(bgImgEl, bgX, bgY, bgW, bgH);
     }
     const rowImgs = [8, 9, 10, 11, 12].map(i => _stickers[i]).filter(img => img && img.naturalWidth);
     if (rowImgs.length) {
@@ -2126,9 +2124,7 @@ document.addEventListener('mousemove', e => {
         bgCv.style.cssText = `position:absolute;left:${offX}px;top:${offY + H - bgH}px;width:${W}px;height:${bgH}px;pointer-events:none;z-index:51;`;
         const bCtx = bgCv.getContext('2d');
         bCtx.scale(DPR, DPR);
-        const BG_SCALE = 0.9; // keep in sync with drawPuzzleExtras
-        const bgDw = W * BG_SCALE, bgDh = bgH * BG_SCALE;
-        bCtx.drawImage(bgEl, (W - bgDw) / 2, (bgH - bgDh) / 2, bgDw, bgDh);
+        bCtx.drawImage(bgEl, 0, 0, W, bgH);
         wrap.appendChild(bgCv);
       }
 
