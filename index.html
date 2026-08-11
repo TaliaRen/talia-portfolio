@@ -848,7 +848,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:0;
   }
   .footer-icon-btn:hover { color:#e0e0e0; }
-  .footer-quote { font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:3rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-quote { font-family:'Fraunces',serif; font-weight:600; font-style:normal; font-size:3rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
 
 </style>
@@ -1657,12 +1657,12 @@ document.addEventListener('mousemove', e => {
     ctx.font = `italic ${fs1}px "Cormorant Infant", Georgia, serif`;
     ctx.fillStyle = '#5F5E5A';
     ctx.globalAlpha = 1;
-    ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.19 + 20);
+    ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.16 + 10);
 
     // Headline
     ctx.font = `600 ${fs2}px "Fraunces", serif`;
     ctx.fillStyle = '#173824';
-    let y2 = H * 0.28 + 24;
+    let y2 = H * 0.25 + 14;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
 
     // ── Stickers: fixed layout matching reference design ─────────────
