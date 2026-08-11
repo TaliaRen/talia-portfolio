@@ -1657,12 +1657,12 @@ document.addEventListener('mousemove', e => {
     ctx.font = `italic ${fs1}px "Cormorant Infant", Georgia, serif`;
     ctx.fillStyle = '#5F5E5A';
     ctx.globalAlpha = 1;
-    ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.16 + 10);
+    ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
 
     // Headline
     ctx.font = `600 ${fs2}px "Fraunces", serif`;
     ctx.fillStyle = '#173824';
-    let y2 = H * 0.25 + 14;
+    let y2 = H * 0.265 + 19;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
 
     // ── Stickers: fixed layout matching reference design ─────────────
