@@ -24,6 +24,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Talia Ren</title>
 <link rel="preload" href="project cover/agencyroot cover.png" as="image">
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Crimson_Text/CrimsonText-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Crimson_Text/CrimsonText-BoldItalic.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <style>
@@ -34,6 +36,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-weight: 100 900;
     font-style: normal;
     font-display: block;
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    src: url('fonts/Crimson_Text/CrimsonText-Bold.ttf') format('truetype');
+    font-weight: 700; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    src: url('fonts/Crimson_Text/CrimsonText-BoldItalic.ttf') format('truetype');
+    font-weight: 700; font-style: italic; font-display: block;
   }
   @font-face {
     font-family: 'Cormorant Infant';
@@ -153,8 +165,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       animation: fadeSlideUp 0.8s ease 0.4s both;
     }
     #static-text h1 {
-      font-family:'Cormorant Infant', serif;
-      font-weight:900; font-size:clamp(18px, 4.5vw, 32px);
+      font-family:'Crimson Text', serif;
+      font-weight:700; font-size:clamp(18px, 4.5vw, 32px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
     #static-text p {
@@ -816,7 +828,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:0;
   }
   .footer-icon-btn:hover { color:#e0e0e0; }
-  .footer-quote { font-family:'Cormorant Infant',serif; font-weight:900; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-quote { font-family:'Crimson Text',serif; font-weight:700; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
 
 </style>
@@ -1628,7 +1640,7 @@ document.addEventListener('mousemove', e => {
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
 
     // Headline
-    ctx.font = `900 ${fs2}px "Cormorant Infant", serif`;
+    ctx.font = `700 ${fs2}px "Crimson Text", serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.265 + 19;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -2342,7 +2354,7 @@ document.addEventListener('mousemove', e => {
 
   // Font loads are best-effort: if one fails (e.g. a missing/renamed file),
   // it must not reject the whole chain and block the puzzle from building.
-  document.fonts.load('600 34px "Cormorant Infant"').catch(() => {});
+  document.fonts.load('700 34px "Crimson Text"').catch(() => {});
   Promise.all([
     document.fonts.load('600 34px "Outfit"'),
     document.fonts.load('400 18px "Cormorant Infant"'),
