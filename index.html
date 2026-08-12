@@ -26,8 +26,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Fraunces/static/Fraunces_72pt-Italic.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Lora/Lora-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Lora/Lora-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 
   @font-face {
@@ -48,16 +48,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-weight: 100 900; font-style: italic; font-display: block;
   }
   @font-face {
-    font-family: 'Fraunces';
-    src: url('fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf') format('truetype');
-    font-weight: 600;
+    font-family: 'Lora';
+    src: url('fonts/Lora/Lora-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
     font-style: normal;
     font-display: block;
   }
   @font-face {
-    font-family: 'Fraunces';
-    src: url('fonts/Fraunces/static/Fraunces_72pt-Italic.ttf') format('truetype');
-    font-weight: 400;
+    font-family: 'Lora';
+    src: url('fonts/Lora/Lora-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
     font-style: italic;
     font-display: block;
   }
@@ -125,7 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ball-number {
     position:absolute; left:50%; top:100%; transform:translateX(-50%);
     margin-top:14px;
-    font-family:'Fraunces', serif; font-size:1.5rem; font-weight:600;
+    font-family:'Lora', serif; font-size:1.5rem; font-weight:600;
     color:#ffffff; letter-spacing:.02em;
     opacity:0; transition:opacity 0.3s ease;
     pointer-events:none;
@@ -169,7 +169,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       animation: fadeSlideUp 0.8s ease 0.4s both;
     }
     #static-text h1 {
-      font-family:'Fraunces', serif;
+      font-family:'Lora', serif;
       font-weight:600; font-size:clamp(16px, 4vw, 28px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
@@ -831,7 +831,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:0;
   }
   .footer-icon-btn:hover { color:#e0e0e0; }
-  .footer-quote { font-family:'Fraunces',serif; font-weight:400; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-quote { font-family:'Lora',serif; font-weight:400; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
 
 </style>
@@ -1643,7 +1643,7 @@ document.addEventListener('mousemove', e => {
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
 
     // Headline
-    ctx.font = `600 ${fs2}px "Fraunces", serif`;
+    ctx.font = `600 ${fs2}px "Lora", serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.265 + 19;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -2357,7 +2357,7 @@ document.addEventListener('mousemove', e => {
 
   // Font loads are best-effort: if one fails (e.g. a missing/renamed file),
   // it must not reject the whole chain and block the puzzle from building.
-  document.fonts.load('600 34px "Fraunces"').catch(() => {});
+  document.fonts.load('600 34px "Lora"').catch(() => {});
   Promise.all([
     document.fonts.load('600 34px "Outfit"'),
     document.fonts.load('italic 400 18px "Cormorant Infant"'),
