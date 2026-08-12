@@ -24,8 +24,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Talia Ren</title>
 <link rel="preload" href="project cover/agencyroot cover.png" as="image">
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Cormorant/Cormorant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Cormorant/Cormorant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Lora/Lora-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Lora/Lora-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 
   @font-face {
@@ -36,25 +38,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-display: block;
   }
   @font-face {
-    font-family: 'Cormorant';
-    src: url('fonts/Cormorant/Cormorant-VariableFont_wght.ttf') format('truetype');
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900; font-style: normal; font-display: block;
   }
   @font-face {
-    font-family: 'Cormorant';
-    src: url('fonts/Cormorant/Cormorant-Italic-VariableFont_wght.ttf') format('truetype');
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900; font-style: italic; font-display: block;
   }
   @font-face {
-    font-family: 'Cormorant';
-    src: url('fonts/Cormorant/Cormorant-VariableFont_wght.ttf') format('truetype');
+    font-family: 'Lora';
+    src: url('fonts/Lora/Lora-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900;
     font-style: normal;
     font-display: block;
   }
   @font-face {
-    font-family: 'Cormorant';
-    src: url('fonts/Cormorant/Cormorant-Italic-VariableFont_wght.ttf') format('truetype');
+    font-family: 'Lora';
+    src: url('fonts/Lora/Lora-Italic-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900;
     font-style: italic;
     font-display: block;
@@ -111,7 +113,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .hero-globe-badge { display:flex; flex-direction:column; align-items:center; padding:200px 24px 32px; }
   .selected-works-title {
-    font-family:'Cormorant', Georgia, serif;
+    font-family:'Cormorant Infant', Georgia, serif;
     font-style:italic;
     font-weight:400;
     font-size:2.2rem;
@@ -123,7 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ball-number {
     position:absolute; left:50%; top:100%; transform:translateX(-50%);
     margin-top:14px;
-    font-family:'Cormorant', serif; font-size:1.5rem; font-weight:600;
+    font-family:'Lora', serif; font-size:1.5rem; font-weight:600;
     color:#ffffff; letter-spacing:.02em;
     opacity:0; transition:opacity 0.3s ease;
     pointer-events:none;
@@ -159,7 +161,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       to   { opacity:1; transform:translateY(0); }
     }
     #static-notice {
-      font-family:'Cormorant', Georgia, serif;
+      font-family:'Cormorant Infant', Georgia, serif;
       font-style: italic;
       font-size:1.15rem; color:rgba(250,247,242,0.55); letter-spacing:0.02em;
       position:absolute; bottom:8%; left:0; right:0;
@@ -167,12 +169,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       animation: fadeSlideUp 0.8s ease 0.4s both;
     }
     #static-text h1 {
-      font-family:'Cormorant', serif;
+      font-family:'Lora', serif;
       font-weight:600; font-size:clamp(16px, 4vw, 28px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
     #static-text p {
-      font-family:'Cormorant', Georgia, serif;
+      font-family:'Lora', Georgia, serif;
       font-style: normal;
       font-weight: 400;
       font-size:clamp(11px, 2.5vw, 15px);
@@ -196,7 +198,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    font-family: 'Cormorant', Georgia, serif;
+    font-family: 'Cormorant Infant', Georgia, serif;
     font-style: italic;
     font-size: 1.15rem;
     color: #ccc;
@@ -724,8 +726,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .resume-dl-btn:hover { background:#16A84E; transform:translateY(-1px); }
   .about-greeting {
-    font-family:'Cormorant', Georgia, serif;
-    font-style:italic; font-weight:400; font-size:3.4rem;
+    font-family:'Cormorant Infant', Georgia, serif;
+    font-style:italic; font-weight:400; font-size:3.275rem;
     color:rgba(255,255,255,0.95); line-height:1.15;
   }
   .about-body {
@@ -742,7 +744,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── Image slider ("Beyond the Screen") ── */
   .slider-section { padding:80px 0 120px; overflow:hidden; contain:layout style; }
   .slider-title {
-    font-family:'Cormorant', Georgia, serif;
+    font-family:'Cormorant Infant', Georgia, serif;
     font-style:italic; font-weight:400; font-size:2.2rem;
     color:rgba(255,255,255,0.95); line-height:1.15;
     text-align:center; margin-bottom:100px;
@@ -813,13 +815,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .mallow-stick-el:active { cursor:grabbing; }
   .roast-hint {
     position:absolute; left:50%; transform:translateX(-50%); top:14px;
-    font-family:'Cormorant',Georgia,serif; font-style:italic;
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic;
     font-size:1.15rem; letter-spacing:0.02em; color:#ccc;
     pointer-events:none; white-space:nowrap; transition:opacity 0.8s;
   }
   .roast-status {
     position:absolute; top:22px; left:50%; transform:translateX(-50%);
-    font-family:'Cormorant',Georgia,serif; font-style:italic; font-size:1rem;
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1rem;
     color:#888; pointer-events:none; opacity:0; white-space:nowrap; transition:opacity 0.5s;
   }
   .footer-icon-btn {
@@ -830,7 +832,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:0;
   }
   .footer-icon-btn:hover { color:#e0e0e0; }
-  .footer-quote { font-family:'Cormorant',serif; font-weight:400; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-quote { font-family:'Lora',serif; font-weight:400; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
 
 </style>
@@ -1627,7 +1629,7 @@ document.addEventListener('mousemove', e => {
 
     // Font sizes scale with puzzle width (baseline: W=1040)
     const fs1 = Math.max(11, Math.round(18 * W / 1040));
-    const fs2 = Math.max(12, Math.round(28 * W / 1040)) + 2;
+    const fs2 = Math.max(12, Math.round(28 * W / 1040));
     const lh2 = Math.round(fs2 * 1.5);
 
     const lines2 = ['Starting from ambiguity, navigating constraints,', 'and building products 0 → 1'];
@@ -1636,13 +1638,13 @@ document.addEventListener('mousemove', e => {
     const textX = W * 0.10;
 
     // Tagline
-    ctx.font = `400 ${fs1}px "Cormorant", Georgia, serif`;
+    ctx.font = `400 ${fs1}px "Lora", Georgia, serif`;
     ctx.fillStyle = '#5F5E5A';
     ctx.globalAlpha = 1;
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
 
     // Headline
-    ctx.font = `600 ${fs2}px "Cormorant", serif`;
+    ctx.font = `600 ${fs2}px "Lora", serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.265 + 19;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -2356,10 +2358,10 @@ document.addEventListener('mousemove', e => {
 
   // Font loads are best-effort: if one fails (e.g. a missing/renamed file),
   // it must not reject the whole chain and block the puzzle from building.
-  document.fonts.load('600 34px "Cormorant"').catch(() => {});
+  document.fonts.load('600 34px "Lora"').catch(() => {});
   Promise.all([
     document.fonts.load('600 34px "Outfit"'),
-    document.fonts.load('italic 400 18px "Cormorant"'),
+    document.fonts.load('italic 400 18px "Cormorant Infant"'),
     document.fonts.ready,
     loadImg('background/puzzle background.jpg'),
     ...stickerSrcs.map(loadImg)
