@@ -170,7 +170,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     #static-text h1 {
       font-family:'Cormorant Infant', serif;
-      font-weight:600; font-size:clamp(16px, 4vw, 28px);
+      font-weight:700; font-size:clamp(18px, 4.5vw, 32px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
     #static-text p {
@@ -1629,7 +1629,7 @@ document.addEventListener('mousemove', e => {
 
     // Font sizes scale with puzzle width (baseline: W=1040)
     const fs1 = Math.max(11, Math.round(18 * W / 1040));
-    const fs2 = Math.max(12, Math.round(28 * W / 1040));
+    const fs2 = Math.max(12, Math.round(32 * W / 1040));
     const lh2 = Math.round(fs2 * 1.5);
 
     const lines2 = ['Starting from ambiguity, navigating constraints,', 'and building products 0 → 1'];
@@ -1644,7 +1644,7 @@ document.addEventListener('mousemove', e => {
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
 
     // Headline
-    ctx.font = `600 ${fs2}px "Cormorant Infant", serif`;
+    ctx.font = `700 ${fs2}px "Cormorant Infant", serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.265 + 19;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -1980,7 +1980,7 @@ document.addEventListener('mousemove', e => {
       const items = [];
       // Scale every group's piece count down by the same factor, so the pile
       // gets slightly sparser overall without any one group thinning out more than another
-      const PILE_DENSITY = 0.7;
+      const PILE_DENSITY = 0.62;
 
       // Top arm: ON the top edge (straddles it), tapers further from corner
       const ARM_TOP = 0.52;
