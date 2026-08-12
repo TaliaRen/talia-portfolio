@@ -1996,8 +1996,9 @@ document.addEventListener('mousemove', e => {
         items.push({ src: srcs[i % srcs.length], x, y, size, rot, z: 60 + Math.floor(Math.random() * 20) });
       }
       // Left arm: ON the left edge (straddles it), tapers further from corner
+      // Extra reduction on top of PILE_DENSITY since this vertical column reads as denser than the others
       const ARM_LEFT = 0.52;
-      const COUNT_LEFT = Math.round(50 * PILE_DENSITY);
+      const COUNT_LEFT = Math.round(50 * PILE_DENSITY * 0.75);
       for (let i = 0; i < COUNT_LEFT; i++) {
         const slot = i / COUNT_LEFT;
         const t = (slot + Math.random() / COUNT_LEFT) * ARM_LEFT;
