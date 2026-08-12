@@ -25,6 +25,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preload" href="project cover/agencyroot cover.png" as="image">
 <link rel="preload" href="fonts/Outfit/Outfit-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Crimson_Text/CrimsonText-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Crimson_Text/CrimsonText-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Crimson_Text/CrimsonText-Italic.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Crimson_Text/CrimsonText-BoldItalic.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
@@ -46,6 +48,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: 'Crimson Text';
     src: url('fonts/Crimson_Text/CrimsonText-BoldItalic.ttf') format('truetype');
     font-weight: 700; font-style: italic; font-display: block;
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    src: url('fonts/Crimson_Text/CrimsonText-Regular.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    src: url('fonts/Crimson_Text/CrimsonText-Italic.ttf') format('truetype');
+    font-weight: 400; font-style: italic; font-display: block;
   }
   @font-face {
     font-family: 'Cormorant Infant';
@@ -166,12 +178,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     #static-text h1 {
       font-family:'Crimson Text', serif;
-      font-weight:700; font-size:clamp(18px, 4.5vw, 32px);
+      font-weight:400; font-size:clamp(18px, 4.5vw, 32px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
     #static-text p {
       font-family:'Cormorant Infant', Georgia, serif;
-      font-style: normal;
+      font-style: italic;
       font-weight: 400;
       font-size:clamp(11px, 2.5vw, 15px);
       color:rgba(250,247,242,0.65); margin:0 0 0 0;
@@ -828,7 +840,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:0;
   }
   .footer-icon-btn:hover { color:#e0e0e0; }
-  .footer-quote { font-family:'Crimson Text',serif; font-weight:700; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
+  .footer-quote { font-family:'Crimson Text',serif; font-weight:400; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Outfit',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
 
 </style>
@@ -1634,13 +1646,13 @@ document.addEventListener('mousemove', e => {
     const textX = W * 0.10;
 
     // Tagline
-    ctx.font = `400 ${fs1}px "Cormorant Infant", Georgia, serif`;
+    ctx.font = `italic 400 ${fs1}px "Cormorant Infant", Georgia, serif`;
     ctx.fillStyle = '#5F5E5A';
     ctx.globalAlpha = 1;
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
 
     // Headline
-    ctx.font = `700 ${fs2}px "Crimson Text", serif`;
+    ctx.font = `400 ${fs2}px "Crimson Text", serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.265 + 19;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -2354,10 +2366,10 @@ document.addEventListener('mousemove', e => {
 
   // Font loads are best-effort: if one fails (e.g. a missing/renamed file),
   // it must not reject the whole chain and block the puzzle from building.
-  document.fonts.load('700 34px "Crimson Text"').catch(() => {});
+  document.fonts.load('400 34px "Crimson Text"').catch(() => {});
   Promise.all([
     document.fonts.load('600 34px "Outfit"'),
-    document.fonts.load('400 18px "Cormorant Infant"'),
+    document.fonts.load('italic 400 18px "Cormorant Infant"'),
     document.fonts.ready,
     loadImg('background/puzzle background.jpg'),
     ...stickerSrcs.map(loadImg)
