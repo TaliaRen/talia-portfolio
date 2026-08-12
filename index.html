@@ -169,12 +169,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       animation: fadeSlideUp 0.8s ease 0.4s both;
     }
     #static-text h1 {
-      font-family:'Lora', serif;
+      font-family:'Cormorant Infant', serif;
       font-weight:600; font-size:clamp(16px, 4vw, 28px);
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
     #static-text p {
-      font-family:'Lora', Georgia, serif;
+      font-family:'Cormorant Infant', Georgia, serif;
       font-style: normal;
       font-weight: 400;
       font-size:clamp(11px, 2.5vw, 15px);
@@ -1638,13 +1638,13 @@ document.addEventListener('mousemove', e => {
     const textX = W * 0.10;
 
     // Tagline
-    ctx.font = `400 ${fs1}px "Lora", Georgia, serif`;
+    ctx.font = `400 ${fs1}px "Cormorant Infant", Georgia, serif`;
     ctx.fillStyle = '#5F5E5A';
     ctx.globalAlpha = 1;
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
 
     // Headline
-    ctx.font = `600 ${fs2}px "Lora", serif`;
+    ctx.font = `600 ${fs2}px "Cormorant Infant", serif`;
     ctx.fillStyle = '#173824';
     let y2 = H * 0.265 + 19;
     lines2.forEach(l => { ctx.fillText(l, textX, y2); y2 += lh2; });
@@ -2358,10 +2358,10 @@ document.addEventListener('mousemove', e => {
 
   // Font loads are best-effort: if one fails (e.g. a missing/renamed file),
   // it must not reject the whole chain and block the puzzle from building.
-  document.fonts.load('600 34px "Lora"').catch(() => {});
+  document.fonts.load('600 34px "Cormorant Infant"').catch(() => {});
   Promise.all([
     document.fonts.load('600 34px "Outfit"'),
-    document.fonts.load('italic 400 18px "Cormorant Infant"'),
+    document.fonts.load('400 18px "Cormorant Infant"'),
     document.fonts.ready,
     loadImg('background/puzzle background.jpg'),
     ...stickerSrcs.map(loadImg)
