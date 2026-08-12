@@ -22,25 +22,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="logo.png">
 <title>Play - Talia Ren</title>
-<link rel="preload" href="fonts/Hanken_Grotesk/HankenGrotesk-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Playfair/Playfair-VariableFont_opsz,wdth,wght.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Playfair/Playfair-Italic-VariableFont_opsz,wdth,wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Figtree/Figtree-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Fraunces/static/Fraunces_72pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Fraunces/static/Fraunces_72pt-Italic.ttf" as="font" type="font/ttf" crossorigin>
 <style>
   @font-face {
-    font-family: 'Hanken Grotesk';
-    src: url('fonts/Hanken_Grotesk/HankenGrotesk-VariableFont_wght.ttf') format('truetype');
+    font-family: 'Figtree';
+    src: url('fonts/Figtree/Figtree-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900; font-style: normal; font-display: block;
   }
   @font-face {
-    font-family: 'Playfair';
-    src: url('fonts/Playfair/Playfair-VariableFont_opsz,wdth,wght.ttf') format('truetype');
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900; font-style: normal; font-display: block;
   }
   @font-face {
-    font-family: 'Playfair';
-    src: url('fonts/Playfair/Playfair-Italic-VariableFont_opsz,wdth,wght.ttf') format('truetype');
+    font-family: 'Cormorant Infant';
+    src: url('fonts/Cormorant_Infant/CormorantInfant-Italic-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900; font-style: italic; font-display: block;
   }
   @font-face {
@@ -62,7 +62,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     animation-duration: 0.1s;
     animation-timing-function: ease;
   }
-  body { font-family:'Hanken Grotesk', sans-serif; overflow-x:hidden; display:flex; flex-direction:column; min-height:100vh; }
+  body { font-family:'Figtree', sans-serif; overflow-x:hidden; display:flex; flex-direction:column; min-height:100vh; }
   #star-field { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity 0.15s linear; }
 
   /* ── Nav ── */
@@ -87,7 +87,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .nav-logo:hover img, .nav-logo.js-hover img { transform:rotate(15deg) scale(1.07); }
   .nav-logo:active img { transform:rotate(0deg) scale(1); }
   .nav-link {
-    font-family:'Hanken Grotesk',sans-serif; font-size:.9rem; font-weight:500;
+    font-family:'Figtree',sans-serif; font-size:.9rem; font-weight:500;
     color:#F8F8F8; text-decoration:none; transition:color .2s; letter-spacing:.01em;
   }
   .nav-link:hover, .nav-link:active { color:#41E981; }
@@ -107,7 +107,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-bottom: 28px;
   }
   .play-filter {
-    font-family: 'Hanken Grotesk', sans-serif; font-size: .875rem; font-weight: 400;
+    font-family: 'Figtree', sans-serif; font-size: .875rem; font-weight: 400;
     color: rgba(255,255,255,0.5);
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
@@ -264,7 +264,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display: flex; align-items: center; gap: 10px;
   }
   .play-title {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Figtree', sans-serif;
     font-size: 1.4rem; font-weight: 400;
     color: #fff; line-height: 1.2;
   }
@@ -273,7 +273,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     width: 18px; height: 18px; border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.35);
     color: rgba(255,255,255,0.55);
-    font-family: 'Hanken Grotesk', sans-serif; font-size: .68rem; font-weight: 400;
+    font-family: 'Figtree', sans-serif; font-size: .68rem; font-weight: 400;
     cursor: default;
   }
   .play-tooltip-text {
@@ -283,7 +283,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border: 1px solid rgba(255,255,255,0.12);
     border-radius: 12px;
     padding: 14px 16px;
-    font-family: 'Hanken Grotesk', sans-serif; font-size: .85rem; font-weight: 300;
+    font-family: 'Figtree', sans-serif; font-size: .85rem; font-weight: 300;
     color: rgba(255,255,255,0.75); line-height: 1.6;
     opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s;
     pointer-events: none;
@@ -291,12 +291,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .play-tooltip:hover .play-tooltip-text { opacity: 1; visibility: visible; }
   .play-desc {
-    font-family: 'Hanken Grotesk', sans-serif; font-size: .95rem; font-weight: 300;
+    font-family: 'Figtree', sans-serif; font-size: .95rem; font-weight: 300;
     color: rgba(255,255,255,0.6); line-height: 1.7;
   }
   .play-link {
     display: inline-flex; align-self: flex-start; align-items: center; gap: 8px;
-    font-family: 'Hanken Grotesk', sans-serif; font-size: .9rem; font-weight: 400;
+    font-family: 'Figtree', sans-serif; font-size: .9rem; font-weight: 400;
     color: #fff; text-decoration: none;
     border-bottom: 1px solid rgba(255,255,255,0.3);
     padding-bottom: 2px;
@@ -353,13 +353,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .mallow-stick-el:active { cursor:grabbing; }
   .roast-hint {
     position:absolute; left:50%; transform:translateX(-50%); top:14px;
-    font-family:'Playfair',Georgia,serif; font-style:italic;
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic;
     font-size:1.15rem; letter-spacing:0.02em; color:#ccc;
     pointer-events:none; white-space:nowrap; transition:opacity 0.8s;
   }
   .roast-status {
     position:absolute; top:22px; left:50%; transform:translateX(-50%);
-    font-family:'Playfair',Georgia,serif; font-style:italic; font-size:1rem;
+    font-family:'Cormorant Infant',Georgia,serif; font-style:italic; font-size:1rem;
     color:#888; pointer-events:none; opacity:0; white-space:nowrap; transition:opacity 0.5s;
   }
   .footer-icon-btn {
@@ -371,7 +371,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .footer-icon-btn:hover { color:#e0e0e0; }
   .footer-quote { font-family:'Fraunces',serif; font-weight:400; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
-  .footer-credit { font-family:'Hanken Grotesk',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
+  .footer-credit { font-family:'Figtree',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
 </style>
 </head>
 <body>
@@ -409,7 +409,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <iframe src="https://truthordare-self.vercel.app/" scrolling="no" title="Truthly"></iframe>
             </div>
           </div>
-          <p style="font-family:'Playfair',serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,0.45); white-space:nowrap;">Click me</p>
+          <p style="font-family:'Cormorant Infant',serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,0.45); white-space:nowrap;">Click me</p>
         </div>
         <div class="play-card-body">
           <div class="play-title-row">
