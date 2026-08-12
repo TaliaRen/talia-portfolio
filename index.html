@@ -1968,7 +1968,7 @@ document.addEventListener('mousemove', e => {
 
       // Top arm: ON the top edge (straddles it), tapers further from corner
       const ARM_TOP = 0.52;
-      const COUNT_TOP = Math.round(55 * PILE_DENSITY);
+      const COUNT_TOP = Math.round(55 * PILE_DENSITY * 1.25);
       for (let i = 0; i < COUNT_TOP; i++) {
         const slot = i / COUNT_TOP;
         const t = (slot + Math.random() / COUNT_TOP) * ARM_TOP;
