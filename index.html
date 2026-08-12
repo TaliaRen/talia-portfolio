@@ -174,9 +174,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       color:#FAF7F2; line-height:1.45; margin:0 0 0 0;
     }
     #static-text p {
-      font-family:'Outfit', Georgia, serif;
+      font-family:'Lora', Georgia, serif;
       font-style: normal;
-      font-weight: 100;
+      font-weight: 400;
       font-size:clamp(11px, 2.5vw, 15px);
       color:rgba(250,247,242,0.65); margin:0 0 0 0;
     }
@@ -1638,7 +1638,7 @@ document.addEventListener('mousemove', e => {
     const textX = W * 0.10;
 
     // Tagline
-    ctx.font = `100 ${fs1}px "Outfit", Georgia, serif`;
+    ctx.font = `400 ${fs1}px "Lora", Georgia, serif`;
     ctx.fillStyle = '#5F5E5A';
     ctx.globalAlpha = 1;
     ctx.fillText('I design products like doing a jigsaw puzzle', textX, H * 0.175 + 15);
@@ -1980,7 +1980,7 @@ document.addEventListener('mousemove', e => {
       const items = [];
       // Scale every group's piece count down by the same factor, so the pile
       // gets slightly sparser overall without any one group thinning out more than another
-      const PILE_DENSITY = 0.8;
+      const PILE_DENSITY = 0.7;
 
       // Top arm: ON the top edge (straddles it), tapers further from corner
       const ARM_TOP = 0.52;
