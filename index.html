@@ -2632,13 +2632,14 @@ function unlockScroll() {
   layout(false);
 
   // Swipe / drag (mouse + touch via Pointer Events)
-  let pointerDown = false, dragging = false;
+  let pointerDown = false, dragging = false, activePointerId = null;
   let startX = 0, startTransform = 0, moved = 0, suppressClick = false;
   const DRAG_THRESHOLD = 8; // px of movement before we treat this as a drag, not a click
   viewport.style.touchAction = 'pan-y';
   viewport.addEventListener('pointerdown', e => {
     if (mobileMQ.matches) return;
     pointerDown = true; dragging = false; moved = 0; startX = e.clientX;
+    activePointerId = e.pointerId;
     const vw = viewport.clientWidth;
     startTransform = vw * PEEK - index * (vw * ACTIVE);
   });
@@ -2649,6 +2650,10 @@ function unlockScroll() {
       if (Math.abs(moved) < DRAG_THRESHOLD) return;
       dragging = true;
       track.style.transition = 'none';
+      // Capture only once we've confirmed this is a real drag (not a click) — this keeps
+      // pointermove firing even if a fast mouse drag momentarily leaves the viewport bounds,
+      // which was making the drag feel like it "stopped responding" mid-swipe.
+      try { viewport.setPointerCapture(activePointerId); } catch (err) {}
     }
     track.style.transform = `translateX(${startTransform + moved}px)`;
   });
@@ -2670,16 +2675,23 @@ function unlockScroll() {
     if (suppressClick) { e.preventDefault(); e.stopPropagation(); suppressClick = false; }
   }, true);
 
-  // Trackpad two-finger swipe (fires as horizontal wheel events, not pointer events)
-  let wheelLocked = false;
+  // Trackpad two-finger swipe (fires as a burst of horizontal wheel events, not one event).
+  // Accumulate the whole gesture and commit exactly one slide change when it settles, instead
+  // of firing on the first event past a threshold — that was letting one physical swipe
+  // trigger two slide changes if the gesture ran longer than the old lock timeout.
+  let wheelAccum = 0, wheelSettleTimer = null, wheelCommitted = false;
   viewport.addEventListener('wheel', e => {
     if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
     e.preventDefault();
-    if (wheelLocked) return;
-    if (e.deltaX > 15) { wheelLocked = true; goTo(index + 1); }
-    else if (e.deltaX < -15) { wheelLocked = true; goTo(index - 1); }
-    else return;
-    setTimeout(() => { wheelLocked = false; }, 500);
+    clearTimeout(wheelSettleTimer);
+    wheelSettleTimer = setTimeout(() => { wheelAccum = 0; wheelCommitted = false; }, 150);
+    if (wheelCommitted) return; // already acted on this gesture, ignore the rest of it
+    wheelAccum += e.deltaX;
+    const GESTURE_THRESHOLD = 40;
+    if (Math.abs(wheelAccum) > GESTURE_THRESHOLD) {
+      wheelCommitted = true;
+      if (wheelAccum > 0) goTo(index + 1); else goTo(index - 1);
+    }
   }, { passive: false });
 
   // Keyboard left/right, only while the carousel is in view
