@@ -2396,11 +2396,9 @@ document.addEventListener('mousemove', e => {
     document.fonts.load('600 34px "Outfit"'),
     document.fonts.load('italic 400 18px "Cormorant Infant"'),
     document.fonts.ready,
-    loadImg('background/puzzle background.jpg'),
     ...stickerSrcs.map(loadImg)
   ]).then(results => {
-    _bgImg = results[3];
-    _stickers = results.slice(4);
+    _stickers = results.slice(3);
     buildPuzzle();
   });
   let resizeTimer;
