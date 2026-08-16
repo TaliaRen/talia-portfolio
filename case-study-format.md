@@ -73,8 +73,8 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
 - New project → pick an unused hue in the same tonal register (pastel, moderately saturated).
 
 ### Fonts
-- **Source Serif 4** — every Title (§3 taxonomy): the hero headline (`.xx-headline`, 2.125rem, weight 200, italic off) and every section/problem/solution/background/research/iteration/decision title (`.xx-*-title`, 1.6rem, weight 300–400; `.xx-decision-title`, 1.075rem, weight 500). Tags and mini-headings stay Figtree — only the Title content type gets the serif treatment.
-- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels.
+- **Source Serif 4**, weight 200, italic off — page headline only (`.xx-headline`, 2.125rem, line-height 1.3). Tried extending this to every section/problem/solution title too; reverted — those stay Figtree.
+- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles.
 - **Cormorant Infant** — big stat numbers (`.xx-metric-num`, 3.2rem, weight 400) and the italic "More Works" section title, if used.
 - **Crimson Text** — footer quote only (shared chrome, not page-specific).
 
@@ -141,7 +141,7 @@ Any bolded lead-in or small heading inside these patterns (a decision-card title
 - **Exception: hero meta label → value stays 12px**, not 16px — `.xx-meta-col label { margin-bottom:12px }`. Confirmed explicitly; don't "fix" this to match the 16px tag rule above.
 - **Title → body text, 36px** — applies only where a title is directly followed by body paragraph(s)/a list (`.xx-problem-item`, `.xx-users-text`, a title→body inline wrapper). Does *not* apply when a title is followed by something else first (a tagline, an image, a comparison grid) — those stay on the 48px "text blocks within section" rhythm below.
 - Paragraph → paragraph within the same body block: **24px** (unchanged — this is a different relationship from title→body above)
-- **Multiple titled items sharing one tag, 160px** — e.g. AgencyRoot/DiDi's Problem section has two `.xx-problem-item`s (two titles) under one "Problem" tag; the gap between them is 160px (`.xx-problem-inner { gap:160px }`). Since the tag's `calc(16px - <container-gap>)` trick reads off this same container, its calc must be updated to match whenever this value changes (`calc(16px - 160px)`).
+- **Multiple titled items sharing one tag, 120px** — e.g. AgencyRoot/DiDi's Problem section has two `.xx-problem-item`s (two titles) under one "Problem" tag; the gap between them is 120px (`.xx-problem-inner { gap:120px }`). Since the tag's `calc(16px - <container-gap>)` trick reads off this same container, its calc must be updated to match whenever this value changes (`calc(16px - 120px)`).
 - Text blocks within one section: **48px**
 - Outer section inner gap (label/title/body/image stack): **72px**
 - **Between sections (different tags), 180px** — bottom padding of each `.xx-*-section`, desktop.
