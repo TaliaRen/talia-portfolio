@@ -137,16 +137,22 @@ Any bolded lead-in or small heading inside these patterns (a decision-card title
 ---
 
 ## 6. Spacing system
-- **Tag → whatever follows it, 16px** — tag→title and tag→body (Context/Design Snapshot/Solution/Takeaways/Problem/Background/Research headers) all use this. Implementation varies by context: a plain `gap:16px` wrapper where the tag sits alone with one sibling, or the `margin-bottom: calc(16px - <container-gap>)` trick where the tag lives inside a larger-gap flex container (48px/72px section gap).
-- **Exception: hero meta label → value stays 12px**, not 16px — `.xx-meta-col label { margin-bottom:12px }`. Confirmed explicitly; don't "fix" this to match the 16px tag rule above.
-- **Title → body text, 36px** — applies only where a title is directly followed by body paragraph(s)/a list (`.xx-problem-item`, `.xx-users-text`, a title→body inline wrapper). Does *not* apply when a title is followed by something else first (a tagline, an image, a comparison grid) — those stay on the 48px "text blocks within section" rhythm below.
-- Paragraph → paragraph within the same body block: **24px** (unchanged — this is a different relationship from title→body above)
-- **Multiple titled items sharing one tag, 120px** — e.g. AgencyRoot/DiDi's Problem section has two `.xx-problem-item`s (two titles) under one "Problem" tag; the gap between them is 120px (`.xx-problem-inner { gap:120px }`). Since the tag's `calc(16px - <container-gap>)` trick reads off this same container, its calc must be updated to match whenever this value changes (`calc(16px - 120px)`).
-  - This also applies across separate `<section>` elements when a later section has **no tag of its own** — it's a continuation of the previous tag's topic, not a new one. AgencyRoot/Bytedance's second Solution `<section>` (untagged, right after the tagged "Solution" section) and Salesforce's Solution-2/Solution-3 (only Solution-1 carries the "Solution" tag) are all continuations, so the gap before them is 120px, not the default 180px between-sections padding. Implemented as an inline `style="padding-bottom:120px;"` on the *preceding* section (overriding its class default). DiDi's Solution 1/2/3 each carry their own distinct tag text ("Solution 1", "Solution 2", "Solution 3"), so those are genuinely different tags and correctly stay at 180px — don't "fix" those to 120px.
-- Text blocks within one section: **48px**
-- Outer section inner gap (label/title/body/image stack): **72px**
-- **Between sections (different tags), 180px** — bottom padding of each `.xx-*-section`, desktop.
-- Section horizontal padding: **196px** desktop
+
+| Relationship | Gap | Notes |
+|---|---|---|
+| Hero title → the four meta blocks (Timeline/Team/Role/Tools row) | **64px** | `.xx-hero-section { gap:64px }` |
+| Tag → whatever follows it (title, or body when there's no title) | **16px** | Context/Design Snapshot/Solution/Takeaways/Problem/Background/Research headers. A plain `gap:16px` wrapper when the tag sits alone with one sibling, or `margin-bottom: calc(16px - <container-gap>)` when the tag lives inside a larger-gap flex container — see the multi-title row below for why that calc matters. |
+| *Exception:* hero meta label → value | **12px**, not 16px | `.xx-meta-col label { margin-bottom:12px }`. Confirmed explicitly — don't "fix" this to 16px. |
+| Title → body text (or a list) directly beneath it | **36px** | `.xx-problem-item`, `.xx-users-text`, a title→body inline wrapper. Doesn't apply when something else (tagline/image/grid) comes between title and body first — that's the 48px row below instead. |
+| Context / Impact / Design Snapshot, and any other body text vs. a directly-adjacent video or image | **48px** | `.xx-overview-text` (Context↔Impact), `.xx-overview-section`/`.xx-cover-img` (↔Design Snapshot's video), `.xx-problem-row`/`.sf-solution-body` (body text ↔ image or video, in a row or stacked), `.xx-solution-inner` (paragraph block ↔ video). |
+| Paragraph → paragraph within the same body block | **24px** | Different relationship from title→body or body→media above — don't conflate. |
+| Before/after compare pill → the image beneath it | **24px** | `.bt-solution-block { gap:24px }` (Bytedance-style before/after pattern). |
+| Multiple titled items sharing one tag | **120px** | E.g. AgencyRoot/DiDi's Problem section has two `.xx-problem-item`s under one "Problem" tag (`.xx-problem-inner { gap:120px }`). This also applies across separate `<section>`s when a later one has **no tag of its own** — a continuation of the previous tag's topic, not a new one: AgencyRoot/Bytedance's second (untagged) Solution section, and Salesforce's Solution-2/3 (only Solution-1 carries a tag) — implemented as an inline `padding-bottom:120px` on the *preceding* section. DiDi's Solution 1/2/3 each carry their own distinct tag text, so those are genuinely different tags and correctly stay at 180px. |
+| ⚠️ Watch out | — | Some containers (`.xx-problem-inner`, etc.) are shared by multiple usages — e.g. Salesforce's `.sf-problem-inner` backs both the Problem section (single item + trailing image, needs 48px) and Takeaways (tag + single title-block, where the raw value doesn't matter). Bumping a shared container to 120px for the "multiple titled items" rule can silently break an unrelated body→image gap elsewhere that reuses the same class — check every usage of a class before changing its gap, not just the one you're targeting. |
+| Text blocks within one section, general | **48px** | Default rhythm not covered by a more specific row above. |
+| Outer section inner gap (label/title/body/image stack) | **72px** | |
+| Between sections (different tags) | **180px** | Bottom padding of each `.xx-*-section`, desktop. |
+| Section horizontal padding | **196px** | Desktop. |
 
 ## 7. Responsive breakpoints
 - `max-width:1100px` → hide `.case-sidebar`
