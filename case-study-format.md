@@ -33,7 +33,7 @@ The sidebar's links must exactly match the section `id`s in the page, in the sam
 ## 2. File setup
 
 ### Fonts (paste into `<head>`, identical on every page)
-Preload + `@font-face` for: **Figtree** (weight 300–900, UI/body), **Source Serif 4** (weight 200–900, every title — hero headline plus every `.xx-*-title`/`.xx-decision-title`), **Crimson Text** (footer quote), **Cormorant Infant** (metric numbers, "More Works" italic titles). Copy this block verbatim from any existing case-study page — don't hand-roll it.
+Preload + `@font-face` for: **Figtree** (weight 300–900, UI/body/section titles), **Source Serif 4** (weight 200–900, hero headline only), **Crimson Text** (footer quote), **Cormorant Infant** (metric numbers, "More Works" italic titles). Copy this block verbatim from any existing case-study page — don't hand-roll it.
 
 ### Nav / footer
 The `<nav>` and `<footer>` markup (logo, links, footer campfire game, social icons, email-copy button, and their JS) is shared site chrome, not part of the case-study content. Copy it byte-for-byte from an existing page. The only thing that ever changes is the `<title>` tag and the page background color set inline on `<html style="background:...">` (each project can use its own near-black tint, e.g. `#0F1511`).
@@ -102,9 +102,9 @@ Two children side by side (text column + cover image/video, `max-width:860px` ea
 ### Problem (`id="problem"`)
 ```
 .xx-problem-section { padding:0 196px 180px; }
-.xx-problem-inner { max-width:860px; display:flex; flex-direction:column; gap:72px; }
+.xx-problem-inner { max-width:860px; display:flex; flex-direction:column; gap:120px; }
 ```
-One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.6rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, line-height 1.8).
+One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.6rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, line-height 1.8). Gap between items when there's more than one: 120px (see §6).
 
 ### Takeaways (always last, `id="takeaways"`)
 Reuses the solution-section shell (see §5). Tag "Takeaways" + title "What I've learned" (`#fff`) + a `<ul>` of 2–3 bullet points (`#E2E2E2`), each a full sentence reflecting on the work.
