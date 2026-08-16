@@ -139,7 +139,8 @@ Any bolded lead-in or small heading inside these patterns (a decision-card title
 ## 6. Spacing system
 - **Tag → whatever follows it, 16px** — tag→title and tag→body (Context/Design Snapshot/Solution/Takeaways/Problem/Background/Research headers) all use this. Implementation varies by context: a plain `gap:16px` wrapper where the tag sits alone with one sibling, or the `margin-bottom: calc(16px - <container-gap>)` trick where the tag lives inside a larger-gap flex container (48px/72px section gap).
 - **Exception: hero meta label → value stays 12px**, not 16px — `.xx-meta-col label { margin-bottom:12px }`. Confirmed explicitly; don't "fix" this to match the 16px tag rule above.
-- Title → body text: **24px**
+- **Title → body text, 36px** — applies only where a title is directly followed by body paragraph(s)/a list (`.xx-problem-item`, `.xx-users-text`, a title→body inline wrapper). Does *not* apply when a title is followed by something else first (a tagline, an image, a comparison grid) — those stay on the 48px "text blocks within section" rhythm below.
+- Paragraph → paragraph within the same body block: **24px** (unchanged — this is a different relationship from title→body above)
 - Text blocks within one section: **48px**
 - Outer section inner gap (label/title/body/image stack): **72px**
 - Between sections (bottom padding of each `.xx-*-section`): **180px** (desktop)
