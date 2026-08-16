@@ -26,14 +26,14 @@ Every case-study page has exactly this top-level structure:
 **Required sections, in order:** Hero → Overview → Problem → (flexible middle) → Takeaways.
 Everything between Problem and Takeaways is chosen per project — see §5 for the available patterns and when to reach for each.
 
-The sidebar's links must exactly match the section `id`s in the page, in the same order, and the first link starts with class `active` (JS scroll-spy takes over from there).
+The sidebar's links must exactly match the section `id`s in the page, in the same order, and the first link starts with class `active` (JS scroll-spy takes over from there). Clicking a sidebar link intercepts the native anchor jump and calls `scrollIntoView({behavior:'smooth', block:'start'})` on the target section instead — smooth-scrolling to it rather than snapping instantly. This relies on `scroll-margin-top:140px` already being set on every section id (accounts for the fixed nav).
 
 ---
 
 ## 2. File setup
 
 ### Fonts (paste into `<head>`, identical on every page)
-Preload + `@font-face` for: **Figtree** (weight 300–900, UI/body), **Source Serif 4** (weight 200–900, headline), **Crimson Text** (footer quote), **Cormorant Infant** (metric numbers, "More Works" italic titles). Copy this block verbatim from any existing case-study page — don't hand-roll it.
+Preload + `@font-face` for: **Figtree** (weight 300–900, UI/body), **Source Serif 4** (weight 200–900, every title — hero headline plus every `.xx-*-title`/`.xx-decision-title`), **Crimson Text** (footer quote), **Cormorant Infant** (metric numbers, "More Works" italic titles). Copy this block verbatim from any existing case-study page — don't hand-roll it.
 
 ### Nav / footer
 The `<nav>` and `<footer>` markup (logo, links, footer campfire game, social icons, email-copy button, and their JS) is shared site chrome, not part of the case-study content. Copy it byte-for-byte from an existing page. The only thing that ever changes is the `<title>` tag and the page background color set inline on `<html style="background:...">` (each project can use its own near-black tint, e.g. `#0F1511`).
@@ -73,8 +73,8 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
 - New project → pick an unused hue in the same tonal register (pastel, moderately saturated).
 
 ### Fonts
-- **Source Serif 4**, weight 200, italic off — page headline only (`.xx-headline`, 2.125rem, line-height 1.3).
-- **Figtree** — everything else: nav, sidebar, labels, body text, metric sub-labels, card titles.
+- **Source Serif 4** — every Title (§3 taxonomy): the hero headline (`.xx-headline`, 2.125rem, weight 200, italic off) and every section/problem/solution/background/research/iteration/decision title (`.xx-*-title`, 1.6rem, weight 300–400; `.xx-decision-title`, 1.075rem, weight 500). Tags and mini-headings stay Figtree — only the Title content type gets the serif treatment.
+- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels.
 - **Cormorant Infant** — big stat numbers (`.xx-metric-num`, 3.2rem, weight 400) and the italic "More Works" section title, if used.
 - **Crimson Text** — footer quote only (shared chrome, not page-specific).
 
@@ -141,9 +141,10 @@ Any bolded lead-in or small heading inside these patterns (a decision-card title
 - **Exception: hero meta label → value stays 12px**, not 16px — `.xx-meta-col label { margin-bottom:12px }`. Confirmed explicitly; don't "fix" this to match the 16px tag rule above.
 - **Title → body text, 36px** — applies only where a title is directly followed by body paragraph(s)/a list (`.xx-problem-item`, `.xx-users-text`, a title→body inline wrapper). Does *not* apply when a title is followed by something else first (a tagline, an image, a comparison grid) — those stay on the 48px "text blocks within section" rhythm below.
 - Paragraph → paragraph within the same body block: **24px** (unchanged — this is a different relationship from title→body above)
+- **Multiple titled items sharing one tag, 160px** — e.g. AgencyRoot/DiDi's Problem section has two `.xx-problem-item`s (two titles) under one "Problem" tag; the gap between them is 160px (`.xx-problem-inner { gap:160px }`). Since the tag's `calc(16px - <container-gap>)` trick reads off this same container, its calc must be updated to match whenever this value changes (`calc(16px - 160px)`).
 - Text blocks within one section: **48px**
 - Outer section inner gap (label/title/body/image stack): **72px**
-- Between sections (bottom padding of each `.xx-*-section`): **180px** (desktop)
+- **Between sections (different tags), 180px** — bottom padding of each `.xx-*-section`, desktop.
 - Section horizontal padding: **196px** desktop
 
 ## 7. Responsive breakpoints
