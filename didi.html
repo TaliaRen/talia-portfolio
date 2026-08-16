@@ -328,16 +328,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
   .didi-problem-inner {
     width:100%; max-width:860px;
-    display:flex; flex-direction:column; gap:72px;
+    display:flex; flex-direction:column; gap:160px;
   }
   .didi-problem-header {
     font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:300;
     color:#FF9C6E; letter-spacing:.1em; text-transform:uppercase;
-    margin-bottom:calc(16px - 72px);
+    margin-bottom:calc(16px - 160px);
   }
   .didi-problem-item { display:flex; flex-direction:column; gap:36px; }
   .didi-problem-title {
-    font-family:'Figtree',sans-serif; font-size:1.6rem; font-weight:400;
+    font-family:'Source Serif 4',serif; font-size:1.6rem; font-weight:400;
     color:#fff; line-height:1.25;
   }
   .didi-problem-body {
@@ -362,7 +362,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .didi-users-content { display:flex; flex-direction:column; gap:48px; }
   .didi-users-text { display:flex; flex-direction:column; gap:36px; }
   .didi-users-title {
-    font-family:'Figtree',sans-serif; font-size:1.6rem; font-weight:400;
+    font-family:'Source Serif 4',serif; font-size:1.6rem; font-weight:400;
     color:#fff; line-height:1.25;
   }
   .didi-mindsets { display:flex; flex-direction:row; gap:32px; }
@@ -428,7 +428,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .didi-decision-card:hover { background:rgba(255,255,255,0.20); }
   .didi-decision-main { display:flex; flex-direction:column; gap:12px; }
   .didi-decision-title {
-    font-family:'Figtree',sans-serif; font-size:1.075rem; font-weight:500;
+    font-family:'Source Serif 4',serif; font-size:1.075rem; font-weight:500;
     color:#fff; margin:0;
   }
   .didi-decision-body {
@@ -1046,6 +1046,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function() {
   const links = document.querySelectorAll('.case-sidebar a');
   const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  links.forEach((a, i) => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      sections[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
   function update() {
     let current = 0;
     sections.forEach((sec, i) => {

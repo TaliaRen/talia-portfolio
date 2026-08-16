@@ -160,7 +160,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: #E6FB99; letter-spacing: .1em; text-transform: uppercase;
   }
   .bt-research-title {
-    font-family: 'Figtree', sans-serif; font-size: 1.6rem; font-weight: 400;
+    font-family: 'Source Serif 4', serif; font-size: 1.6rem; font-weight: 400;
     color: #fff; line-height: 1.25;
   }
   .bt-compare-grid {
@@ -207,7 +207,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: #E6FB99; letter-spacing: .1em; text-transform: uppercase;
   }
   .bt-solution-title {
-    font-family: 'Figtree', sans-serif; font-size: 1.6rem; font-weight: 400;
+    font-family: 'Source Serif 4', serif; font-size: 1.6rem; font-weight: 400;
     color: #fff; line-height: 1.25;
   }
   .bt-solution-block {
@@ -254,7 +254,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: #E6FB99; letter-spacing: .1em; text-transform: uppercase;
   }
   .bt-iteration-title {
-    font-family: 'Figtree', sans-serif; font-size: 1.6rem; font-weight: 400;
+    font-family: 'Source Serif 4', serif; font-size: 1.6rem; font-weight: 400;
     color: #fff; line-height: 1.25;
   }
   .bt-iteration-block {
@@ -292,16 +292,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .bt-problem-inner {
     width: 100%; max-width: 860px;
-    display: flex; flex-direction: column; gap: 72px;
+    display: flex; flex-direction: column; gap: 160px;
   }
   .bt-problem-header {
     font-family: 'Figtree', sans-serif; font-size: .75rem; font-weight: 300;
     color: #E6FB99; letter-spacing: .1em; text-transform: uppercase;
-    margin-bottom: calc(16px - 72px);
+    margin-bottom: calc(16px - 160px);
   }
   .bt-problem-item { display: flex; flex-direction: column; gap: 36px; }
   .bt-problem-title {
-    font-family: 'Figtree', sans-serif; font-size: 1.6rem; font-weight: 400;
+    font-family: 'Source Serif 4', serif; font-size: 1.6rem; font-weight: 400;
     color: #fff; line-height: 1.25;
   }
   .bt-problem-body {
@@ -336,7 +336,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-bottom: calc(16px - 48px);
   }
   .bt-bg-title {
-    font-family: 'Figtree', sans-serif; font-size: 1.6rem; font-weight: 400;
+    font-family: 'Source Serif 4', serif; font-size: 1.6rem; font-weight: 400;
     color: #fff; line-height: 1.25;
   }
   .bt-bg-body {
@@ -760,6 +760,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function() {
   const links = document.querySelectorAll('.case-sidebar a');
   const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  links.forEach((a, i) => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      sections[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
   function update() {
     let current = 0;
     sections.forEach((sec, i) => {
