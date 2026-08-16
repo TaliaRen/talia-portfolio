@@ -74,7 +74,7 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
 
 ### Fonts
 - **Source Serif 4**, weight 200, italic off — page headline only (`.xx-headline`, 2.125rem, line-height 1.3). Tried extending this to every section/problem/solution title too; reverted — those stay Figtree.
-- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles.
+- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles. Section-level titles (`.xx-*-title`) are 1.725rem (bumped 2px up from an original 1.6rem).
 - **Cormorant Infant** — big stat numbers (`.xx-metric-num`, 3.2rem, weight 400) and the italic "More Works" section title, if used.
 - **Crimson Text** — footer quote only (shared chrome, not page-specific).
 
@@ -104,7 +104,7 @@ Two children side by side (text column + cover image/video, `max-width:860px` ea
 .xx-problem-section { padding:0 196px 180px; }
 .xx-problem-inner { max-width:860px; display:flex; flex-direction:column; gap:120px; }
 ```
-One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.6rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, line-height 1.8). Gap between items when there's more than one: 120px (see §6).
+One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.725rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, line-height 1.8). Gap between items when there's more than one: 120px (see §6).
 
 ### Takeaways (always last, `id="takeaways"`)
 Reuses the solution-section shell (see §5). Tag "Takeaways" + title "What I've learned" (`#fff`) + a `<ul>` of 2–3 bullet points (`#E2E2E2`), each a full sentence reflecting on the work.
@@ -142,6 +142,7 @@ Any bolded lead-in or small heading inside these patterns (a decision-card title
 - **Title → body text, 36px** — applies only where a title is directly followed by body paragraph(s)/a list (`.xx-problem-item`, `.xx-users-text`, a title→body inline wrapper). Does *not* apply when a title is followed by something else first (a tagline, an image, a comparison grid) — those stay on the 48px "text blocks within section" rhythm below.
 - Paragraph → paragraph within the same body block: **24px** (unchanged — this is a different relationship from title→body above)
 - **Multiple titled items sharing one tag, 120px** — e.g. AgencyRoot/DiDi's Problem section has two `.xx-problem-item`s (two titles) under one "Problem" tag; the gap between them is 120px (`.xx-problem-inner { gap:120px }`). Since the tag's `calc(16px - <container-gap>)` trick reads off this same container, its calc must be updated to match whenever this value changes (`calc(16px - 120px)`).
+  - This also applies across separate `<section>` elements when a later section has **no tag of its own** — it's a continuation of the previous tag's topic, not a new one. AgencyRoot/Bytedance's second Solution `<section>` (untagged, right after the tagged "Solution" section) and Salesforce's Solution-2/Solution-3 (only Solution-1 carries the "Solution" tag) are all continuations, so the gap before them is 120px, not the default 180px between-sections padding. Implemented as an inline `style="padding-bottom:120px;"` on the *preceding* section (overriding its class default). DiDi's Solution 1/2/3 each carry their own distinct tag text ("Solution 1", "Solution 2", "Solution 3"), so those are genuinely different tags and correctly stay at 180px — don't "fix" those to 120px.
 - Text blocks within one section: **48px**
 - Outer section inner gap (label/title/body/image stack): **72px**
 - **Between sections (different tags), 180px** — bottom padding of each `.xx-*-section`, desktop.
