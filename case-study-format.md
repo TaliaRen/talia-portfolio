@@ -47,29 +47,30 @@ Every project gets its own 2–4 letter class prefix for content unique to that 
 
 ## 3. Design tokens
 
-### Colors
-- Page background: near-black, project-specific tint (`#0F1511`, `#0A190F`, etc.) set on `<html style="background:...">`.
-- Primary text: `#fff`.
-- Body copy: `rgba(255,255,255,X)` — see opacity ladder below. Never pure white for paragraph text.
-- **Accent color — one per project**, used consistently for: section labels/tags, hero meta labels, hint text, decision-hint icon+text, border-left accents on name/quote rows, and any inline highlighted term. Pick a color that complements the project's brand:
-  - AgencyRoot → `#E6FB99` (lime)
-  - Bytedance → `#63BDEE` (sky blue)
-  - Salesforce → `#63EED7` (teal)
-  - DiDi → `#FF9C6E` (orange)
-  - New project → pick an unused hue in the same tonal register (pastel, moderately saturated).
+### Colors — by content type
 
-### Body-text opacity ladder (rgba(255,255,255,X))
-Use these bands for hierarchy — do not go above 0.93 (never pure white) or use values not in this rough ladder:
-| Role | Opacity |
-|---|---|
-| Primary paragraph body | 0.85 |
-| Secondary/supporting body | 0.75 |
-| Card/quote body | 0.7–0.9 |
-| Muted caption / sub-label under a stat | 0.5 |
-| Persona/short description | 0.55 |
-| Faint hint text ("Click me", disabled state) | 0.35–0.45 |
-| Nav/sidebar inactive link | 0.35 |
-| Nav/sidebar active or hover | 0.75 |
+Every piece of text on the page is one of four types. Which type it is determines its color — never pick a color ad hoc.
+
+| Type | Color | Examples |
+|---|---|---|
+| **Tag** | project accent color | "CONTEXT", "IMPACT", "DESIGN SNAPSHOT", "PROBLEM", "SOLUTION", "TAKEAWAYS" section labels; "TIMELINE"/"TEAM"/"ROLE"/"TOOLS" hero meta labels |
+| **Title** | `#fff` | the hero headline; section titles like "Repetitive workflows made simple tasks inefficient at scale" |
+| **Body (正文)** | `#E2E2E2` | paragraph copy under Context/Design Snapshot/Problem/Solution/Takeaways |
+| **Mini-heading inside body** | tag color (project accent) | a bolded lead-in inside a body paragraph, e.g. **"Early concept 1: Smart filter"** before its description, or a standalone small heading like "Why AI Command Bar?" — anything that functions as a label for the prose that follows it, even if it isn't in the sidebar/section-label position |
+
+Two deliberate exceptions to the above:
+- **Hero meta values** (the answers under Timeline/Team/Role/Tools — "Fall 2025", "IU HCI/d Team", etc.) are `#fff`, not `#E2E2E2`, even though they read like body content. The meta block is tag+white, not tag+body.
+- **Impact metric** stat is its own two-part pattern, not tag+body: the big number (`.xx-metric-num`) is `#fff`, and its caption underneath (`.xx-metric-sub`) is `#979797` — a third gray reserved only for this stat-caption role, distinct from `#E2E2E2` body copy.
+
+Page background is near-black, project-specific tint (`#0F1511`, `#0A190F`, etc.) set on `<html style="background:...">`.
+
+### Accent color — one per project
+Used for every "Tag" and "mini-heading inside body" instance on that project's page. Pick a color that complements the project's brand:
+- AgencyRoot → `#E6FB99` (lime)
+- Bytedance → `#63BDEE` (sky blue)
+- Salesforce → `#63EED7` (teal)
+- DiDi → `#FF9C6E` (orange)
+- New project → pick an unused hue in the same tonal register (pastel, moderately saturated).
 
 ### Fonts
 - **Source Serif 4**, weight 200, italic off — page headline only (`.xx-headline`, 2.125rem, line-height 1.3).
@@ -87,26 +88,26 @@ Use these bands for hierarchy — do not go above 0.93 (never pure white) or use
   min-height:100vh; padding:120px 196px 80px; gap:64px; }
 ```
 - `.xx-top` (max-width:860px): company logo lockup (image, ~44px tall) + `<h1 class="xx-headline">` (the one-line project tagline).
-- `.xx-meta`: `display:flex; gap:80px;` — a row of label/value columns, always in this order: **Timeline, Team, Role, Tools**. Label = accent color, uppercase, 0.8rem; value = `rgba(255,255,255,0.93)`, 1.045rem, line-height 1.9, `<br>`-separated for multiple lines.
+- `.xx-meta`: `display:flex; gap:80px;` — a row of label/value columns, always in this order: **Timeline, Team, Role, Tools**. Label = tag (accent color), uppercase, 0.8rem; value = `#fff` (the hero-meta exception, not `#E2E2E2`), 1.045rem, line-height 1.9, `<br>`-separated for multiple lines.
 
 ### Overview
 ```
 .xx-overview-section { padding:0 196px 180px; display:flex; align-items:center; gap:48px; }
 ```
 Two children side by side (text column + cover image/video, `max-width:860px` each):
-1. **Context** block — 1–2 short paragraphs of project background.
-2. **Impact** block — 1 to 3 stat metrics (`.xx-metric`: big Cormorant Infant number + Figtree sub-label caption underneath), laid out in a row with `gap:64px`.
-3. **Design Snapshot** — a label + one-sentence summary of the shipped solution, sitting above the hero cover image or looping video.
+1. **Context** block — tag + body (`#E2E2E2`), 1–2 short paragraphs of project background.
+2. **Impact** block — tag + 1 to 3 stat metrics (`.xx-metric`: big Cormorant Infant number in `#fff` + Figtree sub-label caption in `#979797` underneath), laid out in a row with `gap:64px`.
+3. **Design Snapshot** — tag + body (`#E2E2E2`), one-sentence summary of the shipped solution, sitting above the hero cover image or looping video.
 
 ### Problem (`id="problem"`)
 ```
 .xx-problem-section { padding:0 196px 180px; }
 .xx-problem-inner { max-width:860px; display:flex; flex-direction:column; gap:72px; }
 ```
-One or more `.xx-problem-item` blocks, each: title (`.xx-problem-title`, 1.6rem/400) + body paragraph (`.xx-problem-body`, 0.85 opacity, line-height 1.8).
+One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.6rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, line-height 1.8).
 
 ### Takeaways (always last, `id="takeaways"`)
-Reuses the solution-section shell (see §5). Title "What I've learned" + a `<ul>` of 2–3 bullet points, each a full sentence reflecting on the work. Body text sits at the brighter 0.85 opacity end.
+Reuses the solution-section shell (see §5). Tag "Takeaways" + title "What I've learned" (`#fff`) + a `<ul>` of 2–3 bullet points (`#E2E2E2`), each a full sentence reflecting on the work.
 
 ---
 
@@ -130,6 +131,8 @@ All of these sections share the outer shell:
 .xx-solution-inner   { max-width:860px; display:flex; flex-direction:column; gap:72px; }
 ```
 with the section label using the `calc(16px - 72px)` negative-margin trick so it sits 16px from the title despite the 72px container gap.
+
+Any bolded lead-in or small heading inside these patterns (a decision-card title, a compare-column heading, an iteration version label, a captioned concept like "Early concept 1: Smart filter") is a **mini-heading** — tag color, not `#fff` and not `#E2E2E2` — per §3.
 
 ---
 
