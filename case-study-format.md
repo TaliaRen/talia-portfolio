@@ -55,7 +55,7 @@ Every piece of text on the page is one of four types. Which type it is determine
 |---|---|---|
 | **Tag** | project accent color | "CONTEXT", "IMPACT", "DESIGN SNAPSHOT", "PROBLEM", "SOLUTION", "TAKEAWAYS" section labels; "TIMELINE"/"TEAM"/"ROLE"/"TOOLS" hero meta labels |
 | **Title** | `#fff` | the hero headline; section titles like "Repetitive workflows made simple tasks inefficient at scale" |
-| **Body (正文)** | `#E2E2E2`, 16px (`1rem`) | paragraph copy under Context/Design Snapshot/Problem/Solution/Takeaways |
+| **Body (正文)** | `#E2E2E2` | paragraph copy under Context/Design Snapshot/Problem/Solution/Takeaways |
 | **Mini-heading inside body** | tag color (project accent) | a bolded lead-in inside a body paragraph, e.g. **"Early concept 1: Smart filter"** before its description, or a standalone small heading like "Why AI Command Bar?" — anything that functions as a label for the prose that follows it, even if it isn't in the sidebar/section-label position |
 
 Two deliberate exceptions to the above:
@@ -63,6 +63,19 @@ Two deliberate exceptions to the above:
 - **Impact metric** stat is its own two-part pattern, not tag+body: the big number (`.xx-metric-num`) is `#fff`, and its caption underneath (`.xx-metric-sub`) is `#979797` — a third gray reserved only for this stat-caption role, distinct from `#E2E2E2` body copy.
 
 Page background is near-black, project-specific tint (`#0F1511`, `#0A190F`, etc.) set on `<html style="background:...">`.
+
+### Sizes — only 3 buckets, simpler than the color model
+For font-size (not color), everything collapses to **Title / Tag / Body** — anything that isn't literally a Title or a Tag counts as Body, even content types that get their own *color* above (mini-headings, hero meta values, impact metric captions). Size and color are independent axes; a mini-heading is tag-*colored* but body-*sized*.
+
+| Bucket | Size | Includes |
+|---|---|---|
+| **Title** | 28px (`1.75rem`), weight 400 | the five `.xx-*-title` classes (research/solution/problem/background/users). *Not* the hero headline (`.xx-headline` stays 2.125rem/Source Serif 4 — a separate, established element) and *not* card-level titles like `.xx-decision-title` (see exceptions below). |
+| **Tag** | unchanged, own small sizes (0.7rem–0.8rem depending on role) | section labels, hero meta labels — not part of this resize, only Title and Body moved |
+| **Body** | 18px (`1.125rem`) | everything else with visible text: all body paragraph classes, hero meta *values*, impact metric captions, and every mini-heading (Early concept labels, Why AI Command Bar, DiDi mindset names, decision-card titles/hints, compare-column headings, tradeoff cards, iteration label/critique, sf-solution-tagline) |
+
+Exceptions — left at their existing (smaller) sizes, not bumped to 18px:
+- Small pill/badge UI: `.bt-compare-pill` (the "Before"/"After" rounded tags), `.didi-users-tag`. These are compact decorative badges, not prose — sizing them like body text would break their padding/shape.
+- Any dead/unused CSS (journey-map persona/pain-card classes in salesforce, `.didi-users-quote`, `.didi-work-*`, `.didi-moreworks-title`, etc. — not rendered in any page body, see §5 note on `bt-` prefix reuse for the pattern of leftover CSS from copy-pasted templates).
 
 ### Accent color — one per project
 Used for every "Tag" and "mini-heading inside body" instance on that project's page. Pick a color that complements the project's brand:
@@ -74,7 +87,7 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
 
 ### Fonts
 - **Source Serif 4**, weight 200, italic off — page headline only (`.xx-headline`, 2.125rem, line-height 1.3). Tried extending this to every section/problem/solution title too; reverted — those stay Figtree.
-- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles. Section-level titles (`.xx-*-title`) are 1.725rem (bumped 2px up from an original 1.6rem). **All body/正文 text is 16px (`1rem`)** — was inconsistently 1.075rem/1.005rem/0.9rem across the four pages; standardized. This applies to every `-body`/`-block-text`/`-text`/`-desc`/`-caption` paragraph class and inline `<li>`/`<p>` body content, but *not* titles, tags, mini-headings, hero meta values, or metric captions — those keep their own sizes per the table in §3.
+- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles. Sizes: see the Title/Tag/Body table above — titles 28px/weight 400, body (incl. mini-headings, meta values, metric captions) 18px.
 - **Cormorant Infant** — big stat numbers (`.xx-metric-num`, 3.2rem, weight 400) and the italic "More Works" section title, if used.
 - **Crimson Text** — footer quote only (shared chrome, not page-specific).
 
@@ -104,7 +117,7 @@ Two children side by side (text column + cover image/video, `max-width:860px` ea
 .xx-problem-section { padding:0 196px 180px; }
 .xx-problem-inner { max-width:860px; display:flex; flex-direction:column; gap:120px; }
 ```
-One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.725rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, line-height 1.8). Gap between items when there's more than one: 120px (see §6).
+One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.75rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, 1.125rem, line-height 1.8). Gap between items when there's more than one: 120px (see §6).
 
 ### Takeaways (always last, `id="takeaways"`)
 Reuses the solution-section shell (see §5). Tag "Takeaways" + title "What I've learned" (`#fff`) + a `<ul>` of 2–3 bullet points (`#E2E2E2`), each a full sentence reflecting on the work.
