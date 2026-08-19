@@ -55,7 +55,7 @@ Every piece of text on the page is one of four types. Which type it is determine
 |---|---|---|
 | **Tag** | project accent color | "CONTEXT", "IMPACT", "DESIGN SNAPSHOT", "PROBLEM", "SOLUTION", "TAKEAWAYS" section labels; "TIMELINE"/"TEAM"/"ROLE"/"TOOLS" hero meta labels |
 | **Title** | `#fff` | the hero headline; section titles like "Repetitive workflows made simple tasks inefficient at scale" |
-| **Body (正文)** | `#E2E2E2` | paragraph copy under Context/Design Snapshot/Problem/Solution/Takeaways |
+| **Body (正文)** | `#E2E2E2`, 16px (`1rem`) | paragraph copy under Context/Design Snapshot/Problem/Solution/Takeaways |
 | **Mini-heading inside body** | tag color (project accent) | a bolded lead-in inside a body paragraph, e.g. **"Early concept 1: Smart filter"** before its description, or a standalone small heading like "Why AI Command Bar?" — anything that functions as a label for the prose that follows it, even if it isn't in the sidebar/section-label position |
 
 Two deliberate exceptions to the above:
@@ -74,7 +74,7 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
 
 ### Fonts
 - **Source Serif 4**, weight 200, italic off — page headline only (`.xx-headline`, 2.125rem, line-height 1.3). Tried extending this to every section/problem/solution title too; reverted — those stay Figtree.
-- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles. Section-level titles (`.xx-*-title`) are 1.725rem (bumped 2px up from an original 1.6rem).
+- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles. Section-level titles (`.xx-*-title`) are 1.725rem (bumped 2px up from an original 1.6rem). **All body/正文 text is 16px (`1rem`)** — was inconsistently 1.075rem/1.005rem/0.9rem across the four pages; standardized. This applies to every `-body`/`-block-text`/`-text`/`-desc`/`-caption` paragraph class and inline `<li>`/`<p>` body content, but *not* titles, tags, mini-headings, hero meta values, or metric captions — those keep their own sizes per the table in §3.
 - **Cormorant Infant** — big stat numbers (`.xx-metric-num`, 3.2rem, weight 400) and the italic "More Works" section title, if used.
 - **Crimson Text** — footer quote only (shared chrome, not page-specific).
 
