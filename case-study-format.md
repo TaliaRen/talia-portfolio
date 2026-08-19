@@ -106,12 +106,14 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
 
 ### Overview
 ```
-.xx-overview-section { padding:0 196px 180px; display:flex; align-items:center; gap:48px; }
+.xx-overview-section { padding:0 196px 180px; display:flex; align-items:center; gap:64px; }
 ```
 Two children side by side (text column + cover image/video, `max-width:860px` each):
 1. **Context** block — tag + body (`#E2E2E2`), 1–2 short paragraphs of project background.
-2. **Impact** block — tag + 1 to 3 stat metrics (`.xx-metric`: big Cormorant Infant number in `#fff` + Figtree sub-label caption in `#979797` underneath), laid out in a row with `gap:64px`.
+2. **Impact** block — tag + 1 to 3 stat metrics (`.xx-metric`: big Cormorant Infant number in `#fff` + Figtree sub-label caption in `#979797` underneath), laid out in a row with `gap:64px` (the metrics-row gap — a different relationship from the block-to-block gap below, they just happen to share the same value).
 3. **Design Snapshot** — tag + body (`#E2E2E2`), one-sentence summary of the shipped solution, sitting above the hero cover image or looping video.
+
+**Gap between each of these three tag-blocks (Context↔Impact, Impact↔Design Snapshot) is 64px** — `.xx-overview-text { gap:64px }` (Context↔Impact) and `.xx-overview-section`'s own `gap:64px` above (Impact-column ↔ Design-Snapshot-column). Was 48px; widened on all four project pages.
 
 ### Problem (`id="problem"`)
 ```
