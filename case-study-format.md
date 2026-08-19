@@ -75,6 +75,7 @@ For font-size (not color), everything collapses to **Title / Tag / Body** — an
 
 Exceptions — left at their existing (smaller) sizes, not bumped to 18px:
 - Small pill/badge UI: `.bt-compare-pill` (the "Before"/"After" rounded tags), `.didi-users-tag`. These are compact decorative badges, not prose — sizing them like body text would break their padding/shape.
+- **Hint** — a new named exception, not "body": interaction hint text like DiDi's "Hover each card to see related designs" above the Key Design Decisions accordion (`.didi-decision-hint`). Sized and weighted identically to Tag (12px/weight 300 in DiDi's case — matches whatever the page's own tag size is), even though it keeps the accent color rather than being a literal section-label tag. Only DiDi has this pattern currently; apply the same Tag-matched sizing if another project page adds hint text.
 - Any dead/unused CSS (journey-map persona/pain-card classes in salesforce, `.didi-users-quote`, `.didi-work-*`, `.didi-moreworks-title`, etc. — not rendered in any page body, see §5 note on `bt-` prefix reuse for the pattern of leftover CSS from copy-pasted templates).
 
 ### Accent color — one per project
