@@ -317,8 +317,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: #63BDEE; letter-spacing: .04em;
     padding: 9px 18px; border-radius: 999px;
     background: rgba(99,189,238,0.1);
-    cursor: pointer; width: fit-content;
+    cursor: pointer; width: fit-content; border: none;
   }
+  /* Problem framing modal — matches index.html's modal style */
+  #bt-problem-modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    z-index: 1000; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  #bt-problem-modal.open { display: flex; }
+  #bt-problem-modal.visible { opacity: 1; }
+  #bt-problem-modal-box {
+    background: #fff; border-radius: 20px; padding: 32px 32px 28px;
+    width: 440px; max-width: calc(100vw - 32px); position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.13);
+    transform: scale(0.93) translateY(16px);
+    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.25s ease;
+    opacity: 0;
+  }
+  #bt-problem-modal.visible #bt-problem-modal-box { transform: scale(1) translateY(0); opacity: 1; }
+  #bt-problem-modal-box h2 {
+    font-family: 'Figtree', sans-serif; font-weight: 600;
+    font-size: 1.1rem; color: #1a1a1a; margin: 0 0 16px;
+  }
+  .bt-problem-modal-body { display: flex; flex-direction: column; gap: 12px; }
+  .bt-problem-modal-body p {
+    font-family: 'Figtree', sans-serif; font-weight: 300;
+    font-size: 0.85rem; color: #444; line-height: 1.7; margin: 0;
+  }
+  #bt-problem-modal-close {
+    position: absolute; top: 14px; right: 18px;
+    background: none; border: none; font-size: 0.95rem;
+    color: #bbb; cursor: pointer; transition: color 0.2s; line-height: 1;
+  }
+  #bt-problem-modal-close:hover { color: #555; }
   @media(max-width:860px) {
     .bt-problem-section { padding: 0 32px 80px; }
   }
@@ -632,10 +666,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="bt-problem-row">
           <div class="bt-problem-row-text">
             <p class="bt-problem-body">Exception requests were less frequent, but missing one could be costly. Because they surfaced only in Order Tools, merchants could easily miss that required action, leading to customer complaints and costly reshipments.</p>
-            <span class="bt-problem-hint">
+            <button type="button" id="bt-problem-hint-trigger" class="bt-problem-hint">
               <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1v10.5l3-2.5 1.5 4 1.5-.5-1.5-4H9L1 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
               Click to see how I framed the problem
-            </span>
+            </button>
           </div>
           <img src="bytedance/problem.png" alt="Order Tools buried in a separate module from Order Management">
         </div>
@@ -805,6 +839,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="footer-credit">Inspired by Outer Wilds &amp; Jigsaw Puzzle, built with Claude</p>
   </div>
 </footer>
+
+<div id="bt-problem-modal">
+  <div id="bt-problem-modal-box">
+    <button id="bt-problem-modal-close" aria-label="Close">✕</button>
+    <h2>How I framed the problem</h2>
+    <div class="bt-problem-modal-body">
+      <p>Placeholder — this will walk through how I worked with the team to define the problem: the research, the framing conversations, and the key decisions that shaped where we focused.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const modal = document.getElementById('bt-problem-modal');
+    const trigger = document.getElementById('bt-problem-hint-trigger');
+    const closeBtn = document.getElementById('bt-problem-modal-close');
+    let lockScrollY = 0;
+    function open() {
+      lockScrollY = window.scrollY;
+      const sw = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = sw + 'px';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${lockScrollY}px`;
+      document.body.style.width = '100%';
+      modal.classList.add('open');
+      requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('visible')));
+    }
+    function close() {
+      modal.classList.remove('visible');
+      setTimeout(() => {
+        modal.classList.remove('open');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.paddingRight = '';
+        window.scrollTo(0, lockScrollY);
+      }, 260);
+    }
+    trigger.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+  })();
+</script>
 
 <script>
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
