@@ -174,6 +174,7 @@ Any bolded lead-in or small heading inside these patterns (a decision-card title
 - `max-width:1100px` → hide `.case-sidebar`
 - `max-width:860px` → section padding drops to `0 32px 80px`; hero padding `120px 32px 80px`; multi-column rows (meta, mindsets) collapse to 1 column
 - `max-width:480px` → hero padding `100px 24px 60px`
+- **Body text + image side-by-side row** (`.xx-problem-row` and similar): don't use a fixed-viewport media query to force `flex-direction:column`. Use `flex-wrap:wrap` on the row plus a `min-width` on both children (e.g. `min-width:280px` on the text, `min-width:280px; max-width:460px` on the image) — this makes the row wrap to full-width-text-above-image the moment either side would be squeezed below its minimum, at whatever container width that happens to be (it isn't a single fixed breakpoint, since the section's own horizontal padding — 196px desktop — already shrinks the row's *available* width well before the viewport itself gets narrow). Never give a flex child in this pattern an inline `style="flex:1"` — its `flex-basis:0%` overrides any CSS-class `flex-basis`, and since inline styles beat stylesheet rules regardless of specificity, that silently defeats the min-width wrap entirely: the browser sees a 0% basis, allocates space to the other (fixed-basis) child first, and the text-with-inline-flex:1 collapses to a garbled sliver instead of wrapping. Bytedance's Problem-section image+body row hit exactly this bug once.
 
 ---
 

@@ -300,13 +300,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-bottom: calc(16px - 120px);
   }
   .bt-problem-item { display: flex; flex-direction: column; gap: 36px; }
-  .bt-problem-row { display: flex; gap: 48px; align-items: flex-start; }
-  .bt-problem-row p { flex: 1 1 320px; min-width: 0; }
-  .bt-problem-row img { flex: 1 1 460px; min-width: 0; max-width: 460px; width: 100%; height: auto; display: block; }
-  @media(max-width:860px) {
-    .bt-problem-row { flex-direction: column; gap: 32px; }
-    .bt-problem-row img { flex: 0 0 auto; width: 100%; max-width: none; }
-  }
+  .bt-problem-row { display: flex; flex-wrap: wrap; gap: 32px 48px; align-items: flex-start; }
+  .bt-problem-row p { flex: 1 1 320px; min-width: 280px; }
+  .bt-problem-row img { flex: 1 1 460px; min-width: 280px; max-width: 460px; width: 100%; height: auto; display: block; }
   .bt-problem-title {
     font-family: 'Figtree', sans-serif; font-size: 1.75rem; font-weight: 400;
     color: #fff; line-height: 1.25;
