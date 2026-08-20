@@ -300,6 +300,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-bottom: calc(16px - 120px);
   }
   .bt-problem-item { display: flex; flex-direction: column; gap: 36px; }
+  .bt-problem-row { display: flex; gap: 48px; align-items: flex-start; }
+  .bt-problem-row img { flex: 0 0 460px; width: 460px; height: auto; display: block; }
+  @media(max-width:860px) {
+    .bt-problem-row { flex-direction: column; gap: 32px; }
+    .bt-problem-row img { flex: 0 0 auto; width: 100%; }
+  }
   .bt-problem-title {
     font-family: 'Figtree', sans-serif; font-size: 1.75rem; font-weight: 400;
     color: #fff; line-height: 1.25;
@@ -618,9 +624,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="bt-problem-header">Problem</span>
       <div class="bt-problem-item">
         <h2 class="bt-problem-title">Exception requests were invisible in merchants' primary workflow</h2>
-        <div style="display:flex; gap:48px; align-items:flex-start;">
+        <div class="bt-problem-row">
           <p class="bt-problem-body" style="flex:1;">Exception requests were less frequent, but missing one could be costly. Because they surfaced only in Order Tools, merchants could easily miss that required action, leading to customer complaints and costly reshipments.</p>
-          <img src="bytedance/problem.png" alt="Order Tools buried in a separate module from Order Management" style="flex:0 0 380px; width:380px; height:auto; display:block;">
+          <img src="bytedance/problem.png" alt="Order Tools buried in a separate module from Order Management">
         </div>
       </div>
     </div>
