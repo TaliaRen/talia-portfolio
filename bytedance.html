@@ -301,7 +301,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .bt-problem-item { display: flex; flex-direction: column; gap: 36px; }
   .bt-problem-row { display: flex; flex-wrap: wrap; gap: 32px 48px; align-items: flex-start; }
-  .bt-problem-row p { flex: 1 1 320px; min-width: 280px; }
+  .bt-problem-row-text { flex: 1 1 320px; min-width: 280px; display: flex; flex-direction: column; gap: 24px; }
   .bt-problem-row img { flex: 1 1 460px; min-width: 280px; max-width: 460px; width: 100%; height: auto; display: block; }
   .bt-problem-title {
     font-family: 'Figtree', sans-serif; font-size: 1.75rem; font-weight: 400;
@@ -310,6 +310,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-problem-body {
     font-family: 'Figtree', sans-serif; font-size: 1.125rem; font-weight: 300;
     color: #E2E2E2; line-height: 1.8; margin: 0;
+  }
+  .bt-problem-hint {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Figtree', sans-serif; font-size: .75rem; font-weight: 300;
+    color: #63BDEE; letter-spacing: .04em;
+    padding: 9px 18px; border-radius: 999px;
+    border: 1px solid rgba(99,189,238,0.35); background: rgba(99,189,238,0.08);
+    cursor: pointer; width: fit-content; margin-top: 24px;
   }
   @media(max-width:860px) {
     .bt-problem-section { padding: 0 32px 80px; }
@@ -622,7 +630,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="bt-problem-item">
         <h2 class="bt-problem-title">Exception requests were invisible in merchants' primary workflow</h2>
         <div class="bt-problem-row">
-          <p class="bt-problem-body">Exception requests were less frequent, but missing one could be costly. Because they surfaced only in Order Tools, merchants could easily miss that required action, leading to customer complaints and costly reshipments.</p>
+          <div class="bt-problem-row-text">
+            <p class="bt-problem-body">Exception requests were less frequent, but missing one could be costly. Because they surfaced only in Order Tools, merchants could easily miss that required action, leading to customer complaints and costly reshipments.</p>
+            <span class="bt-problem-hint">
+              <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1v10.5l3-2.5 1.5 4 1.5-.5-1.5-4H9L1 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              Click to see how I framed the problem with the team
+            </span>
+          </div>
           <img src="bytedance/problem.png" alt="Order Tools buried in a separate module from Order Management">
         </div>
       </div>
