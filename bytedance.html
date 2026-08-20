@@ -331,22 +331,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #bt-problem-modal.visible { opacity: 1; }
   #bt-problem-modal-box {
     background: #fff; border-radius: 20px; padding: 32px 32px 28px;
-    width: 440px; max-width: calc(100vw - 32px); position: relative;
+    width: 520px; max-width: calc(100vw - 32px); position: relative;
+    max-height: calc(100vh - 64px);
     box-shadow: 0 24px 64px rgba(0,0,0,0.13);
     transform: scale(0.93) translateY(16px);
     transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.25s ease;
     opacity: 0;
+    display: flex; flex-direction: column;
   }
+  .bt-problem-modal-scroll { overflow-y: auto; }
   #bt-problem-modal.visible #bt-problem-modal-box { transform: scale(1) translateY(0); opacity: 1; }
   #bt-problem-modal-box h2 {
     font-family: 'Figtree', sans-serif; font-weight: 600;
-    font-size: 1.1rem; color: #1a1a1a; margin: 0 0 16px;
+    font-size: 1.1rem; color: #1a1a1a; margin: 0 0 20px;
   }
   .bt-problem-modal-body { display: flex; flex-direction: column; gap: 12px; }
   .bt-problem-modal-body p {
     font-family: 'Figtree', sans-serif; font-weight: 300;
-    font-size: 0.85rem; color: #444; line-height: 1.7; margin: 0;
+    font-size: 1.125rem; color: #444; line-height: 1.7; margin: 0;
   }
+  .bt-problem-modal-cards { display: flex; flex-direction: column; align-items: center; }
+  .bt-problem-modal-card {
+    width: 100%; background: #F5F5F4; border-radius: 16px; padding: 24px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .bt-problem-modal-card h3 {
+    font-family: 'Figtree', sans-serif; font-weight: 600;
+    font-size: 1.15rem; color: #1a1a1a; margin: 0; line-height: 1.35;
+  }
+  .bt-problem-modal-card p {
+    font-family: 'Figtree', sans-serif; font-weight: 300;
+    font-size: 1.125rem; color: #444; line-height: 1.7; margin: 0;
+  }
+  .bt-problem-modal-arrow { padding: 6px 0; color: #ccc; }
   #bt-problem-modal-close {
     position: absolute; top: 14px; right: 18px;
     background: none; border: none; font-size: 0.95rem;
@@ -843,9 +860,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="bt-problem-modal">
   <div id="bt-problem-modal-box">
     <button id="bt-problem-modal-close" aria-label="Close">✕</button>
-    <h2>How I framed the problem</h2>
-    <div class="bt-problem-modal-body">
-      <p>Placeholder — this will walk through how I worked with the team to define the problem: the research, the framing conversations, and the key decisions that shaped where we focused.</p>
+    <div class="bt-problem-modal-scroll">
+      <h2>How I framed the problem</h2>
+      <div class="bt-problem-modal-cards">
+        <div class="bt-problem-modal-card">
+          <h3>PM identified low UV for Order Tools</h3>
+          <p>The product team considered four possible causes for low UV: low demand, poor discoverability, unclear positioning, or usability friction.</p>
+        </div>
+        <div class="bt-problem-modal-arrow">
+          <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1v16M8 17l-6-6M8 17l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="bt-problem-modal-card">
+          <h3>Placeholder title for step two</h3>
+          <p>Placeholder — this card will describe the next step in narrowing down the cause.</p>
+        </div>
+        <div class="bt-problem-modal-arrow">
+          <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1v16M8 17l-6-6M8 17l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="bt-problem-modal-card">
+          <h3>Placeholder title for step three</h3>
+          <p>Placeholder — this card will describe how the team landed on the final framing.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
