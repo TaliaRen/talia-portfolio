@@ -301,9 +301,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: 'Figtree', sans-serif; font-size: 1.125rem; font-weight: 300;
     color: #E2E2E2; line-height: 1.5; margin: 0;
     padding: 18px 24px; border-radius: 14px;
-    border: 1px solid rgba(255,107,107,0.45);
     background: rgba(255,107,107,0.08);
+    display: flex; gap: 10px; align-items: flex-start;
   }
+  .bt-iteration-critique svg { flex-shrink: 0; margin-top: 4px; color: #FF5C5C; }
   @media(max-width:860px) {
     .bt-iteration-section { padding: 0 32px 80px; }
   }
@@ -765,20 +766,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <source src="bytedance/final version.mp4" type="video/mp4">
       </video>
       <img class="bt-solution-img" src="bytedance/highlight.png" alt="Design highlights">
+      <p style="font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:700; color:#E2E2E2; margin:0;">Earlier Versions We Didn't Move Forward With</p>
       <div style="display:flex; gap:32px; align-items:flex-start;" id="iteration">
         <div class="bt-iteration-block" style="flex:1; min-width:0;">
-          <p class="bt-iteration-label"><strong>V1:</strong> A button that opens Order Tools with a side panel</p>
+          <p class="bt-iteration-label"><strong>V1:</strong> Button-Triggered Side Panel</p>
           <video class="bt-iteration-video" autoplay loop muted playsinline>
             <source src="bytedance/v1.mp4" type="video/mp4">
           </video>
-          <p class="bt-iteration-critique">Improved access and order management context, but did not change how users decide when and why to take action.</p>
+          <p class="bt-iteration-critique">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M6 6l6 6M12 6l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>Improved access and order management context, but did not change how users decide when and why to take action.</span>
+          </p>
         </div>
         <div class="bt-iteration-block" style="flex:1; min-width:0;">
           <p class="bt-iteration-label"><strong>V2:</strong> An overview showing all pending actions</p>
           <video class="bt-iteration-video" autoplay loop muted playsinline>
             <source src="bytedance/v2.mp4" type="video/mp4">
           </video>
-          <p class="bt-iteration-critique">Data points aggregation caused information overload, making it harder to guide action as the system scaled.</p>
+          <p class="bt-iteration-critique">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M6 6l6 6M12 6l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>Data points aggregation caused information overload, making it harder to guide action as the system scaled.</span>
+          </p>
         </div>
       </div>
     </div>
