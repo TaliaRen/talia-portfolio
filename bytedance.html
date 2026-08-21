@@ -232,6 +232,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-solution-block {
     display: flex; flex-direction: column; gap: 24px;
   }
+  .bt-solution-row {
+    display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start;
+  }
+  .bt-solution-row-text { flex: 1 1 280px; min-width: 260px; }
+  .bt-solution-row-images {
+    flex: 1 1 400px; min-width: 280px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
   .bt-solution-img {
     width: 100%; display: block; border-radius: 12px; margin: 0;
   }
@@ -777,15 +785,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <section class="bt-solution-section">
-    <div class="bt-solution-inner">
+    <div class="bt-solution-inner" style="gap:36px;">
       <h2 class="bt-solution-title">How did I make room for integration?</h2>
-      <div class="bt-solution-block">
-        <span class="bt-compare-pill bt-compare-pill--system" style="align-self:flex-start;">Before</span>
-        <img class="bt-solution-img bt-solution-img--before" src="bytedance/no space.png" alt="Before">
-      </div>
-      <div class="bt-solution-block">
-        <span class="bt-compare-pill bt-compare-pill--merchant" style="align-self:flex-start;">After</span>
-        <img class="bt-solution-img" src="bytedance/solution2.png" alt="After">
+      <div class="bt-solution-row">
+        <p class="bt-compare-body bt-solution-row-text">Adding the Common Tools module increased vertical density and pushed the order list below the initial viewport.</p>
+        <div class="bt-solution-row-images">
+          <img class="bt-solution-img bt-solution-img--before" src="bytedance/no space.png" alt="">
+          <img class="bt-solution-img" src="bytedance/solution2.png" alt="">
+        </div>
       </div>
     </div>
   </section>
