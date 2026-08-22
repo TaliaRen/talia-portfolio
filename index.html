@@ -757,7 +757,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .about-text { max-width:860px; display:flex; flex-direction:column; align-items:center; gap:28px; }
   .about-row { display:flex; flex-direction:row; align-items:flex-end; gap:56px; width:100%; }
-  .about-right { display:flex; flex-direction:column; align-items:flex-start; gap:24px; flex:1; min-width:220px; }
+  .about-right { display:flex; flex-direction:column; align-items:flex-start; gap:24px; flex:1; min-width:340px; }
   .about-greeting {
     font-family:'Cormorant Infant', Georgia, serif;
     font-style:italic; font-weight:400; font-size:3.025rem;
@@ -772,8 +772,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     max-width:560px;
   }
   @media (max-width:900px) {
-    .about-row { gap:20px; align-items:flex-start; }
-    .about-hello-img { width:110px; height:110px; }
+    .about-row { flex-direction:column; gap:20px; align-items:flex-start; }
+    .about-right { min-width:0; width:100%; }
+    .about-hello-img { width:130px; height:130px; }
     .about-body { max-width:100%; }
   }
   .about-photos-viewport {
@@ -782,13 +783,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     overflow:hidden;
     position:relative;
     margin-top:-58px;
-  }
-  .about-arc-line {
-    position:absolute;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,0.55);
-    box-shadow: 0 0 10px 2px rgba(255,255,255,0.55), 0 0 22px 6px rgba(255,255,255,0.28);
-    pointer-events:none;
   }
   .about-photos-row {
     position:relative;
@@ -1391,7 +1385,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="about-photos-viewport">
-    <div class="about-arc-line" id="aboutArcLine"></div>
     <div class="about-photos-row" id="aboutPhotosRow">
       <img src="about/can't%20stop%20travelling.jpg" alt="" loading="lazy">
       <img src="about/capture%20every%20moment.JPG" alt="" loading="lazy">
@@ -2824,19 +2817,6 @@ if (location.hash === '#projects') {
       ? { r: 1000, cy: -770, w: 96, h: 130 }
       : { r: 1500, cy: -1150, w: 140, h: 190 };
   }
-
-  const arcLine = document.getElementById('aboutArcLine');
-  function updateArcLine() {
-    if (!arcLine) return;
-    const cx = viewport.clientWidth / 2;
-    const { r, cy } = geometry();
-    arcLine.style.width = r * 2 + 'px';
-    arcLine.style.height = r * 2 + 'px';
-    arcLine.style.left = (cx - r) + 'px';
-    arcLine.style.top = (cy - r) + 'px';
-  }
-  updateArcLine();
-  window.addEventListener('resize', updateArcLine);
 
   function frame(now) {
     const elapsed = (now - startTime) / 1000;
