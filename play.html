@@ -800,21 +800,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 <style>
 @media (pointer: fine) {
-  * { cursor: none !important; }
+  html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
   #glow-cursor {
     position: fixed; top: 0; left: 0;
     width: 26px; height: 26px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(225,225,235,0.7) 35%, rgba(200,200,220,0) 70%);
-    box-shadow: 0 0 16px 6px rgba(255,255,255,0.55), 0 0 36px 14px rgba(190,190,210,0.28);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(225,225,235,0.75) 35%, rgba(200,200,220,0) 70%);
+    box-shadow: 0 0 18px 7px rgba(255,255,255,0.6), 0 0 40px 16px rgba(190,190,210,0.3);
     pointer-events: none;
-    z-index: 99999;
+    z-index: 2147483647;
     transform: translate3d(-50%, -50%, 0);
-    transition: opacity 0.2s ease;
     opacity: 0;
     will-change: transform;
   }
-  #glow-cursor.active { opacity: 1; }
+  html.custom-cursor-active #glow-cursor { opacity: 1; }
 }
 </style>
 <div id="glow-cursor"></div>
@@ -822,13 +821,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function() {
   if (!window.matchMedia('(pointer: fine)').matches) return;
   const c = document.getElementById('glow-cursor');
-  let shown = false;
+  if (!c) return;
   document.addEventListener('mousemove', function(e) {
     c.style.left = e.clientX + 'px';
     c.style.top = e.clientY + 'px';
-    if (!shown) { c.classList.add('active'); shown = true; }
+    document.documentElement.classList.add('custom-cursor-active');
   }, { passive: true });
-  document.addEventListener('mouseleave', function() { c.classList.remove('active'); });
+  document.addEventListener('mouseleave', function() {
+    document.documentElement.classList.remove('custom-cursor-active');
+  });
+  document.addEventListener('mouseenter', function() {
+    document.documentElement.classList.add('custom-cursor-active');
+  });
 })();
 </script>
 </body>
