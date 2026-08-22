@@ -2876,6 +2876,8 @@ if (location.hash === '#projects') {
     transform: translate3d(-50%, -50%, 0);
     opacity: 0;
     will-change: transform;
+    mix-blend-mode: difference;
+    box-shadow: 0 0 18px 6px rgba(255,255,255,0.55), 0 0 5px 1px rgba(255,255,255,0.9);
   }
   html.custom-cursor-active #glow-cursor { opacity: 1; }
 }
