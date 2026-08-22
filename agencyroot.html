@@ -397,10 +397,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── Hero section ── */
   .bt-hero-section {
+    position:relative;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     min-height:100vh; padding:120px 196px 80px; gap:64px;
   }
+  .bt-hero-bg {
+    position:absolute; top:0; left:0; right:0; height:480px; z-index:0;
+    overflow:hidden; pointer-events:none;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 75%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 75%);
+  }
+  .bt-hero-bg img {
+    width:100%; height:100%; object-fit:cover; display:block;
+    opacity:0.4;
+  }
   .bt-top {
+    position:relative; z-index:1;
     display:flex; flex-direction:column; gap:12px;
     width:100%; max-width:860px;
   }
@@ -413,6 +425,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:#fff; line-height:1.3;
   }
   .bt-meta {
+    position:relative; z-index:1;
     display:flex; flex-wrap:nowrap; gap:80px; align-items:flex-start;
     width:100%; max-width:860px; padding-top:40px;
   }
@@ -523,6 +536,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main>
   <section class="bt-hero-section" id="overview">
+    <div class="bt-hero-bg" aria-hidden="true"><img src="agencyroot/hero.png" alt=""></div>
     <div class="bt-top">
       <div class="bt-logo-lockup">
         <img src="company logo/agencyroot dark.png" alt="AgencyRoot">
