@@ -767,28 +767,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     line-height:1.85; color:rgba(255,255,255,0.80); max-width:100%;
     text-align:center;
   }
+  .about-photos-viewport {
+    width:100vw;
+    overflow:hidden;
+    padding:44px 0;
+  }
   .about-photos-row {
-    display:flex; flex-wrap:wrap; justify-content:center; align-items:center;
-    gap:18px; max-width:1200px; margin:0 -220px;
+    display:flex; align-items:center;
+    gap:20px; width:max-content;
+    animation: about-photos-scroll 42s linear infinite;
+  }
+  .about-photos-viewport:hover .about-photos-row { animation-play-state:paused; }
+  @keyframes about-photos-scroll {
+    from { transform:translateX(0); }
+    to { transform:translateX(-50%); }
   }
   .about-photos-row img {
     width:130px; height:175px; object-fit:cover; border-radius:6px;
     box-shadow:0 10px 28px rgba(0,0,0,0.4);
-    display:block;
+    display:block; flex:0 0 auto;
   }
-  .about-photos-row img:nth-child(1) { transform:translateY(0px); }
-  .about-photos-row img:nth-child(2) { transform:translateY(-20px); }
-  .about-photos-row img:nth-child(3) { transform:translateY(-34px); }
-  .about-photos-row img:nth-child(4) { transform:translateY(-40px); }
-  .about-photos-row img:nth-child(5) { transform:translateY(-40px); }
-  .about-photos-row img:nth-child(6) { transform:translateY(-34px); }
-  .about-photos-row img:nth-child(7) { transform:translateY(-20px); }
-  .about-photos-row img:nth-child(8) { transform:translateY(0px); }
+  .about-photos-row img:nth-child(8n+1) { transform:translateY(0px); }
+  .about-photos-row img:nth-child(8n+2) { transform:translateY(-34px); }
+  .about-photos-row img:nth-child(8n+3) { transform:translateY(-58px); }
+  .about-photos-row img:nth-child(8n+4) { transform:translateY(-70px); }
+  .about-photos-row img:nth-child(8n+5) { transform:translateY(-70px); }
+  .about-photos-row img:nth-child(8n+6) { transform:translateY(-58px); }
+  .about-photos-row img:nth-child(8n+7) { transform:translateY(-34px); }
+  .about-photos-row img:nth-child(8n) { transform:translateY(0px); }
   @media (max-width:900px) {
     .about-section { padding:60px 24px 60px; gap:40px; }
     .about-greeting { font-size:2.4rem; }
-    .about-photos-row { margin:0; gap:14px; }
-    .about-photos-row img { transform:none !important; width:110px; height:150px; }
+    .about-photos-row { gap:14px; }
+    .about-photos-row img { width:100px; height:135px; }
+    .about-photos-row img:nth-child(8n+2) { transform:translateY(-24px); }
+    .about-photos-row img:nth-child(8n+3) { transform:translateY(-42px); }
+    .about-photos-row img:nth-child(8n+4) { transform:translateY(-50px); }
+    .about-photos-row img:nth-child(8n+5) { transform:translateY(-50px); }
+    .about-photos-row img:nth-child(8n+6) { transform:translateY(-42px); }
+    .about-photos-row img:nth-child(8n+7) { transform:translateY(-24px); }
   }
 
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
@@ -1369,15 +1386,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h1 class="about-greeting">Hey there, I'm Talia</h1>
     <p class="about-body">I became a product designer because I was always curious about why some experiences feel confusing, frustrating, or harder than they need to be.<br><br>Design gave me a way to look beneath the surface, understand the people and systems behind a problem, and reshape them into something more thoughtful and useful.<br><br>Right now, I'm curious about how AI can reshape the way I work. I'm currently experimenting with using AI to understand unfamiliar domains, communicate ideas through demos, and automate repetitive design tasks.</p>
   </div>
-  <div class="about-photos-row">
-    <img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy">
-    <img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy">
-    <img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy">
-    <img src="about/picture.jpg" alt="Talia Ren" loading="lazy">
-    <img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy">
-    <img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy">
-    <img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy">
-    <img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy">
+  <div class="about-photos-viewport">
+    <div class="about-photos-row">
+      <img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy">
+      <img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy">
+      <img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy">
+      <img src="about/picture.jpg" alt="Talia Ren" loading="lazy">
+      <img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy">
+      <img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy">
+      <img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy">
+      <img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy">
+      <img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy" aria-hidden="true">
+      <img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy" aria-hidden="true">
+      <img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy" aria-hidden="true">
+      <img src="about/picture.jpg" alt="" loading="lazy" aria-hidden="true">
+      <img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy" aria-hidden="true">
+      <img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy" aria-hidden="true">
+      <img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy" aria-hidden="true">
+      <img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy" aria-hidden="true">
+    </div>
   </div>
 </div>
 
