@@ -785,6 +785,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:relative;
     margin-top:-58px;
   }
+  .about-arc-line {
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.55);
+    box-shadow: 0 0 10px 2px rgba(255,255,255,0.55), 0 0 22px 6px rgba(255,255,255,0.28);
+    pointer-events:none;
+  }
   .about-photos-row {
     position:relative;
     width:100%; height:100%;
@@ -1386,6 +1393,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="about-photos-viewport">
+    <div class="about-arc-line" id="aboutArcLine"></div>
     <div class="about-photos-row" id="aboutPhotosRow">
       <img src="about/can't%20stop%20travelling.jpg" alt="" loading="lazy">
       <img src="about/capture%20every%20moment.JPG" alt="" loading="lazy">
@@ -2818,6 +2826,19 @@ if (location.hash === '#projects') {
       ? { r: 1000, cy: -770, w: 96, h: 130 }
       : { r: 1500, cy: -1150, w: 140, h: 190 };
   }
+
+  const arcLine = document.getElementById('aboutArcLine');
+  function updateArcLine() {
+    if (!arcLine) return;
+    const cx = viewport.clientWidth / 2;
+    const { r, cy } = geometry();
+    arcLine.style.width = r * 2 + 'px';
+    arcLine.style.height = r * 2 + 'px';
+    arcLine.style.left = (cx - r) + 'px';
+    arcLine.style.top = (cy - r) + 'px';
+  }
+  updateArcLine();
+  window.addEventListener('resize', updateArcLine);
 
   function frame(now) {
     const elapsed = (now - startTime) / 1000;
