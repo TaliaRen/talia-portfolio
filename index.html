@@ -751,41 +751,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── About section (merged from about.html) ── */
   .about-section {
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
+    display:flex; flex-direction:column; align-items:center;
     gap:64px;
     padding:270px 220px 120px;
   }
-  .about-left { flex:1; min-width:280px; display:flex; flex-direction:column; gap:28px; }
-  .about-right { flex:0 1 490px; min-width:320px; position:relative; }
-  .about-photo {
-    width:100%; aspect-ratio:4.5/3; object-fit:cover; object-position:center top;
-    border-radius:16px; display:block;
-  }
-  .resume-dl-btn {
-    display:inline-flex; align-items:center; gap:7px;
-    font-family:'Figtree',sans-serif; font-size:0.95rem; font-weight:500;
-    color:#fff; background:rgba(255,255,255,0.12);
-    border:none; border-radius:10px; padding:11px 24px;
-    cursor:pointer; text-decoration:none;
-    transition:background 0.2s, transform 0.15s;
-    white-space:nowrap;
-  }
-  .resume-dl-btn:hover { background:#16A84E; transform:translateY(-1px); }
+  .about-text { max-width:620px; display:flex; flex-direction:column; gap:28px; }
   .about-greeting {
     font-family:'Cormorant Infant', Georgia, serif;
     font-style:italic; font-weight:400; font-size:3.025rem;
     color:rgba(255,255,255,0.95); line-height:1.15;
+    text-align:center;
   }
   .about-body {
     font-family:'Figtree', sans-serif; font-weight:300; font-size:1rem;
     line-height:1.85; color:rgba(255,255,255,0.80); max-width:100%;
   }
+  .about-photos-row {
+    display:flex; flex-wrap:wrap; justify-content:center; align-items:center;
+    gap:22px; width:100%; max-width:1200px;
+  }
+  .about-photos-row img {
+    width:150px; height:200px; object-fit:cover; border-radius:6px;
+    box-shadow:0 10px 28px rgba(0,0,0,0.4);
+    display:block;
+  }
+  .about-photos-row img:nth-child(1) { width:90px; height:130px; transform:translateY(-18px) rotate(-3deg); opacity:.85; }
+  .about-photos-row img:nth-child(2) { transform:translateY(24px) rotate(2deg); }
+  .about-photos-row img:nth-child(3) { transform:translateY(-10px) rotate(-2deg); }
+  .about-photos-row img:nth-child(4) { width:170px; height:230px; transform:translateY(14px) rotate(1deg); }
+  .about-photos-row img:nth-child(5) { transform:translateY(-16px) rotate(-1deg); }
+  .about-photos-row img:nth-child(6) { transform:translateY(20px) rotate(3deg); }
+  .about-photos-row img:nth-child(7) { transform:translateY(-8px) rotate(-2deg); }
+  .about-photos-row img:nth-child(8) { width:90px; height:130px; transform:translateY(-20px) rotate(3deg); opacity:.85; }
   @media (max-width:900px) {
-    .about-section { flex-direction:column; padding:60px 24px 60px; gap:40px; }
-    .about-right { flex:none; width:100%; max-width:400px; }
+    .about-section { padding:60px 24px 60px; gap:40px; }
     .about-greeting { font-size:2.4rem; }
+    .about-photos-row img { transform:none !important; width:110px; height:150px; opacity:1 !important; }
     .slider-section { padding-top:60px; }
   }
 
@@ -1393,24 +1394,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div class="about-section" id="about-section">
-  <div class="about-left">
+  <div class="about-text">
     <h1 class="about-greeting">Hey there, I'm Talia</h1>
     <p class="about-body">I became a product designer because I was always curious about why some experiences feel confusing, frustrating, or harder than they need to be.<br><br>Design gave me a way to look beneath the surface, understand the people and systems behind a problem, and reshape them into something more thoughtful and useful.<br><br>Right now, I'm curious about how AI can reshape the way I work. I'm currently experimenting with using AI to understand unfamiliar domains, communicate ideas through demos, and automate repetitive design tasks.</p>
   </div>
-  <div class="about-right">
-    <div style="position:relative;">
-      <img class="about-photo" src="about/picture.jpg" alt="Talia Ren">
-    </div>
-    <div style="display:flex; justify-content:flex-start; gap:12px; margin-top:24px;">
-      <a class="resume-dl-btn" style="cursor:default;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M5 14l7 7 7-7"/><path d="M3 21h18"/></svg>
-        Resume
-      </a>
-      <a class="resume-dl-btn" href="play.html">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></svg>
-        Playground
-      </a>
-    </div>
+  <div class="about-photos-row">
+    <img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy">
+    <img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy">
+    <img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy">
+    <img src="about/picture.jpg" alt="Talia Ren" loading="lazy">
+    <img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy">
+    <img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy">
+    <img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy">
+    <img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy">
   </div>
 </div>
 
