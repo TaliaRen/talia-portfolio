@@ -755,17 +755,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     gap:0;
     padding:270px 220px 120px;
   }
-  .about-text { max-width:520px; display:flex; flex-direction:column; align-items:flex-start; gap:28px; }
+  .about-text { max-width:700px; display:flex; flex-direction:column; align-items:center; gap:28px; }
   .about-greeting {
     font-family:'Cormorant Infant', Georgia, serif;
     font-style:italic; font-weight:400; font-size:3.025rem;
     color:rgba(255,255,255,0.95); line-height:1.15;
-    text-align:left;
+    text-align:center;
   }
+  .about-row { display:flex; flex-direction:row; align-items:center; gap:40px; width:100%; }
+  .about-hello-img { width:180px; height:180px; object-fit:contain; flex:0 0 auto; }
   .about-body {
     font-family:'Figtree', sans-serif; font-weight:300; font-size:1rem;
     line-height:1.85; color:rgba(255,255,255,0.80);
     text-align:left;
+    flex:1;
+  }
+  @media (max-width:900px) {
+    .about-row { flex-direction:column; gap:24px; }
+    .about-hello-img { width:130px; height:130px; }
+    .about-body { text-align:center; }
   }
   .about-photos-viewport {
     width:100vw;
@@ -1367,7 +1375,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="about-section" id="about-section">
   <div class="about-text">
     <h1 class="about-greeting">Hey there, I'm Talia</h1>
-    <p class="about-body">I became a product designer because I’ve always been curious about why some experiences feel more confusing or frustrating than they need to be. Design gives me a way to look beneath the surface, understand the people and systems behind a problem, and turn complexity into experiences that feel clear, thoughtful, and useful.<br><br>That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks, so I can spend more time solving the problems that truly matter.</p>
+    <div class="about-row">
+      <img class="about-hello-img" src="hero%20picture/hello.png" alt="">
+      <p class="about-body">I became a product designer because I’ve always been curious about why some experiences feel more confusing or frustrating than they need to be. Design gives me a way to look beneath the surface, understand the people and systems behind a problem, and turn complexity into experiences that feel clear, thoughtful, and useful.<br><br>That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks, so I can spend more time solving the problems that truly matter.</p>
+    </div>
   </div>
   <div class="about-photos-viewport">
     <div class="about-photos-row" id="aboutPhotosRow">
