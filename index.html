@@ -755,7 +755,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     gap:0;
     padding:270px 220px 120px;
   }
-  .about-text { max-width:480px; display:flex; flex-direction:column; gap:28px; }
+  .about-text { max-width:520px; display:flex; flex-direction:column; gap:28px; }
   .about-greeting {
     font-family:'Cormorant Infant', Georgia, serif;
     font-style:normal; font-weight:400; font-size:3.025rem;
@@ -772,6 +772,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     height:460px;
     overflow:hidden;
     position:relative;
+    margin-top:-48px;
   }
   .about-photos-row {
     position:relative;
@@ -781,23 +782,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; top:0; left:0;
     width:140px; height:190px; object-fit:cover; border-radius:6px;
     box-shadow:0 10px 28px rgba(0,0,0,0.4);
-    offset-path: circle(1500px at 50% -1150px);
-    offset-anchor: center;
-    offset-rotate: 0deg;
-    animation: about-orbit 132s linear infinite;
-  }
-  @keyframes about-orbit {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
+    will-change:transform;
   }
   @media (max-width:900px) {
     .about-section { padding:60px 24px 60px; gap:40px; }
     .about-greeting { font-size:2.4rem; }
-    .about-photos-viewport { height:320px; }
-    .about-photos-row img {
-      width:96px; height:130px;
-      offset-path: circle(1000px at 50% -770px);
-    }
+    .about-photos-viewport { height:320px; margin-top:-48px; }
+    .about-photos-row img { width:96px; height:130px; }
   }
 
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
@@ -2782,13 +2773,15 @@ if (location.hash === '#projects') {
   });
 }
 
-// About photo orbit: clone the photo set around the full circle path and
-// stagger each copy's animation-delay so they're evenly spaced, never pausing
+// About photo orbit: clone the photo set around a circle and drive position with
+// translate() only, every frame — translation can't rotate the box, so the photos
+// themselves never spin, only their position moves along the arc
 (function() {
+  const viewport = document.querySelector('.about-photos-viewport');
   const row = document.getElementById('aboutPhotosRow');
-  if (!row) return;
+  if (!viewport || !row) return;
   const originals = [...row.children];
-  const copies = 5;
+  const copies = 4;
   for (let c = 1; c < copies; c++) {
     originals.forEach(img => {
       const clone = img.cloneNode(true);
@@ -2800,9 +2793,32 @@ if (location.hash === '#projects') {
   const all = [...row.children];
   const total = all.length;
   const durationSeconds = 132;
-  all.forEach((img, i) => {
-    img.style.animationDelay = `-${(i / total) * durationSeconds}s`;
-  });
+  const angularSpeed = (Math.PI * 2) / durationSeconds;
+  const startTime = performance.now();
+
+  function geometry() {
+    const mobile = window.matchMedia('(max-width:900px)').matches;
+    return mobile
+      ? { r: 1000, cy: -770, w: 96, h: 130 }
+      : { r: 1500, cy: -1150, w: 140, h: 190 };
+  }
+
+  function frame(now) {
+    const elapsed = (now - startTime) / 1000;
+    const baseAngle = elapsed * angularSpeed;
+    const cx = viewport.clientWidth / 2;
+    const { r, cy, w, h } = geometry();
+    all.forEach((img, i) => {
+      const theta = baseAngle + (i / total) * Math.PI * 2;
+      const x = cx + r * Math.cos(theta);
+      const y = cy + r * Math.sin(theta);
+      img.style.width = w + 'px';
+      img.style.height = h + 'px';
+      img.style.transform = `translate(${x - w / 2}px, ${y - h / 2}px)`;
+    });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 
 // Project card cursor tooltip
@@ -2870,14 +2886,13 @@ if (location.hash === '#projects') {
     position: fixed; top: 0; left: 0;
     width: 14px; height: 14px;
     border-radius: 50%;
-    background: #fff;
+    background: #808080;
     pointer-events: none;
     z-index: 2147483647;
     transform: translate3d(-50%, -50%, 0);
     opacity: 0;
     will-change: transform;
-    mix-blend-mode: difference;
-    box-shadow: 0 0 18px 6px rgba(255,255,255,0.55), 0 0 5px 1px rgba(255,255,255,0.9);
+    box-shadow: 0 0 8px 2px rgba(128,128,128,0.5), 0 0 3px 1px rgba(128,128,128,0.85);
   }
   html.custom-cursor-active #glow-cursor { opacity: 1; }
 }
