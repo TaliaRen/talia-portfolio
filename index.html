@@ -797,28 +797,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:rgba(255,255,255,0.95); line-height:1.15;
     text-align:center; margin-bottom:100px;
   }
-  .slider-track-wrap {
-    mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-    -webkit-mask: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-    padding: 20px 0;
+  .card-stream-wrap {
+    perspective: 2200px;
+    height: 560px;
+    display:flex; align-items:center; justify-content:center;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 55%, transparent 78%);
   }
-  .slider-track { display:flex; gap:24px; width:max-content; animation: slider-scroll 30s linear infinite; will-change:transform; }
-  .slider-track.paused { animation-play-state: paused; }
-  @keyframes slider-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-  .slider-item { flex-shrink:0; width:220px; display:flex; flex-direction:column; gap:20px; cursor:default; }
-  .slider-img-wrap {
-    width:220px; height:293px; border-radius:14px; overflow:hidden;
-    box-shadow:0 8px 32px rgba(0,0,0,0.5); transition:transform .3s ease;
+  .card-stream {
+    position:relative; width:260px; height:347px;
+    transform-style:preserve-3d;
+    will-change:transform;
   }
-  .slider-item:hover .slider-img-wrap { transform:scale(1.03); }
-  .slider-item img { width:100%; height:100%; object-fit:cover; display:block; }
-  .slider-caption {
-    font-family:'Figtree', sans-serif; font-size:0.82rem; font-weight:300;
-    color:rgba(255,255,255,0.82); letter-spacing:.03em; padding:0 2px;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    opacity:0; transition:opacity .25s ease; margin-top:8px;
+  .card-stream-item {
+    position:absolute; top:0; left:0; width:260px; height:347px;
+    border-radius:14px; overflow:hidden;
+    box-shadow:0 8px 32px rgba(0,0,0,0.5);
+    backface-visibility:hidden;
   }
-  .slider-item:hover .slider-caption { opacity:1; }
+  .card-stream-item img { width:100%; height:100%; object-fit:cover; display:block; }
 
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
   .footer-top { display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:102px 0 2px 0; }
@@ -1418,90 +1414,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Image Slider -->
 <section class="slider-section">
   <h2 class="slider-title">Beyond the Screen</h2>
-  <div class="slider-track-wrap">
-    <div class="slider-track" id="sliderTrack">
-      <!-- set 1 -->
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">Can't stop travelling</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy"></div>
-        <span class="slider-caption">Capture every moment</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy"></div>
-        <span class="slider-caption">DIY enthusiast</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/cafe.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">I've worked at a Café</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/my%20first%201000-piece%20Puzzle.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">My first 1000-piece puzzle</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">My favorite musical</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/obsessed%20with%20good%20video%20games.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">Obsessed with good video games</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">One day, I'll visit every Disney Land</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">The best time of the year</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">Trying new things</span>
-      </div>
-      <!-- set 2 (duplicate for seamless loop) -->
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">Can't stop travelling</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/Capture%20every%20moment.JPG" alt="" loading="lazy"></div>
-        <span class="slider-caption">Capture every moment</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/diy%20enthusiast.JPG" alt="" loading="lazy"></div>
-        <span class="slider-caption">DIY enthusiast</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/cafe.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">I've worked at a Café</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/my%20first%201000-piece%20Puzzle.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">My first 1000-piece puzzle</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/My%20favorite%20musical.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">My favorite musical</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/obsessed%20with%20good%20video%20games.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">Obsessed with good video games</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">One day, I'll visit every Disney Land</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">The best time of the year</span>
-      </div>
-      <div class="slider-item">
-        <div class="slider-img-wrap"><img src="beyond%20design/Trying%20new%20things.jpg" alt="" loading="lazy"></div>
-        <span class="slider-caption">Trying new things</span>
-      </div>
+  <div class="card-stream-wrap">
+    <div class="card-stream" id="cardStream">
+      <div class="card-stream-item" style="--i:0"><img src="beyond%20design/Can't%20stop%20travelling.jpg" alt="Can't stop travelling" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:1"><img src="beyond%20design/Capture%20every%20moment.JPG" alt="Capture every moment" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:2"><img src="beyond%20design/diy%20enthusiast.JPG" alt="DIY enthusiast" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:3"><img src="beyond%20design/cafe.jpg" alt="I've worked at a Café" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:4"><img src="beyond%20design/my%20first%201000-piece%20Puzzle.jpg" alt="My first 1000-piece puzzle" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:5"><img src="beyond%20design/My%20favorite%20musical.jpg" alt="My favorite musical" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:6"><img src="beyond%20design/obsessed%20with%20good%20video%20games.jpg" alt="Obsessed with good video games" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:7"><img src="beyond%20design/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="One day, I'll visit every Disney Land" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:8"><img src="beyond%20design/the%20best%20time%20of%20the%20year.jpg" alt="The best time of the year" loading="lazy"></div>
+      <div class="card-stream-item" style="--i:9"><img src="beyond%20design/Trying%20new%20things.jpg" alt="Trying new things" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -2886,14 +2810,35 @@ if (location.hash === '#projects') {
   });
 }
 
-// Beyond the Screen slider: pause auto-scroll on hover
+// Beyond the Screen: 3D card ring that spins as the page scrolls
 (function() {
-  const track = document.getElementById('sliderTrack');
-  if (!track) return;
-  track.querySelectorAll('.slider-item').forEach(item => {
-    item.addEventListener('mouseenter', () => track.classList.add('paused'));
-    item.addEventListener('mouseleave', () => track.classList.remove('paused'));
+  const wrap = document.querySelector('.card-stream-wrap');
+  const stream = document.getElementById('cardStream');
+  if (!wrap || !stream) return;
+  const items = stream.querySelectorAll('.card-stream-item');
+  const count = items.length;
+  const angleStep = 360 / count;
+  const radius = 560;
+  items.forEach((item, i) => {
+    item.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
   });
+  let ticking = false;
+  function updateSpin() {
+    const rect = wrap.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const progress = (vh - rect.top) / (vh + rect.height);
+    const spin = progress * 720;
+    stream.style.transform = `rotateY(${spin}deg)`;
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateSpin);
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  updateSpin();
 })();
 
 // Project card cursor tooltip
