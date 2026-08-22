@@ -752,10 +752,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── About section (merged from about.html) ── */
   .about-section {
     display:flex; flex-direction:column; align-items:center;
-    gap:64px;
+    gap:0;
     padding:270px 220px 120px;
   }
-  .about-text { max-width:620px; display:flex; flex-direction:column; gap:28px; }
+  .about-text { max-width:480px; display:flex; flex-direction:column; gap:28px; }
   .about-greeting {
     font-family:'Cormorant Infant', Georgia, serif;
     font-style:normal; font-weight:400; font-size:3.025rem;
@@ -1457,9 +1457,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 history.scrollRestoration = 'manual';
 
+// sessionStorage can throw (private browsing, storage-blocking policies) — never let
+// that take down the rest of this script's synchronous setup
+function ssGet(key) { try { return sessionStorage.getItem(key); } catch (e) { return null; } }
+function ssSet(key, val) { try { sessionStorage.setItem(key, val); } catch (e) {} }
+function ssRemove(key) { try { sessionStorage.removeItem(key); } catch (e) {} }
+
 document.addEventListener('mousemove', e => {
-  sessionStorage.setItem('mx', e.clientX);
-  sessionStorage.setItem('my', e.clientY);
+  ssSet('mx', e.clientX);
+  ssSet('my', e.clientY);
 }, { passive: true });
 
 (function() {
@@ -1467,8 +1473,8 @@ document.addEventListener('mousemove', e => {
   if (!el) return;
   el.addEventListener('mouseenter', () => el.classList.add('js-hover'));
   el.addEventListener('mouseleave', () => el.classList.remove('js-hover'));
-  const lx = parseFloat(sessionStorage.getItem('mx'));
-  const ly = parseFloat(sessionStorage.getItem('my'));
+  const lx = parseFloat(ssGet('mx'));
+  const ly = parseFloat(ssGet('my'));
   if (!isNaN(lx) && !isNaN(ly)) {
     const r = el.getBoundingClientRect();
     if (lx >= r.left && lx <= r.right && ly >= r.top && ly <= r.bottom) {
@@ -2044,8 +2050,8 @@ document.addEventListener('mousemove', e => {
         // If the cursor is already sitting still over an icon right as it appears (no real
         // mouseenter will fire for a stationary pointer), show that tooltip immediately instead
         // of waiting for the user to move the mouse away and back.
-        const mx = parseFloat(sessionStorage.getItem('mx'));
-        const my = parseFloat(sessionStorage.getItem('my'));
+        const mx = parseFloat(ssGet('mx'));
+        const my = parseFloat(ssGet('my'));
         if (!Number.isNaN(mx) && !Number.isNaN(my)) {
           hoverCheckList.forEach(({ holder, tt, icv }) => {
             const r = holder.getBoundingClientRect();
@@ -2112,7 +2118,7 @@ document.addEventListener('mousemove', e => {
           if (aboutTip) aboutTip.style.opacity = '1';
           pieces.forEach(pc => { pc.el.style.display = 'none'; });
           scatterPuzzleStickers(assembleOffX, assembleOffY);
-          sessionStorage.setItem('puzzleAssembled', '1');
+          ssSet('puzzleAssembled', '1');
         })(fadeT0);
         }, 300); // let pieces fully settle visually before dissolve
       }, (pieces.length - 1) * 80 + 1700 + 200);
@@ -2178,9 +2184,9 @@ document.addEventListener('mousemove', e => {
   // ── Init & resize ─────────────────────────────────────────────────────
   // On hard refresh, reset puzzle state; preserve it on link navigation
   if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
-    sessionStorage.removeItem('puzzleAssembled');
+    ssRemove('puzzleAssembled');
   }
-  let wasAssembled = sessionStorage.getItem('puzzleAssembled') === '1'; // persists across resizes and page navigation
+  let wasAssembled = ssGet('puzzleAssembled') === '1'; // persists across resizes and page navigation
   let _bgImg = null;
   let _stickers = [];
 
@@ -2782,7 +2788,7 @@ if (location.hash === '#projects') {
   const row = document.getElementById('aboutPhotosRow');
   if (!row) return;
   const originals = [...row.children];
-  const copies = 3;
+  const copies = 5;
   for (let c = 1; c < copies; c++) {
     originals.forEach(img => {
       const clone = img.cloneNode(true);
