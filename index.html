@@ -808,6 +808,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transform-style:preserve-3d;
     will-change:transform;
   }
+  .card-stream.spinning { animation: ring-spin 34s linear infinite; }
+  .card-stream.spinning.paused { animation-play-state: paused; }
+  @keyframes ring-spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
   .card-stream-item {
     position:absolute; top:0; left:0; width:260px; height:347px;
     border-radius:14px; overflow:hidden;
@@ -2810,7 +2813,7 @@ if (location.hash === '#projects') {
   });
 }
 
-// Beyond the Screen: 3D card ring that spins as the page scrolls
+// Beyond the Screen: 3D card ring that spins continuously on its own
 (function() {
   const wrap = document.querySelector('.card-stream-wrap');
   const stream = document.getElementById('cardStream');
@@ -2822,23 +2825,9 @@ if (location.hash === '#projects') {
   items.forEach((item, i) => {
     item.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
   });
-  let ticking = false;
-  function updateSpin() {
-    const rect = wrap.getBoundingClientRect();
-    const vh = window.innerHeight || document.documentElement.clientHeight;
-    const progress = (vh - rect.top) / (vh + rect.height);
-    const spin = progress * 720;
-    stream.style.transform = `rotateY(${spin}deg)`;
-    ticking = false;
-  }
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(updateSpin);
-      ticking = true;
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  updateSpin();
+  stream.classList.add('spinning');
+  wrap.addEventListener('mouseenter', () => stream.classList.add('paused'));
+  wrap.addEventListener('mouseleave', () => stream.classList.remove('paused'));
 })();
 
 // Project card cursor tooltip
@@ -2904,10 +2893,9 @@ if (location.hash === '#projects') {
   html.custom-cursor-active, html.custom-cursor-active * { cursor: none !important; }
   #glow-cursor {
     position: fixed; top: 0; left: 0;
-    width: 26px; height: 26px;
+    width: 18px; height: 18px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(225,225,235,0.75) 35%, rgba(200,200,220,0) 70%);
-    box-shadow: 0 0 18px 7px rgba(255,255,255,0.6), 0 0 40px 16px rgba(190,190,210,0.3);
+    background: #fff;
     pointer-events: none;
     z-index: 2147483647;
     transform: translate3d(-50%, -50%, 0);
