@@ -757,7 +757,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .about-text { max-width:860px; display:flex; flex-direction:column; align-items:center; gap:28px; }
   .about-row { display:flex; flex-direction:row; align-items:flex-end; gap:56px; width:100%; }
-  .about-right { display:flex; flex-direction:column; align-items:flex-start; gap:24px; }
+  .about-right { display:flex; flex-direction:column; align-items:flex-start; gap:24px; flex:1; min-width:220px; }
   .about-greeting {
     font-family:'Cormorant Infant', Georgia, serif;
     font-style:italic; font-weight:400; font-size:3.025rem;
@@ -772,11 +772,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     max-width:560px;
   }
   @media (max-width:900px) {
-    .about-row { flex-direction:column; gap:24px; }
-    .about-right { align-items:center; }
-    .about-greeting { text-align:center; }
-    .about-hello-img { width:150px; height:150px; }
-    .about-body { text-align:center; max-width:100%; }
+    .about-row { gap:20px; align-items:flex-start; }
+    .about-hello-img { width:110px; height:110px; }
+    .about-body { max-width:100%; }
   }
   .about-photos-viewport {
     width:100vw;
