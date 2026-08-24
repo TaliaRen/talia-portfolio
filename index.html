@@ -919,59 +919,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="hero-globe-inner" style="transform:translateX(-6px) scale(0.72);">
     <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <defs>
-        <linearGradient id="globeRingGrad-y" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#f2e6bf" stop-opacity="0.3"/>
-          <stop offset="50%" stop-color="#e8c66f" stop-opacity="1"/>
-          <stop offset="100%" stop-color="#f2e6bf" stop-opacity="0.3"/>
-        </linearGradient>
-      </defs>
-      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
-      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
-    </svg>
-    <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="globeClip-y"><circle cx="100" cy="100" r="85"/></clipPath>
-      </defs>
-      <circle cx="100" cy="100" r="88" fill="none" stroke="#14293b" stroke-width="6"/>
-      <g clip-path="url(#globeClip-y)">
-        <rect x="0"   y="0"   width="70"  height="70"  fill="#d6a745"/>
-        <rect x="70"  y="0"   width="60"  height="70"  fill="#e0b455"/>
-        <rect x="130" y="0"   width="70"  height="70"  fill="#e5b95e"/>
-        <rect x="0"   y="70"  width="70"  height="60"  fill="#dcae4e"/>
-        <rect x="70"  y="70"  width="60"  height="60"  fill="#ddaf50"/>
-        <rect x="130" y="70"  width="70"  height="60"  fill="#e6ba5c"/>
-        <rect x="0"   y="130" width="70"  height="70"  fill="#d8a949"/>
-        <rect x="70"  y="130" width="60"  height="70"  fill="#e8bd63"/>
-        <rect x="130" y="130" width="70"  height="70"  fill="#e2b357"/>
-        <circle cx="81.2" cy="41"  r="11" fill="#d6a745"/>
-        <circle cx="58.8" cy="100" r="11" fill="#ddaf50"/>
-        <circle cx="81.2" cy="159" r="11" fill="#d8a949"/>
-        <circle cx="118.8" cy="41"  r="11" fill="#e5b95e"/>
-        <circle cx="141.2" cy="100" r="11" fill="#ddaf50"/>
-        <circle cx="118.8" cy="159" r="11" fill="#e2b357"/>
-        <circle cx="41"  cy="81.2" r="11" fill="#d6a745"/>
-        <circle cx="100" cy="58.8" r="11" fill="#ddaf50"/>
-        <circle cx="159" cy="81.2" r="11" fill="#e5b95e"/>
-        <circle cx="41"  cy="118.8" r="11" fill="#d8a949"/>
-        <circle cx="100" cy="141.2" r="11" fill="#ddaf50"/>
-        <circle cx="159" cy="118.8" r="11" fill="#e2b357"/>
-      </g>
-      <g clip-path="url(#globeClip-y)" fill="none" stroke="#a8843a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M70,12 L70,33 C70,36.4 81.2,35.6 81.2,41 C81.2,46.4 70,45.6 70,49 L70,70 L70,92 C70,95.6 58.8,94.4 58.8,100 C58.8,105.6 70,104.4 70,108 L70,130 L70,151 C70,154.6 81.2,153.4 81.2,159 C81.2,164.6 70,163.4 70,167 L70,188"/>
-        <path d="M130,12 L130,33 C130,36.4 118.8,35.6 118.8,41 C118.8,46.4 130,45.6 130,49 L130,70 L130,92 C130,95.6 141.2,94.4 141.2,100 C141.2,105.6 130,104.4 130,108 L130,130 L130,151 C130,154.6 118.8,153.4 118.8,159 C118.8,164.6 130,163.4 130,167 L130,188"/>
-        <path d="M12,70 L33,70 C36.4,70 35.6,81.2 41,81.2 C46.4,81.2 45.6,70 49,70 L70,70 L92,70 C95.6,70 94.4,58.8 100,58.8 C105.6,58.8 104.4,70 108,70 L130,70 L151,70 C154.6,70 153.4,81.2 159,81.2 C164.6,81.2 163.4,70 167,70 L188,70"/>
-        <path d="M12,130 L33,130 C36.4,130 35.6,118.8 41,118.8 C46.4,118.8 45.6,130 49,130 L70,130 L92,130 C95.6,130 94.4,141.2 100,141.2 C105.6,141.2 104.4,130 108,130 L130,130 L151,130 C154.6,130 153.4,118.8 159,118.8 C164.6,118.8 163.4,130 167,130 L188,130"/>
-      </g>
-    </svg>
-    <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
-      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
-    </svg>
-    </div>
-
-    <div class="hero-globe-inner" style="transform:translateX(23px) scale(0.72);">
-    <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <defs>
         <linearGradient id="globeRingGrad-b" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#bfe0f7" stop-opacity="0.3"/>
           <stop offset="50%" stop-color="#6fb3e8" stop-opacity="1"/>
@@ -1018,6 +965,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
     <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-b)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
+    </svg>
+    </div>
+
+    <div class="hero-globe-inner" style="transform:translateX(23px) scale(0.72);">
+    <svg class="globe-ring-svg globe-ring-back" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <defs>
+        <linearGradient id="globeRingGrad-y" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f2e6bf" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#e8c66f" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#f2e6bf" stop-opacity="0.3"/>
+        </linearGradient>
+      </defs>
+      <path d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
+      <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 1 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
+    </svg>
+    <svg class="globe-sphere-svg" width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="globeClip-y"><circle cx="100" cy="100" r="85"/></clipPath>
+      </defs>
+      <circle cx="100" cy="100" r="88" fill="none" stroke="#14293b" stroke-width="6"/>
+      <g clip-path="url(#globeClip-y)">
+        <rect x="0"   y="0"   width="70"  height="70"  fill="#d6a745"/>
+        <rect x="70"  y="0"   width="60"  height="70"  fill="#e0b455"/>
+        <rect x="130" y="0"   width="70"  height="70"  fill="#e5b95e"/>
+        <rect x="0"   y="70"  width="70"  height="60"  fill="#dcae4e"/>
+        <rect x="70"  y="70"  width="60"  height="60"  fill="#ddaf50"/>
+        <rect x="130" y="70"  width="70"  height="60"  fill="#e6ba5c"/>
+        <rect x="0"   y="130" width="70"  height="70"  fill="#d8a949"/>
+        <rect x="70"  y="130" width="60"  height="70"  fill="#e8bd63"/>
+        <rect x="130" y="130" width="70"  height="70"  fill="#e2b357"/>
+        <circle cx="81.2" cy="41"  r="11" fill="#d6a745"/>
+        <circle cx="58.8" cy="100" r="11" fill="#ddaf50"/>
+        <circle cx="81.2" cy="159" r="11" fill="#d8a949"/>
+        <circle cx="118.8" cy="41"  r="11" fill="#e5b95e"/>
+        <circle cx="141.2" cy="100" r="11" fill="#ddaf50"/>
+        <circle cx="118.8" cy="159" r="11" fill="#e2b357"/>
+        <circle cx="41"  cy="81.2" r="11" fill="#d6a745"/>
+        <circle cx="100" cy="58.8" r="11" fill="#ddaf50"/>
+        <circle cx="159" cy="81.2" r="11" fill="#e5b95e"/>
+        <circle cx="41"  cy="118.8" r="11" fill="#d8a949"/>
+        <circle cx="100" cy="141.2" r="11" fill="#ddaf50"/>
+        <circle cx="159" cy="118.8" r="11" fill="#e2b357"/>
+      </g>
+      <g clip-path="url(#globeClip-y)" fill="none" stroke="#a8843a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M70,12 L70,33 C70,36.4 81.2,35.6 81.2,41 C81.2,46.4 70,45.6 70,49 L70,70 L70,92 C70,95.6 58.8,94.4 58.8,100 C58.8,105.6 70,104.4 70,108 L70,130 L70,151 C70,154.6 81.2,153.4 81.2,159 C81.2,164.6 70,163.4 70,167 L70,188"/>
+        <path d="M130,12 L130,33 C130,36.4 118.8,35.6 118.8,41 C118.8,46.4 130,45.6 130,49 L130,70 L130,92 C130,95.6 141.2,94.4 141.2,100 C141.2,105.6 130,104.4 130,108 L130,130 L130,151 C130,154.6 118.8,153.4 118.8,159 C118.8,164.6 130,163.4 130,167 L130,188"/>
+        <path d="M12,70 L33,70 C36.4,70 35.6,81.2 41,81.2 C46.4,81.2 45.6,70 49,70 L70,70 L92,70 C95.6,70 94.4,58.8 100,58.8 C105.6,58.8 104.4,70 108,70 L130,70 L151,70 C154.6,70 153.4,81.2 159,81.2 C164.6,81.2 163.4,70 167,70 L188,70"/>
+        <path d="M12,130 L33,130 C36.4,130 35.6,118.8 41,118.8 C46.4,118.8 45.6,130 49,130 L70,130 L92,130 C95.6,130 94.4,141.2 100,141.2 C105.6,141.2 104.4,130 108,130 L130,130 L151,130 C154.6,130 153.4,118.8 159,118.8 C164.6,118.8 163.4,130 167,130 L188,130"/>
+      </g>
+    </svg>
+    <svg class="globe-ring-svg globe-ring-front" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <path d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="url(#globeRingGrad-y)" stroke-width="16" filter="url(#orbitGlow)" transform="rotate(-20 100 100)"/>
       <path class="globe-ring-flow" d="M -28,100 A 128,40 0 0 0 228,100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-dasharray="4 11" stroke-linecap="round" transform="rotate(-20 100 100)"/>
     </svg>
     </div>
