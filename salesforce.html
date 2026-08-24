@@ -720,9 +720,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
+  function ssGet(key) { try { return sessionStorage.getItem(key); } catch (e) { return null; } }
+  function ssSet(key, val) { try { sessionStorage.setItem(key, val); } catch (e) {} }
+
   document.addEventListener('mousemove', e => {
-    sessionStorage.setItem('mx', e.clientX);
-    sessionStorage.setItem('my', e.clientY);
+    ssSet('mx', e.clientX);
+    ssSet('my', e.clientY);
   }, { passive: true });
 
   (function() {
@@ -730,8 +733,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!el) return;
     el.addEventListener('mouseenter', () => el.classList.add('js-hover'));
     el.addEventListener('mouseleave', () => el.classList.remove('js-hover'));
-    const lx = parseFloat(sessionStorage.getItem('mx'));
-    const ly = parseFloat(sessionStorage.getItem('my'));
+    const lx = parseFloat(ssGet('mx'));
+    const ly = parseFloat(ssGet('my'));
     if (!isNaN(lx) && !isNaN(ly)) {
       const r = el.getBoundingClientRect();
       if (lx >= r.left && lx <= r.right && ly >= r.top && ly <= r.bottom) {
