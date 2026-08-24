@@ -2869,11 +2869,13 @@ if (location.hash === '#projects') {
   const NUM = 50;
   for (let i = 0; i < NUM; i++) {
     const c = document.createElementNS(svgNS, 'circle');
+    const bright = Math.random() < 0.16;
     c.setAttribute('cx', (Math.random() * 100) + '%');
     c.setAttribute('cy', (Math.random() * 100) + '%');
-    c.setAttribute('r', (0.5 + Math.random() * 1.5).toFixed(2));
+    c.setAttribute('r', (bright ? 2 + Math.random() * 1.4 : 0.5 + Math.random() * 1.5).toFixed(2));
     c.setAttribute('fill', '#ffffff');
-    c.setAttribute('opacity', (0.15 + Math.random() * 0.35).toFixed(2));
+    c.setAttribute('opacity', (bright ? 0.75 + Math.random() * 0.25 : 0.15 + Math.random() * 0.35).toFixed(2));
+    if (bright) c.style.filter = 'drop-shadow(0 0 3px rgba(255,255,255,0.9))';
     svg.appendChild(c);
   }
   document.body.insertBefore(svg, document.body.firstChild);
