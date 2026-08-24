@@ -777,15 +777,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   svg.setAttribute('preserveAspectRatio', 'none');
   const NUM = 90;
   const COLORS = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffe9c7', '#cfe4ff'];
+  const BRIGHT_COUNT = 6;
+  const brightIdx = new Set();
+  while (brightIdx.size < BRIGHT_COUNT) brightIdx.add(Math.floor(Math.random() * NUM));
   for (let i = 0; i < NUM; i++) {
     const c = document.createElementNS(svgNS, 'circle');
-    const whiter = Math.random() < 0.16;
-    const color = whiter ? '#ffffff' : COLORS[Math.floor(Math.random() * COLORS.length)];
+    const bright = brightIdx.has(i);
+    const color = bright ? '#ffffff' : COLORS[Math.floor(Math.random() * COLORS.length)];
     c.setAttribute('cx', (Math.random() * 100) + '%');
     c.setAttribute('cy', (Math.random() * 100) + '%');
-    c.setAttribute('r', (whiter ? 0.8 + Math.random() * 0.6 : 0.5 + Math.random() * 1.3).toFixed(2));
+    c.setAttribute('r', (bright ? 1 + Math.random() * 0.7 : 0.5 + Math.random() * 1.3).toFixed(2));
     c.setAttribute('fill', color);
-    c.setAttribute('opacity', (whiter ? 0.45 + Math.random() * 0.2 : 0.15 + Math.random() * 0.35).toFixed(2));
+    c.setAttribute('opacity', (bright ? 0.75 + Math.random() * 0.2 : 0.15 + Math.random() * 0.35).toFixed(2));
     svg.appendChild(c);
   }
   document.body.insertBefore(svg, document.body.firstChild);
