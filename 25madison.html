@@ -325,36 +325,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   /* ── Anchor scroll offset ── */
-  #overview, #problem, #solution-1, #takeaways { scroll-margin-top: 140px; }
+  #overview, #takeaways { scroll-margin-top: 140px; }
 
-  /* ── Problem section ── */
-  .jbx-problem-section {
-    padding:0 196px 180px;
-    display:flex; flex-direction:column; align-items:center;
-  }
-  .jbx-problem-inner {
-    width:100%; max-width:860px;
-    display:flex; flex-direction:column; gap:120px;
-  }
-  .jbx-problem-header {
-    font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:300;
-    color:#E6FED0; letter-spacing:.1em; text-transform:uppercase;
-    margin-bottom:calc(16px - 120px);
-  }
-  .jbx-problem-item { display:flex; flex-direction:column; gap:36px; }
-  .jbx-problem-title {
-    font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400;
-    color:#fff; line-height:1.25;
-  }
-  .jbx-problem-body {
-    font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:300;
-    color:#E2E2E2; line-height:1.8; margin:0;
-  }
-  @media(max-width:860px) {
-    .jbx-problem-section { padding:0 32px 80px; }
-  }
-
-  /* ── Solution section ── */
+  /* ── Solution section (also reused by Takeaways) ── */
   .jbx-solution-section {
     padding:0 196px 180px;
     display:flex; flex-direction:column; align-items:center;
@@ -370,7 +343,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400;
     color:#fff; line-height:1.25;
   }
-  .jbx-solution-img { width:100%; height:auto; border-radius:16px; display:block; }
   @media(max-width:860px) {
     .jbx-solution-section { padding:0 32px 80px; }
   }
@@ -378,8 +350,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <aside class="case-sidebar">
   <a href="#overview" class="active">Overview</a>
-  <a href="#problem">Problem</a>
-  <a href="#solution-1">Solution</a>
   <a href="#takeaways">Takeaways</a>
 </aside>
 
@@ -442,35 +412,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <img src="project cover/jain cover.png" alt="Jain Bid X-Ray overview">
     </div>
   </div>
-
-  <!-- Problem section -->
-  <section class="jbx-problem-section" id="problem">
-    <div class="jbx-problem-inner">
-      <span class="jbx-problem-header">Problem</span>
-      <div class="jbx-problem-item">
-        <h2 class="jbx-problem-title">Bids arrive as unstructured paperwork, not comparable data</h2>
-        <p class="jbx-problem-body">Every vendor formats their bid differently — different units, different bundling of services, different assumptions buried in the fine print. Operators were retyping numbers into spreadsheets by hand just to compare two proposals side by side, which was slow and error-prone at the volume they needed.</p>
-      </div>
-      <div class="jbx-problem-item">
-        <h2 class="jbx-problem-title">Automation without an edit path erodes trust</h2>
-        <p class="jbx-problem-body">Early automated extraction was fast but occasionally wrong, and operators had no easy way to correct a misread number without losing confidence in the whole evaluation. The tool needed to feel like a trustworthy assistant, not a black box.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Solution -->
-  <section class="jbx-solution-section" id="solution-1">
-    <div class="jbx-solution-inner">
-      <span class="jbx-block-label jbx-solution-label">Solution</span>
-      <div class="jbx-solution-content">
-        <div class="jbx-solution-text">
-          <h2 class="jbx-solution-title">An editable, side-by-side bid workspace</h2>
-          <p class="jbx-block-text">Jain Bid X-Ray parses each incoming RFP into a shared line-item structure, then lays every vendor's bid out side by side so operators can compare like-for-like instead of hunting through separate PDFs. Every extracted value stays directly editable in place — if the model misreads a figure, the operator fixes it inline and the correction is treated as ground truth going forward, not silently overwritten on the next parse.</p>
-        </div>
-        <img src="project cover/jain cover.png" alt="Jain Bid X-Ray workspace" class="jbx-solution-img">
-      </div>
-    </div>
-  </section>
 
   <section class="jbx-solution-section" id="takeaways">
     <div class="jbx-solution-inner">
