@@ -2182,8 +2182,8 @@ document.addEventListener('mousemove', e => {
       return;
     }
 
-    // Auto-assemble after a brief scatter reveal
-    setTimeout(() => triggerAssemble(), 900);
+    // Mobile: auto-assemble after brief scatter reveal
+    if (mobile) setTimeout(() => triggerAssemble(), 900);
   }
 
   // ── Init & resize ─────────────────────────────────────────────────────
