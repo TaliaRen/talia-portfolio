@@ -303,54 +303,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:300;
     color:#E2E2E2; line-height:1.8; margin:0;
   }
-  .jbx-impact-metrics {
-    display:flex; gap:64px; align-items:flex-end;
-  }
-  .jbx-metric { display:flex; flex-direction:column; gap:6px; }
-  .jbx-metric-num {
-    font-family:'Cormorant Infant',serif; font-size:3.2rem; font-weight:400;
-    color:#fff; letter-spacing:-.01em;
-  }
-  .jbx-metric-sub {
-    font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:300;
-    color:#979797;
-  }
-  .jbx-cover-img {
-    width:100%; max-width:860px;
-    display:flex; flex-direction:column; gap:34px;
-  }
-  .jbx-cover-img img { width:100%; height:auto; display:block; border-radius:16px; }
   @media(max-width:860px) {
     .jbx-overview-section { padding:0 32px 80px; gap:64px; }
   }
 
   /* ── Anchor scroll offset ── */
-  #overview, #takeaways { scroll-margin-top: 140px; }
-
-  /* ── Solution section (also reused by Takeaways) ── */
-  .jbx-solution-section {
-    padding:0 196px 180px;
-    display:flex; flex-direction:column; align-items:center;
-  }
-  .jbx-solution-inner {
-    width:100%; max-width:860px;
-    display:flex; flex-direction:column; gap:72px;
-  }
-  .jbx-solution-label { margin-bottom:calc(16px - 72px); }
-  .jbx-solution-content { display:flex; flex-direction:column; gap:48px; }
-  .jbx-solution-text { display:flex; flex-direction:column; gap:36px; }
-  .jbx-solution-title {
-    font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400;
-    color:#fff; line-height:1.25;
-  }
-  @media(max-width:860px) {
-    .jbx-solution-section { padding:0 32px 80px; }
-  }
+  #overview { scroll-margin-top: 140px; }
 </style>
 
 <aside class="case-sidebar">
   <a href="#overview" class="active">Overview</a>
-  <a href="#takeaways">Takeaways</a>
 </aside>
 
 <main>
@@ -389,44 +351,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="jbx-block-label">Context</span>
         <p class="jbx-block-text">25Madison is an incubation studio that builds AI-native products for overlooked industries — starting with janitorial and facilities services. Jain Bid X-Ray is one of its earliest bets: a tool that helps operators evaluate competitive bids on commercial cleaning contracts without drowning in dense, inconsistent RFP paperwork.</p>
         <p class="jbx-block-text">I joined as the founding product designer, shaping the workspace from a rough internal prototype into something operators could actually trust with a real decision.</p>
+        <p class="jbx-block-text">This project is currently confidential, so I'm not able to share further details here — please reach out to me directly if you'd like to hear more.</p>
       </div>
-      <div class="jbx-section-block">
-        <span class="jbx-block-label">Impact</span>
-        <div class="jbx-impact-metrics">
-          <div class="jbx-metric">
-            <span class="jbx-metric-num">3x</span>
-            <span class="jbx-metric-sub">Faster bid comparison in early pilots</span>
-          </div>
-          <div class="jbx-metric">
-            <span class="jbx-metric-num">0</span>
-            <span class="jbx-metric-sub">Line items lost to manual re-entry</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="jbx-cover-img">
-      <div style="width:100%; max-width:860px; display:flex; flex-direction:column; gap:16px;">
-        <span class="jbx-block-label">Design Snapshot</span>
-        <p class="jbx-block-text">A single editable workspace that turns a scanned RFP into structured, comparable line items an operator can trust and adjust before deciding.</p>
-      </div>
-      <img src="project cover/jain cover.png" alt="Jain Bid X-Ray overview">
     </div>
   </div>
-
-  <section class="jbx-solution-section" id="takeaways">
-    <div class="jbx-solution-inner">
-      <span class="jbx-block-label jbx-solution-label">Takeaways</span>
-      <div class="jbx-solution-content">
-        <div class="jbx-solution-text">
-          <h2 class="jbx-solution-title">What I've learned</h2>
-          <ul style="list-style:disc;padding-left:1.2em;display:flex;flex-direction:column;gap:20px;margin:0;">
-            <li style="font-family:'Figtree',sans-serif;font-size:1.125rem;font-weight:300;color:#E2E2E2;line-height:1.8;">In an incubation setting, the product and the org chart are being figured out at the same time — the design had to stay easy to reshape as our understanding of the workflow changed week to week.</li>
-            <li style="font-family:'Figtree',sans-serif;font-size:1.125rem;font-weight:300;color:#E2E2E2;line-height:1.8;">For AI-assisted tools handling real money decisions, an obvious, low-friction correction path matters more than raw extraction accuracy — trust comes from how gracefully the tool handles being wrong.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
 </main>
 
