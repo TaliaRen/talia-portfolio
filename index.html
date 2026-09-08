@@ -676,7 +676,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display:none;
     font-family:'Figtree',sans-serif; font-size:.85rem; font-weight:300;
     color:#ffffff; letter-spacing:.04em;
-    background:#01534D;
+    background:#427B58;
     backdrop-filter:blur(24px) saturate(180%);
     -webkit-backdrop-filter:blur(24px) saturate(180%);
     border:1px solid rgba(255,255,255,0.12);
@@ -1133,7 +1133,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="projects-vertical-list" id="projects-vertical-list">
 
-    <a class="project-card" href="25madison.html" data-accent="#E6FED0">
+    <a class="project-card" href="25madison.html" data-accent="#01534D">
       <div class="project-img-wrap" data-tip="3x faster bid comparison">
         <img src="project cover/jain bg.png" alt="">
         <img src="project cover/jain cover.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;height:auto;display:block;border-radius:12px;">
@@ -2845,7 +2845,7 @@ if (location.hash === '#projects') {
     const wrap = card.querySelector('.project-img-wrap');
     card.addEventListener('mouseenter', () => {
       tip.textContent = wrap.dataset.tip || 'View project →';
-      tip.style.background = '#01534D';
+      tip.style.background = card.dataset.accent || '#427B58';
       tip.style.display = 'block';
     });
     card.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
