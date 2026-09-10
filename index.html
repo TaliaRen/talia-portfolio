@@ -90,10 +90,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-weight: 100 900; font-style: italic; font-display: block;
   }
 
-  :root { --bg:#0F2119; --ink:#1C1917; --muted:#78716C; }
+  :root { --bg:#0E1E24; --ink:#1C1917; --muted:#78716C; }
   * { margin:0; padding:0; box-sizing:border-box; }
 
-  html { scrollbar-gutter: stable; background:#0F2119; }
+  html { scrollbar-gutter: stable; background:#0E1E24; }
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) {
     animation-duration: 0.1s;
@@ -160,7 +160,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      ══════════════════════════════════════════════════════════════════ */
   #hero.cave-scene {
     display:block; padding:0; overflow:hidden;
-    background:#0F2119;
+    background:#0E1E24;
   }
 
   /* ── 1. Background: three parallax rock layers ── */
@@ -229,11 +229,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Figtree',sans-serif; font-size:.95rem; color:rgba(255,255,255,0.7);
     transition:color 0.3s ease, text-shadow 0.3s ease;
   }
-  .reticle.locked .reticle-label { color:#fff; text-shadow:0 0 12px rgba(140,242,200,0.8); }
+  .reticle.locked .reticle-label { color:#fff; text-shadow:0 0 12px rgba(140,235,245,0.8); }
   .reticle.pulse .reticle-rs { animation:reticlePulse 0.5s ease; }
   @keyframes reticlePulse {
-    0%   { box-shadow:0 0 0 0 rgba(140,242,200,0.7); }
-    100% { box-shadow:0 0 0 16px rgba(140,242,200,0); }
+    0%   { box-shadow:0 0 0 0 rgba(140,235,245,0.7); }
+    100% { box-shadow:0 0 0 16px rgba(140,235,245,0); }
   }
 
   /* ── 5 & 6. Detector shell + camera ──
@@ -281,63 +281,63 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* front tip: faces INTO the scene */
   .cam-front {
     transform:translateZ(calc(var(--cam-d) / 2));
-    background:#E1EEE7; border-radius:5px; overflow:visible;
+    background:#DFEBEE; border-radius:5px; overflow:visible;
   }
   /* back end: faces the viewer, carries the port + cable */
   .cam-back {
     transform:rotateY(180deg) translateZ(calc(var(--cam-d) / 2));
-    background:linear-gradient(180deg, #EFF7F2 0%, #D3E4DA 100%);
+    background:linear-gradient(180deg, #EEF6F8 0%, #D0E1E6 100%);
     border-radius:5px; overflow:visible;
   }
   .cam-left, .cam-right {
     width:var(--cam-d); left:calc((var(--cam-w) - var(--cam-d)) / 2);
   }
-  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #EAF4EE 0%, #DBEAE1 58%, #BFD8CA 100%); }
-  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #D2E4D9 0%, #B5CFC0 100%); }
+  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #E8F2F5 0%, #D8E7EC 58%, #BAD3DA 100%); }
+  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #CFE0E5 0%, #B0CAD1 100%); }
   .cam-top, .cam-bottom {
     height:var(--cam-d); top:calc((var(--cam-h) - var(--cam-d)) / 2);
   }
-  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:#F6FBF8; }
-  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:#9CBBAA; }
+  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:#F5FAFB; }
+  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:#97B6BE; }
   /* tip details: cobalt wedge over the upper part, navy clip on the top edge */
   .cam-accent {
     position:absolute; left:0; top:0; width:100%; height:56%;
-    background:linear-gradient(90deg, #1E8F6E 0%, #1E8F6E 34%, #27AE87 34%, #27AE87 100%);
+    background:linear-gradient(90deg, #1D8A96 0%, #1D8A96 34%, #27A8B6 34%, #27A8B6 100%);
     clip-path:polygon(0 0, 100% 0, 100% 62%, 0 100%);
     border-radius:5px 5px 0 0;
   }
   /* navy clip riding the top face right at the tip */
   .cam-clip {
     position:absolute; left:14%; bottom:8%; width:72%; height:12%;
-    background:#1F3A33; border-radius:3px;
+    background:#1C363E; border-radius:3px;
   }
   /* the wedge wraps around the tip onto both sides and the top.
      Side faces: tip end is at x=100% on .cam-left, x=0 on .cam-right. */
   .cam-accent-side {
     position:absolute; top:0; width:20%; height:56%;
-    background:#1E8F6E;
+    background:#1D8A96;
   }
   .cam-left  .cam-accent-side { right:0; clip-path:polygon(0 0, 100% 0, 100% 100%, 36% 100%); }
   .cam-right .cam-accent-side { left:0;  clip-path:polygon(0 0, 100% 0, 64% 100%, 0 100%); }
   .cam-accent-top {
     position:absolute; left:0; bottom:0; width:100%; height:15%;
-    background:#27AE87;
+    background:#27A8B6;
     clip-path:polygon(0 0, 100% 34%, 100% 100%, 0 100%);
   }
   /* back-end details: hazard-framed navy port, cable looping out of it */
   .cam-port {
     position:absolute; left:20%; top:14%; width:60%; height:70%;
-    background:#1E3A32; border-radius:6px; overflow:hidden;
+    background:#1B373E; border-radius:6px; overflow:hidden;
   }
   .cam-port::before, .cam-port::after {
     content:''; position:absolute; left:0; top:0;
-    background:repeating-linear-gradient(45deg, #F0A22B 0 4px, #1B2E28 4px 8px);
+    background:repeating-linear-gradient(45deg, #F0A22B 0 4px, #192B31 4px 8px);
   }
   .cam-port::before { width:100%; height:18%; }
   .cam-port::after  { width:18%; height:100%; }
   .cam-port-inner {
     position:absolute; left:34%; top:36%; width:50%; height:50%;
-    background:#12281F; border-radius:5px;
+    background:#10252B; border-radius:5px;
   }
   .detector-cable {
     position:absolute; right:2.5%; bottom:calc(100% - 58px); z-index:0;
@@ -346,7 +346,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
-    background:linear-gradient(90deg, #15302A 0%, #2B5044 55%, #1A3A31 100%);
+    background:linear-gradient(90deg, #132C32 0%, #274C54 55%, #18373E 100%);
     border-radius:999px;
     box-shadow:inset 0 -8px 14px rgba(0,0,0,0.45), 0 10px 20px rgba(0,0,0,0.35);
   }
@@ -355,13 +355,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .detector-shell {
     position:relative; z-index:1;
     transform-origin:50% 100%;
-    background:linear-gradient(180deg, #E6F1EA 0%, #CFE2D6 55%, #B6D0C2 100%);
+    background:linear-gradient(180deg, #E4EFF1 0%, #CBDFE3 55%, #B0CCD2 100%);
     border-radius:28px;
     padding:20px 26px 26px;
     box-shadow:
       inset 0 3px 0 rgba(255,255,255,0.65),
       inset 0 -3px 0 rgba(0,0,0,0.08),
-      0 12px 0 #86AE98,
+      0 12px 0 #7FA8B1,
       0 32px 44px rgba(0,0,0,0.45);
     animation:detectorFloat 4.5s ease-in-out infinite;
   }
@@ -371,15 +371,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .detector-corner {
     position:absolute; bottom:-16px; width:38px; height:30px;
-    background:linear-gradient(180deg, #2F5B4D 0%, #1F4238 100%);
+    background:linear-gradient(180deg, #2A5760 0%, #1B3F47 100%);
     border-radius:7px;
-    box-shadow:0 5px 0 #163129;
+    box-shadow:0 5px 0 #132F36;
   }
   .dc-bl { left:4%; }
   .dc-br { right:4%; }
   .detector-screen {
     position:relative; overflow:hidden;
-    background:radial-gradient(ellipse at 50% 15%, #0F403A 0%, #0A2B28 50%, #061B1A 100%);
+    background:radial-gradient(ellipse at 50% 15%, #0E3A45 0%, #0A2731 50%, #061A21 100%);
     border-radius:16px; padding:28px 40px; min-height:150px;
     display:flex; align-items:center; justify-content:center;
     box-shadow:inset 0 0 0 2px rgba(0,0,0,0.35), inset 0 0 30px rgba(0,0,0,0.65), 0 1px 0 rgba(255,255,255,0.45);
@@ -394,12 +394,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .screen-text {
     font-family:'Courier New', monospace; font-size:clamp(.85rem, 1.15vw, 1.05rem); letter-spacing:.02em;
-    color:#7FF2C9; text-shadow:0 0 8px rgba(127,242,201,0.85);
+    color:#7FEAF0; text-shadow:0 0 8px rgba(127,234,240,0.85);
     text-align:center; line-height:1.65; margin:0; min-height:2.6em;
   }
   .screen-text::after {
     content:''; display:inline-block; width:6px; height:1em; margin-left:2px;
-    background:#7FF2C9; vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
+    background:#7FEAF0; vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
   }
   .screen-text.done::after { display:none; }
   @keyframes caretBlink { 50% { opacity:0; } }
@@ -1176,21 +1176,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        right, and a darker foot at bottom-left. -->
   <div class="cave-bg" id="caveBg">
     <svg class="cave-layer cave-far" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="1600" height="900" fill="#4B8A70"/>
-      <polygon points="380,0 1240,0 1300,300 1340,900 300,900 120,300" fill="#5C9B81"/>
-      <polygon points="640,0 1240,0 1300,300 920,640 540,440" fill="#6AAA8F"/>
-      <polygon points="1240,0 1600,0 1600,900 1340,900 1300,300" fill="#376D58"/>
-      <polygon points="1450,0 1600,0 1600,620" fill="#2C5A48"/>
-      <polygon points="300,0 640,0 420,340 120,300" fill="#2A5343"/>
-      <polygon points="0,0 300,0 120,300 0,330" fill="#112A20"/>
+      <rect width="1600" height="900" fill="#3F8A8C"/>
+      <polygon points="380,0 1240,0 1300,300 1340,900 300,900 120,300" fill="#4F9DA0"/>
+      <polygon points="640,0 1240,0 1300,300 920,640 540,440" fill="#5FAEB1"/>
+      <polygon points="1240,0 1600,0 1600,900 1340,900 1300,300" fill="#2E6B70"/>
+      <polygon points="1450,0 1600,0 1600,620" fill="#25595F"/>
+      <polygon points="300,0 640,0 420,340 120,300" fill="#234F55"/>
+      <polygon points="0,0 300,0 120,300 0,330" fill="#0E262B"/>
     </svg>
     <svg class="cave-layer cave-mid" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <polygon points="0,330 120,300 300,900 0,900" fill="#3E785F"/>
-      <polygon points="700,60 1160,40 1220,300 900,520" fill="#80B99B" opacity="0.55"/>
+      <polygon points="0,330 120,300 300,900 0,900" fill="#33767B"/>
+      <polygon points="700,60 1160,40 1220,300 900,520" fill="#78BFC2" opacity="0.55"/>
     </svg>
     <svg class="cave-layer cave-near" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <polygon points="0,790 1600,770 1600,900 0,900" fill="#447A62"/>
-      <polygon points="1340,900 1360,700 1600,660 1600,900" fill="#325E4B"/>
+      <polygon points="0,790 1600,770 1600,900 0,900" fill="#3A797E"/>
+      <polygon points="1340,900 1360,700 1600,660 1600,900" fill="#2A5C62"/>
     </svg>
   </div>
 
@@ -1202,14 +1202,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <feGaussianBlur stdDeviation="7"/>
       </filter>
       <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="-40" y1="165" x2="785" y2="300">
-        <stop offset="0" stop-color="#B9FFE6" stop-opacity="0.95"/>
-        <stop offset="0.72" stop-color="#7BEFC8" stop-opacity="0.9"/>
-        <stop offset="1" stop-color="#7BEFC8" stop-opacity="0"/>
+        <stop offset="0" stop-color="#C2FBFF" stop-opacity="0.95"/>
+        <stop offset="0.72" stop-color="#7FE9F0" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#7FE9F0" stop-opacity="0"/>
       </linearGradient>
       <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="-40" y1="500" x2="645" y2="420">
-        <stop offset="0" stop-color="#B9FFE6" stop-opacity="0.95"/>
-        <stop offset="0.72" stop-color="#7BEFC8" stop-opacity="0.9"/>
-        <stop offset="1" stop-color="#7BEFC8" stop-opacity="0"/>
+        <stop offset="0" stop-color="#C2FBFF" stop-opacity="0.95"/>
+        <stop offset="0.72" stop-color="#7FE9F0" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#7FE9F0" stop-opacity="0"/>
       </linearGradient>
     </defs>
     <g class="scan-beam beam-a">
@@ -1231,8 +1231,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <feGaussianBlur stdDeviation="4"/>
       </filter>
     </defs>
-    <path class="waveform-path waveform-glow" id="waveformGlow" fill="none" stroke="#9FEFCB" stroke-width="7" opacity="0.5" filter="url(#waveGlow)"/>
-    <path class="waveform-path" id="waveformPath" fill="none" stroke="#EEFFF7" stroke-width="1.6" stroke-linejoin="round"/>
+    <path class="waveform-path waveform-glow" id="waveformGlow" fill="none" stroke="#A3EEF3" stroke-width="7" opacity="0.5" filter="url(#waveGlow)"/>
+    <path class="waveform-path" id="waveformPath" fill="none" stroke="#EEFDFF" stroke-width="1.6" stroke-linejoin="round"/>
   </svg>
 
   <!-- 4. Aim reticle (sits between the two circles, like the reference) -->
@@ -1256,8 +1256,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="detector-camera" id="detectorCamera">
       <svg class="cam-base" viewBox="0 0 100 36" aria-hidden="true">
         <ellipse cx="50" cy="30" rx="44" ry="5" fill="rgba(0,0,0,0.28)"/>
-        <rect x="26" y="10" width="48" height="16" rx="5" fill="#1F3A33"/>
-        <rect x="26" y="10" width="48" height="5" rx="2.5" fill="#2F5347"/>
+        <rect x="26" y="10" width="48" height="16" rx="5" fill="#1C363E"/>
+        <rect x="26" y="10" width="48" height="5" rx="2.5" fill="#2B4F58"/>
       </svg>
       <div class="cam-head" id="camHead">
         <div class="cam-face cam-front">
@@ -1275,8 +1275,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Cable: leaves the camera base, loops once, and drops BEHIND the
          board at its top-right corner (z-index below the shell). -->
     <svg class="detector-cable" viewBox="0 0 140 160" aria-hidden="true">
-      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" stroke="#173029" stroke-width="12" stroke-linecap="round"/>
-      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" stroke="#3B5F52" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" stroke="#152C33" stroke-width="12" stroke-linecap="round"/>
+      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" stroke="#375A64" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
     </svg>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
     <div class="detector-drum drum-right" aria-hidden="true"></div>
@@ -3458,7 +3458,7 @@ if (location.hash === '#projects') {
     const circle = document.createElementNS(svgNS, 'path');
     circle.setAttribute('d', scribbleCircle(cx, cy, r, 16, seedOffset));
     circle.setAttribute('fill', 'none');
-    circle.setAttribute('stroke', '#7BEFC8');
+    circle.setAttribute('stroke', '#7FE9F0');
     circle.setAttribute('stroke-width', '0.15');
     g.appendChild(circle);
     for (let i = 0; i < beamCount; i++) {
@@ -3471,7 +3471,7 @@ if (location.hash === '#projects') {
       const line = document.createElementNS(svgNS, 'line');
       line.setAttribute('x1', x1.toFixed(2)); line.setAttribute('y1', y1.toFixed(2));
       line.setAttribute('x2', x2.toFixed(2)); line.setAttribute('y2', y2.toFixed(2));
-      line.setAttribute('stroke', '#7BEFC8');
+      line.setAttribute('stroke', '#7FE9F0');
       line.setAttribute('stroke-width', '0.12');
       line.setAttribute('stroke-linecap', 'round');
       g.appendChild(line);
