@@ -175,27 +175,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── 2. Scan beams ── */
   .scan-beams { position:absolute; inset:0; z-index:4; pointer-events:none; }
-  .scan-beam { transform-box:fill-box; transform-origin:0% 50%; animation:beamSweep 5s ease-in-out infinite; }
-  .beam-b { animation-delay:-2.5s; }
+  .scan-beam { transform-box:fill-box; transform-origin:0% 50%; animation:beamSweep 5.5s ease-in-out infinite; }
+  .beam-b { animation-delay:-2.75s; }
   @keyframes beamSweep {
-    0%   { transform:rotate(-2.4deg); opacity:0.55; }
-    48%  { opacity:0.55; }
+    0%   { transform:rotate(-2.6deg); opacity:0.7; }
+    47%  { opacity:0.7; }
     50%  { transform:rotate(0deg); opacity:1; }
-    52%  { opacity:0.55; }
-    100% { transform:rotate(2.4deg); opacity:0.55; }
+    53%  { opacity:0.7; }
+    100% { transform:rotate(2.6deg); opacity:0.7; }
   }
   .cave-scene.paused .scan-beam { animation-play-state:paused; opacity:0.12; transition:opacity 0.6s ease; }
 
   /* ── 3. Signal waveform ── */
   .signal-waveform { position:absolute; inset:0; z-index:4; pointer-events:none; }
-  .waveform-path { stroke-dasharray:2400; stroke-dashoffset:2400; animation:waveformDraw 2.6s ease-out forwards; }
+  .waveform-path { stroke-dasharray:4200; stroke-dashoffset:4200; animation:waveformDraw 2.8s ease-out forwards; }
   @keyframes waveformDraw { to { stroke-dashoffset:0; } }
-  .cave-scene.paused .waveform-path { opacity:0.25; transition:opacity 0.6s ease; }
+  .cave-scene.paused .waveform-path { opacity:0.2; transition:opacity 0.6s ease; }
 
-  /* ── 4. Center aim reticle ── */
+  /* ── 4. Aim reticle — placed where the two circles overlap, per the reference ── */
   .reticle {
-    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-    z-index:6; width:clamp(48px,6vw,64px); height:clamp(48px,6vw,64px);
+    position:absolute; top:44%; left:42.5%; transform:translate(-50%,-50%);
+    z-index:6; width:clamp(44px,5.5vw,58px); height:clamp(44px,5.5vw,58px);
     animation:reticleBreathe 3.2s ease-in-out infinite;
   }
   @keyframes reticleBreathe {
@@ -236,42 +236,68 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     100% { box-shadow:0 0 0 16px rgba(127,230,245,0); }
   }
 
-  /* ── 5 & 6. Detector shell + camera ── */
+  /* ── 5 & 6. Detector shell + camera ──
+     The shell is tilted back with rotateX inside a perspective wrapper so
+     the top edge recedes (the reference's trapezoid), and gets a solid
+     offset shadow under it to read as physical thickness. Two dark drums
+     peek out behind the left/right edges, matching the reference. ── */
   .detector {
-    position:absolute; left:50%; bottom:0; z-index:8;
-    width:min(640px, 70vw);
-    transform:translate(-50%, 14%);
+    position:absolute; left:50%; bottom:2vh; z-index:8;
+    width:min(760px, 78vw);
+    perspective:1400px;
+    transform:translate(-50%, 16%);
     transition:transform 1s cubic-bezier(0.22,1,0.36,1);
   }
   .cave-scene.loaded .detector { transform:translate(-50%, 0%); }
   .detector-camera {
-    position:absolute; right:6%; bottom:100%; width:78px; margin-bottom:-8px;
-    transform-origin:50% 90%;
+    position:absolute; right:2%; bottom:calc(100% - 26px); z-index:3;
+    width:clamp(120px, 15vw, 172px);
+    transform-origin:40% 95%;
     /* rotation is driven by JS every frame (idle scan + mouse influence + lock-on) */
-    filter:drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+    filter:drop-shadow(0 6px 12px rgba(0,0,0,0.35));
   }
+  .detector-camera svg { display:block; width:100%; height:auto; overflow:visible; }
   .camera-lens-dot { opacity:0; transition:opacity 0.3s ease; }
   .cave-scene:not(.paused) .camera-lens-dot { opacity:1; }
-  .detector-body {
-    position:relative;
-    background:linear-gradient(180deg, #E7E4F5 0%, #C7C2E6 100%);
-    border-radius:22px 22px 10px 10px;
-    padding:14px;
-    box-shadow:0 -4px 0 rgba(255,255,255,0.25) inset, 0 18px 40px rgba(0,0,0,0.45);
+  .detector-drum {
+    position:absolute; top:24%; width:9%; height:60%; z-index:0;
+    background:linear-gradient(90deg, #1D1D46 0%, #34346B 55%, #22224F 100%);
+    border-radius:999px;
+    box-shadow:inset 0 -8px 14px rgba(0,0,0,0.45), 0 10px 20px rgba(0,0,0,0.35);
+  }
+  .drum-left  { left:-3.5%; }
+  .drum-right { right:-3.5%; }
+  .detector-shell {
+    position:relative; z-index:1;
+    transform-origin:50% 100%;
+    background:linear-gradient(180deg, #E6E3F5 0%, #D2CDEC 55%, #BFB9E1 100%);
+    border-radius:28px;
+    padding:20px 26px 26px;
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,0.65),
+      inset 0 -3px 0 rgba(0,0,0,0.08),
+      0 12px 0 #8F88C7,
+      0 32px 44px rgba(0,0,0,0.45);
     animation:detectorFloat 4.5s ease-in-out infinite;
   }
-  @keyframes detectorFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
-  .detector-corner { position:absolute; width:18px; height:22px; background:#2E2A46; border-radius:4px; }
-  .dc-tl { top:-6px; left:6%; }
-  .dc-tr { top:-6px; right:6%; }
-  .dc-bl { bottom:-10px; left:2%; }
-  .dc-br { bottom:-10px; right:2%; }
+  @keyframes detectorFloat {
+    0%,100% { transform:rotateX(9deg) translateY(0); }
+    50%     { transform:rotateX(9deg) translateY(-4px); }
+  }
+  .detector-corner {
+    position:absolute; bottom:-16px; width:38px; height:30px;
+    background:linear-gradient(180deg, #37376E 0%, #232353 100%);
+    border-radius:7px;
+    box-shadow:0 5px 0 #191940;
+  }
+  .dc-bl { left:4%; }
+  .dc-br { right:4%; }
   .detector-screen {
     position:relative; overflow:hidden;
-    background:radial-gradient(ellipse at 50% 30%, #123456 0%, #061421 70%);
-    border-radius:12px; padding:22px 30px; min-height:110px;
+    background:radial-gradient(ellipse at 50% 15%, #163358 0%, #0C1E3C 50%, #071229 100%);
+    border-radius:16px; padding:28px 40px; min-height:150px;
     display:flex; align-items:center; justify-content:center;
-    box-shadow:inset 0 0 24px rgba(0,0,0,0.6);
+    box-shadow:inset 0 0 0 2px rgba(0,0,0,0.35), inset 0 0 30px rgba(0,0,0,0.65), 0 1px 0 rgba(255,255,255,0.45);
     animation:screenFlicker 5s linear infinite;
     transition:filter 0.6s ease;
   }
@@ -282,27 +308,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     background:repeating-linear-gradient(to bottom, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 2px, transparent 4px);
   }
   .screen-text {
-    font-family:'Courier New', monospace; font-size:.85rem; letter-spacing:.02em;
-    color:#7FE6F5; text-shadow:0 0 8px rgba(127,230,245,0.85);
-    text-align:center; line-height:1.6; margin:0; min-height:2.6em;
+    font-family:'Courier New', monospace; font-size:clamp(.85rem, 1.15vw, 1.05rem); letter-spacing:.02em;
+    color:#6FE7F2; text-shadow:0 0 8px rgba(111,231,242,0.85);
+    text-align:center; line-height:1.65; margin:0; min-height:2.6em;
   }
   .screen-text::after {
     content:''; display:inline-block; width:6px; height:1em; margin-left:2px;
-    background:#7FE6F5; vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
+    background:#6FE7F2; vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
   }
   .screen-text.done::after { display:none; }
   @keyframes caretBlink { 50% { opacity:0; } }
-  .detector-base { height:14px; margin:0 4%; background:#1A1730; border-radius:0 0 10px 10px; }
 
   @media (max-width:640px) {
-    .detector { width:88vw; }
+    .detector { width:90vw; }
+    .detector-shell { padding:14px 16px 18px; }
+    .detector-screen { padding:18px 20px; min-height:110px; }
     .reticle-label { font-size:.8rem; }
-    .screen-text { font-size:.72rem; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cave-layer, .scan-beam, .reticle, .detector-camera, .detector-body, .detector-screen {
+    .cave-layer, .scan-beam, .reticle, .detector-camera, .detector-shell, .detector-screen {
       animation:none !important; transition:none !important;
     }
+    .detector-shell { transform:rotateX(9deg); }
   }
 
   .selected-works-title {
@@ -1058,48 +1085,72 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      ══════════════════════════════════════════════════════════════════════ -->
 <section id="hero" class="cave-scene">
 
-  <!-- 1. Background: three parallax rock layers (far/mid/near) -->
+  <!-- 1. Background: faceted lavender rock wall in three parallax layers.
+       Facet geometry follows the reference: very dark wedge top-left, a
+       dark slab beside it, a bright central face, a darker band on the
+       right, and a darker foot at bottom-left. -->
   <div class="cave-bg" id="caveBg">
     <svg class="cave-layer cave-far" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <polygon points="0,0 1600,0 1600,260 1180,180 760,300 320,140 0,240" fill="#2A2350"/>
-      <polygon points="1600,0 1600,900 1420,900 1360,420 1600,260" fill="#241F46"/>
+      <rect width="1600" height="900" fill="#6B62AC"/>
+      <polygon points="380,0 1240,0 1300,300 1340,900 300,900 120,300" fill="#7B72B9"/>
+      <polygon points="640,0 1240,0 1300,300 920,640 540,440" fill="#847BC1"/>
+      <polygon points="1240,0 1600,0 1600,900 1340,900 1300,300" fill="#4E4396"/>
+      <polygon points="1450,0 1600,0 1600,620" fill="#3D3583"/>
+      <polygon points="300,0 640,0 420,340 120,300" fill="#3B3276"/>
+      <polygon points="0,0 300,0 120,300 0,330" fill="#1F1B41"/>
     </svg>
     <svg class="cave-layer cave-mid" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <polygon points="0,120 380,60 640,200 900,90 1180,220 1460,80 1600,140 1600,900 0,900" fill="#332A5C"/>
-      <polygon points="0,900 0,520 160,440 260,900" fill="#2C2450"/>
-      <polygon points="1600,900 1600,500 1480,420 1400,900" fill="#2C2450"/>
+      <polygon points="0,330 120,300 300,900 0,900" fill="#554A9C"/>
+      <polygon points="700,60 1160,40 1220,300 900,520" fill="#8F86C9" opacity="0.55"/>
     </svg>
     <svg class="cave-layer cave-near" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <polygon points="0,900 0,300 90,260 210,360 120,900" fill="#221C40"/>
-      <polygon points="1600,900 1600,260 1500,220 1360,340 1470,900" fill="#221C40"/>
-      <polygon points="560,900 560,780 900,760 900,900" fill="#251F45"/>
+      <polygon points="0,790 1600,770 1600,900 0,900" fill="#5C519F"/>
+      <polygon points="1340,900 1360,700 1600,660 1600,900" fill="#463C8B"/>
     </svg>
   </div>
 
-  <!-- 2. Scan beams: two sweeping cyan lines converging on the reticle -->
+  <!-- 2. Scan beams: each beam is a wide blurred glow under a bright core;
+       both use a gradient that fades out toward the tip so they taper. -->
   <svg class="scan-beams" id="scanBeams" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
-      <filter id="beamGlow" x="-60%" y="-200%" width="220%" height="500%">
-        <feGaussianBlur stdDeviation="5" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      <filter id="beamGlow" x="-40%" y="-300%" width="180%" height="700%">
+        <feGaussianBlur stdDeviation="7"/>
       </filter>
+      <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="-40" y1="165" x2="785" y2="300">
+        <stop offset="0" stop-color="#8FEFFF" stop-opacity="0.95"/>
+        <stop offset="0.72" stop-color="#5FD8F5" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#5FD8F5" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="-40" y1="500" x2="645" y2="420">
+        <stop offset="0" stop-color="#8FEFFF" stop-opacity="0.95"/>
+        <stop offset="0.72" stop-color="#5FD8F5" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#5FD8F5" stop-opacity="0"/>
+      </linearGradient>
     </defs>
-    <line class="scan-beam beam-a" x1="-40" y1="260" x2="800" y2="430" stroke="#7FE6F5" stroke-width="4" filter="url(#beamGlow)"/>
-    <line class="scan-beam beam-b" x1="-40" y1="620" x2="800" y2="470" stroke="#7FE6F5" stroke-width="4" filter="url(#beamGlow)"/>
+    <g class="scan-beam beam-a">
+      <line x1="-40" y1="165" x2="785" y2="300" stroke="url(#beamGradA)" stroke-width="12" stroke-linecap="round" opacity="0.55" filter="url(#beamGlow)"/>
+      <line x1="-40" y1="165" x2="785" y2="300" stroke="url(#beamGradA)" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+    <g class="scan-beam beam-b">
+      <line x1="-40" y1="500" x2="645" y2="420" stroke="url(#beamGradB)" stroke-width="12" stroke-linecap="round" opacity="0.55" filter="url(#beamGlow)"/>
+      <line x1="-40" y1="500" x2="645" y2="420" stroke="url(#beamGradB)" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
   </svg>
 
-  <!-- 3. Signal waveform: connected jittering scribble-circles -->
+  <!-- 3. Signal waveform: two overlapping electric scribble-circles plus a
+       branch trailing down to the camera. A soft glow path sits under a
+       thin bright core; both are regenerated with fresh jitter by JS. -->
   <svg class="signal-waveform" id="signalWaveform" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
-      <filter id="waveGlow" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      <filter id="waveGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="4"/>
       </filter>
     </defs>
-    <path class="waveform-path" id="waveformPath" fill="none" stroke="#B9AEF0" stroke-width="2" filter="url(#waveGlow)"/>
+    <path class="waveform-path waveform-glow" id="waveformGlow" fill="none" stroke="#B3A6F8" stroke-width="7" opacity="0.5" filter="url(#waveGlow)"/>
+    <path class="waveform-path" id="waveformPath" fill="none" stroke="#EDE8FF" stroke-width="1.6" stroke-linejoin="round"/>
   </svg>
 
-  <!-- 4. Center aim reticle -->
+  <!-- 4. Aim reticle (sits between the two circles, like the reference) -->
   <div class="reticle" id="reticle">
     <span class="reticle-corner rc-tl"></span>
     <span class="reticle-corner rc-tr"></span>
@@ -1109,31 +1160,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="reticle-label" id="reticleLabel">Aim Translator</span>
   </div>
 
-  <!-- 5 & 6. Bottom detector shell (screen + typewriter text) and its camera -->
+  <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
+       and the boxy 3/4-view camera unit cabled into its top-right corner -->
   <div class="detector" id="detector">
     <div class="detector-camera" id="detectorCamera">
-      <svg viewBox="0 0 80 60" aria-hidden="true">
-        <rect x="6" y="18" width="52" height="30" rx="8" fill="#EDEFF6"/>
-        <rect x="6" y="18" width="52" height="10" rx="5" fill="#3B4A7A"/>
-        <rect x="52" y="22" width="20" height="22" rx="4" fill="#E7893A"/>
-        <rect x="55" y="26" width="14" height="3" fill="#2A2340"/>
-        <rect x="55" y="33" width="14" height="3" fill="#2A2340"/>
-        <circle class="camera-lens" cx="28" cy="33" r="11" fill="#12233F"/>
-        <circle class="camera-lens-ring" cx="28" cy="33" r="11" fill="none" stroke="#8FD9F0" stroke-width="1.5"/>
-        <circle class="camera-lens-dot" cx="28" cy="33" r="3.2" fill="#7FE6F5"/>
+      <svg viewBox="0 0 170 110" aria-hidden="true">
+        <defs>
+          <pattern id="hazardStripes" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="8" height="8" fill="#E8862F"/>
+            <rect width="4" height="8" fill="#2A2340"/>
+          </pattern>
+        </defs>
+        <!-- cable looping from the back of the unit down into the detector -->
+        <path d="M132,66 C150,74 150,92 128,100 L110,106" fill="none" stroke="#252E5A" stroke-width="7" stroke-linecap="round"/>
+        <path d="M132,66 C150,74 150,92 128,100 L110,106" fill="none" stroke="#3B4680" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- side face (right, in shadow) -->
+        <polygon points="112,24 140,15 140,66 112,74" fill="#C9CBE4"/>
+        <!-- top face (lit) -->
+        <polygon points="14,24 112,24 140,15 42,15" fill="#F5F6FC"/>
+        <!-- front face -->
+        <rect x="14" y="24" width="98" height="50" rx="6" fill="#ECEDF7"/>
+        <!-- navy lid band + latch block -->
+        <rect x="14" y="24" width="64" height="12" rx="4" fill="#2E3B78"/>
+        <rect x="14" y="24" width="24" height="20" rx="4" fill="#26326A"/>
+        <!-- hazard stripe patch -->
+        <rect x="90" y="32" width="18" height="30" rx="3" fill="url(#hazardStripes)"/>
+        <rect x="90" y="32" width="18" height="30" rx="3" fill="none" stroke="#2A2340" stroke-width="1.2"/>
+        <!-- scanning indicator light -->
+        <circle class="camera-lens-dot" cx="60" cy="56" r="3.2" fill="#7FE6F5"/>
+        <!-- contact shadow -->
+        <ellipse cx="72" cy="80" rx="52" ry="5" fill="rgba(0,0,0,0.22)"/>
       </svg>
     </div>
-    <div class="detector-body">
-      <div class="detector-corner dc-tl"></div>
-      <div class="detector-corner dc-tr"></div>
-      <div class="detector-corner dc-bl"></div>
-      <div class="detector-corner dc-br"></div>
+    <div class="detector-drum drum-left" aria-hidden="true"></div>
+    <div class="detector-drum drum-right" aria-hidden="true"></div>
+    <div class="detector-shell">
       <div class="detector-screen">
         <div class="screen-scanlines" aria-hidden="true"></div>
         <p class="screen-text" id="screenText"></p>
       </div>
+      <div class="detector-corner dc-bl" aria-hidden="true"></div>
+      <div class="detector-corner dc-br" aria-hidden="true"></div>
     </div>
-    <div class="detector-base" aria-hidden="true"></div>
   </div>
 
 </section>
@@ -2497,36 +2565,49 @@ document.addEventListener('mousemove', e => {
   //      reaching toward the detector, redrawn with fresh jitter on a
   //      timer so it reads as a live current rather than a static line ──
   const waveformPath = document.getElementById('waveformPath');
+  const waveformGlow = document.getElementById('waveformGlow');
+  // Deterministic per-point noise so consecutive redraws feel like the same
+  // current flickering, not a brand-new random line each tick.
+  function noise(i, seed) {
+    const v = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453;
+    return v - Math.floor(v); // fractional part, always in [0, 1)
+  }
+  // Electric scribble: a slow radius wobble plus dense high-frequency
+  // spikes, so the loop reads as a live current rather than a polygon.
   function scribbleCircle(cx, cy, r, points, seed) {
     let d = '';
     for (let i = 0; i <= points; i++) {
       const a = (i / points) * Math.PI * 2;
-      const jitter = 0.82 + 0.16 * Math.sin(a * 3 + seed) * Math.cos(a * 5 - seed);
-      const x = cx + Math.cos(a) * r * jitter;
-      const y = cy + Math.sin(a) * r * jitter;
+      const wobble = 1 + 0.06 * Math.sin(a * 3 + seed) + 0.04 * Math.cos(a * 7 - seed * 1.3);
+      const spike  = (noise(i, seed) - 0.5) * 0.11;
+      const rr = r * (wobble + spike);
+      const x = cx + Math.cos(a) * rr;
+      const y = cy + Math.sin(a) * rr;
       d += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
     }
     return d;
   }
-  function branchPath(x1, y1, x2, y2, segments, seed) {
+  function branchPath(x1, y1, cx1, cy1, x2, y2, segments, seed) {
+    // quadratic-curve spine with spiky perpendicular jitter
     let d = 'M' + x1.toFixed(1) + ',' + y1.toFixed(1) + ' ';
     for (let i = 1; i <= segments; i++) {
       const t = i / segments;
-      const jx = Math.sin(t * 11 + seed) * 14;
-      const jy = Math.cos(t * 9 - seed) * 14;
-      const x = x1 + (x2 - x1) * t + jx;
-      const y = y1 + (y2 - y1) * t + jy;
-      d += 'L' + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+      const mt = 1 - t;
+      const sx = mt * mt * x1 + 2 * mt * t * cx1 + t * t * x2;
+      const sy = mt * mt * y1 + 2 * mt * t * cy1 + t * t * y2;
+      const spike = (noise(i + 500, seed) - 0.5) * 13;
+      d += 'L' + (sx + spike).toFixed(1) + ',' + (sy - spike * 0.6).toFixed(1) + ' ';
     }
     return d;
   }
   function buildWaveform(seed) {
     if (!waveformPath) return;
     const d =
-      scribbleCircle(700, 400, 115, 22, seed) + ' ' +
-      scribbleCircle(830, 430, 95, 20, seed + 1.7) + ' ' +
-      branchPath(900, 460, 1150, 560, 14, seed + 3.1);
+      scribbleCircle(500, 365, 118, 150, seed) + ' ' +
+      scribbleCircle(712, 335, 106, 140, seed + 1.7) + ' ' +
+      branchPath(805, 395, 960, 470, 1108, 548, 70, seed + 3.1);
     waveformPath.setAttribute('d', d);
+    if (waveformGlow) waveformGlow.setAttribute('d', d);
   }
   let waveSeed = 0;
   buildWaveform(waveSeed);
@@ -2595,8 +2676,11 @@ document.addEventListener('mousemove', e => {
       });
     }
 
-    // Lock-on: is the cursor within LOCK_RADIUS of the reticle (viewport center)?
-    const dist = Math.hypot(mouseX - cx, mouseY - cy);
+    // Lock-on: is the cursor within LOCK_RADIUS of the reticle's actual center?
+    const rr = reticle ? reticle.getBoundingClientRect() : null;
+    const rx = rr ? rr.left + rr.width / 2 : cx;
+    const ry = rr ? rr.top + rr.height / 2 : cy;
+    const dist = Math.hypot(mouseX - rx, mouseY - ry);
     const nowLocked = dist < LOCK_RADIUS;
     if (nowLocked && !locked) {
       locked = true;
