@@ -261,7 +261,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      --cam-w/h are the cross-section, --cam-d the barrel length. */
   .detector-camera {
     --cam-w:clamp(60px, 5.6vw, 76px);
-    --cam-h:calc(var(--cam-w) * 0.8);
+    --cam-h:calc(var(--cam-w) * 0.6);
     --cam-d:calc(var(--cam-w) * 1.9);
     position:absolute; right:1%; bottom:calc(100% - 4px); z-index:3;
     width:var(--cam-w); height:var(--cam-h);
@@ -1183,9 +1183,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <linearGradient id="camGradBack"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-back-0)"/><stop offset="1" style="stop-color:var(--p-cam-back-1)"/></linearGradient>
           <linearGradient id="camGradLeft"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-0)"/><stop offset="0.7" style="stop-color:var(--p-cam-side-1)"/><stop offset="1" style="stop-color:var(--p-cam-side-2)"/></linearGradient>
           <linearGradient id="camGradRight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-3)"/><stop offset="1" style="stop-color:var(--p-cam-side-4)"/></linearGradient>
-          <pattern id="camStripes" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
-            <rect width="4" height="8" fill="#9AA3A5"/><rect x="4" width="4" height="8" style="fill:var(--p-hazard-dark)"/>
-          </pattern>
         </defs>
         <g id="camFaces"></g>
       </svg>
@@ -2681,9 +2678,8 @@ document.addEventListener('mousemove', e => {
     { face:'right', fill:'var(--p-accent-0)', r:0.03, pts:(w,h,d)=>[[w/2,-h/2,d/2],[w/2,-h/2,d/2-0.2*d],[w/2,-h/2+0.56*h,d/2-0.108*d],[w/2,-h/2+0.56*h,d/2]] },
     // wedge on the front tip face (upper part)
     { face:'front', fill:'var(--p-accent-1)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,-h/2+0.39*h,d/2],[-w/2,-h/2+0.52*h,d/2]] },
-    // lens panel on the back: striped frame, then the flat navy panel inset evenly
-    { face:'back', fill:'url(#camStripes)', r:0.05, pts:(w,h,d)=>[[0.36*w,-0.38*h,-d/2],[-0.36*w,-0.38*h,-d/2],[-0.36*w,0.38*h,-d/2],[0.36*w,0.38*h,-d/2]] },
-    { face:'back', fill:'var(--p-navy-1)',  r:0.035, pts:(w,h,d)=>[[0.29*w,-0.29*h,-d/2],[-0.29*w,-0.29*h,-d/2],[-0.29*w,0.29*h,-d/2],[0.29*w,0.29*h,-d/2]] },
+    // flat navy lens panel on the back, inset evenly
+    { face:'back', fill:'var(--p-navy-1)',  r:0.04, pts:(w,h,d)=>[[0.33*w,-0.34*h,-d/2],[-0.33*w,-0.34*h,-d/2],[-0.33*w,0.34*h,-d/2],[0.33*w,0.34*h,-d/2]] },
   ];
   // one <path> per face / detail, created once
   const camPaths = new Map();
