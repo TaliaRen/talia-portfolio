@@ -268,11 +268,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cam-svg { position:absolute; overflow:visible; display:block; }
   .cam-svg path { stroke-linejoin:round; stroke-linecap:round; paint-order:stroke; }
   .cam-svg #camHullPath { stroke:none; }
-  .cam-lamp-foot { fill:rgba(0,0,0,0.22); }
-  .cam-lamp-bulb { fill:url(#camLampOff); }
-  .cam-lamp-halo { fill:#FFFFFF; opacity:0; filter:url(#camLampGlow); transition:opacity 0.35s ease; }
-  .cam-lamp.on .cam-lamp-bulb { fill:url(#camLampOn); }
-  .cam-lamp.on .cam-lamp-halo { opacity:0.8; }
+  .cam-lamp-bulb { fill:#7F9A8E; transition:fill 0.25s ease; }      /* idle: a step darker than the shell */
+  .cam-lamp-halo { fill:#5CE0A0; opacity:0; filter:url(#camLampGlow); transition:opacity 0.35s ease; }
+  .cam-lamp.on .cam-lamp-bulb { fill:#5CE0A0; }                      /* translating: green */
+  .cam-lamp.on .cam-lamp-halo { opacity:0.7; }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
     background:linear-gradient(90deg, var(--p-drum-0) 0%, var(--p-drum-1) 55%, var(--p-drum-2) 100%);
@@ -1188,8 +1187,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <svg class="cam-svg" id="camHead" aria-hidden="true">
         <defs>
           <filter id="camLampGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
-          <radialGradient id="camLampOff" cx="0.38" cy="0.32" r="0.75"><stop offset="0" stop-color="#E4EBE7"/><stop offset="0.6" stop-color="#B3C0B9"/><stop offset="1" stop-color="#7E8C86"/></radialGradient>
-          <radialGradient id="camLampOn"  cx="0.38" cy="0.32" r="0.75"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.7" stop-color="#F4F8F6"/><stop offset="1" stop-color="#CFDAD4"/></radialGradient>
           <linearGradient id="camGradBack"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-back-0)"/><stop offset="1" style="stop-color:var(--p-cam-back-1)"/></linearGradient>
           <linearGradient id="camGradLeft"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-0)"/><stop offset="0.7" style="stop-color:var(--p-cam-side-1)"/><stop offset="1" style="stop-color:var(--p-cam-side-2)"/></linearGradient>
           <linearGradient id="camGradRight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-3)"/><stop offset="1" style="stop-color:var(--p-cam-side-4)"/></linearGradient>
@@ -1201,8 +1198,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- small indicator lamp on the top face; lights up while translating -->
         <g class="cam-lamp" id="camLamp">
           <circle class="cam-lamp-halo" id="camLampHalo"/>
-          <path class="cam-lamp-foot" id="camLampFoot"/><!-- contact footprint on the top face -->
-          <circle class="cam-lamp-bulb" id="camLampBulb"/><!-- shaded dome -->
+          <path class="cam-lamp-bulb" id="camLampBulb"/><!-- flat half-disc -->
         </g>
       </svg>
     </div>
@@ -2789,22 +2785,15 @@ document.addEventListener('mousemove', e => {
     // One rounded silhouette: convex hull of every visible corner, each
     // hull vertex replaced by a quadratic curve of radius CAM_R·w.
     camHullPath.setAttribute('d', roundedHull(allPts, CAM_R * w));
-    // indicator lamp: a small dome on the top face toward the near end.
-    // Footprint = circle in the face plane, projected (so it foreshortens
-    // with the face); dome = shaded sphere sitting on it.
-    const LZ = -d / 2 + 0.24 * d, lr = 0.075 * w;
-    const lp = proj(view([0, -h / 2, LZ]));
-    let foot = '';
-    for (let i = 0; i < 16; i++) {
-      const a = i / 16 * Math.PI * 2;
-      const q = proj(view([Math.cos(a) * lr * 1.15, -h / 2, LZ + Math.sin(a) * lr * 1.15]));
-      foot += (i ? 'L' : 'M') + q[0].toFixed(2) + ',' + q[1].toFixed(2) + ' ';
-    }
-    document.getElementById('camLampFoot').setAttribute('d', foot + 'Z');
-    [['camLampHalo', lr * 2.2], ['camLampBulb', lr]].forEach(([id, r]) => {
-      const c = document.getElementById(id);
-      c.setAttribute('cx', lp[0].toFixed(2)); c.setAttribute('cy', (lp[1] - lr * 0.55).toFixed(2)); c.setAttribute('r', r.toFixed(2));
-    });
+    // indicator lamp: a flat half-disc standing on the top face toward the
+    // near end (2.5D: no shading, just the shape)
+    const lr = 0.085 * w;
+    const lp = proj(view([0, -h / 2, -d / 2 + 0.24 * d]));
+    const lx = lp[0], ly = lp[1] + lr * 0.15;
+    document.getElementById('camLampBulb').setAttribute('d',
+      `M${(lx - lr).toFixed(2)},${ly.toFixed(2)} A${lr.toFixed(2)},${lr.toFixed(2)} 0 0 1 ${(lx + lr).toFixed(2)},${ly.toFixed(2)} Z`);
+    const halo = document.getElementById('camLampHalo');
+    halo.setAttribute('cx', lx.toFixed(2)); halo.setAttribute('cy', (ly - lr * 0.4).toFixed(2)); halo.setAttribute('r', (lr * 2).toFixed(2));
     // where the lens is on screen (centre of the near face), for the beams
     const lens = proj(view([0, 0, -d / 2]));
     const box = camHead.getBoundingClientRect();
