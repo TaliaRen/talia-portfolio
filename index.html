@@ -188,6 +188,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cam-beams.on .cam-beam { opacity:1; }
   .cave-scene.paused .cam-beam { opacity:0; }
 
+  /* ── 1b. Emblem (top-right) ── */
+  .hero-emblem {
+    position:absolute; top:4vh; right:4vw; z-index:2;
+    width:min(34vw, 380px); height:auto; pointer-events:none;
+    mix-blend-mode:screen; opacity:0; transition:opacity 1.2s ease;
+  }
+  .hero-emblem.ready { opacity:0.95; }
+  @media (max-width:640px) { .hero-emblem { width:46vw; top:2vh; right:2vw; } }
+
   /* ── 3. Signal waveform ── */
   .signal-waveform { position:absolute; inset:0; z-index:4; pointer-events:none; }
   .waveform-path { stroke-dasharray:4200; stroke-dashoffset:4200; animation:waveformDraw 2.8s ease-out forwards; }
@@ -1118,6 +1127,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <polygon points="1340,900 1360,700 1600,660 1600,900" style="fill:var(--p-rock-near-1)"/>
     </svg>
   </div>
+
+  <!-- 1b. Emblem: glowing disc artwork in the top-right corner. Drop the
+       file at hero/emblem.png; it stays hidden until it loads. screen-blend
+       removes the artwork's own dark background. -->
+  <img class="hero-emblem" id="heroEmblem" src="hero/emblem.png" alt="" aria-hidden="true"
+       onload="this.classList.add('ready')">
 
   <!-- 2. Scan beams: fired from the camera's lens at whichever waveform
        line is hovered. Fixed overlay in viewport px; JS sets the endpoints
