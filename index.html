@@ -254,120 +254,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:transform 1s cubic-bezier(0.22,1,0.36,1);
   }
   .cave-scene.loaded .detector { transform:translate(-50%, 0%); }
-  /* Camera: CSS 3D barrel. --cam-w/h are the cross-section, --cam-d is the
-     barrel length (= viewing axis). The head pivots at its back end via a
-     3D transform-origin; JS sets rotateY (yaw) + rotateX (pitch). */
+  /* Camera: one SVG. JS rotates + perspective-projects the barrel's 8
+     corners and draws every visible face from those shared points, so
+     adjacent faces meet on identical coordinates; a same-colour round
+     stroke on each face gives every edge a continuous, uniform radius.
+     --cam-w/h are the cross-section, --cam-d the barrel length. */
   .detector-camera {
     --cam-w:clamp(60px, 5.6vw, 76px);
     --cam-h:calc(var(--cam-w) * 0.8);
     --cam-d:calc(var(--cam-w) * 1.9);
     position:absolute; right:1%; bottom:calc(100% - 4px); z-index:3;
     width:var(--cam-w); height:var(--cam-h);
-    perspective:1100px; perspective-origin:50% 50%;
+    pointer-events:none;
   }
-  .cam-head {
-    position:absolute; left:0; top:0; z-index:1;
-    width:var(--cam-w); height:var(--cam-h);
-    transform-style:preserve-3d;
-    transform-origin:50% 60% 0; /* pivot on the side pin at mid-body */
-    transform:rotateY(200deg) rotateX(16deg);
-    will-change:transform;
-  }
-  /* Faces are inset by the chamfer size --cam-c on every side; 12 strips at
-     45deg fill the edges so the body reads as one solid, softened block. */
-  .cam-face {
-    --cam-c:calc(var(--cam-w) * 0.09);
-    --cam-r:4px;
-    --fw:calc(var(--cam-w) - var(--cam-c) * 2);   /* front/back width  */
-    --fh:calc(var(--cam-h) - var(--cam-c) * 2);   /* front/back height */
-    --fd:calc(var(--cam-d) - var(--cam-c) * 2);   /* side/top length   */
-    position:absolute;
-    left:calc((var(--cam-w) - var(--fw)) / 2); top:calc((var(--cam-h) - var(--fh)) / 2);
-    width:var(--fw); height:var(--fh);
-    transform-origin:50% 50%;
-    backface-visibility:hidden;
-  }
-  /* front tip: faces INTO the scene */
-  .cam-front {
-    transform:translateZ(calc(var(--cam-d) / 2));
-    background:var(--p-cam-front); overflow:visible;
-  }
-  /* back end: faces the viewer, carries the lens panel */
-  .cam-back {
-    transform:rotateY(180deg) translateZ(calc(var(--cam-d) / 2));
-    background:linear-gradient(180deg, var(--p-cam-back-0) 0%, var(--p-cam-back-1) 100%);
-    overflow:visible;
-  }
-  .cam-left, .cam-right {
-    width:var(--fd); left:calc((var(--cam-w) - var(--fd)) / 2);
-  }
-  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-0) 0%, var(--p-cam-side-1) 70%, var(--p-cam-side-2) 100%); }
-  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-3) 0%, var(--p-cam-side-4) 100%); }
-  .cam-top, .cam-bottom {
-    height:var(--fd); top:calc((var(--cam-h) - var(--fd)) / 2);
-  }
-  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-top); }
-  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-bottom); }
-  /* chamfer strips: width = chamfer diagonal, centred on each edge and
-     tilted 45deg between the two faces it joins */
-  .cam-edge {
-    --cs:calc(var(--cam-c) * 1.4142);
-    --ox:calc(var(--cam-w) / 2 - var(--cam-c) / 2);
-    --oy:calc(var(--cam-h) / 2 - var(--cam-c) / 2);
-    --oz:calc(var(--cam-d) / 2 - var(--cam-c) / 2);
-  }
-  /* edges running along x (front/back x top/bottom) */
-  .ce-ft, .ce-fb, .ce-bt, .ce-bb { width:var(--fw); height:var(--cs); left:calc((var(--cam-w) - var(--fw)) / 2); top:calc((var(--cam-h) - var(--cs)) / 2); }
-  .ce-ft { transform:translate3d(0, calc(var(--oy) * -1), var(--oz)) rotateX(45deg);  background:var(--p-cam-side-0); }
-  .ce-fb { transform:translate3d(0, var(--oy), var(--oz)) rotateX(-45deg);            background:var(--p-cam-side-4); }
-  .ce-bt { transform:translate3d(0, calc(var(--oy) * -1), calc(var(--oz) * -1)) rotateX(135deg);  background:var(--p-cam-side-0); }
-  .ce-bb { transform:translate3d(0, var(--oy), calc(var(--oz) * -1)) rotateX(-135deg);            background:var(--p-cam-side-4); }
-  /* edges running along y (front/back x left/right) */
-  .ce-fl, .ce-fr, .ce-bl, .ce-br { width:var(--cs); height:var(--fh); left:calc((var(--cam-w) - var(--cs)) / 2); top:calc((var(--cam-h) - var(--fh)) / 2); }
-  .ce-fl { transform:translate3d(calc(var(--ox) * -1), 0, var(--oz)) rotateY(-45deg);  background:var(--p-cam-side-1); }
-  .ce-fr { transform:translate3d(var(--ox), 0, var(--oz)) rotateY(45deg);              background:var(--p-cam-side-3); }
-  .ce-bl { transform:translate3d(calc(var(--ox) * -1), 0, calc(var(--oz) * -1)) rotateY(-135deg); background:var(--p-cam-side-1); }
-  .ce-br { transform:translate3d(var(--ox), 0, calc(var(--oz) * -1)) rotateY(135deg);             background:var(--p-cam-side-3); }
-  /* edges running along z (top/bottom x left/right) */
-  .ce-tl, .ce-tr, .ce-dl, .ce-dr { width:var(--cs); height:var(--fd); left:calc((var(--cam-w) - var(--cs)) / 2); top:calc((var(--cam-h) - var(--fd)) / 2); }
-  .ce-tl { transform:translate3d(calc(var(--ox) * -1), calc(var(--oy) * -1), 0) rotateZ(-45deg) rotateX(90deg); background:var(--p-cam-side-0); }
-  .ce-tr { transform:translate3d(var(--ox), calc(var(--oy) * -1), 0) rotateZ(45deg) rotateX(90deg);             background:var(--p-cam-top); }
-  .ce-dl { transform:translate3d(calc(var(--ox) * -1), var(--oy), 0) rotateZ(45deg) rotateX(-90deg);            background:var(--p-cam-side-2); }
-  .ce-dr { transform:translate3d(var(--ox), var(--oy), 0) rotateZ(-45deg) rotateX(-90deg);                      background:var(--p-cam-side-4); }
-  /* tip details: cobalt wedge over the upper part, navy clip on the top edge */
-  .cam-accent {
-    position:absolute; left:0; top:0; width:100%; height:56%;
-    background:linear-gradient(90deg, var(--p-accent-0) 0%, var(--p-accent-0) 34%, var(--p-accent-1) 34%, var(--p-accent-1) 100%);
-    clip-path:polygon(0 0, 100% 0, 100% 70%, 0 92%);
-    border-radius:var(--cam-r) var(--cam-r) 0 0;
-  }
-  /* navy clip riding the top face right at the tip */
-  .cam-clip {
-    position:absolute; left:14%; bottom:8%; width:72%; height:12%;
-    background:var(--p-navy-0); border-radius:999px;
-  }
-  /* the wedge wraps around the tip onto both sides and the top.
-     Side faces: tip end is at x=100% on .cam-left, x=0 on .cam-right. */
-  .cam-accent-side {
-    position:absolute; top:0; width:20%; height:56%;
-    background:var(--p-accent-0);
-  }
-  .cam-left  .cam-accent-side { right:0; clip-path:polygon(0 0, 100% 0, 100% 100%, 46% 100%); border-radius:0 var(--cam-r) 0 0; }
-  .cam-right .cam-accent-side { left:0;  clip-path:polygon(0 0, 100% 0, 54% 100%, 0 100%); border-radius:var(--cam-r) 0 0 0; }
-  .cam-accent-top {
-    position:absolute; left:0; bottom:0; width:100%; height:15%;
-    background:var(--p-accent-1);
-    clip-path:polygon(0 0, 100% 34%, 100% 100%, 0 100%);
-    border-radius:0 0 var(--cam-r) var(--cam-r);
-  }
-  /* lens end: flat hazard-framed panel */
-  .cam-port {
-    position:absolute; left:14%; top:12%; width:72%; height:76%;
-    border-radius:6px; border:4px solid transparent;
-    background:
-      linear-gradient(var(--p-navy-1), var(--p-navy-1)) padding-box,
-      repeating-linear-gradient(45deg, #9AA3A5 0 4px, var(--p-hazard-dark) 4px 8px) border-box;
-  }
+  .cam-svg { position:absolute; overflow:visible; display:block; }
+  .cam-svg path { stroke-linejoin:round; stroke-linecap:round; paint-order:stroke; }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
     background:linear-gradient(90deg, var(--p-drum-0) 0%, var(--p-drum-1) 55%, var(--p-drum-2) 100%);
@@ -1272,32 +1173,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
        and the boxy 3/4-view camera unit cabled into its top-right corner -->
   <div class="detector" id="detector">
-    <!-- Camera: a long CSS 3D barrel whose length axis is the viewing
-         direction. The narrow FRONT tip (cobalt wedge + navy clip) aims into
-         the scene; the BACK end (hazard-framed port + cable) faces the
-         viewer. It pivots at the back end and JS yaws it to look toward the
-         cursor: cursor left => tip swings up-left, cursor right => up-right.
-         It pivots on the side-mounted pin at the middle of the body. -->
+    <!-- Camera: a projected barrel. Faces + details are <path>s whose
+         geometry JS recomputes from the yaw/pitch every frame. Tip end
+         (green wedge + clip) aims into the scene, lens panel faces the
+         viewer; it pivots at mid-body toward the cursor. -->
     <div class="detector-camera" id="detectorCamera">
-      <div class="cam-head" id="camHead">
-        <div class="cam-face cam-front">
-          <span class="cam-accent"></span>
-        </div>
-        <div class="cam-face cam-back">
-          <span class="cam-port"></span>
-        </div>
-        <div class="cam-face cam-left"><span class="cam-accent-side"></span></div>
-        <div class="cam-face cam-right"><span class="cam-accent-side"></span></div>
-        <div class="cam-face cam-top"><span class="cam-accent-top"></span><span class="cam-clip"></span></div>
-        <div class="cam-face cam-bottom"></div>
-        <!-- 12 chamfer strips -->
-        <div class="cam-face cam-edge ce-ft"></div><div class="cam-face cam-edge ce-fb"></div>
-        <div class="cam-face cam-edge ce-bt"></div><div class="cam-face cam-edge ce-bb"></div>
-        <div class="cam-face cam-edge ce-fl"></div><div class="cam-face cam-edge ce-fr"></div>
-        <div class="cam-face cam-edge ce-bl"></div><div class="cam-face cam-edge ce-br"></div>
-        <div class="cam-face cam-edge ce-tl"></div><div class="cam-face cam-edge ce-tr"></div>
-        <div class="cam-face cam-edge ce-dl"></div><div class="cam-face cam-edge ce-dr"></div>
-      </div>
+      <svg class="cam-svg" id="camHead" aria-hidden="true">
+        <defs>
+          <linearGradient id="camGradBack"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-back-0)"/><stop offset="1" style="stop-color:var(--p-cam-back-1)"/></linearGradient>
+          <linearGradient id="camGradLeft"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-0)"/><stop offset="0.7" style="stop-color:var(--p-cam-side-1)"/><stop offset="1" style="stop-color:var(--p-cam-side-2)"/></linearGradient>
+          <linearGradient id="camGradRight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-3)"/><stop offset="1" style="stop-color:var(--p-cam-side-4)"/></linearGradient>
+          <pattern id="camStripes" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+            <rect width="4" height="8" fill="#9AA3A5"/><rect x="4" width="4" height="8" style="fill:var(--p-hazard-dark)"/>
+          </pattern>
+        </defs>
+        <g id="camFaces"></g>
+      </svg>
     </div>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
     <div class="detector-drum drum-right" aria-hidden="true"></div>
@@ -2758,7 +2649,99 @@ document.addEventListener('mousemove', e => {
   const caveLayers = [...document.querySelectorAll('.cave-layer')];
   const reticle = document.getElementById('reticle');
   const camHead = document.getElementById('camHead');
+  const camBox = document.getElementById('detectorCamera');
+  const camFaces = document.getElementById('camFaces');
   let camYaw = 200, camPitch = 16; // start aimed up-left at the reticle
+
+  // ── Projected barrel ───────────────────────────────────────────────
+  // Local space: x right, y down, z toward the viewer; box centred on the
+  // origin, w x h x d. Pivot sits at (0, 0.1h, 0) (mid-body, a touch low).
+  // Faces and their surface details are quads in local space; every frame
+  // they're rotated (rotateX then rotateY, matching the old CSS transform),
+  // perspective-projected (f = 1100px, origin at the box centre) and
+  // written to <path>s. Neighbouring faces reuse the same corner points.
+  const CAM_F = 1100, CAM_R = 0.07; // perspective distance, corner radius (× w)
+  const camFaceDefs = [
+    { id:'front',  n:[0,0,1],  fill:'var(--p-cam-front)',      pts:(w,h,d)=>[[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,h/2,d/2],[-w/2,h/2,d/2]] },
+    { id:'back',   n:[0,0,-1], fill:'url(#camGradBack)',       pts:(w,h,d)=>[[w/2,-h/2,-d/2],[-w/2,-h/2,-d/2],[-w/2,h/2,-d/2],[w/2,h/2,-d/2]] },
+    { id:'left',   n:[-1,0,0], fill:'url(#camGradLeft)',       pts:(w,h,d)=>[[-w/2,-h/2,-d/2],[-w/2,-h/2,d/2],[-w/2,h/2,d/2],[-w/2,h/2,-d/2]] },
+    { id:'right',  n:[1,0,0],  fill:'url(#camGradRight)',      pts:(w,h,d)=>[[w/2,-h/2,d/2],[w/2,-h/2,-d/2],[w/2,h/2,-d/2],[w/2,h/2,d/2]] },
+    { id:'top',    n:[0,-1,0], fill:'var(--p-cam-top)',        pts:(w,h,d)=>[[-w/2,-h/2,-d/2],[w/2,-h/2,-d/2],[w/2,-h/2,d/2],[-w/2,-h/2,d/2]] },
+    { id:'bottom', n:[0,1,0],  fill:'var(--p-cam-bottom)',     pts:(w,h,d)=>[[-w/2,h/2,d/2],[w/2,h/2,d/2],[w/2,h/2,-d/2],[-w/2,h/2,-d/2]] },
+  ];
+  // Surface details, keyed by the face they sit on (drawn right after it).
+  // r = corner radius as a fraction of w (smaller than the shell's).
+  const camDetailDefs = [
+    // green wedge across the tip end of the top face, slanted like before
+    { face:'top', fill:'var(--p-accent-1)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2-0.15*d],[w/2,-h/2,d/2-0.099*d],[w/2,-h/2,d/2],[-w/2,-h/2,d/2]] },
+    // pill-shaped clip on the top face near the tip
+    { face:'top', fill:'var(--p-navy-0)', r:0.045, pts:(w,h,d)=>[[-0.36*w,-h/2,d/2-0.20*d],[0.36*w,-h/2,d/2-0.20*d],[0.36*w,-h/2,d/2-0.08*d],[-0.36*w,-h/2,d/2-0.08*d]] },
+    // wedge wrapping onto the left and right sides at the tip
+    { face:'left',  fill:'var(--p-accent-0)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2-0.2*d],[-w/2,-h/2,d/2],[-w/2,-h/2+0.56*h,d/2],[-w/2,-h/2+0.56*h,d/2-0.108*d]] },
+    { face:'right', fill:'var(--p-accent-0)', r:0.03, pts:(w,h,d)=>[[w/2,-h/2,d/2],[w/2,-h/2,d/2-0.2*d],[w/2,-h/2+0.56*h,d/2-0.108*d],[w/2,-h/2+0.56*h,d/2]] },
+    // wedge on the front tip face (upper part)
+    { face:'front', fill:'var(--p-accent-1)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,-h/2+0.39*h,d/2],[-w/2,-h/2+0.52*h,d/2]] },
+    // lens panel on the back: striped frame, then the flat navy panel inset evenly
+    { face:'back', fill:'url(#camStripes)', r:0.05, pts:(w,h,d)=>[[0.36*w,-0.38*h,-d/2],[-0.36*w,-0.38*h,-d/2],[-0.36*w,0.38*h,-d/2],[0.36*w,0.38*h,-d/2]] },
+    { face:'back', fill:'var(--p-navy-1)',  r:0.035, pts:(w,h,d)=>[[0.29*w,-0.29*h,-d/2],[-0.29*w,-0.29*h,-d/2],[-0.29*w,0.29*h,-d/2],[0.29*w,0.29*h,-d/2]] },
+  ];
+  // one <path> per face / detail, created once
+  const camPaths = new Map();
+  if (camFaces) {
+    camFaceDefs.forEach(f => {
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('fill', f.fill); p.setAttribute('stroke', f.fill);
+      g.appendChild(p); camFaces.appendChild(g);
+      camPaths.set(f.id, { g, p, details: [] });
+    });
+    camDetailDefs.forEach(dd => {
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('fill', dd.fill); p.setAttribute('stroke', dd.fill);
+      const entry = camPaths.get(dd.face);
+      entry.g.appendChild(p); entry.details.push({ def:dd, p });
+    });
+  }
+  function renderCam(yawDeg, pitchDeg) {
+    if (!camHead || !camBox) return;
+    const w = camBox.clientWidth, h = camBox.clientHeight, d = w * 1.9;
+    if (!w) return;
+    const S = w * 4;                         // svg canvas, centred on the box
+    camHead.setAttribute('viewBox', `0 0 ${S} ${S}`);
+    camHead.style.width = S + 'px'; camHead.style.height = S + 'px';
+    camHead.style.left = ((w - S) / 2) + 'px'; camHead.style.top = ((h - S) / 2) + 'px';
+    const cx = S / 2, cy = S / 2, oy = 0.1 * h;
+    const yaw = yawDeg * Math.PI / 180, pit = pitchDeg * Math.PI / 180;
+    const cy_ = Math.cos(yaw), sy_ = Math.sin(yaw), cp = Math.cos(pit), sp = Math.sin(pit);
+    const rot = ([x, y, z]) => {              // rotateX(pitch) then rotateY(yaw)
+      const y1 = y * cp - z * sp, z1 = y * sp + z * cp;
+      return [x * cy_ + z1 * sy_, y1, -x * sy_ + z1 * cy_];
+    };
+    const proj = ([x, y, z]) => {
+      const [rx, ry, rz] = rot([x, y - oy, z]);
+      const s = CAM_F / (CAM_F - rz);
+      return [cx + rx * s, cy + (ry + oy) * s, rz];
+    };
+    const pathD = pts => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(2) + ',' + p[1].toFixed(2)).join(' ') + ' Z';
+    const order = [];
+    camFaceDefs.forEach(f => {
+      const entry = camPaths.get(f.id);
+      const nz = rot(f.n)[2];
+      if (nz <= 0.02) { entry.g.style.display = 'none'; return; }
+      entry.g.style.display = '';
+      const pts = f.pts(w, h, d).map(proj);
+      entry.p.setAttribute('d', pathD(pts));
+      entry.p.setAttribute('stroke-width', (2 * CAM_R * w).toFixed(2));
+      entry.details.forEach(({ def, p }) => {
+        p.setAttribute('d', pathD(def.pts(w, h, d).map(proj)));
+        p.setAttribute('stroke-width', (2 * def.r * w).toFixed(2));
+      });
+      order.push({ g: entry.g, depth: pts.reduce((a, p) => a + p[2], 0) / pts.length });
+    });
+    order.sort((a, b) => a.depth - b.depth).forEach(o => camFaces.appendChild(o.g)); // far → near
+  }
+  renderCam(camYaw, camPitch);
+  window.addEventListener('resize', () => renderCam(camYaw, camPitch));
   const LOCK_RADIUS = 90; // px, distance from the reticle center that counts as "near the target"
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
@@ -2806,7 +2789,7 @@ document.addEventListener('mousemove', e => {
     if (camHead && !reducedMotion) {
       camYaw   += ((200 - nx * 40) - camYaw) * 0.08;
       camPitch += ((16 - ny * 5) - camPitch) * 0.08;
-      camHead.style.transform = `rotateY(${camYaw.toFixed(2)}deg) rotateX(${camPitch.toFixed(2)}deg)`;
+      renderCam(camYaw, camPitch);
     }
 
     requestAnimationFrame(frame);
