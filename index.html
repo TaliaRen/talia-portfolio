@@ -179,23 +179,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cave-near { z-index:3; }
 
   /* ── 2. Scan beams ── */
-  .scan-beams { position:absolute; inset:0; z-index:4; pointer-events:none; }
-  .scan-beam { transform-box:fill-box; transform-origin:0% 50%; animation:beamSweep 5.5s ease-in-out infinite; }
-  .beam-b { animation-delay:-2.75s; }
-  @keyframes beamSweep {
-    0%   { transform:rotate(-2.6deg); opacity:0.7; }
-    47%  { opacity:0.7; }
-    50%  { transform:rotate(0deg); opacity:1; }
-    53%  { opacity:0.7; }
-    100% { transform:rotate(2.6deg); opacity:0.7; }
-  }
-  .cave-scene.paused .scan-beam { animation-play-state:paused; opacity:0.12; transition:opacity 0.6s ease; }
+  .cam-beams { position:fixed; inset:0; width:100%; height:100%; z-index:59; pointer-events:none; }
+  .cam-beam { opacity:0; transition:opacity 0.35s ease; }
+  .cam-beams.on .cam-beam { opacity:1; }
+  .cave-scene.paused .cam-beam { opacity:0; }
 
   /* ── 3. Signal waveform ── */
   .signal-waveform { position:absolute; inset:0; z-index:4; pointer-events:none; }
   .waveform-path { stroke-dasharray:4200; stroke-dashoffset:4200; animation:waveformDraw 2.8s ease-out forwards; }
   @keyframes waveformDraw { to { stroke-dashoffset:0; } }
   .cave-scene.paused .waveform-path { opacity:0.2; transition:opacity 0.6s ease; }
+  .wave-hit { pointer-events:stroke; cursor:crosshair; }
+  .waveform-path { transition:filter 0.3s ease; }
+  .signal-waveform.hot .waveform-path { filter:brightness(1.25); }
 
   /* ── 4. Aim reticle — placed where the two circles overlap, per the reference ── */
   .reticle {
@@ -336,7 +332,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .reticle-label { font-size:.8rem; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cave-layer, .scan-beam, .reticle, .detector-camera, .detector-shell, .detector-screen {
+    .cave-layer, .cam-beam, .reticle, .detector-camera, .detector-shell, .detector-screen {
       animation:none !important; transition:none !important;
     }
     .detector-shell { transform:rotateX(9deg); }
@@ -1119,32 +1115,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
   </div>
 
-  <!-- 2. Scan beams: each beam is a wide blurred glow under a bright core;
-       both use a gradient that fades out toward the tip so they taper. -->
-  <svg class="scan-beams" id="scanBeams" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <!-- 2. Scan beams: fired from the camera's lens at whichever waveform
+       line is hovered. Fixed overlay in viewport px; JS sets the endpoints
+       and the tapering gradients every frame. -->
+  <svg class="cam-beams" id="camBeams" aria-hidden="true">
     <defs>
-      <filter id="beamGlow" x="-40%" y="-300%" width="180%" height="700%">
-        <feGaussianBlur stdDeviation="7"/>
+      <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="6"/>
       </filter>
-      <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="-40" y1="165" x2="785" y2="300">
+      <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
-        <stop offset="0.72" style="stop-color:var(--p-beam)" stop-opacity="0.9"/>
-        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0"/>
+        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
+        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
       </linearGradient>
-      <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="-40" y1="500" x2="645" y2="420">
+      <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
-        <stop offset="0.72" style="stop-color:var(--p-beam)" stop-opacity="0.9"/>
-        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0"/>
+        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
+        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
       </linearGradient>
     </defs>
-    <g class="scan-beam beam-a">
-      <line x1="-40" y1="165" x2="785" y2="300" stroke="url(#beamGradA)" stroke-width="12" stroke-linecap="round" opacity="0.55" filter="url(#beamGlow)"/>
-      <line x1="-40" y1="165" x2="785" y2="300" stroke="url(#beamGradA)" stroke-width="3.5" stroke-linecap="round"/>
+    <g class="cam-beam" id="beamA">
+      <line stroke="url(#beamGradA)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
+      <line stroke="url(#beamGradA)" stroke-width="2.6" stroke-linecap="round"/>
     </g>
-    <g class="scan-beam beam-b">
-      <line x1="-40" y1="500" x2="645" y2="420" stroke="url(#beamGradB)" stroke-width="12" stroke-linecap="round" opacity="0.55" filter="url(#beamGlow)"/>
-      <line x1="-40" y1="500" x2="645" y2="420" stroke="url(#beamGradB)" stroke-width="3.5" stroke-linecap="round"/>
+    <g class="cam-beam" id="beamB">
+      <line stroke="url(#beamGradB)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
+      <line stroke="url(#beamGradB)" stroke-width="2.6" stroke-linecap="round"/>
     </g>
+    <circle class="cam-beam" id="beamOrigin" r="4" style="fill:var(--p-beam-hi)" filter="url(#beamGlow)"/>
   </svg>
 
   <!-- 3. Signal waveform: two overlapping electric scribble-circles plus a
@@ -1158,6 +1156,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </defs>
     <path class="waveform-path waveform-glow" id="waveformGlow" fill="none" style="stroke:var(--p-wave-glow)" stroke-width="7" opacity="0.5" filter="url(#waveGlow)"/>
     <path class="waveform-path" id="waveformPath" fill="none" style="stroke:var(--p-wave-core)" stroke-width="1.6" stroke-linejoin="round"/>
+    <!-- invisible, wide hit areas so each line can be hovered -->
+    <path class="wave-hit" id="waveHitA" fill="none" stroke="transparent" stroke-width="30"/>
+    <path class="wave-hit" id="waveHitB" fill="none" stroke="transparent" stroke-width="30"/>
+    <path class="wave-hit" id="waveHitC" fill="none" stroke="transparent" stroke-width="30"/>
   </svg>
 
   <!-- 4. Aim reticle (sits between the two circles, like the reference) -->
@@ -2598,14 +2600,18 @@ document.addEventListener('mousemove', e => {
     }
     return d;
   }
+  const waveHits = ['waveHitA', 'waveHitB', 'waveHitC'].map(id => document.getElementById(id));
   function buildWaveform(seed) {
     if (!waveformPath) return;
-    const d =
-      scribbleCircle(500, 365, 118, 150, seed) + ' ' +
-      scribbleCircle(712, 335, 106, 140, seed + 1.7) + ' ' +
-      branchPath(805, 395, 960, 470, 1108, 548, 70, seed + 3.1);
+    const parts = [
+      scribbleCircle(500, 365, 118, 150, seed),
+      scribbleCircle(712, 335, 106, 140, seed + 1.7),
+      branchPath(805, 395, 960, 470, 1108, 548, 70, seed + 3.1),
+    ];
+    const d = parts.join(' ');
     waveformPath.setAttribute('d', d);
     if (waveformGlow) waveformGlow.setAttribute('d', d);
+    waveHits.forEach((el, k) => el && el.setAttribute('d', parts[k]));
   }
   let waveSeed = 0;
   buildWaveform(waveSeed);
@@ -2769,7 +2775,13 @@ document.addEventListener('mousemove', e => {
     // One rounded silhouette: convex hull of every visible corner, each
     // hull vertex replaced by a quadratic curve of radius CAM_R·w.
     camHullPath.setAttribute('d', roundedHull(allPts, CAM_R * w));
+    // where the lens is on screen (centre of the near face), for the beams
+    const lens = proj(view([0, 0, -d / 2]));
+    const box = camHead.getBoundingClientRect();
+    camLensScreen[0] = box.left + lens[0];
+    camLensScreen[1] = box.top + lens[1];
   }
+  const camLensScreen = [0, 0];
   function convexHull(points) {                 // Andrew's monotone chain
     const p = points.map(q => [q[0], q[1]]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
     if (p.length < 3) return p;
@@ -2802,6 +2814,41 @@ document.addEventListener('mousemove', e => {
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   let locked = false;
+
+  // ── Camera beams: hover a waveform line and the camera fires two beams
+  //    from its lens that converge on that line ──
+  const camBeams = document.getElementById('camBeams');
+  const beamA = document.getElementById('beamA'), beamB = document.getElementById('beamB');
+  const beamOrigin = document.getElementById('beamOrigin');
+  const beamGradA = document.getElementById('beamGradA'), beamGradB = document.getElementById('beamGradB');
+  const waveSvg = document.getElementById('signalWaveform');
+  let beamTarget = null;
+  document.querySelectorAll('.wave-hit').forEach(el => {
+    el.addEventListener('mouseenter', () => { beamTarget = el; camBeams?.classList.add('on'); waveSvg?.classList.add('hot'); });
+    el.addEventListener('mouseleave', () => { if (beamTarget === el) { beamTarget = null; camBeams?.classList.remove('on'); waveSvg?.classList.remove('hot'); } });
+  });
+  function setBeam(g, grad, x1, y1, x2, y2) {
+    g.querySelectorAll('line').forEach(l => {
+      l.setAttribute('x1', x1.toFixed(1)); l.setAttribute('y1', y1.toFixed(1));
+      l.setAttribute('x2', x2.toFixed(1)); l.setAttribute('y2', y2.toFixed(1));
+    });
+    grad.setAttribute('x1', x1.toFixed(1)); grad.setAttribute('y1', y1.toFixed(1));
+    grad.setAttribute('x2', x2.toFixed(1)); grad.setAttribute('y2', y2.toFixed(1));
+  }
+  function drawBeams() {
+    if (!camBeams || !beamTarget) return;
+    const r = beamTarget.getBoundingClientRect();
+    const tx = r.left + r.width / 2, ty = r.top + r.height / 2;
+    const rad = Math.min(r.width, r.height) / 2;
+    const [sx, sy] = camLensScreen;
+    // two impact points on the target's rim, either side of the line of sight
+    const a = Math.atan2(ty - sy, tx - sx) + Math.PI;   // direction back toward the camera
+    const p1 = [tx + Math.cos(a + 0.6) * rad, ty + Math.sin(a + 0.6) * rad];
+    const p2 = [tx + Math.cos(a - 0.6) * rad, ty + Math.sin(a - 0.6) * rad];
+    setBeam(beamA, beamGradA, sx, sy, p1[0], p1[1]);
+    setBeam(beamB, beamGradB, sx, sy, p2[0], p2[1]);
+    beamOrigin.setAttribute('cx', sx.toFixed(1)); beamOrigin.setAttribute('cy', sy.toFixed(1));
+  }
 
   window.addEventListener('mousemove', e => {
     mouseX = e.clientX;
@@ -2847,6 +2894,7 @@ document.addEventListener('mousemove', e => {
       camPitch += ((16 - ny * 5) - camPitch) * 0.08;
       renderCam(camYaw, camPitch);
     }
+    drawBeams();
 
     requestAnimationFrame(frame);
   }
