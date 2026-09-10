@@ -90,10 +90,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-weight: 100 900; font-style: italic; font-display: block;
   }
 
-  :root { --bg:#0E1E24; --ink:#1C1917; --muted:#78716C; }
+  /* ── Scene palette tokens: three switchable green schemes (A/B/C) ── */
+  :root {
+    --p-bg:#0A1712; --p-rock-far-0:#245641; --p-rock-far-1:#2E6A51; --p-rock-far-2:#3A7C60; --p-rock-far-3:#1B4434; --p-rock-far-4:#163A2C; --p-rock-far-5:#153527; --p-rock-far-6:#0B1D16; --p-rock-mid-0:#1F4C3A; --p-rock-mid-1:#4E8C72; --p-rock-near-0:#22503E; --p-rock-near-1:#1A3F31; --p-beam-hi:#CFF5E2; --p-beam:#8FE3BE; --p-wave-glow:#A9EBCD; --p-wave-core:#EFFFF6; --p-shell-0:#E1EAE5; --p-shell-1:#C9D8D0; --p-shell-2:#AFC4B9; --p-shell-edge:#7C9A8C; --p-drum-0:#10231B; --p-drum-1:#1F3B30; --p-drum-2:#152C23; --p-corner-0:#264A3C; --p-corner-1:#1A3629; --p-corner-2:#122820; --p-screen-0:#0D3327; --p-screen-1:#08241C; --p-screen-2:#051813; --p-screen-text:#8FE8C1; --p-cam-front:#DDE8E2; --p-cam-back-0:#EDF4F0; --p-cam-back-1:#CDDCD4; --p-cam-side-0:#E6EFEA; --p-cam-side-1:#D5E3DB; --p-cam-side-2:#B7CBC0; --p-cam-side-3:#CCDCD3; --p-cam-side-4:#ADC2B6; --p-cam-top:#F4F9F6; --p-cam-bottom:#93AA9E; --p-accent-0:#177A5C; --p-accent-1:#1F9A74; --p-navy-0:#17312A; --p-navy-1:#162F28; --p-navy-2:#0E211B; --p-hazard-dark:#17272A; --p-navy-3:#274A3E; --p-cable-0:#12261F; --p-cable-1:#365A4C;
+    --p-glow-rgb:143,232,193;
+  }
+  :root[data-palette="B"] {
+    --p-bg:#121B17; --p-rock-far-0:#3C5D50; --p-rock-far-1:#4A6E60; --p-rock-far-2:#587F70; --p-rock-far-3:#2C473C; --p-rock-far-4:#243B32; --p-rock-far-5:#21362E; --p-rock-far-6:#111E19; --p-rock-mid-0:#2F4C40; --p-rock-mid-1:#6F9484; --p-rock-near-0:#31514A; --p-rock-near-1:#263F36; --p-beam-hi:#DDF2E8; --p-beam:#9CD8BE; --p-wave-glow:#B4E2CC; --p-wave-core:#F1FBF6; --p-shell-0:#E4E9E6; --p-shell-1:#CDD6D1; --p-shell-2:#B5C1BB; --p-shell-edge:#8A9B93; --p-drum-0:#18241F; --p-drum-1:#2C3F37; --p-drum-2:#1D2C26; --p-corner-0:#2E453C; --p-corner-1:#20342C; --p-corner-2:#182720; --p-screen-0:#12352C; --p-screen-1:#0D2620; --p-screen-2:#081A16; --p-screen-text:#9FE0C4; --p-cam-front:#DFE6E2; --p-cam-back-0:#EEF2EF; --p-cam-back-1:#D1DAD5; --p-cam-side-0:#E7EDE9; --p-cam-side-1:#D8E0DB; --p-cam-side-2:#BCC8C1; --p-cam-side-3:#CFD8D3; --p-cam-side-4:#B0BDB6; --p-cam-top:#F5F8F6; --p-cam-bottom:#98A8A0; --p-accent-0:#2E7A63; --p-accent-1:#3B9A7E; --p-navy-0:#1E322B; --p-navy-1:#1D312A; --p-navy-2:#14231E; --p-hazard-dark:#1A2823; --p-navy-3:#2F4B41; --p-cable-0:#172520; --p-cable-1:#3E5A4F;
+    --p-glow-rgb:159,224,196;
+  }
+  :root[data-palette="C"] {
+    --p-bg:#08191A; --p-rock-far-0:#1F5A54; --p-rock-far-1:#28695F; --p-rock-far-2:#337A6E; --p-rock-far-3:#194842; --p-rock-far-4:#153C38; --p-rock-far-5:#143733; --p-rock-far-6:#0A1F1E; --p-rock-mid-0:#1B4E48; --p-rock-mid-1:#4E9A8F; --p-rock-near-0:#1F5049; --p-rock-near-1:#183F3B; --p-beam-hi:#C6F7EA; --p-beam:#7FE6CF; --p-wave-glow:#A2ECDA; --p-wave-core:#EEFFFB; --p-shell-0:#DFEBE8; --p-shell-1:#C6D8D3; --p-shell-2:#ABC4BE; --p-shell-edge:#79A095; --p-drum-0:#0F2624; --p-drum-1:#1E3F3B; --p-drum-2:#14302D; --p-corner-0:#234C46; --p-corner-1:#193B36; --p-corner-2:#122B28; --p-screen-0:#0C3A36; --p-screen-1:#082A28; --p-screen-2:#051C1B; --p-screen-text:#82E9D0; --p-cam-front:#DBEAE7; --p-cam-back-0:#ECF5F3; --p-cam-back-1:#CBDED9; --p-cam-side-0:#E4EFEC; --p-cam-side-1:#D3E4E0; --p-cam-side-2:#B4CFC8; --p-cam-side-3:#CADDD8; --p-cam-side-4:#AAC5BE; --p-cam-top:#F3F9F7; --p-cam-bottom:#8FADA6; --p-accent-0:#16847A; --p-accent-1:#1FA396; --p-navy-0:#15322F; --p-navy-1:#14302E; --p-navy-2:#0E2321; --p-hazard-dark:#172A29; --p-navy-3:#264C48; --p-cable-0:#112625; --p-cable-1:#345B56;
+    --p-glow-rgb:130,233,208;
+  }
+  :root { --bg:var(--p-bg); --ink:#1C1917; --muted:#78716C; }
   * { margin:0; padding:0; box-sizing:border-box; }
 
-  html { scrollbar-gutter: stable; background:#0E1E24; }
+  html { scrollbar-gutter: stable; background:var(--p-bg); }
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) {
     animation-duration: 0.1s;
@@ -112,6 +125,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   #circuit-glow { position:fixed; inset:0; pointer-events:none; opacity:0.4; }
 
+  /* Temporary palette switcher (space-idea exploration) */
+  .palette-switch {
+    position:fixed; left:16px; bottom:16px; z-index:9999; display:flex; gap:4px;
+    padding:4px; border-radius:999px; background:rgba(0,0,0,0.45); backdrop-filter:blur(8px);
+    font-family:'Figtree',sans-serif; font-size:.72rem; font-weight:600; letter-spacing:.04em;
+  }
+  .palette-switch button {
+    appearance:none; border:0; cursor:pointer; padding:6px 12px; border-radius:999px;
+    background:transparent; color:rgba(255,255,255,0.65);
+  }
+  .palette-switch button:hover { color:#fff; }
+  .palette-switch button[aria-pressed="true"] { background:rgba(255,255,255,0.92); color:#0F1F1A; }
   #star-field { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity 0.15s linear; }
   #star-field circle { pointer-events:auto; transition:opacity 0.2s ease, filter 0.2s ease; }
   #star-field circle:hover { opacity:1; filter:brightness(1.9); }
@@ -160,7 +185,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      ══════════════════════════════════════════════════════════════════ */
   #hero.cave-scene {
     display:block; padding:0; overflow:hidden;
-    background:#0E1E24;
+    background:var(--p-bg);
   }
 
   /* ── 1. Background: three parallax rock layers ── */
@@ -229,11 +254,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Figtree',sans-serif; font-size:.95rem; color:rgba(255,255,255,0.7);
     transition:color 0.3s ease, text-shadow 0.3s ease;
   }
-  .reticle.locked .reticle-label { color:#fff; text-shadow:0 0 12px rgba(140,235,245,0.8); }
+  .reticle.locked .reticle-label { color:#fff; text-shadow:0 0 12px rgba(var(--p-glow-rgb),0.8); }
   .reticle.pulse .reticle-rs { animation:reticlePulse 0.5s ease; }
   @keyframes reticlePulse {
-    0%   { box-shadow:0 0 0 0 rgba(140,235,245,0.7); }
-    100% { box-shadow:0 0 0 16px rgba(140,235,245,0); }
+    0%   { box-shadow:0 0 0 0 rgba(var(--p-glow-rgb),0.7); }
+    100% { box-shadow:0 0 0 16px rgba(var(--p-glow-rgb),0); }
   }
 
   /* ── 5 & 6. Detector shell + camera ──
@@ -281,63 +306,63 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* front tip: faces INTO the scene */
   .cam-front {
     transform:translateZ(calc(var(--cam-d) / 2));
-    background:#DFEBEE; border-radius:5px; overflow:visible;
+    background:var(--p-cam-front); border-radius:5px; overflow:visible;
   }
   /* back end: faces the viewer, carries the port + cable */
   .cam-back {
     transform:rotateY(180deg) translateZ(calc(var(--cam-d) / 2));
-    background:linear-gradient(180deg, #EEF6F8 0%, #D0E1E6 100%);
+    background:linear-gradient(180deg, var(--p-cam-back-0) 0%, var(--p-cam-back-1) 100%);
     border-radius:5px; overflow:visible;
   }
   .cam-left, .cam-right {
     width:var(--cam-d); left:calc((var(--cam-w) - var(--cam-d)) / 2);
   }
-  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #E8F2F5 0%, #D8E7EC 58%, #BAD3DA 100%); }
-  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #CFE0E5 0%, #B0CAD1 100%); }
+  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-0) 0%, var(--p-cam-side-1) 58%, var(--p-cam-side-2) 100%); }
+  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-3) 0%, var(--p-cam-side-4) 100%); }
   .cam-top, .cam-bottom {
     height:var(--cam-d); top:calc((var(--cam-h) - var(--cam-d)) / 2);
   }
-  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:#F5FAFB; }
-  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:#97B6BE; }
+  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-top); }
+  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-bottom); }
   /* tip details: cobalt wedge over the upper part, navy clip on the top edge */
   .cam-accent {
     position:absolute; left:0; top:0; width:100%; height:56%;
-    background:linear-gradient(90deg, #1D8A96 0%, #1D8A96 34%, #27A8B6 34%, #27A8B6 100%);
+    background:linear-gradient(90deg, var(--p-accent-0) 0%, var(--p-accent-0) 34%, var(--p-accent-1) 34%, var(--p-accent-1) 100%);
     clip-path:polygon(0 0, 100% 0, 100% 62%, 0 100%);
     border-radius:5px 5px 0 0;
   }
   /* navy clip riding the top face right at the tip */
   .cam-clip {
     position:absolute; left:14%; bottom:8%; width:72%; height:12%;
-    background:#1C363E; border-radius:3px;
+    background:var(--p-navy-0); border-radius:3px;
   }
   /* the wedge wraps around the tip onto both sides and the top.
      Side faces: tip end is at x=100% on .cam-left, x=0 on .cam-right. */
   .cam-accent-side {
     position:absolute; top:0; width:20%; height:56%;
-    background:#1D8A96;
+    background:var(--p-accent-0);
   }
   .cam-left  .cam-accent-side { right:0; clip-path:polygon(0 0, 100% 0, 100% 100%, 36% 100%); }
   .cam-right .cam-accent-side { left:0;  clip-path:polygon(0 0, 100% 0, 64% 100%, 0 100%); }
   .cam-accent-top {
     position:absolute; left:0; bottom:0; width:100%; height:15%;
-    background:#27A8B6;
+    background:var(--p-accent-1);
     clip-path:polygon(0 0, 100% 34%, 100% 100%, 0 100%);
   }
   /* back-end details: hazard-framed navy port, cable looping out of it */
   .cam-port {
     position:absolute; left:20%; top:14%; width:60%; height:70%;
-    background:#1B373E; border-radius:6px; overflow:hidden;
+    background:var(--p-navy-1); border-radius:6px; overflow:hidden;
   }
   .cam-port::before, .cam-port::after {
     content:''; position:absolute; left:0; top:0;
-    background:repeating-linear-gradient(45deg, #F0A22B 0 4px, #192B31 4px 8px);
+    background:repeating-linear-gradient(45deg, #F0A22B 0 4px, var(--p-hazard-dark) 4px 8px);
   }
   .cam-port::before { width:100%; height:18%; }
   .cam-port::after  { width:18%; height:100%; }
   .cam-port-inner {
     position:absolute; left:34%; top:36%; width:50%; height:50%;
-    background:#10252B; border-radius:5px;
+    background:var(--p-navy-2); border-radius:5px;
   }
   .detector-cable {
     position:absolute; right:2.5%; bottom:calc(100% - 58px); z-index:0;
@@ -346,7 +371,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
-    background:linear-gradient(90deg, #132C32 0%, #274C54 55%, #18373E 100%);
+    background:linear-gradient(90deg, var(--p-drum-0) 0%, var(--p-drum-1) 55%, var(--p-drum-2) 100%);
     border-radius:999px;
     box-shadow:inset 0 -8px 14px rgba(0,0,0,0.45), 0 10px 20px rgba(0,0,0,0.35);
   }
@@ -355,13 +380,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .detector-shell {
     position:relative; z-index:1;
     transform-origin:50% 100%;
-    background:linear-gradient(180deg, #E4EFF1 0%, #CBDFE3 55%, #B0CCD2 100%);
+    background:linear-gradient(180deg, var(--p-shell-0) 0%, var(--p-shell-1) 55%, var(--p-shell-2) 100%);
     border-radius:28px;
     padding:20px 26px 26px;
     box-shadow:
       inset 0 3px 0 rgba(255,255,255,0.65),
       inset 0 -3px 0 rgba(0,0,0,0.08),
-      0 12px 0 #7FA8B1,
+      0 12px 0 var(--p-shell-edge),
       0 32px 44px rgba(0,0,0,0.45);
     animation:detectorFloat 4.5s ease-in-out infinite;
   }
@@ -371,15 +396,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .detector-corner {
     position:absolute; bottom:-16px; width:38px; height:30px;
-    background:linear-gradient(180deg, #2A5760 0%, #1B3F47 100%);
+    background:linear-gradient(180deg, var(--p-corner-0) 0%, var(--p-corner-1) 100%);
     border-radius:7px;
-    box-shadow:0 5px 0 #132F36;
+    box-shadow:0 5px 0 var(--p-corner-2);
   }
   .dc-bl { left:4%; }
   .dc-br { right:4%; }
   .detector-screen {
     position:relative; overflow:hidden;
-    background:radial-gradient(ellipse at 50% 15%, #0E3A45 0%, #0A2731 50%, #061A21 100%);
+    background:radial-gradient(ellipse at 50% 15%, var(--p-screen-0) 0%, var(--p-screen-1) 50%, var(--p-screen-2) 100%);
     border-radius:16px; padding:28px 40px; min-height:150px;
     display:flex; align-items:center; justify-content:center;
     box-shadow:inset 0 0 0 2px rgba(0,0,0,0.35), inset 0 0 30px rgba(0,0,0,0.65), 0 1px 0 rgba(255,255,255,0.45);
@@ -394,12 +419,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .screen-text {
     font-family:'Courier New', monospace; font-size:clamp(.85rem, 1.15vw, 1.05rem); letter-spacing:.02em;
-    color:#7FEAF0; text-shadow:0 0 8px rgba(127,234,240,0.85);
+    color:var(--p-screen-text); text-shadow:0 0 8px rgba(var(--p-glow-rgb),0.85);
     text-align:center; line-height:1.65; margin:0; min-height:2.6em;
   }
   .screen-text::after {
     content:''; display:inline-block; width:6px; height:1em; margin-left:2px;
-    background:#7FEAF0; vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
+    background:var(--p-screen-text); vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
   }
   .screen-text.done::after { display:none; }
   @keyframes caretBlink { 50% { opacity:0; } }
@@ -1168,6 +1193,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      six components this is built from (background, scan beams, signal
      waveform, aim reticle, detector shell, camera).
      ══════════════════════════════════════════════════════════════════════ -->
+<div class="palette-switch" id="paletteSwitch" aria-label="Palette">
+  <button type="button" data-palette="A" aria-pressed="true">A 深松绿</button>
+  <button type="button" data-palette="B" aria-pressed="false">B 鼠尾草</button>
+  <button type="button" data-palette="C" aria-pressed="false">C 深常青</button>
+</div>
+<script>
+(function () {
+  const root = document.documentElement, sw = document.getElementById('paletteSwitch');
+  function apply(p) {
+    root.setAttribute('data-palette', p);
+    sw.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.palette === p)));
+    try { localStorage.setItem('palette', p); } catch (e) {}
+  }
+  let saved = 'A'; try { saved = localStorage.getItem('palette') || 'A'; } catch (e) {}
+  apply(saved);
+  sw.addEventListener('click', e => { const b = e.target.closest('button'); if (b) apply(b.dataset.palette); });
+})();
+</script>
 <section id="hero" class="cave-scene">
 
   <!-- 1. Background: faceted lavender rock wall in three parallax layers.
@@ -1176,21 +1219,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        right, and a darker foot at bottom-left. -->
   <div class="cave-bg" id="caveBg">
     <svg class="cave-layer cave-far" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="1600" height="900" fill="#3F8A8C"/>
-      <polygon points="380,0 1240,0 1300,300 1340,900 300,900 120,300" fill="#4F9DA0"/>
-      <polygon points="640,0 1240,0 1300,300 920,640 540,440" fill="#5FAEB1"/>
-      <polygon points="1240,0 1600,0 1600,900 1340,900 1300,300" fill="#2E6B70"/>
-      <polygon points="1450,0 1600,0 1600,620" fill="#25595F"/>
-      <polygon points="300,0 640,0 420,340 120,300" fill="#234F55"/>
-      <polygon points="0,0 300,0 120,300 0,330" fill="#0E262B"/>
+      <rect width="1600" height="900" style="fill:var(--p-rock-far-0)"/>
+      <polygon points="380,0 1240,0 1300,300 1340,900 300,900 120,300" style="fill:var(--p-rock-far-1)"/>
+      <polygon points="640,0 1240,0 1300,300 920,640 540,440" style="fill:var(--p-rock-far-2)"/>
+      <polygon points="1240,0 1600,0 1600,900 1340,900 1300,300" style="fill:var(--p-rock-far-3)"/>
+      <polygon points="1450,0 1600,0 1600,620" style="fill:var(--p-rock-far-4)"/>
+      <polygon points="300,0 640,0 420,340 120,300" style="fill:var(--p-rock-far-5)"/>
+      <polygon points="0,0 300,0 120,300 0,330" style="fill:var(--p-rock-far-6)"/>
     </svg>
     <svg class="cave-layer cave-mid" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <polygon points="0,330 120,300 300,900 0,900" fill="#33767B"/>
-      <polygon points="700,60 1160,40 1220,300 900,520" fill="#78BFC2" opacity="0.55"/>
+      <polygon points="0,330 120,300 300,900 0,900" style="fill:var(--p-rock-mid-0)"/>
+      <polygon points="700,60 1160,40 1220,300 900,520" style="fill:var(--p-rock-mid-1)" opacity="0.55"/>
     </svg>
     <svg class="cave-layer cave-near" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <polygon points="0,790 1600,770 1600,900 0,900" fill="#3A797E"/>
-      <polygon points="1340,900 1360,700 1600,660 1600,900" fill="#2A5C62"/>
+      <polygon points="0,790 1600,770 1600,900 0,900" style="fill:var(--p-rock-near-0)"/>
+      <polygon points="1340,900 1360,700 1600,660 1600,900" style="fill:var(--p-rock-near-1)"/>
     </svg>
   </div>
 
@@ -1202,14 +1245,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <feGaussianBlur stdDeviation="7"/>
       </filter>
       <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="-40" y1="165" x2="785" y2="300">
-        <stop offset="0" stop-color="#C2FBFF" stop-opacity="0.95"/>
-        <stop offset="0.72" stop-color="#7FE9F0" stop-opacity="0.9"/>
-        <stop offset="1" stop-color="#7FE9F0" stop-opacity="0"/>
+        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
+        <stop offset="0.72" style="stop-color:var(--p-beam)" stop-opacity="0.9"/>
+        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0"/>
       </linearGradient>
       <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="-40" y1="500" x2="645" y2="420">
-        <stop offset="0" stop-color="#C2FBFF" stop-opacity="0.95"/>
-        <stop offset="0.72" stop-color="#7FE9F0" stop-opacity="0.9"/>
-        <stop offset="1" stop-color="#7FE9F0" stop-opacity="0"/>
+        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
+        <stop offset="0.72" style="stop-color:var(--p-beam)" stop-opacity="0.9"/>
+        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0"/>
       </linearGradient>
     </defs>
     <g class="scan-beam beam-a">
@@ -1231,8 +1274,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <feGaussianBlur stdDeviation="4"/>
       </filter>
     </defs>
-    <path class="waveform-path waveform-glow" id="waveformGlow" fill="none" stroke="#A3EEF3" stroke-width="7" opacity="0.5" filter="url(#waveGlow)"/>
-    <path class="waveform-path" id="waveformPath" fill="none" stroke="#EEFDFF" stroke-width="1.6" stroke-linejoin="round"/>
+    <path class="waveform-path waveform-glow" id="waveformGlow" fill="none" style="stroke:var(--p-wave-glow)" stroke-width="7" opacity="0.5" filter="url(#waveGlow)"/>
+    <path class="waveform-path" id="waveformPath" fill="none" style="stroke:var(--p-wave-core)" stroke-width="1.6" stroke-linejoin="round"/>
   </svg>
 
   <!-- 4. Aim reticle (sits between the two circles, like the reference) -->
@@ -1256,8 +1299,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="detector-camera" id="detectorCamera">
       <svg class="cam-base" viewBox="0 0 100 36" aria-hidden="true">
         <ellipse cx="50" cy="30" rx="44" ry="5" fill="rgba(0,0,0,0.28)"/>
-        <rect x="26" y="10" width="48" height="16" rx="5" fill="#1C363E"/>
-        <rect x="26" y="10" width="48" height="5" rx="2.5" fill="#2B4F58"/>
+        <rect x="26" y="10" width="48" height="16" rx="5" style="fill:var(--p-navy-0)"/>
+        <rect x="26" y="10" width="48" height="5" rx="2.5" style="fill:var(--p-navy-3)"/>
       </svg>
       <div class="cam-head" id="camHead">
         <div class="cam-face cam-front">
@@ -1275,8 +1318,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Cable: leaves the camera base, loops once, and drops BEHIND the
          board at its top-right corner (z-index below the shell). -->
     <svg class="detector-cable" viewBox="0 0 140 160" aria-hidden="true">
-      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" stroke="#152C33" stroke-width="12" stroke-linecap="round"/>
-      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" stroke="#375A64" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" style="stroke:var(--p-cable-0)" stroke-width="12" stroke-linecap="round"/>
+      <path d="M62,8 C110,4 132,40 118,72 C106,100 66,96 60,124 C57,140 60,150 64,160" fill="none" style="stroke:var(--p-cable-1)" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
     </svg>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
     <div class="detector-drum drum-right" aria-hidden="true"></div>
@@ -3458,7 +3501,7 @@ if (location.hash === '#projects') {
     const circle = document.createElementNS(svgNS, 'path');
     circle.setAttribute('d', scribbleCircle(cx, cy, r, 16, seedOffset));
     circle.setAttribute('fill', 'none');
-    circle.setAttribute('stroke', '#7FE9F0');
+    circle.style.stroke = 'var(--p-beam)';
     circle.setAttribute('stroke-width', '0.15');
     g.appendChild(circle);
     for (let i = 0; i < beamCount; i++) {
@@ -3471,7 +3514,7 @@ if (location.hash === '#projects') {
       const line = document.createElementNS(svgNS, 'line');
       line.setAttribute('x1', x1.toFixed(2)); line.setAttribute('y1', y1.toFixed(2));
       line.setAttribute('x2', x2.toFixed(2)); line.setAttribute('y2', y2.toFixed(2));
-      line.setAttribute('stroke', '#7FE9F0');
+      line.setAttribute('stroke', 'var(--p-beam)');
       line.setAttribute('stroke-width', '0.12');
       line.setAttribute('stroke-linecap', 'round');
       g.appendChild(line);
