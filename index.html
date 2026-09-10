@@ -261,19 +261,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --cam-w:clamp(60px, 5.6vw, 76px);
     --cam-h:calc(var(--cam-w) * 0.8);
     --cam-d:calc(var(--cam-w) * 1.9);
-    position:absolute; right:-3%; bottom:calc(100% - 4px); z-index:3;
+    position:absolute; right:1%; bottom:calc(100% - 4px); z-index:3;
     width:var(--cam-w); height:var(--cam-h);
-    perspective:800px; perspective-origin:50% 50%;
+    perspective:1100px; perspective-origin:50% 50%;
   }
+  /* clamp arm centered on the pivot: the pin (svg y=20/80) lines up with the
+     head's transform-origin (60% of --cam-h) */
   .cam-mount {
-    position:absolute; left:14%; top:35%; z-index:2;
+    position:absolute; left:21%; top:40%; z-index:2;
     width:58%; height:auto; display:block; overflow:visible; pointer-events:none;
   }
   .cam-head {
     position:absolute; left:0; top:0; z-index:1;
     width:var(--cam-w); height:var(--cam-h);
     transform-style:preserve-3d;
-    transform-origin:50% 60% calc(var(--cam-d) / -2);
+    transform-origin:50% 60% 0; /* pivot on the side pin at mid-body */
     transform:rotateY(202deg) rotateX(16deg);
     will-change:transform;
   }
@@ -1256,10 +1258,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
          direction. The narrow FRONT tip (cobalt wedge + navy clip) aims into
          the scene; the BACK end (hazard-framed port + cable) faces the
          viewer. It pivots at the back end and JS yaws it to look toward the
-         cursor: cursor left => tip swings up-left, cursor right => up-right. -->
+         cursor: cursor left => tip swings up-left, cursor right => up-right.
+         It pivots on the side-mounted pin at the middle of the body. -->
     <div class="detector-camera" id="detectorCamera">
-      <!-- Mount: a tall navy clamp arm hugging the board's corner, with a
-           round pivot pin the head turns on and a small wedge at its foot. -->
+      <!-- Mount: a navy clamp arm gripping the barrel's side at mid-body
+           (the pivot pin sits on the side face), running down to the
+           board's corner with a small wedge at its foot. -->
       <svg class="cam-mount" viewBox="0 0 70 80" aria-hidden="true">
         <path d="M18,12 Q18,2 28,2 L42,2 Q52,2 52,12 L52,66 Q52,72 46,72 L24,72 Q18,72 18,66 Z" style="fill:var(--p-navy-1)"/>
         <path d="M21,14 Q21,6 29,6 L33,6 L33,70 L24,70 Q21,70 21,66 Z" style="fill:var(--p-navy-3)" opacity="0.5"/>
