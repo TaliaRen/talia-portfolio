@@ -2658,6 +2658,7 @@ document.addEventListener('mousemove', e => {
   // perspective-projected (f = 1100px, origin at the box centre) and
   // written to <path>s. Neighbouring faces reuse the same corner points.
   const CAM_F = 1100, CAM_R = 0.07; // perspective distance, corner radius (× w)
+  const CAM_TAPER = 0.75;            // near end (lens) cross-section vs the far tip (1 = no taper)
   const camFaceDefs = [
     { id:'front',  n:[0,0,1],  fill:'var(--p-cam-front)',      pts:(w,h,d)=>[[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,h/2,d/2],[-w/2,h/2,d/2]] },
     { id:'back',   n:[0,0,-1], fill:'url(#camGradBack)',       pts:(w,h,d)=>[[w/2,-h/2,-d/2],[-w/2,-h/2,-d/2],[-w/2,h/2,-d/2],[w/2,h/2,-d/2]] },
@@ -2714,7 +2715,10 @@ document.addEventListener('mousemove', e => {
       return [x * cy_ + z1 * sy_, y1, -x * sy_ + z1 * cy_];
     };
     const proj = ([x, y, z]) => {
-      const [rx, ry, rz] = rot([x, y - oy, z]);
+      // frustum: cross-section shrinks linearly from the tip (z=+d/2, ×1)
+      // to the lens end (z=-d/2, ×CAM_TAPER), so the near end looks smaller
+      const k = CAM_TAPER + (1 - CAM_TAPER) * ((z + d / 2) / d);
+      const [rx, ry, rz] = rot([x * k, y * k - oy, z]);
       const s = CAM_F / (CAM_F - rz);
       return [cx + rx * s, cy + (ry + oy) * s, rz];
     };
