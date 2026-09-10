@@ -289,11 +289,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       inset 0 -3px 0 rgba(0,0,0,0.08),
       0 12px 0 var(--p-shell-edge),
       0 32px 44px rgba(0,0,0,0.45);
-    animation:detectorFloat 4.5s ease-in-out infinite;
-  }
-  @keyframes detectorFloat {
-    0%,100% { transform:rotateX(9deg) translateY(0); }
-    50%     { transform:rotateX(9deg) translateY(-4px); }
+    transform:rotateX(9deg); /* static: the board and camera stay put, only the background moves */
   }
   .detector-corner {
     position:absolute; bottom:-16px; width:38px; height:30px;
