@@ -269,32 +269,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; top:0; height:100%;
     border-radius:999px;
     background:linear-gradient(to right, var(--p-cam-back-0) 0%, var(--p-cam-side-1) 55%, var(--p-cam-bottom) 100%);
-    box-shadow:inset 0 3px 0 rgba(255,255,255,0.5), inset 0 -5px 8px rgba(0,0,0,0.22), 0 8px 16px rgba(0,0,0,0.4);
+    box-shadow:0 8px 16px rgba(0,0,0,0.35);
   }
   .pod-body.flip {
     background:linear-gradient(to left, var(--p-cam-back-0) 0%, var(--p-cam-side-1) 55%, var(--p-cam-bottom) 100%);
   }
   .pod-slit {
     position:absolute; width:14%; height:4px; border-radius:2px;
-    background:var(--p-beam); box-shadow:0 0 6px var(--p-beam);
+    background:var(--p-beam);
   }
   /* lens: dark outer ring, pale bezel, deep glass, glowing core */
   .pod-lens {
     position:absolute; top:50%; border-radius:50%;
     background:var(--p-navy-0);
-    box-shadow:inset 0 0 0 3px var(--p-cam-side-3), 0 0 0 1px rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.35);
     display:flex; align-items:center; justify-content:center;
   }
   .pod-glass {
     width:72%; height:72%; border-radius:50%;
-    background:radial-gradient(circle at 42% 38%, #17362F 0%, #06120F 70%);
-    box-shadow:inset 0 0 0 2px rgba(255,255,255,0.08), 0 0 0 2px var(--p-beam);
+    background:#06120F;
     display:flex; align-items:center; justify-content:center;
   }
   .pod-core {
     width:46%; height:46%; border-radius:50%;
-    background:radial-gradient(circle at 40% 38%, #FFFFFF 0%, var(--p-beam-hi) 30%, var(--p-beam) 62%, rgba(138,211,172,0) 100%);
-    box-shadow:0 0 10px var(--p-beam), 0 0 22px rgba(var(--p-glow-rgb), 0.55);
+    background:radial-gradient(circle, var(--p-beam-hi) 0%, var(--p-beam) 55%, rgba(138,211,172,0) 100%);
+    box-shadow:0 0 12px rgba(var(--p-glow-rgb), 0.45);
     animation:podCore 3s ease-in-out infinite;
   }
   @keyframes podCore { 0%,100% { transform:scale(1); opacity:.95; } 50% { transform:scale(1.12); opacity:1; } }
@@ -307,13 +305,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pod-joint {
     position:absolute; left:50%; top:calc(var(--pod-h) + 2px); transform:translateX(-50%);
     width:calc(var(--pod-w) * 0.2); height:calc(var(--pod-w) * 0.2); border-radius:50%;
-    background:radial-gradient(circle at 38% 34%, var(--p-navy-3) 0%, var(--p-navy-0) 55%, var(--p-navy-2) 100%);
-    box-shadow:0 4px 8px rgba(0,0,0,0.45);
+    background:var(--p-navy-0);
   }
   .pod-joint::after {
-    content:''; position:absolute; inset:28%; border-radius:50%;
-    border:2px solid var(--p-beam); box-shadow:0 0 6px var(--p-beam), inset 0 0 4px var(--p-beam);
-    background:#06120F;
+    content:''; position:absolute; inset:34%; border-radius:50%;
+    background:var(--p-beam); opacity:.8;
   }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
