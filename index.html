@@ -1184,7 +1184,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <linearGradient id="camGradLeft"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-0)"/><stop offset="0.7" style="stop-color:var(--p-cam-side-1)"/><stop offset="1" style="stop-color:var(--p-cam-side-2)"/></linearGradient>
           <linearGradient id="camGradRight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-3)"/><stop offset="1" style="stop-color:var(--p-cam-side-4)"/></linearGradient>
         </defs>
-        <g id="camFaces"></g>
+        <g id="camStrokes"></g><!-- rounding strokes: silhouette only -->
+        <g id="camFaces"></g><!-- seam-to-seam fills + clipped details -->
       </svg>
     </div>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
@@ -2682,21 +2683,34 @@ document.addEventListener('mousemove', e => {
     // flat navy lens panel on the back, inset evenly
     { face:'back', fill:'var(--p-navy-1)',  r:0.04, pts:(w,h,d)=>[[0.33*w,-0.34*h,-d/2],[-0.33*w,-0.34*h,-d/2],[-0.33*w,0.34*h,-d/2],[0.33*w,0.34*h,-d/2]] },
   ];
-  // one <path> per face / detail, created once
+  // Elements, created once. Per face: a stroke-only path (in the stroke
+  // layer, drawn under everything so it only shows outside the silhouette
+  // and rounds the outer corners), a fill-only path (exact shared vertices
+  // => seamless, never overlapping), and a clip so the face's surface
+  // details can't bleed onto neighbouring faces.
+  const camStrokes = document.getElementById('camStrokes');
   const camPaths = new Map();
-  if (camFaces) {
+  const svgEl = tag => document.createElementNS('http://www.w3.org/2000/svg', tag);
+  if (camFaces && camStrokes) {
     camFaceDefs.forEach(f => {
-      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      p.setAttribute('fill', f.fill); p.setAttribute('stroke', f.fill);
-      g.appendChild(p); camFaces.appendChild(g);
-      camPaths.set(f.id, { g, p, details: [] });
+      const sp = svgEl('path');
+      sp.setAttribute('fill', 'none'); sp.setAttribute('stroke', f.fill);
+      camStrokes.appendChild(sp);
+      const g = svgEl('g');
+      const fp = svgEl('path');
+      fp.setAttribute('fill', f.fill); fp.setAttribute('stroke', 'none');
+      const clip = svgEl('clipPath'); clip.id = 'camClip-' + f.id;
+      const cp = svgEl('path'); clip.appendChild(cp);
+      const dg = svgEl('g'); dg.setAttribute('clip-path', `url(#camClip-${f.id})`);
+      g.appendChild(clip); g.appendChild(fp); g.appendChild(dg);
+      camFaces.appendChild(g);
+      camPaths.set(f.id, { g, sp, fp, cp, dg, details: [] });
     });
     camDetailDefs.forEach(dd => {
-      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const p = svgEl('path');
       p.setAttribute('fill', dd.fill); p.setAttribute('stroke', dd.fill);
       const entry = camPaths.get(dd.face);
-      entry.g.appendChild(p); entry.details.push({ def:dd, p });
+      entry.dg.appendChild(p); entry.details.push({ def:dd, p });
     });
   }
   function renderCam(yawDeg, pitchDeg) {
@@ -2714,31 +2728,48 @@ document.addEventListener('mousemove', e => {
       const y1 = y * cp - z * sp, z1 = y * sp + z * cp;
       return [x * cy_ + z1 * sy_, y1, -x * sy_ + z1 * cy_];
     };
-    const proj = ([x, y, z]) => {
-      // frustum: cross-section shrinks linearly from the tip (z=+d/2, ×1)
-      // to the lens end (z=-d/2, ×CAM_TAPER), so the near end looks smaller
+    // local (tapered) point -> view space, same frame the eye sits in
+    const view = ([x, y, z]) => {
       const k = CAM_TAPER + (1 - CAM_TAPER) * ((z + d / 2) / d);
       const [rx, ry, rz] = rot([x * k, y * k - oy, z]);
-      const s = CAM_F / (CAM_F - rz);
-      return [cx + rx * s, cy + (ry + oy) * s, rz];
+      return [rx, ry + oy, rz];
+    };
+    const proj = ([vx, vy, vz]) => {
+      const s = CAM_F / (CAM_F - vz);
+      return [cx + vx * s, cy + vy * s, vz];
     };
     const pathD = pts => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(2) + ',' + p[1].toFixed(2)).join(' ') + ' Z';
     const order = [];
     camFaceDefs.forEach(f => {
       const entry = camPaths.get(f.id);
-      const nz = rot(f.n)[2];
-      if (nz <= 0.02) { entry.g.style.display = 'none'; return; }
-      entry.g.style.display = '';
-      const pts = f.pts(w, h, d).map(proj);
-      entry.p.setAttribute('d', pathD(pts));
-      entry.p.setAttribute('stroke-width', (2 * CAM_R * w).toFixed(2));
+      // true visibility: outward normal of the *actual* (tapered, rotated)
+      // face tested against the eye at (0,0,CAM_F), so a face is never
+      // drawn while it's turned away (that was the "穿模")
+      const vp = f.pts(w, h, d).map(view);
+      const ux = vp[1][0] - vp[0][0], uy = vp[1][1] - vp[0][1], uz = vp[1][2] - vp[0][2];
+      const vx = vp[3][0] - vp[0][0], vy = vp[3][1] - vp[0][1], vz = vp[3][2] - vp[0][2];
+      let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+      const rn = rot(f.n);                     // orient the cross product outward
+      if (nx * rn[0] + ny * rn[1] + nz * rn[2] < 0) { nx = -nx; ny = -ny; nz = -nz; }
+      const ex = -vp[0][0], ey = -vp[0][1], ez = CAM_F - vp[0][2];
+      const visible = nx * ex + ny * ey + nz * ez > 0;
+      entry.g.style.display = visible ? '' : 'none';
+      entry.sp.style.display = visible ? '' : 'none';
+      if (!visible) return;
+      const pts = vp.map(proj);
+      const dpath = pathD(pts);
+      entry.fp.setAttribute('d', dpath);
+      entry.cp.setAttribute('d', dpath);
+      entry.sp.setAttribute('d', dpath);
+      entry.sp.setAttribute('stroke-width', (2 * CAM_R * w).toFixed(2));
       entry.details.forEach(({ def, p }) => {
-        p.setAttribute('d', pathD(def.pts(w, h, d).map(proj)));
+        p.setAttribute('d', pathD(def.pts(w, h, d).map(view).map(proj)));
         p.setAttribute('stroke-width', (2 * def.r * w).toFixed(2));
       });
-      order.push({ g: entry.g, depth: pts.reduce((a, p) => a + p[2], 0) / pts.length });
+      order.push({ entry, depth: pts.reduce((a, p) => a + p[2], 0) / pts.length });
     });
-    order.sort((a, b) => a.depth - b.depth).forEach(o => camFaces.appendChild(o.g)); // far → near
+    // far -> near, applied to both layers so silhouette strokes stay consistent
+    order.sort((a, b) => a.depth - b.depth).forEach(o => { camStrokes.appendChild(o.entry.sp); camFaces.appendChild(o.entry.g); });
   }
   renderCam(camYaw, camPitch);
   window.addEventListener('resize', () => renderCam(camYaw, camPitch));
