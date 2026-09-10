@@ -213,6 +213,158 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:959px) { #hero { padding:80px 20px 0; } }
   @media (max-width:559px) { #hero { padding:80px 16px 0; } }
 
+  /* ══════════════════════════════════════════════════════════════════
+     Cave scanner hero scene — six layers, all vector/CSS, no images.
+     Toggle: .cave-scene.paused (via the RS button) dims/stills layers
+     2 & 3 (beams, waveform) without touching layout.
+     ══════════════════════════════════════════════════════════════════ */
+  #hero.cave-scene {
+    display:block; padding:0; overflow:hidden;
+    background:#1B1330;
+  }
+
+  /* ── 1. Background: three parallax rock layers ── */
+  .cave-bg { position:absolute; inset:0; z-index:0; }
+  .cave-layer {
+    position:absolute; inset:-4%; width:108%; height:108%; display:block;
+    will-change:transform; transition:transform 0.2s ease-out;
+  }
+  .cave-far { z-index:1; opacity:0.9; }
+  .cave-mid { z-index:2; }
+  .cave-near { z-index:3; }
+
+  /* ── 2. Scan beams ── */
+  .scan-beams { position:absolute; inset:0; z-index:4; pointer-events:none; }
+  .scan-beam { transform-box:fill-box; transform-origin:0% 50%; animation:beamSweep 5s ease-in-out infinite; }
+  .beam-b { animation-delay:-2.5s; }
+  @keyframes beamSweep {
+    0%   { transform:rotate(-2.4deg); opacity:0.55; }
+    48%  { opacity:0.55; }
+    50%  { transform:rotate(0deg); opacity:1; }
+    52%  { opacity:0.55; }
+    100% { transform:rotate(2.4deg); opacity:0.55; }
+  }
+  .cave-scene.paused .scan-beam { animation-play-state:paused; opacity:0.12; transition:opacity 0.6s ease; }
+
+  /* ── 3. Signal waveform ── */
+  .signal-waveform { position:absolute; inset:0; z-index:4; pointer-events:none; }
+  .waveform-path { stroke-dasharray:2400; stroke-dashoffset:2400; animation:waveformDraw 2.6s ease-out forwards; }
+  @keyframes waveformDraw { to { stroke-dashoffset:0; } }
+  .cave-scene.paused .waveform-path { opacity:0.25; transition:opacity 0.6s ease; }
+
+  /* ── 4. Center aim reticle ── */
+  .reticle {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    z-index:6; width:clamp(48px,6vw,64px); height:clamp(48px,6vw,64px);
+    animation:reticleBreathe 3.2s ease-in-out infinite;
+  }
+  @keyframes reticleBreathe {
+    0%,100% { transform:translate(-50%,-50%) scale(1); }
+    50%     { transform:translate(-50%,-50%) scale(1.05); }
+  }
+  .reticle-corner {
+    position:absolute; width:14px; height:14px;
+    border:2px solid rgba(255,255,255,0.75);
+    transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .rc-tl { top:0; left:0; border-right:none; border-bottom:none; }
+  .rc-tr { top:0; right:0; border-left:none; border-bottom:none; }
+  .rc-bl { bottom:0; left:0; border-right:none; border-top:none; }
+  .rc-br { bottom:0; right:0; border-left:none; border-top:none; }
+  .reticle.locked .rc-tl { top:8px; left:8px; }
+  .reticle.locked .rc-tr { top:8px; right:8px; }
+  .reticle.locked .rc-bl { bottom:8px; left:8px; }
+  .reticle.locked .rc-br { bottom:8px; right:8px; }
+  .reticle-rs {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(10,10,20,0.55);
+    border:1.5px solid rgba(255,255,255,0.6);
+    color:#fff; font-family:'Figtree',sans-serif; font-size:.55rem; font-weight:600;
+    cursor:pointer; pointer-events:auto;
+  }
+  .reticle-label {
+    position:absolute; left:calc(100% + 12px); top:50%; transform:translateY(-50%);
+    white-space:nowrap;
+    font-family:'Figtree',sans-serif; font-size:.95rem; color:rgba(255,255,255,0.7);
+    transition:color 0.3s ease, text-shadow 0.3s ease;
+  }
+  .reticle.locked .reticle-label { color:#fff; text-shadow:0 0 12px rgba(127,230,245,0.8); }
+  .reticle.pulse .reticle-rs { animation:reticlePulse 0.5s ease; }
+  @keyframes reticlePulse {
+    0%   { box-shadow:0 0 0 0 rgba(127,230,245,0.7); }
+    100% { box-shadow:0 0 0 16px rgba(127,230,245,0); }
+  }
+
+  /* ── 5 & 6. Detector shell + camera ── */
+  .detector {
+    position:absolute; left:50%; bottom:0; z-index:8;
+    width:min(640px, 70vw);
+    transform:translate(-50%, 14%);
+    transition:transform 1s cubic-bezier(0.22,1,0.36,1);
+  }
+  .cave-scene.loaded .detector { transform:translate(-50%, 0%); }
+  .detector-camera {
+    position:absolute; right:6%; bottom:100%; width:78px; margin-bottom:-8px;
+    transform-origin:50% 90%;
+    /* rotation is driven by JS every frame (idle scan + mouse influence + lock-on) */
+    filter:drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+  }
+  .camera-lens-dot { opacity:0; transition:opacity 0.3s ease; }
+  .cave-scene:not(.paused) .camera-lens-dot { opacity:1; }
+  .detector-body {
+    position:relative;
+    background:linear-gradient(180deg, #E7E4F5 0%, #C7C2E6 100%);
+    border-radius:22px 22px 10px 10px;
+    padding:14px;
+    box-shadow:0 -4px 0 rgba(255,255,255,0.25) inset, 0 18px 40px rgba(0,0,0,0.45);
+    animation:detectorFloat 4.5s ease-in-out infinite;
+  }
+  @keyframes detectorFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+  .detector-corner { position:absolute; width:18px; height:22px; background:#2E2A46; border-radius:4px; }
+  .dc-tl { top:-6px; left:6%; }
+  .dc-tr { top:-6px; right:6%; }
+  .dc-bl { bottom:-10px; left:2%; }
+  .dc-br { bottom:-10px; right:2%; }
+  .detector-screen {
+    position:relative; overflow:hidden;
+    background:radial-gradient(ellipse at 50% 30%, #123456 0%, #061421 70%);
+    border-radius:12px; padding:22px 30px; min-height:110px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:inset 0 0 24px rgba(0,0,0,0.6);
+    animation:screenFlicker 5s linear infinite;
+    transition:filter 0.6s ease;
+  }
+  @keyframes screenFlicker { 0%,96%,100% { filter:brightness(1); } 97% { filter:brightness(1.06); } 98% { filter:brightness(0.97); } }
+  .cave-scene.paused .detector-screen { filter:brightness(0.6) saturate(0.6); }
+  .screen-scanlines {
+    position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 2px, transparent 4px);
+  }
+  .screen-text {
+    font-family:'Courier New', monospace; font-size:.85rem; letter-spacing:.02em;
+    color:#7FE6F5; text-shadow:0 0 8px rgba(127,230,245,0.85);
+    text-align:center; line-height:1.6; margin:0; min-height:2.6em;
+  }
+  .screen-text::after {
+    content:''; display:inline-block; width:6px; height:1em; margin-left:2px;
+    background:#7FE6F5; vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
+  }
+  .screen-text.done::after { display:none; }
+  @keyframes caretBlink { 50% { opacity:0; } }
+  .detector-base { height:14px; margin:0 4%; background:#1A1730; border-radius:0 0 10px 10px; }
+
+  @media (max-width:640px) {
+    .detector { width:88vw; }
+    .reticle-label { font-size:.8rem; }
+    .screen-text { font-size:.72rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cave-layer, .scan-beam, .reticle, .detector-camera, .detector-body, .detector-screen {
+      animation:none !important; transition:none !important;
+    }
+  }
+
   .selected-works-title {
     font-family:'Cormorant Infant', Georgia, serif;
     font-style:italic;
@@ -974,23 +1126,94 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<section id="hero">
-  <div id="puzzle-wrap"></div>
-  <div id="puzzle-hint">- Drag to piece it together -</div>
-  <div id="static-hero">
-    <p id="static-notice">For the full interactive experience, visit on a desktop browser</p>
-    <div id="static-text">
-      <p>I design products like doing a jigsaw puzzle</p>
-      <h1>Starting from ambiguity, navigating constraints, and building products 0 → 1</h1>
-    </div>
-    <img class="static-sticker" src="hero picture/about.webp"       style="top:28%; left:2%; width:clamp(64px,16vw,108px);"   alt="">
-    <img class="static-sticker" src="hero picture/journey.webp"     style="top:24%; right:2%; width:clamp(64px,16vw,108px);"  alt="">
-    <img class="static-sticker" src="hero picture/music.webp"       style="top:62%; left:1%; width:clamp(40px,10vw,66px);"   alt="">
-    <img class="static-sticker" src="hero picture/contact.webp"     style="top:65%; left:26%;"   alt="">
-    <img class="static-sticker" src="hero picture/location.webp"    style="top:67%; left:58%;"   alt="">
-    <img class="static-sticker" src="hero picture/school.webp"      style="top:65%; right:1%;"   alt="">
-    <img class="static-sticker" src="hero picture/vibe coding.webp" style="top:20%; left:36%; width:clamp(64px,16vw,108px);"  alt="">
+<!-- ══════════════════════════════════════════════════════════════════════
+     Hero: "Nomai cave scanner" scene — every visual layer is drawn with
+     plain SVG/CSS (no image assets). See the <style> block above the
+     .cave-* / .scan-* / .signal-* / .reticle-* / .detector-* rules, and
+     the "Cave scanner scene" <script> near the end of the file, for the
+     six components this is built from (background, scan beams, signal
+     waveform, aim reticle, detector shell, camera).
+     ══════════════════════════════════════════════════════════════════════ -->
+<section id="hero" class="cave-scene">
+
+  <!-- 1. Background: three parallax rock layers (far/mid/near) -->
+  <div class="cave-bg" id="caveBg">
+    <svg class="cave-layer cave-far" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <polygon points="0,0 1600,0 1600,260 1180,180 760,300 320,140 0,240" fill="#2A2350"/>
+      <polygon points="1600,0 1600,900 1420,900 1360,420 1600,260" fill="#241F46"/>
+    </svg>
+    <svg class="cave-layer cave-mid" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <polygon points="0,120 380,60 640,200 900,90 1180,220 1460,80 1600,140 1600,900 0,900" fill="#332A5C"/>
+      <polygon points="0,900 0,520 160,440 260,900" fill="#2C2450"/>
+      <polygon points="1600,900 1600,500 1480,420 1400,900" fill="#2C2450"/>
+    </svg>
+    <svg class="cave-layer cave-near" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <polygon points="0,900 0,300 90,260 210,360 120,900" fill="#221C40"/>
+      <polygon points="1600,900 1600,260 1500,220 1360,340 1470,900" fill="#221C40"/>
+      <polygon points="560,900 560,780 900,760 900,900" fill="#251F45"/>
+    </svg>
   </div>
+
+  <!-- 2. Scan beams: two sweeping cyan lines converging on the reticle -->
+  <svg class="scan-beams" id="scanBeams" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <filter id="beamGlow" x="-60%" y="-200%" width="220%" height="500%">
+        <feGaussianBlur stdDeviation="5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <line class="scan-beam beam-a" x1="-40" y1="260" x2="800" y2="430" stroke="#7FE6F5" stroke-width="4" filter="url(#beamGlow)"/>
+    <line class="scan-beam beam-b" x1="-40" y1="620" x2="800" y2="470" stroke="#7FE6F5" stroke-width="4" filter="url(#beamGlow)"/>
+  </svg>
+
+  <!-- 3. Signal waveform: connected jittering scribble-circles -->
+  <svg class="signal-waveform" id="signalWaveform" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <filter id="waveGlow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <path class="waveform-path" id="waveformPath" fill="none" stroke="#B9AEF0" stroke-width="2" filter="url(#waveGlow)"/>
+  </svg>
+
+  <!-- 4. Center aim reticle -->
+  <div class="reticle" id="reticle">
+    <span class="reticle-corner rc-tl"></span>
+    <span class="reticle-corner rc-tr"></span>
+    <span class="reticle-corner rc-bl"></span>
+    <span class="reticle-corner rc-br"></span>
+    <button class="reticle-rs" id="reticleRS" aria-label="Toggle scan">RS</button>
+    <span class="reticle-label" id="reticleLabel">Aim Translator</span>
+  </div>
+
+  <!-- 5 & 6. Bottom detector shell (screen + typewriter text) and its camera -->
+  <div class="detector" id="detector">
+    <div class="detector-camera" id="detectorCamera">
+      <svg viewBox="0 0 80 60" aria-hidden="true">
+        <rect x="6" y="18" width="52" height="30" rx="8" fill="#EDEFF6"/>
+        <rect x="6" y="18" width="52" height="10" rx="5" fill="#3B4A7A"/>
+        <rect x="52" y="22" width="20" height="22" rx="4" fill="#E7893A"/>
+        <rect x="55" y="26" width="14" height="3" fill="#2A2340"/>
+        <rect x="55" y="33" width="14" height="3" fill="#2A2340"/>
+        <circle class="camera-lens" cx="28" cy="33" r="11" fill="#12233F"/>
+        <circle class="camera-lens-ring" cx="28" cy="33" r="11" fill="none" stroke="#8FD9F0" stroke-width="1.5"/>
+        <circle class="camera-lens-dot" cx="28" cy="33" r="3.2" fill="#7FE6F5"/>
+      </svg>
+    </div>
+    <div class="detector-body">
+      <div class="detector-corner dc-tl"></div>
+      <div class="detector-corner dc-tr"></div>
+      <div class="detector-corner dc-bl"></div>
+      <div class="detector-corner dc-br"></div>
+      <div class="detector-screen">
+        <div class="screen-scanlines" aria-hidden="true"></div>
+        <p class="screen-text" id="screenText"></p>
+      </div>
+    </div>
+    <div class="detector-base" aria-hidden="true"></div>
+  </div>
+
 </section>
 
 <section id="projects">
@@ -1585,6 +1808,7 @@ document.addEventListener('mousemove', e => {
   }
 })();
 (function () {
+  if (!document.getElementById('puzzle-wrap')) return;
   const DPR = window.devicePixelRatio || 1;
   const ILLUS_BG = '#F8F4EF';
 
@@ -2330,6 +2554,154 @@ document.addEventListener('mousemove', e => {
       buildPuzzle();
     }, 250);
   });
+})();
+
+// ══════════════════════════════════════════════════════════════════════
+// Cave scanner scene: ties the six hero components together.
+//   - waveform: generates + continuously jitters the connected-circle path
+//   - typewriter: reveals the detector screen text one character at a time
+//   - pointer loop: parallax on the cave layers, camera rotation, and
+//     reticle lock-on, all driven from one rAF loop keyed off the last
+//     known mouse position
+//   - scan toggle: the RS button pauses/resumes beams + waveform
+// ══════════════════════════════════════════════════════════════════════
+(function () {
+  const scene = document.querySelector('.cave-scene');
+  if (!scene) return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── 3. Signal waveform: two overlapping scribble-circles + a branch
+  //      reaching toward the detector, redrawn with fresh jitter on a
+  //      timer so it reads as a live current rather than a static line ──
+  const waveformPath = document.getElementById('waveformPath');
+  function scribbleCircle(cx, cy, r, points, seed) {
+    let d = '';
+    for (let i = 0; i <= points; i++) {
+      const a = (i / points) * Math.PI * 2;
+      const jitter = 0.82 + 0.16 * Math.sin(a * 3 + seed) * Math.cos(a * 5 - seed);
+      const x = cx + Math.cos(a) * r * jitter;
+      const y = cy + Math.sin(a) * r * jitter;
+      d += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    }
+    return d;
+  }
+  function branchPath(x1, y1, x2, y2, segments, seed) {
+    let d = 'M' + x1.toFixed(1) + ',' + y1.toFixed(1) + ' ';
+    for (let i = 1; i <= segments; i++) {
+      const t = i / segments;
+      const jx = Math.sin(t * 11 + seed) * 14;
+      const jy = Math.cos(t * 9 - seed) * 14;
+      const x = x1 + (x2 - x1) * t + jx;
+      const y = y1 + (y2 - y1) * t + jy;
+      d += 'L' + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    }
+    return d;
+  }
+  function buildWaveform(seed) {
+    if (!waveformPath) return;
+    const d =
+      scribbleCircle(700, 400, 115, 22, seed) + ' ' +
+      scribbleCircle(830, 430, 95, 20, seed + 1.7) + ' ' +
+      branchPath(900, 460, 1150, 560, 14, seed + 3.1);
+    waveformPath.setAttribute('d', d);
+  }
+  let waveSeed = 0;
+  buildWaveform(waveSeed);
+  if (!reducedMotion) {
+    setInterval(() => {
+      if (scene.classList.contains('paused')) return;
+      waveSeed += 0.35;
+      buildWaveform(waveSeed);
+    }, 180);
+  }
+
+  // ── 5. Detector screen: typewriter reveal ──
+  const screenText = document.getElementById('screenText');
+  const MESSAGE = "SYSTEM: Aim Translator calibrated. Scanning ambient curiosity levels…";
+  if (screenText) {
+    if (reducedMotion) {
+      screenText.textContent = MESSAGE;
+      screenText.classList.add('done');
+    } else {
+      let i = 0;
+      (function typeNext() {
+        screenText.textContent = MESSAGE.slice(0, i);
+        i++;
+        if (i <= MESSAGE.length) {
+          setTimeout(typeNext, 28);
+        } else {
+          screenText.classList.add('done');
+        }
+      })();
+    }
+  }
+
+  // ── Scan toggle (RS button): pause/resume beams + waveform ──
+  const rsBtn = document.getElementById('reticleRS');
+  rsBtn?.addEventListener('click', () => {
+    scene.classList.toggle('paused');
+  });
+
+  // ── 1, 4 & 6. Pointer-driven loop: cave parallax, reticle lock-on,
+  //      camera rotation (idle scan + mouse influence + lock pause) ──
+  const caveLayers = [...document.querySelectorAll('.cave-layer')];
+  const reticle = document.getElementById('reticle');
+  const camera = document.getElementById('detectorCamera');
+  const LOCK_RADIUS = 90; // px, distance from viewport center that counts as "near the target"
+
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let locked = false;
+  const startTS = performance.now();
+
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }, { passive: true });
+
+  function frame(now) {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const cx = vw / 2, cy = vh / 2;
+    const nx = (mouseX - cx) / cx;   // -1..1
+    const ny = (mouseY - cy) / cy;   // -1..1
+
+    if (!reducedMotion) {
+      // Parallax: far/mid/near layers shift by increasing amounts
+      caveLayers.forEach((layer, i) => {
+        const amt = (i + 1) * 6; // 6 / 12 / 18 px
+        layer.style.transform = `translate(${(-nx * amt).toFixed(1)}px, ${(-ny * amt).toFixed(1)}px)`;
+      });
+    }
+
+    // Lock-on: is the cursor within LOCK_RADIUS of the reticle (viewport center)?
+    const dist = Math.hypot(mouseX - cx, mouseY - cy);
+    const nowLocked = dist < LOCK_RADIUS;
+    if (nowLocked && !locked) {
+      locked = true;
+      reticle?.classList.add('locked', 'pulse');
+      setTimeout(() => reticle?.classList.remove('pulse'), 500);
+    } else if (!nowLocked && locked) {
+      locked = false;
+      reticle?.classList.remove('locked');
+    }
+
+    // Camera: slow idle left-right scan, nudged by mouse position, and it
+    // settles to face forward (with a brief pause) once locked on
+    if (camera && !reducedMotion) {
+      const idle = Math.sin((now - startTS) / 1400) * 10;   // -10..10deg idle sweep
+      const mouseInfluence = nx * 6;                          // small extra nudge
+      const target = locked ? 0 : idle + mouseInfluence;
+      camera.dataset.rot = (parseFloat(camera.dataset.rot || '0') * 0.9 + target * 0.1).toFixed(2);
+      camera.style.transform = `rotate(${camera.dataset.rot}deg)`;
+    }
+
+    requestAnimationFrame(frame);
+  }
+  if (!reducedMotion) requestAnimationFrame(frame);
+
+  // ── Kick off the load-in: detector rises, everything else is already
+  //      animating via CSS as soon as the stylesheet applies ──
+  requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
 })();
 
 function playSound(src) {
