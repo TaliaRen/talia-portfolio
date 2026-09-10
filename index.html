@@ -254,90 +254,119 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:transform 1s cubic-bezier(0.22,1,0.36,1);
   }
   .cave-scene.loaded .detector { transform:translate(-50%, 0%); }
-  /* Camera: compact rounded block drawn in 2.5D (front face + receding
-     right side) on a hinge + base at the board's top-right corner.
-     Five layers: body, scanner, housing (right side), pivot, base.
-     All sizes derive from --cam-w so it scales with the viewport.
-     JS varies the front/side widths with the yaw so it pans toward the
-     cursor while staying a flat illustration. */
+  /* Camera: CSS 3D barrel. --cam-w/h are the cross-section, --cam-d is the
+     barrel length (= viewing axis). The head pivots at its back end via a
+     3D transform-origin; JS sets rotateY (yaw) + rotateX (pitch). */
   .detector-camera {
-    --cam-w:clamp(120px, 11vw, 152px);
-    --cam-h:calc(var(--cam-w) * 0.40);      /* body height  */
-    --cam-post:calc(var(--cam-w) * 0.16);   /* post height  */
-    --cam-base:calc(var(--cam-w) * 0.085);  /* base height  */
-    --cam-shell-0:#D4D0EE; --cam-shell-1:#B9B4DF; --cam-shell-2:#9B95CC;
-    --cam-house-0:#8781BF; --cam-house-1:#6560A3;
-    --cam-dark-0:#3B3874; --cam-dark-1:#2A2858; --cam-dark-2:#1D1B42;
-    --cam-scan-0:#0D1633; --cam-scan-1:#16265C; --cam-cyan:#5EDCEC;
-    position:absolute; right:1.5%; bottom:calc(100% - 10px); z-index:3;
-    width:var(--cam-w);
-    height:calc(var(--cam-h) + var(--cam-post) + var(--cam-base));
-    pointer-events:none;
+    --cam-w:clamp(60px, 5.6vw, 76px);
+    --cam-h:calc(var(--cam-w) * 0.8);
+    --cam-d:calc(var(--cam-w) * 1.9);
+    position:absolute; right:1%; bottom:calc(100% - 4px); z-index:3;
+    width:var(--cam-w); height:var(--cam-h);
+    perspective:1100px; perspective-origin:50% 50%;
   }
-  /* 1. body + housing share a right-anchored unit so the hinge stays attached */
-  .cam-unit {
-    position:absolute; right:calc(var(--cam-w) * 0.10); top:0;
-    height:var(--cam-h); display:flex; align-items:stretch; justify-content:flex-end;
+  .cam-head {
+    position:absolute; left:0; top:0; z-index:1;
+    width:var(--cam-w); height:var(--cam-h);
+    transform-style:preserve-3d;
+    transform-origin:50% 60% 0; /* pivot on the side pin at mid-body */
+    transform:rotateY(200deg) rotateX(16deg);
+    will-change:transform;
   }
-  .cam-body {
-    position:relative; z-index:2;
-    width:calc(var(--cam-w) * 0.70); height:100%;
-    border-radius:calc(var(--cam-w) * 0.07) 0 0 calc(var(--cam-w) * 0.07);
-    background:linear-gradient(180deg, var(--cam-shell-0) 0%, var(--cam-shell-1) 62%, var(--cam-shell-2) 100%);
-    box-shadow:inset 0 2px 0 rgba(255,255,255,0.35), inset 0 -3px 0 rgba(0,0,0,0.12);
+  /* Faces are inset by the chamfer size --cam-c on every side; 12 strips at
+     45deg fill the edges so the body reads as one solid, softened block. */
+  .cam-face {
+    --cam-c:calc(var(--cam-w) * 0.09);
+    --cam-r:4px;
+    --fw:calc(var(--cam-w) - var(--cam-c) * 2);   /* front/back width  */
+    --fh:calc(var(--cam-h) - var(--cam-c) * 2);   /* front/back height */
+    --fd:calc(var(--cam-d) - var(--cam-c) * 2);   /* side/top length   */
+    position:absolute;
+    left:calc((var(--cam-w) - var(--fw)) / 2); top:calc((var(--cam-h) - var(--fh)) / 2);
+    width:var(--fw); height:var(--fh);
+    transform-origin:50% 50%;
+    backface-visibility:hidden;
   }
-  /* soft bevel along the top-left edge */
-  .cam-body::before {
-    content:''; position:absolute; inset:0; border-radius:inherit;
-    background:linear-gradient(90deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 22%);
+  /* front tip: faces INTO the scene */
+  .cam-front {
+    transform:translateZ(calc(var(--cam-d) / 2));
+    background:var(--p-cam-front); overflow:visible;
   }
-  /* 2. scanner: one narrow, deep window across the front */
-  .cam-scanner {
-    position:absolute; left:14%; right:12%; top:38%; height:20%;
-    border-radius:999px; overflow:hidden;
-    background:linear-gradient(180deg, var(--cam-scan-0) 0%, var(--cam-scan-1) 100%);
-    box-shadow:inset 0 2px 3px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.25);
+  /* back end: faces the viewer, carries the lens panel */
+  .cam-back {
+    transform:rotateY(180deg) translateZ(calc(var(--cam-d) / 2));
+    background:linear-gradient(180deg, var(--p-cam-back-0) 0%, var(--p-cam-back-1) 100%);
+    overflow:visible;
   }
-  .cam-scanner svg { position:absolute; inset:0; width:100%; height:100%; display:block; }
-  .cam-scan-sweep { animation:camSweep 4.2s ease-in-out infinite; }
-  @keyframes camSweep { 0% { transform:translateX(-30%); } 50% { transform:translateX(100%); } 100% { transform:translateX(-30%); } }
-  .cave-scene.paused .cam-scan-sweep { animation-play-state:paused; opacity:.3; }
-  /* 3. housing: the right side face, receding as a skewed slab */
-  .cam-housing {
-    position:relative; z-index:1;
-    width:calc(var(--cam-w) * 0.20); height:100%;
-    transform:skewY(-16deg); transform-origin:0 50%;
-    border-radius:0 calc(var(--cam-w) * 0.05) calc(var(--cam-w) * 0.05) 0;
-    background:linear-gradient(180deg, var(--cam-house-0) 0%, var(--cam-house-1) 100%);
-    box-shadow:inset 0 2px 0 rgba(255,255,255,0.14), inset 0 -3px 0 rgba(0,0,0,0.18);
+  .cam-left, .cam-right {
+    width:var(--fd); left:calc((var(--cam-w) - var(--fd)) / 2);
   }
-  /* 4. pivot: hinge barrel on the body's right + post down to the base */
-  .cam-pivot {
-    position:absolute; right:0; top:calc(var(--cam-h) * 0.40);
-    width:calc(var(--cam-w) * 0.16); height:calc(var(--cam-w) * 0.13);
-    border-radius:999px; z-index:3;
-    background:linear-gradient(180deg, var(--cam-dark-0) 0%, var(--cam-dark-1) 60%, var(--cam-dark-2) 100%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);
+  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-0) 0%, var(--p-cam-side-1) 70%, var(--p-cam-side-2) 100%); }
+  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-3) 0%, var(--p-cam-side-4) 100%); }
+  .cam-top, .cam-bottom {
+    height:var(--fd); top:calc((var(--cam-h) - var(--fd)) / 2);
   }
-  .cam-pivot::before { /* hinge cap */
-    content:''; position:absolute; left:26%; top:22%; width:48%; height:56%;
-    border-radius:999px; background:var(--cam-dark-0);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.14);
+  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-top); }
+  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-bottom); }
+  /* chamfer strips: width = chamfer diagonal, centred on each edge and
+     tilted 45deg between the two faces it joins */
+  .cam-edge {
+    --cs:calc(var(--cam-c) * 1.4142);
+    --ox:calc(var(--cam-w) / 2 - var(--cam-c) / 2);
+    --oy:calc(var(--cam-h) / 2 - var(--cam-c) / 2);
+    --oz:calc(var(--cam-d) / 2 - var(--cam-c) / 2);
   }
-  .cam-pivot::after { /* post */
-    content:''; position:absolute; left:50%; top:60%; transform:translateX(-50%);
-    width:calc(var(--cam-w) * 0.075);
-    height:calc(var(--cam-h) * 0.60 + var(--cam-post) - var(--cam-w) * 0.13 * 0.6 + var(--cam-base) * 0.5);
-    background:linear-gradient(90deg, var(--cam-dark-1) 0%, var(--cam-dark-0) 45%, var(--cam-dark-2) 100%);
-    border-radius:3px;
+  /* edges running along x (front/back x top/bottom) */
+  .ce-ft, .ce-fb, .ce-bt, .ce-bb { width:var(--fw); height:var(--cs); left:calc((var(--cam-w) - var(--fw)) / 2); top:calc((var(--cam-h) - var(--cs)) / 2); }
+  .ce-ft { transform:translate3d(0, calc(var(--oy) * -1), var(--oz)) rotateX(45deg);  background:var(--p-cam-side-0); }
+  .ce-fb { transform:translate3d(0, var(--oy), var(--oz)) rotateX(-45deg);            background:var(--p-cam-side-4); }
+  .ce-bt { transform:translate3d(0, calc(var(--oy) * -1), calc(var(--oz) * -1)) rotateX(135deg);  background:var(--p-cam-side-0); }
+  .ce-bb { transform:translate3d(0, var(--oy), calc(var(--oz) * -1)) rotateX(-135deg);            background:var(--p-cam-side-4); }
+  /* edges running along y (front/back x left/right) */
+  .ce-fl, .ce-fr, .ce-bl, .ce-br { width:var(--cs); height:var(--fh); left:calc((var(--cam-w) - var(--cs)) / 2); top:calc((var(--cam-h) - var(--fh)) / 2); }
+  .ce-fl { transform:translate3d(calc(var(--ox) * -1), 0, var(--oz)) rotateY(-45deg);  background:var(--p-cam-side-1); }
+  .ce-fr { transform:translate3d(var(--ox), 0, var(--oz)) rotateY(45deg);              background:var(--p-cam-side-3); }
+  .ce-bl { transform:translate3d(calc(var(--ox) * -1), 0, calc(var(--oz) * -1)) rotateY(-135deg); background:var(--p-cam-side-1); }
+  .ce-br { transform:translate3d(var(--ox), 0, calc(var(--oz) * -1)) rotateY(135deg);             background:var(--p-cam-side-3); }
+  /* edges running along z (top/bottom x left/right) */
+  .ce-tl, .ce-tr, .ce-dl, .ce-dr { width:var(--cs); height:var(--fd); left:calc((var(--cam-w) - var(--cs)) / 2); top:calc((var(--cam-h) - var(--fd)) / 2); }
+  .ce-tl { transform:translate3d(calc(var(--ox) * -1), calc(var(--oy) * -1), 0) rotateZ(-45deg) rotateX(90deg); background:var(--p-cam-side-0); }
+  .ce-tr { transform:translate3d(var(--ox), calc(var(--oy) * -1), 0) rotateZ(45deg) rotateX(90deg);             background:var(--p-cam-top); }
+  .ce-dl { transform:translate3d(calc(var(--ox) * -1), var(--oy), 0) rotateZ(45deg) rotateX(-90deg);            background:var(--p-cam-side-2); }
+  .ce-dr { transform:translate3d(var(--ox), var(--oy), 0) rotateZ(-45deg) rotateX(-90deg);                      background:var(--p-cam-side-4); }
+  /* tip details: cobalt wedge over the upper part, navy clip on the top edge */
+  .cam-accent {
+    position:absolute; left:0; top:0; width:100%; height:56%;
+    background:linear-gradient(90deg, var(--p-accent-0) 0%, var(--p-accent-0) 34%, var(--p-accent-1) 34%, var(--p-accent-1) 100%);
+    clip-path:polygon(0 0, 100% 0, 100% 70%, 0 92%);
+    border-radius:var(--cam-r) var(--cam-r) 0 0;
   }
-  /* 5. base: flat slab resting on the board's bezel */
-  .cam-base {
-    position:absolute; right:calc(var(--cam-w) * -0.02); bottom:0;
-    width:calc(var(--cam-w) * 0.44); height:var(--cam-base);
-    border-radius:calc(var(--cam-base) * 0.45);
-    background:linear-gradient(180deg, var(--cam-dark-0) 0%, var(--cam-dark-1) 55%, var(--cam-dark-2) 100%);
-    box-shadow:inset 0 2px 0 rgba(255,255,255,0.14), 0 4px 8px rgba(0,0,0,0.35);
+  /* navy clip riding the top face right at the tip */
+  .cam-clip {
+    position:absolute; left:14%; bottom:8%; width:72%; height:12%;
+    background:var(--p-navy-0); border-radius:999px;
+  }
+  /* the wedge wraps around the tip onto both sides and the top.
+     Side faces: tip end is at x=100% on .cam-left, x=0 on .cam-right. */
+  .cam-accent-side {
+    position:absolute; top:0; width:20%; height:56%;
+    background:var(--p-accent-0);
+  }
+  .cam-left  .cam-accent-side { right:0; clip-path:polygon(0 0, 100% 0, 100% 100%, 46% 100%); border-radius:0 var(--cam-r) 0 0; }
+  .cam-right .cam-accent-side { left:0;  clip-path:polygon(0 0, 100% 0, 54% 100%, 0 100%); border-radius:var(--cam-r) 0 0 0; }
+  .cam-accent-top {
+    position:absolute; left:0; bottom:0; width:100%; height:15%;
+    background:var(--p-accent-1);
+    clip-path:polygon(0 0, 100% 34%, 100% 100%, 0 100%);
+    border-radius:0 0 var(--cam-r) var(--cam-r);
+  }
+  /* lens end: flat hazard-framed panel */
+  .cam-port {
+    position:absolute; left:14%; top:12%; width:72%; height:76%;
+    border-radius:6px; border:4px solid transparent;
+    background:
+      linear-gradient(var(--p-navy-1), var(--p-navy-1)) padding-box,
+      repeating-linear-gradient(45deg, #9AA3A5 0 4px, var(--p-hazard-dark) 4px 8px) border-box;
   }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
@@ -1241,32 +1270,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
-       and the compact 2.5D camera block hinged onto its top-right corner -->
+       and the boxy 3/4-view camera unit cabled into its top-right corner -->
   <div class="detector" id="detector">
-    <!-- Camera: compact 2.5D block on a hinge + base. Layers: body (front
-         face) > scanner; housing (right side); pivot; base. JS widens or
-         narrows the side face so it pans toward the cursor. -->
+    <!-- Camera: a long CSS 3D barrel whose length axis is the viewing
+         direction. The narrow FRONT tip (cobalt wedge + navy clip) aims into
+         the scene; the BACK end (hazard-framed port + cable) faces the
+         viewer. It pivots at the back end and JS yaws it to look toward the
+         cursor: cursor left => tip swings up-left, cursor right => up-right.
+         It pivots on the side-mounted pin at the middle of the body. -->
     <div class="detector-camera" id="detectorCamera">
-      <div class="cam-unit" id="camHead">
-        <div class="cam-body" id="camBody">
-          <div class="cam-scanner" aria-hidden="true">
-            <svg viewBox="0 0 200 40" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="camSweepGrad" x1="0" x2="1">
-                  <stop offset="0" stop-color="#5EDCEC" stop-opacity="0"/>
-                  <stop offset="0.5" stop-color="#5EDCEC" stop-opacity="0.75"/>
-                  <stop offset="1" stop-color="#5EDCEC" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <rect x="0" y="16" width="200" height="8" fill="#5EDCEC" opacity="0.18"/>
-              <rect class="cam-scan-sweep" x="0" y="12" width="60" height="16" fill="url(#camSweepGrad)"/>
-            </svg>
-          </div>
+      <div class="cam-head" id="camHead">
+        <div class="cam-face cam-front">
+          <span class="cam-accent"></span>
         </div>
-        <div class="cam-housing" id="camHousing"></div>
+        <div class="cam-face cam-back">
+          <span class="cam-port"></span>
+        </div>
+        <div class="cam-face cam-left"><span class="cam-accent-side"></span></div>
+        <div class="cam-face cam-right"><span class="cam-accent-side"></span></div>
+        <div class="cam-face cam-top"><span class="cam-accent-top"></span><span class="cam-clip"></span></div>
+        <div class="cam-face cam-bottom"></div>
+        <!-- 12 chamfer strips -->
+        <div class="cam-face cam-edge ce-ft"></div><div class="cam-face cam-edge ce-fb"></div>
+        <div class="cam-face cam-edge ce-bt"></div><div class="cam-face cam-edge ce-bb"></div>
+        <div class="cam-face cam-edge ce-fl"></div><div class="cam-face cam-edge ce-fr"></div>
+        <div class="cam-face cam-edge ce-bl"></div><div class="cam-face cam-edge ce-br"></div>
+        <div class="cam-face cam-edge ce-tl"></div><div class="cam-face cam-edge ce-tr"></div>
+        <div class="cam-face cam-edge ce-dl"></div><div class="cam-face cam-edge ce-dr"></div>
       </div>
-      <div class="cam-pivot" aria-hidden="true"></div>
-      <div class="cam-base" aria-hidden="true"></div>
     </div>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
     <div class="detector-drum drum-right" aria-hidden="true"></div>
@@ -2727,20 +2758,7 @@ document.addEventListener('mousemove', e => {
   const caveLayers = [...document.querySelectorAll('.cave-layer')];
   const reticle = document.getElementById('reticle');
   const camHead = document.getElementById('camHead');
-  const camBody = document.getElementById('camBody');
-  const camHousing = document.getElementById('camHousing');
-  // yaw = how far the block is turned away from facing the viewer (deg);
-  // more yaw => narrower front face, wider side face. Rest 22, range 8..36.
-  let camYaw = 22, camPitch = 0;
-  function layoutCam(yawDeg) {
-    if (!camBody) return;
-    const r = yawDeg * Math.PI / 180;
-    camBody.style.width = (Math.cos(r) * 0.74 * 100).toFixed(2) + '%';
-    camHousing.style.width = (Math.sin(r) * 0.50 * 100).toFixed(2) + '%';
-  }
-  // widths are % of the camera unit; give the unit a fixed width to size against
-  if (camHead) camHead.style.width = '100%';
-  layoutCam(camYaw);
+  let camYaw = 200, camPitch = 16; // start aimed up-left at the reticle
   const LOCK_RADIUS = 90; // px, distance from the reticle center that counts as "near the target"
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
@@ -2780,11 +2798,15 @@ document.addEventListener('mousemove', e => {
       reticle?.classList.remove('locked');
     }
 
-    // Camera: turn toward the cursor. Cursor left => the block turns left,
-    // exposing more of its right side; cursor right => nearly frontal.
+    // Camera head: yaw the barrel toward the cursor, with a touch of pitch,
+    // eased so it feels motorised rather than jittery.
+    // 180deg = tip pointing straight into the wall. Range: 60deg to the
+    // left (cursor at the left edge => 240) and 20deg to the right (=> 160),
+    // so the rest pose (cursor centered) is 200, aimed toward the reticle.
     if (camHead && !reducedMotion) {
-      camYaw += ((22 - nx * 14) - camYaw) * 0.08;
-      layoutCam(camYaw);
+      camYaw   += ((200 - nx * 40) - camYaw) * 0.08;
+      camPitch += ((16 - ny * 5) - camPitch) * 0.08;
+      camHead.style.transform = `rotateY(${camYaw.toFixed(2)}deg) rotateX(${camPitch.toFixed(2)}deg)`;
     }
 
     requestAnimationFrame(frame);
