@@ -96,7 +96,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --p-glow-rgb:143,232,193;
   }
   :root[data-palette="B"] {
-    --p-bg:#121B17; --p-rock-far-0:#3C5D50; --p-rock-far-1:#4A6E60; --p-rock-far-2:#587F70; --p-rock-far-3:#2C473C; --p-rock-far-4:#243B32; --p-rock-far-5:#21362E; --p-rock-far-6:#111E19; --p-rock-mid-0:#2F4C40; --p-rock-mid-1:#6F9484; --p-rock-near-0:#31514A; --p-rock-near-1:#263F36; --p-beam-hi:#DDF2E8; --p-beam:#9CD8BE; --p-wave-glow:#B4E2CC; --p-wave-core:#F1FBF6; --p-shell-0:#E4E9E6; --p-shell-1:#CDD6D1; --p-shell-2:#B5C1BB; --p-shell-edge:#8A9B93; --p-drum-0:#18241F; --p-drum-1:#2C3F37; --p-drum-2:#1D2C26; --p-corner-0:#2E453C; --p-corner-1:#20342C; --p-corner-2:#182720; --p-screen-0:#12352C; --p-screen-1:#0D2620; --p-screen-2:#081A16; --p-screen-text:#9FE0C4; --p-cam-front:#DFE6E2; --p-cam-back-0:#EEF2EF; --p-cam-back-1:#D1DAD5; --p-cam-side-0:#E7EDE9; --p-cam-side-1:#D8E0DB; --p-cam-side-2:#BCC8C1; --p-cam-side-3:#CFD8D3; --p-cam-side-4:#B0BDB6; --p-cam-top:#F5F8F6; --p-cam-bottom:#98A8A0; --p-accent-0:#2E7A63; --p-accent-1:#3B9A7E; --p-navy-0:#1E322B; --p-navy-1:#1D312A; --p-navy-2:#14231E; --p-hazard-dark:#1A2823; --p-navy-3:#2F4B41; --p-cable-0:#172520; --p-cable-1:#3E5A4F;
+    --p-bg:#0B1210; --p-rock-far-0:#273F37; --p-rock-far-1:#31493F; --p-rock-far-2:#3B574C; --p-rock-far-3:#1C2F27; --p-rock-far-4:#172620; --p-rock-far-5:#15221C; --p-rock-far-6:#0A1410; --p-rock-mid-0:#1F332B; --p-rock-mid-1:#4B675B; --p-rock-near-0:#20362F; --p-rock-near-1:#182821; --p-beam-hi:#D3EBDF; --p-beam:#93CDB4; --p-wave-glow:#A9D8C2; --p-wave-core:#EEF9F3; --p-shell-0:#DCE3DF; --p-shell-1:#C3CDC8; --p-shell-2:#A9B6B0; --p-shell-edge:#7E9088; --p-drum-0:#101A16; --p-drum-1:#213029; --p-drum-2:#151F1B; --p-corner-0:#233730; --p-corner-1:#182A24; --p-corner-2:#111F1A; --p-screen-0:#0E2A23; --p-screen-1:#0A1F1A; --p-screen-2:#061412; --p-screen-text:#98DBBE; --p-cam-front:#DFE6E2; --p-cam-back-0:#EEF2EF; --p-cam-back-1:#D1DAD5; --p-cam-side-0:#E7EDE9; --p-cam-side-1:#D8E0DB; --p-cam-side-2:#BCC8C1; --p-cam-side-3:#CFD8D3; --p-cam-side-4:#B0BDB6; --p-cam-top:#F5F8F6; --p-cam-bottom:#98A8A0; --p-accent-0:#2E7A63; --p-accent-1:#3B9A7E; --p-navy-0:#1E322B; --p-navy-1:#1D312A; --p-navy-2:#14231E; --p-hazard-dark:#1A2823; --p-navy-3:#2F4B41; --p-cable-0:#172520; --p-cable-1:#3E5A4F;
     --p-glow-rgb:159,224,196;
   }
   :root[data-palette="C"] {
@@ -1194,8 +1194,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      waveform, aim reticle, detector shell, camera).
      ══════════════════════════════════════════════════════════════════════ -->
 <div class="palette-switch" id="paletteSwitch" aria-label="Palette">
-  <button type="button" data-palette="A" aria-pressed="true">A 深松绿</button>
-  <button type="button" data-palette="B" aria-pressed="false">B 鼠尾草</button>
+  <button type="button" data-palette="A" aria-pressed="false">A 深松绿</button>
+  <button type="button" data-palette="B" aria-pressed="true">B 鼠尾草</button>
   <button type="button" data-palette="C" aria-pressed="false">C 深常青</button>
 </div>
 <script>
@@ -1206,7 +1206,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     sw.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.palette === p)));
     try { localStorage.setItem('palette', p); } catch (e) {}
   }
-  let saved = 'A'; try { saved = localStorage.getItem('palette') || 'A'; } catch (e) {}
+  let saved = 'B'; try { saved = localStorage.getItem('palette') || 'B'; } catch (e) {}
   apply(saved);
   sw.addEventListener('click', e => { const b = e.target.closest('button'); if (b) apply(b.dataset.palette); });
 })();
