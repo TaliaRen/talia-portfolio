@@ -273,42 +273,67 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transform:rotateY(200deg) rotateX(16deg);
     will-change:transform;
   }
+  /* Faces are inset by the chamfer size --cam-c on every side; 12 strips at
+     45deg fill the edges so the body reads as one solid, softened block. */
   .cam-face {
-    --cam-r:calc(var(--cam-w) * 0.16);
-    position:absolute; left:0; top:0;
-    width:var(--cam-w); height:var(--cam-h);
+    --cam-c:calc(var(--cam-w) * 0.09);
+    --cam-r:4px;
+    --fw:calc(var(--cam-w) - var(--cam-c) * 2);   /* front/back width  */
+    --fh:calc(var(--cam-h) - var(--cam-c) * 2);   /* front/back height */
+    --fd:calc(var(--cam-d) - var(--cam-c) * 2);   /* side/top length   */
+    position:absolute;
+    left:calc((var(--cam-w) - var(--fw)) / 2); top:calc((var(--cam-h) - var(--fh)) / 2);
+    width:var(--fw); height:var(--fh);
     transform-origin:50% 50%;
     backface-visibility:hidden;
-    border-radius:var(--cam-r);
   }
-  /* inner core: a slightly smaller unrounded box in a mid tone, so the
-     rounded corners of the outer faces reveal a soft bevel instead of a gap */
-  .cam-core {
-    position:absolute; left:0; top:0; width:var(--cam-w); height:var(--cam-h);
-    transform-style:preserve-3d; transform:scale3d(0.9, 0.9, 0.9);
-  }
-  .cam-core .cam-face { border-radius:2px; background:var(--p-cam-side-2); }
   /* front tip: faces INTO the scene */
   .cam-front {
     transform:translateZ(calc(var(--cam-d) / 2));
     background:var(--p-cam-front); overflow:visible;
   }
-  /* back end: faces the viewer, carries the port + cable */
+  /* back end: faces the viewer, carries the lens panel */
   .cam-back {
     transform:rotateY(180deg) translateZ(calc(var(--cam-d) / 2));
     background:linear-gradient(180deg, var(--p-cam-back-0) 0%, var(--p-cam-back-1) 100%);
     overflow:visible;
   }
   .cam-left, .cam-right {
-    width:var(--cam-d); left:calc((var(--cam-w) - var(--cam-d)) / 2);
+    width:var(--fd); left:calc((var(--cam-w) - var(--fd)) / 2);
   }
   .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-0) 0%, var(--p-cam-side-1) 70%, var(--p-cam-side-2) 100%); }
   .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-3) 0%, var(--p-cam-side-4) 100%); }
   .cam-top, .cam-bottom {
-    height:var(--cam-d); top:calc((var(--cam-h) - var(--cam-d)) / 2);
+    height:var(--fd); top:calc((var(--cam-h) - var(--fd)) / 2);
   }
   .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-top); }
   .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-bottom); }
+  /* chamfer strips: width = chamfer diagonal, centred on each edge and
+     tilted 45deg between the two faces it joins */
+  .cam-edge {
+    --cs:calc(var(--cam-c) * 1.4142);
+    --ox:calc(var(--cam-w) / 2 - var(--cam-c) / 2);
+    --oy:calc(var(--cam-h) / 2 - var(--cam-c) / 2);
+    --oz:calc(var(--cam-d) / 2 - var(--cam-c) / 2);
+  }
+  /* edges running along x (front/back x top/bottom) */
+  .ce-ft, .ce-fb, .ce-bt, .ce-bb { width:var(--fw); height:var(--cs); left:calc((var(--cam-w) - var(--fw)) / 2); top:calc((var(--cam-h) - var(--cs)) / 2); }
+  .ce-ft { transform:translate3d(0, calc(var(--oy) * -1), var(--oz)) rotateX(45deg);  background:var(--p-cam-side-0); }
+  .ce-fb { transform:translate3d(0, var(--oy), var(--oz)) rotateX(-45deg);            background:var(--p-cam-side-4); }
+  .ce-bt { transform:translate3d(0, calc(var(--oy) * -1), calc(var(--oz) * -1)) rotateX(135deg);  background:var(--p-cam-side-0); }
+  .ce-bb { transform:translate3d(0, var(--oy), calc(var(--oz) * -1)) rotateX(-135deg);            background:var(--p-cam-side-4); }
+  /* edges running along y (front/back x left/right) */
+  .ce-fl, .ce-fr, .ce-bl, .ce-br { width:var(--cs); height:var(--fh); left:calc((var(--cam-w) - var(--cs)) / 2); top:calc((var(--cam-h) - var(--fh)) / 2); }
+  .ce-fl { transform:translate3d(calc(var(--ox) * -1), 0, var(--oz)) rotateY(-45deg);  background:var(--p-cam-side-1); }
+  .ce-fr { transform:translate3d(var(--ox), 0, var(--oz)) rotateY(45deg);              background:var(--p-cam-side-3); }
+  .ce-bl { transform:translate3d(calc(var(--ox) * -1), 0, calc(var(--oz) * -1)) rotateY(-135deg); background:var(--p-cam-side-1); }
+  .ce-br { transform:translate3d(var(--ox), 0, calc(var(--oz) * -1)) rotateY(135deg);             background:var(--p-cam-side-3); }
+  /* edges running along z (top/bottom x left/right) */
+  .ce-tl, .ce-tr, .ce-dl, .ce-dr { width:var(--cs); height:var(--fd); left:calc((var(--cam-w) - var(--cs)) / 2); top:calc((var(--cam-h) - var(--fd)) / 2); }
+  .ce-tl { transform:translate3d(calc(var(--ox) * -1), calc(var(--oy) * -1), 0) rotateZ(-45deg) rotateX(90deg); background:var(--p-cam-side-0); }
+  .ce-tr { transform:translate3d(var(--ox), calc(var(--oy) * -1), 0) rotateZ(45deg) rotateX(90deg);             background:var(--p-cam-top); }
+  .ce-dl { transform:translate3d(calc(var(--ox) * -1), var(--oy), 0) rotateZ(45deg) rotateX(-90deg);            background:var(--p-cam-side-2); }
+  .ce-dr { transform:translate3d(var(--ox), var(--oy), 0) rotateZ(-45deg) rotateX(-90deg);                      background:var(--p-cam-side-4); }
   /* tip details: cobalt wedge over the upper part, navy clip on the top edge */
   .cam-accent {
     position:absolute; left:0; top:0; width:100%; height:56%;
@@ -335,24 +360,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     clip-path:polygon(0 0, 100% 34%, 100% 100%, 0 100%);
     border-radius:0 0 var(--cam-r) var(--cam-r);
   }
-  /* lens end: hazard-striped square housing with a dark glass lens */
+  /* lens end: flat hazard-framed panel */
   .cam-port {
     position:absolute; left:14%; top:12%; width:72%; height:76%;
-    border-radius:14px; border:4px solid transparent;
+    border-radius:6px; border:4px solid transparent;
     background:
       linear-gradient(var(--p-navy-1), var(--p-navy-1)) padding-box,
       repeating-linear-gradient(45deg, #9AA3A5 0 4px, var(--p-hazard-dark) 4px 8px) border-box;
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,0.35);
-  }
-  .cam-lens {
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:62%; height:62%; border-radius:50%;
-    background:radial-gradient(circle at 38% 34%, #3E4A63 0%, #161C2E 36%, #05070F 70%);
-    box-shadow:0 0 0 2px rgba(0,0,0,0.5), inset 0 0 6px rgba(0,0,0,0.8);
-  }
-  .cam-lens::after {
-    content:''; position:absolute; left:24%; top:20%; width:22%; height:22%;
-    border-radius:50%; background:rgba(255,255,255,0.22);
   }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
@@ -1270,17 +1284,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="cam-accent"></span>
         </div>
         <div class="cam-face cam-back">
-          <span class="cam-port"><span class="cam-lens"></span></span>
+          <span class="cam-port"></span>
         </div>
         <div class="cam-face cam-left"><span class="cam-accent-side"></span></div>
         <div class="cam-face cam-right"><span class="cam-accent-side"></span></div>
         <div class="cam-face cam-top"><span class="cam-accent-top"></span><span class="cam-clip"></span></div>
         <div class="cam-face cam-bottom"></div>
-        <div class="cam-core" aria-hidden="true">
-          <div class="cam-face cam-front"></div><div class="cam-face cam-back"></div>
-          <div class="cam-face cam-left"></div><div class="cam-face cam-right"></div>
-          <div class="cam-face cam-top"></div><div class="cam-face cam-bottom"></div>
-        </div>
+        <!-- 12 chamfer strips -->
+        <div class="cam-face cam-edge ce-ft"></div><div class="cam-face cam-edge ce-fb"></div>
+        <div class="cam-face cam-edge ce-bt"></div><div class="cam-face cam-edge ce-bb"></div>
+        <div class="cam-face cam-edge ce-fl"></div><div class="cam-face cam-edge ce-fr"></div>
+        <div class="cam-face cam-edge ce-bl"></div><div class="cam-face cam-edge ce-br"></div>
+        <div class="cam-face cam-edge ce-tl"></div><div class="cam-face cam-edge ce-tr"></div>
+        <div class="cam-face cam-edge ce-dl"></div><div class="cam-face cam-edge ce-dr"></div>
       </div>
     </div>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
