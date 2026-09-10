@@ -172,6 +172,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── 1. Background: three parallax rock layers ── */
   .cave-bg { position:absolute; inset:0; z-index:0; }
+  /* solid background: the faceted rock layers are hidden (markup kept) */
+  .cave-bg { display:none; }
   .cave-layer {
     position:absolute; inset:-4%; width:108%; height:108%; display:block;
     will-change:transform; transition:transform 0.2s ease-out;
