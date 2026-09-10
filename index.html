@@ -247,7 +247,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      offset shadow under it to read as physical thickness. Two dark drums
      peek out behind the left/right edges, matching the reference. ── */
   .detector {
-    position:absolute; left:50%; bottom:2vh; z-index:8;
+    /* pinned to the viewport: the board + camera stay put while the page
+       (and the cave behind them) scrolls */
+    position:fixed; left:50%; bottom:2vh; z-index:60;
     width:min(760px, 78vw);
     perspective:1400px;
     transform:translate(-50%, 16%);
