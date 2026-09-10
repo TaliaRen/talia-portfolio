@@ -250,15 +250,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .cave-scene.loaded .detector { transform:translate(-50%, 0%); }
   .detector-camera {
-    position:absolute; right:2%; bottom:calc(100% - 26px); z-index:3;
-    width:clamp(120px, 15vw, 172px);
-    transform-origin:40% 95%;
-    /* rotation is driven by JS every frame (idle scan + mouse influence + lock-on) */
+    position:absolute; right:1%; bottom:calc(100% - 34px); z-index:3;
+    width:clamp(150px, 18vw, 212px);
+    /* static by design — it must not wobble or track the cursor */
     filter:drop-shadow(0 6px 12px rgba(0,0,0,0.35));
   }
   .detector-camera svg { display:block; width:100%; height:auto; overflow:visible; }
-  .camera-lens-dot { opacity:0; transition:opacity 0.3s ease; }
-  .cave-scene:not(.paused) .camera-lens-dot { opacity:1; }
   .detector-drum {
     position:absolute; top:24%; width:9%; height:60%; z-index:0;
     background:linear-gradient(90deg, #1D1D46 0%, #34346B 55%, #22224F 100%);
@@ -1163,33 +1160,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
        and the boxy 3/4-view camera unit cabled into its top-right corner -->
   <div class="detector" id="detector">
+    <!-- Static 3/4-view camera unit, drawn to match the reference crop:
+         white body with a lit top face, cobalt accent wedge on the front-
+         left, navy clip on the top-left, hazard-framed navy port on the
+         right end with a thick cable looping out of it, all sitting on a
+         dark bracket. Deliberately not animated. -->
     <div class="detector-camera" id="detectorCamera">
-      <svg viewBox="0 0 170 110" aria-hidden="true">
+      <svg viewBox="0 0 200 130" aria-hidden="true">
         <defs>
-          <pattern id="hazardStripes" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <rect width="8" height="8" fill="#E8862F"/>
-            <rect width="4" height="8" fill="#2A2340"/>
+          <pattern id="hazardStripes" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="7" height="7" fill="#F0A22B"/>
+            <rect width="3.5" height="7" fill="#2A2B47"/>
           </pattern>
+          <linearGradient id="camFront" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#EEEFF9"/>
+            <stop offset="0.62" stop-color="#E2E3F2"/>
+            <stop offset="1" stop-color="#C3C5E2"/>
+          </linearGradient>
         </defs>
-        <!-- cable looping from the back of the unit down into the detector -->
-        <path d="M132,66 C150,74 150,92 128,100 L110,106" fill="none" stroke="#252E5A" stroke-width="7" stroke-linecap="round"/>
-        <path d="M132,66 C150,74 150,92 128,100 L110,106" fill="none" stroke="#3B4680" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- side face (right, in shadow) -->
-        <polygon points="112,24 140,15 140,66 112,74" fill="#C9CBE4"/>
-        <!-- top face (lit) -->
-        <polygon points="14,24 112,24 140,15 42,15" fill="#F5F6FC"/>
-        <!-- front face -->
-        <rect x="14" y="24" width="98" height="50" rx="6" fill="#ECEDF7"/>
-        <!-- navy lid band + latch block -->
-        <rect x="14" y="24" width="64" height="12" rx="4" fill="#2E3B78"/>
-        <rect x="14" y="24" width="24" height="20" rx="4" fill="#26326A"/>
-        <!-- hazard stripe patch -->
-        <rect x="90" y="32" width="18" height="30" rx="3" fill="url(#hazardStripes)"/>
-        <rect x="90" y="32" width="18" height="30" rx="3" fill="none" stroke="#2A2340" stroke-width="1.2"/>
-        <!-- scanning indicator light -->
-        <circle class="camera-lens-dot" cx="60" cy="56" r="3.2" fill="#7FE6F5"/>
+        <!-- mounting bracket (behind the body, links down to the shell) -->
+        <rect x="30" y="80" width="34" height="14" rx="4" fill="#353D72"/>
+        <rect x="36" y="88" width="20" height="30" rx="4" fill="#2A3060"/>
+        <rect x="36" y="108" width="74" height="12" rx="4" fill="#252B57"/>
+        <!-- body: right side face, top face, front face -->
+        <polygon points="160,40 174,28 174,82 160,94" fill="#B7B9DB"/>
+        <polygon points="30,40 160,40 174,28 44,28" fill="#F7F7FD"/>
+        <rect x="30" y="40" width="130" height="54" rx="6" fill="url(#camFront)"/>
+        <!-- cobalt accent wedge on the front-left, folding onto the top edge -->
+        <polygon points="34,30 96,30 84,62 38,62" fill="#3B63DE"/>
+        <polygon points="34,30 60,30 52,62 38,62" fill="#2D4FBF"/>
+        <polygon points="34,30 96,30 92,34 38,34" fill="#5478E8"/>
+        <!-- navy clip on the top-left edge -->
+        <rect x="20" y="22" width="30" height="10" rx="3" fill="#2E3468"/>
+        <rect x="18" y="27" width="16" height="15" rx="3" fill="#262C5C"/>
+        <!-- hazard-framed navy port on the right end -->
+        <rect x="118" y="46" width="38" height="40" rx="7" fill="#2B3468"/>
+        <rect x="118" y="46" width="38" height="7" rx="3.5" fill="url(#hazardStripes)"/>
+        <rect x="118" y="46" width="7" height="40" rx="3.5" fill="url(#hazardStripes)"/>
+        <rect x="129" y="58" width="22" height="22" rx="5" fill="#1F2650"/>
+        <!-- thick cable looping out of the port, down and back under the unit -->
+        <path d="M150,68 C180,66 190,88 172,102 C158,113 130,110 114,102 L96,94" fill="none" stroke="#252C5A" stroke-width="10" stroke-linecap="round"/>
+        <path d="M150,68 C180,66 190,88 172,102 C158,113 130,110 114,102 L96,94" fill="none" stroke="#3E4886" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
         <!-- contact shadow -->
-        <ellipse cx="72" cy="80" rx="52" ry="5" fill="rgba(0,0,0,0.22)"/>
+        <ellipse cx="96" cy="118" rx="62" ry="6" fill="rgba(0,0,0,0.22)"/>
       </svg>
     </div>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
@@ -2550,9 +2563,9 @@ document.addEventListener('mousemove', e => {
 // Cave scanner scene: ties the six hero components together.
 //   - waveform: generates + continuously jitters the connected-circle path
 //   - typewriter: reveals the detector screen text one character at a time
-//   - pointer loop: parallax on the cave layers, camera rotation, and
-//     reticle lock-on, all driven from one rAF loop keyed off the last
-//     known mouse position
+//   - pointer loop: parallax on the cave layers and reticle lock-on,
+//     driven from one rAF loop keyed off the last known mouse position
+//     (the camera is intentionally static)
 //   - scan toggle: the RS button pauses/resumes beams + waveform
 // ══════════════════════════════════════════════════════════════════════
 (function () {
@@ -2646,16 +2659,13 @@ document.addEventListener('mousemove', e => {
     scene.classList.toggle('paused');
   });
 
-  // ── 1, 4 & 6. Pointer-driven loop: cave parallax, reticle lock-on,
-  //      camera rotation (idle scan + mouse influence + lock pause) ──
+  // ── 1 & 4. Pointer-driven loop: cave parallax + reticle lock-on ──
   const caveLayers = [...document.querySelectorAll('.cave-layer')];
   const reticle = document.getElementById('reticle');
-  const camera = document.getElementById('detectorCamera');
-  const LOCK_RADIUS = 90; // px, distance from viewport center that counts as "near the target"
+  const LOCK_RADIUS = 90; // px, distance from the reticle center that counts as "near the target"
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   let locked = false;
-  const startTS = performance.now();
 
   window.addEventListener('mousemove', e => {
     mouseX = e.clientX;
@@ -2689,16 +2699,6 @@ document.addEventListener('mousemove', e => {
     } else if (!nowLocked && locked) {
       locked = false;
       reticle?.classList.remove('locked');
-    }
-
-    // Camera: slow idle left-right scan, nudged by mouse position, and it
-    // settles to face forward (with a brief pause) once locked on
-    if (camera && !reducedMotion) {
-      const idle = Math.sin((now - startTS) / 1400) * 10;   // -10..10deg idle sweep
-      const mouseInfluence = nx * 6;                          // small extra nudge
-      const target = locked ? 0 : idle + mouseInfluence;
-      camera.dataset.rot = (parseFloat(camera.dataset.rot || '0') * 0.9 + target * 0.1).toFixed(2);
-      camera.style.transform = `rotate(${camera.dataset.rot}deg)`;
     }
 
     requestAnimationFrame(frame);
