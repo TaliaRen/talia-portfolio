@@ -249,25 +249,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:transform 1s cubic-bezier(0.22,1,0.36,1);
   }
   .cave-scene.loaded .detector { transform:translate(-50%, 0%); }
-  /* Camera: CSS 3D box. --cam-w/h/d are the box's width/height/depth; the
-     head pans via rotateY set by JS, the mount underneath stays fixed. */
+  /* Camera: CSS 3D barrel. --cam-w/h are the cross-section, --cam-d is the
+     barrel length (= viewing axis). The head pivots at its back end via a
+     3D transform-origin; JS sets rotateY (yaw) + rotateX (pitch). */
   .detector-camera {
-    --cam-w:clamp(128px, 12.5vw, 164px);
-    --cam-h:calc(var(--cam-w) * 0.46);
-    --cam-d:calc(var(--cam-w) * 0.62);
-    position:absolute; right:2%; bottom:calc(100% - 30px); z-index:3;
-    width:var(--cam-w); height:calc(var(--cam-h) + 46px);
-    perspective:900px; perspective-origin:50% 40%;
+    --cam-w:clamp(60px, 5.6vw, 76px);
+    --cam-h:calc(var(--cam-w) * 0.8);
+    --cam-d:calc(var(--cam-w) * 2.6);
+    position:absolute; right:7%; bottom:calc(100% - 20px); z-index:3;
+    width:var(--cam-w); height:var(--cam-h);
+    perspective:800px; perspective-origin:50% 50%;
   }
-  .cam-mount {
-    position:absolute; left:6%; top:calc(var(--cam-h) - 10px);
-    width:78%; height:auto; display:block; overflow:visible;
+  .cam-base {
+    position:absolute; left:-40%; top:calc(100% - 12px);
+    width:180%; height:auto; display:block; overflow:visible;
   }
   .cam-head {
     position:absolute; left:0; top:0; z-index:1;
     width:var(--cam-w); height:var(--cam-h);
     transform-style:preserve-3d;
-    transform:rotateY(0deg);
+    transform-origin:50% 60% calc(var(--cam-d) / -2);
+    transform:rotateY(202deg) rotateX(16deg);
     will-change:transform;
   }
   .cam-face {
@@ -276,64 +278,70 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transform-origin:50% 50%;
     backface-visibility:hidden;
   }
+  /* front tip: faces INTO the scene */
   .cam-front {
     transform:translateZ(calc(var(--cam-d) / 2));
-    background:linear-gradient(180deg, #EFF0FA 0%, #E2E3F2 58%, #C6C8E4 100%);
-    border-radius:6px;
+    background:#E3E5F3; border-radius:5px; overflow:visible;
   }
+  /* back end: faces the viewer, carries the port + cable */
   .cam-back {
     transform:rotateY(180deg) translateZ(calc(var(--cam-d) / 2));
-    background:#AEB0D2; border-radius:6px;
+    background:linear-gradient(180deg, #F0F1FA 0%, #D9DBEE 100%);
+    border-radius:5px; overflow:visible;
   }
-  .cam-right, .cam-left {
+  .cam-left, .cam-right {
     width:var(--cam-d); left:calc((var(--cam-w) - var(--cam-d)) / 2);
   }
-  .cam-right { transform:rotateY(90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #C2C4E1 0%, #ADAFD0 100%); }
-  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #DCDDEE 0%, #C9CBE5 100%); }
+  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #EEEFF9 0%, #E0E2F1 58%, #C7C9E5 100%); }
+  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, #DADCEE 0%, #C0C2DF 100%); }
   .cam-top, .cam-bottom {
     height:var(--cam-d); top:calc((var(--cam-h) - var(--cam-d)) / 2);
   }
-  .cam-top    { transform:rotateX(90deg) translateZ(calc(var(--cam-h) / 2)); background:#F7F7FD; border-radius:6px; }
-  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:#9C9EC4; }
-  /* front-face details */
+  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:#F8F8FD; }
+  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:#A2A4C9; }
+  /* tip details: cobalt wedge over the upper part, navy clip on the top edge */
   .cam-accent {
-    position:absolute; left:0; top:0; width:44%; height:54%;
-    background:linear-gradient(90deg, #2D4FBF 0%, #2D4FBF 38%, #3B63DE 38%, #3B63DE 100%);
-    clip-path:polygon(0 0, 100% 0, 84% 100%, 0 100%);
-    border-top-left-radius:6px;
+    position:absolute; left:0; top:0; width:100%; height:56%;
+    background:linear-gradient(90deg, #2D4FBF 0%, #2D4FBF 34%, #3B63DE 34%, #3B63DE 100%);
+    clip-path:polygon(0 0, 100% 0, 100% 62%, 0 100%);
+    border-radius:5px 5px 0 0;
   }
-  .cam-accent::after {
-    content:''; position:absolute; left:0; top:0; width:100%; height:14%;
-    background:#5478E8;
+  /* navy clip riding the top face right at the tip */
+  .cam-clip {
+    position:absolute; left:14%; bottom:8%; width:72%; height:12%;
+    background:#2E3468; border-radius:3px;
   }
+  /* the wedge wraps around the tip onto both sides and the top.
+     Side faces: tip end is at x=100% on .cam-left, x=0 on .cam-right. */
+  .cam-accent-side {
+    position:absolute; top:0; width:20%; height:56%;
+    background:#2D4FBF;
+  }
+  .cam-left  .cam-accent-side { right:0; clip-path:polygon(0 0, 100% 0, 100% 100%, 36% 100%); }
+  .cam-right .cam-accent-side { left:0;  clip-path:polygon(0 0, 100% 0, 64% 100%, 0 100%); }
+  .cam-accent-top {
+    position:absolute; left:0; bottom:0; width:100%; height:15%;
+    background:#3B63DE;
+    clip-path:polygon(0 0, 100% 34%, 100% 100%, 0 100%);
+  }
+  /* back-end details: hazard-framed navy port, cable looping out of it */
   .cam-port {
-    position:absolute; right:6%; top:15%; width:27%; height:66%;
-    background:#2B3468; border-radius:7px; overflow:hidden;
+    position:absolute; left:20%; top:14%; width:60%; height:70%;
+    background:#2B3468; border-radius:6px; overflow:hidden;
   }
   .cam-port::before, .cam-port::after {
     content:''; position:absolute; left:0; top:0;
     background:repeating-linear-gradient(45deg, #F0A22B 0 4px, #2A2B47 4px 8px);
   }
-  .cam-port::before { width:100%; height:16%; }
-  .cam-port::after  { width:16%; height:100%; }
+  .cam-port::before { width:100%; height:18%; }
+  .cam-port::after  { width:18%; height:100%; }
   .cam-port-inner {
-    position:absolute; left:32%; top:34%; width:52%; height:52%;
+    position:absolute; left:34%; top:36%; width:50%; height:50%;
     background:#1F2650; border-radius:5px;
   }
   .cam-cable {
-    position:absolute; left:80%; top:28%; width:70%; height:auto;
+    position:absolute; left:34%; top:30%; width:150%; height:auto;
     overflow:visible; display:block; pointer-events:none;
-  }
-  /* top-face details (the top face's bottom edge is the box's front edge) */
-  .cam-clip {
-    position:absolute; left:-9%; top:12%; width:24%; height:26%;
-    background:#2E3468; border-radius:4px;
-    box-shadow:0 4px 0 #262C5C;
-  }
-  .cam-accent-top {
-    position:absolute; left:0; bottom:0; width:44%; height:32%;
-    background:#3B63DE;
-    clip-path:polygon(0 0, 92% 0, 100% 100%, 0 100%);
   }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
@@ -1239,36 +1247,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
        and the boxy 3/4-view camera unit cabled into its top-right corner -->
   <div class="detector" id="detector">
-    <!-- Camera: a genuine CSS 3D box (front / top / sides / back) inside a
-         perspective container, sitting on a fixed navy bracket. JS pans the
-         head with rotateY toward the cursor (left = looks left). Details
-         follow the reference crop: cobalt wedge on the front-left, navy clip
-         on the top-left, hazard-framed navy port on the right end with a
-         thick cable looping out of it. -->
+    <!-- Camera: a long CSS 3D barrel whose length axis is the viewing
+         direction. The narrow FRONT tip (cobalt wedge + navy clip) aims into
+         the scene; the BACK end (hazard-framed port + cable) faces the
+         viewer. It pivots at the back end and JS yaws it to look toward the
+         cursor: cursor left => tip swings up-left, cursor right => up-right. -->
     <div class="detector-camera" id="detectorCamera">
-      <svg class="cam-mount" viewBox="0 0 120 70" aria-hidden="true">
-        <ellipse cx="60" cy="64" rx="56" ry="6" fill="rgba(0,0,0,0.25)"/>
-        <rect x="8" y="0" width="40" height="16" rx="5" fill="#353D72"/>
-        <rect x="16" y="8" width="24" height="44" rx="5" fill="#2A3060"/>
-        <rect x="16" y="46" width="96" height="14" rx="5" fill="#252B57"/>
-        <rect x="16" y="46" width="96" height="4" rx="2" fill="#3A4278"/>
+      <svg class="cam-base" viewBox="0 0 100 36" aria-hidden="true">
+        <ellipse cx="50" cy="30" rx="44" ry="5" fill="rgba(0,0,0,0.28)"/>
+        <rect x="26" y="10" width="48" height="16" rx="5" fill="#2A3060"/>
+        <rect x="26" y="10" width="48" height="5" rx="2.5" fill="#3B4478"/>
       </svg>
       <div class="cam-head" id="camHead">
         <div class="cam-face cam-front">
           <span class="cam-accent"></span>
+        </div>
+        <div class="cam-face cam-back">
           <span class="cam-port"><span class="cam-port-inner"></span></span>
-          <svg class="cam-cable" viewBox="0 0 120 110" aria-hidden="true">
-            <path d="M6,26 C46,20 70,36 60,60 C50,84 14,90 4,102" fill="none" stroke="#252C5A" stroke-width="12" stroke-linecap="round"/>
-            <path d="M6,26 C46,20 70,36 60,60 C50,84 14,90 4,102" fill="none" stroke="#414A88" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+          <svg class="cam-cable" viewBox="0 0 120 120" aria-hidden="true">
+            <path d="M8,30 C56,18 92,44 78,76 C68,98 30,104 10,112" fill="none" stroke="#252C5A" stroke-width="12" stroke-linecap="round"/>
+            <path d="M8,30 C56,18 92,44 78,76 C68,98 30,104 10,112" fill="none" stroke="#424B8A" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
           </svg>
         </div>
-        <div class="cam-face cam-back"></div>
-        <div class="cam-face cam-right"></div>
-        <div class="cam-face cam-left"></div>
-        <div class="cam-face cam-top">
-          <span class="cam-clip"></span>
-          <span class="cam-accent-top"></span>
-        </div>
+        <div class="cam-face cam-left"><span class="cam-accent-side"></span></div>
+        <div class="cam-face cam-right"><span class="cam-accent-side"></span></div>
+        <div class="cam-face cam-top"><span class="cam-accent-top"></span><span class="cam-clip"></span></div>
         <div class="cam-face cam-bottom"></div>
       </div>
     </div>
@@ -2731,7 +2734,7 @@ document.addEventListener('mousemove', e => {
   const caveLayers = [...document.querySelectorAll('.cave-layer')];
   const reticle = document.getElementById('reticle');
   const camHead = document.getElementById('camHead');
-  let camYaw = 0, camPitch = 0;
+  let camYaw = 202, camPitch = 16; // start aimed up-left at the reticle
   const LOCK_RADIUS = 90; // px, distance from the reticle center that counts as "near the target"
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
@@ -2771,13 +2774,15 @@ document.addEventListener('mousemove', e => {
       reticle?.classList.remove('locked');
     }
 
-    // Camera head: pan toward the cursor (cursor left => rotateY negative =>
-    // the front face turns to the viewer's left), with a touch of pitch.
-    // Eased so it feels motorised rather than jittery.
+    // Camera head: yaw the barrel toward the cursor, with a touch of pitch,
+    // eased so it feels motorised rather than jittery.
+    // 180deg = tip pointing straight into the wall. Rest at 202deg so the
+    // barrel naturally aims toward the reticle on the left; cursor left
+    // swings it further left (up to ~240), cursor right swings it right (~164).
     if (camHead && !reducedMotion) {
-      camYaw   += (nx * 38 - camYaw) * 0.08;
-      camPitch += (-ny * 6 - camPitch) * 0.08;
-      camHead.style.transform = `rotateX(${camPitch.toFixed(2)}deg) rotateY(${camYaw.toFixed(2)}deg)`;
+      camYaw   += ((202 - nx * 38) - camYaw) * 0.08;
+      camPitch += ((16 - ny * 5) - camPitch) * 0.08;
+      camHead.style.transform = `rotateY(${camYaw.toFixed(2)}deg) rotateX(${camPitch.toFixed(2)}deg)`;
     }
 
     requestAnimationFrame(frame);
