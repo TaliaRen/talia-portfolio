@@ -90,16 +90,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-weight: 100 900; font-style: italic; font-display: block;
   }
 
-  :root { --bg:#0F1511; --ink:#1C1917; --muted:#78716C; }
+  :root { --bg:#1B1330; --ink:#1C1917; --muted:#78716C; }
   * { margin:0; padding:0; box-sizing:border-box; }
 
-  html { scrollbar-gutter: stable; background:#0F1511; }
+  html { scrollbar-gutter: stable; background:#1B1330; }
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) {
     animation-duration: 0.1s;
     animation-timing-function: ease;
   }
-  body { background:var(--bg); font-family:'Figtree',sans-serif; color:var(--ink); overflow-x:hidden; }
+  body {
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(255,255,255,0.045) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 82% 15%, rgba(255,255,255,0.03) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 50% at 70% 80%, rgba(0,0,0,0.22) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 45% at 10% 85%, rgba(0,0,0,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 35% at 45% 50%, rgba(255,255,255,0.02) 0%, transparent 60%);
+    background-attachment:fixed;
+    font-family:'Figtree',sans-serif; color:var(--ink); overflow-x:hidden;
+  }
+  #circuit-glow { position:fixed; inset:0; pointer-events:none; opacity:0.4; }
   #star-field { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity 0.15s linear; }
   #star-field circle { pointer-events:auto; transition:opacity 0.2s ease, filter 0.2s ease; }
   #star-field circle:hover { opacity:1; filter:brightness(1.9); }
@@ -2855,6 +2866,87 @@ if (location.hash === '#projects') {
     tip.style.left = e.clientX + 'px';
     tip.style.top  = e.clientY + 'px';
   }, { passive: true });
+})();
+
+// Circuit-glow overlay: scattered glowing cyan "Nomai beam" clusters (scribble
+// circle + radiating lines) as a persistent background texture, always visible
+(function() {
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('id', 'circuit-glow');
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', '100%');
+  svg.setAttribute('viewBox', '0 0 100 100');
+  svg.setAttribute('preserveAspectRatio', 'none');
+
+  const defs = document.createElementNS(svgNS, 'defs');
+  const filter = document.createElementNS(svgNS, 'filter');
+  filter.setAttribute('id', 'circuitGlow');
+  filter.setAttribute('x', '-50%'); filter.setAttribute('y', '-50%');
+  filter.setAttribute('width', '200%'); filter.setAttribute('height', '200%');
+  const blur = document.createElementNS(svgNS, 'feGaussianBlur');
+  blur.setAttribute('stdDeviation', '0.6');
+  blur.setAttribute('result', 'blur');
+  const merge = document.createElementNS(svgNS, 'feMerge');
+  const m1 = document.createElementNS(svgNS, 'feMergeNode'); m1.setAttribute('in', 'blur');
+  const m2 = document.createElementNS(svgNS, 'feMergeNode'); m2.setAttribute('in', 'SourceGraphic');
+  merge.appendChild(m1); merge.appendChild(m2);
+  filter.appendChild(blur); filter.appendChild(merge);
+  defs.appendChild(filter);
+  svg.appendChild(defs);
+
+  function scribbleCircle(cx, cy, r, points, seedOffset) {
+    let d = '';
+    for (let i = 0; i <= points; i++) {
+      const a = (i / points) * Math.PI * 2;
+      const jitter = 0.75 + 0.5 * Math.sin(a * 3 + seedOffset) * Math.cos(a * 5 - seedOffset);
+      const rr = r * jitter;
+      const x = cx + Math.cos(a) * rr;
+      const y = cy + Math.sin(a) * rr;
+      d += (i === 0 ? 'M' : 'L') + x.toFixed(2) + ',' + y.toFixed(2) + ' ';
+    }
+    return d;
+  }
+
+  function beamCluster(cx, cy, r, beamCount, seedOffset) {
+    const g = document.createElementNS(svgNS, 'g');
+    g.setAttribute('filter', 'url(#circuitGlow)');
+    const circle = document.createElementNS(svgNS, 'path');
+    circle.setAttribute('d', scribbleCircle(cx, cy, r, 16, seedOffset));
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', '#6FE3F0');
+    circle.setAttribute('stroke-width', '0.15');
+    g.appendChild(circle);
+    for (let i = 0; i < beamCount; i++) {
+      const a = (i / beamCount) * Math.PI * 2 + seedOffset;
+      const len = r * (1.6 + Math.random() * 0.8);
+      const x1 = cx + Math.cos(a) * r * 0.6;
+      const y1 = cy + Math.sin(a) * r * 0.6;
+      const x2 = cx + Math.cos(a) * len;
+      const y2 = cy + Math.sin(a) * len;
+      const line = document.createElementNS(svgNS, 'line');
+      line.setAttribute('x1', x1.toFixed(2)); line.setAttribute('y1', y1.toFixed(2));
+      line.setAttribute('x2', x2.toFixed(2)); line.setAttribute('y2', y2.toFixed(2));
+      line.setAttribute('stroke', '#6FE3F0');
+      line.setAttribute('stroke-width', '0.12');
+      line.setAttribute('stroke-linecap', 'round');
+      g.appendChild(line);
+    }
+    return g;
+  }
+
+  const clusters = [
+    [12, 15, 6, 4, 0.4],
+    [88, 8, 5, 3, 1.8],
+    [92, 60, 7, 4, 3.1],
+    [6, 70, 5, 3, 2.2],
+    [50, 92, 6, 3, 0.9],
+  ];
+  clusters.forEach(([cx, cy, r, beams, seed]) => {
+    svg.appendChild(beamCluster(cx, cy, r, beams, seed));
+  });
+
+  document.body.insertBefore(svg, document.body.firstChild);
 })();
 
 // Starfield overlay: fades in as you scroll down, fades back out scrolling up
