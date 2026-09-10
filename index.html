@@ -254,95 +254,66 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:transform 1s cubic-bezier(0.22,1,0.36,1);
   }
   .cave-scene.loaded .detector { transform:translate(-50%, 0%); }
-  /* Camera: CSS 3D barrel. --cam-w/h are the cross-section, --cam-d is the
-     barrel length (= viewing axis). The head pivots at its back end via a
-     3D transform-origin; JS sets rotateY (yaw) + rotateX (pitch). */
+  /* Camera: a rounded "pod" — pill body + big lens disc — laid out in 2.5D.
+     JS computes lens/body placement from the yaw each frame so the lens
+     visibly swings toward the cursor while the silhouette stays round. */
   .detector-camera {
-    --cam-w:clamp(60px, 5.6vw, 76px);
-    --cam-h:calc(var(--cam-w) * 0.8);
-    --cam-d:calc(var(--cam-w) * 1.9);
-    position:absolute; right:1%; bottom:calc(100% - 4px); z-index:3;
-    width:var(--cam-w); height:var(--cam-h);
-    perspective:1100px; perspective-origin:50% 50%;
+    --pod-w:clamp(112px, 10.5vw, 144px);
+    --pod-h:calc(var(--pod-w) * 0.5);
+    position:absolute; right:3%; bottom:calc(100% - 10px); z-index:3;
+    width:var(--pod-w); height:calc(var(--pod-h) + var(--pod-w) * 0.2);
+    pointer-events:none;
   }
-  .cam-head {
-    position:absolute; left:0; top:0; z-index:1;
-    width:var(--cam-w); height:var(--cam-h);
-    transform-style:preserve-3d;
-    transform-origin:50% 60% 0; /* pivot on the side pin at mid-body */
-    transform:rotateY(200deg) rotateX(16deg);
-    will-change:transform;
+  .pod-head { position:absolute; left:0; top:0; width:var(--pod-w); height:var(--pod-h); }
+  .pod-body {
+    position:absolute; top:0; height:100%;
+    border-radius:999px;
+    background:linear-gradient(to right, var(--p-cam-back-0) 0%, var(--p-cam-side-1) 55%, var(--p-cam-bottom) 100%);
+    box-shadow:inset 0 3px 0 rgba(255,255,255,0.5), inset 0 -5px 8px rgba(0,0,0,0.22), 0 8px 16px rgba(0,0,0,0.4);
   }
-  .cam-face {
-    position:absolute; left:0; top:0;
-    width:var(--cam-w); height:var(--cam-h);
-    transform-origin:50% 50%;
-    backface-visibility:hidden;
+  .pod-body.flip {
+    background:linear-gradient(to left, var(--p-cam-back-0) 0%, var(--p-cam-side-1) 55%, var(--p-cam-bottom) 100%);
   }
-  /* front tip: faces INTO the scene */
-  .cam-front {
-    transform:translateZ(calc(var(--cam-d) / 2));
-    background:var(--p-cam-front); border-radius:5px; overflow:visible;
+  .pod-slit {
+    position:absolute; width:14%; height:4px; border-radius:2px;
+    background:var(--p-beam); box-shadow:0 0 6px var(--p-beam);
   }
-  /* back end: faces the viewer, carries the port + cable */
-  .cam-back {
-    transform:rotateY(180deg) translateZ(calc(var(--cam-d) / 2));
-    background:linear-gradient(180deg, var(--p-cam-back-0) 0%, var(--p-cam-back-1) 100%);
-    border-radius:5px; overflow:visible;
+  /* lens: dark outer ring, pale bezel, deep glass, glowing core */
+  .pod-lens {
+    position:absolute; top:50%; border-radius:50%;
+    background:var(--p-navy-0);
+    box-shadow:inset 0 0 0 3px var(--p-cam-side-3), 0 0 0 1px rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.35);
+    display:flex; align-items:center; justify-content:center;
   }
-  .cam-left, .cam-right {
-    width:var(--cam-d); left:calc((var(--cam-w) - var(--cam-d)) / 2);
+  .pod-glass {
+    width:72%; height:72%; border-radius:50%;
+    background:radial-gradient(circle at 42% 38%, #17362F 0%, #06120F 70%);
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,0.08), 0 0 0 2px var(--p-beam);
+    display:flex; align-items:center; justify-content:center;
   }
-  .cam-left  { transform:rotateY(-90deg) translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-0) 0%, var(--p-cam-side-1) 58%, var(--p-cam-side-2) 100%); }
-  .cam-right { transform:rotateY(90deg)  translateZ(calc(var(--cam-w) / 2)); background:linear-gradient(180deg, var(--p-cam-side-3) 0%, var(--p-cam-side-4) 100%); }
-  .cam-top, .cam-bottom {
-    height:var(--cam-d); top:calc((var(--cam-h) - var(--cam-d)) / 2);
+  .pod-core {
+    width:46%; height:46%; border-radius:50%;
+    background:radial-gradient(circle at 40% 38%, #FFFFFF 0%, var(--p-beam-hi) 30%, var(--p-beam) 62%, rgba(138,211,172,0) 100%);
+    box-shadow:0 0 10px var(--p-beam), 0 0 22px rgba(var(--p-glow-rgb), 0.55);
+    animation:podCore 3s ease-in-out infinite;
   }
-  .cam-top    { transform:rotateX(90deg)  translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-top); }
-  .cam-bottom { transform:rotateX(-90deg) translateZ(calc(var(--cam-h) / 2)); background:var(--p-cam-bottom); }
-  /* tip details: cobalt wedge over the upper part, navy clip on the top edge */
-  .cam-accent {
-    position:absolute; left:0; top:0; width:100%; height:56%;
-    background:linear-gradient(90deg, var(--p-accent-0) 0%, var(--p-accent-0) 34%, var(--p-accent-1) 34%, var(--p-accent-1) 100%);
-    clip-path:polygon(0 0, 100% 0, 100% 62%, 0 100%);
-    border-radius:5px 5px 0 0;
+  @keyframes podCore { 0%,100% { transform:scale(1); opacity:.95; } 50% { transform:scale(1.12); opacity:1; } }
+  .cave-scene.paused .pod-core { animation-play-state:paused; opacity:.35; }
+  /* ball joint under the pod */
+  .pod-neck {
+    position:absolute; left:50%; top:calc(var(--pod-h) - 8px); transform:translateX(-50%);
+    width:22%; height:16px; background:var(--p-navy-0); border-radius:0 0 6px 6px;
   }
-  /* navy clip riding the top face right at the tip */
-  .cam-clip {
-    position:absolute; left:14%; bottom:8%; width:72%; height:12%;
-    background:var(--p-navy-0); border-radius:3px;
+  .pod-joint {
+    position:absolute; left:50%; top:calc(var(--pod-h) + 2px); transform:translateX(-50%);
+    width:calc(var(--pod-w) * 0.2); height:calc(var(--pod-w) * 0.2); border-radius:50%;
+    background:radial-gradient(circle at 38% 34%, var(--p-navy-3) 0%, var(--p-navy-0) 55%, var(--p-navy-2) 100%);
+    box-shadow:0 4px 8px rgba(0,0,0,0.45);
   }
-  /* the wedge wraps around the tip onto both sides and the top.
-     Side faces: tip end is at x=100% on .cam-left, x=0 on .cam-right. */
-  .cam-accent-side {
-    position:absolute; top:0; width:20%; height:56%;
-    background:var(--p-accent-0);
-  }
-  .cam-left  .cam-accent-side { right:0; clip-path:polygon(0 0, 100% 0, 100% 100%, 36% 100%); }
-  .cam-right .cam-accent-side { left:0;  clip-path:polygon(0 0, 100% 0, 64% 100%, 0 100%); }
-  .cam-accent-top {
-    position:absolute; left:0; bottom:0; width:100%; height:15%;
-    background:var(--p-accent-1);
-    clip-path:polygon(0 0, 100% 34%, 100% 100%, 0 100%);
-  }
-  /* lens end: hazard-striped square housing with a dark glass lens */
-  .cam-port {
-    position:absolute; left:14%; top:12%; width:72%; height:76%;
-    border-radius:9px; border:4px solid transparent;
-    background:
-      linear-gradient(var(--p-navy-1), var(--p-navy-1)) padding-box,
-      repeating-linear-gradient(45deg, #9AA3A5 0 4px, var(--p-hazard-dark) 4px 8px) border-box;
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,0.35);
-  }
-  .cam-lens {
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:62%; height:62%; border-radius:50%;
-    background:radial-gradient(circle at 38% 34%, #3E4A63 0%, #161C2E 36%, #05070F 70%);
-    box-shadow:0 0 0 2px rgba(0,0,0,0.5), inset 0 0 6px rgba(0,0,0,0.8);
-  }
-  .cam-lens::after {
-    content:''; position:absolute; left:24%; top:20%; width:22%; height:22%;
-    border-radius:50%; background:rgba(255,255,255,0.22);
+  .pod-joint::after {
+    content:''; position:absolute; inset:28%; border-radius:50%;
+    border:2px solid var(--p-beam); box-shadow:0 0 6px var(--p-beam), inset 0 0 4px var(--p-beam);
+    background:#06120F;
   }
   .detector-drum {
     position:absolute; top:32%; width:5.5%; height:42%; z-index:0;
@@ -1246,27 +1217,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
-       and the boxy 3/4-view camera unit cabled into its top-right corner -->
+       and the rounded camera pod perched on its top-right corner -->
   <div class="detector" id="detector">
-    <!-- Camera: a long CSS 3D barrel whose length axis is the viewing
-         direction. The narrow FRONT tip (cobalt wedge + navy clip) aims into
-         the scene; the BACK end (hazard-framed port + cable) faces the
-         viewer. It pivots at the back end and JS yaws it to look toward the
-         cursor: cursor left => tip swings up-left, cursor right => up-right.
-         It pivots on the side-mounted pin at the middle of the body. -->
+    <!-- Camera: rounded pod on a ball joint. The lens disc and pill body are
+         positioned by JS from the yaw (60deg left .. 20deg right of facing
+         the viewer), so the lens sweeps toward the cursor. -->
     <div class="detector-camera" id="detectorCamera">
-      <div class="cam-head" id="camHead">
-        <div class="cam-face cam-front">
-          <span class="cam-accent"></span>
-        </div>
-        <div class="cam-face cam-back">
-          <span class="cam-port"><span class="cam-lens"></span></span>
-        </div>
-        <div class="cam-face cam-left"><span class="cam-accent-side"></span></div>
-        <div class="cam-face cam-right"><span class="cam-accent-side"></span></div>
-        <div class="cam-face cam-top"><span class="cam-accent-top"></span><span class="cam-clip"></span></div>
-        <div class="cam-face cam-bottom"></div>
+      <div class="pod-head" id="camHead">
+        <div class="pod-body" id="podBody"></div>
+        <span class="pod-slit" id="podSlit"></span>
+        <div class="pod-lens" id="podLens"><div class="pod-glass"><div class="pod-core"></div></div></div>
       </div>
+      <div class="pod-neck" aria-hidden="true"></div>
+      <div class="pod-joint" aria-hidden="true"></div>
     </div>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
     <div class="detector-drum drum-right" aria-hidden="true"></div>
@@ -2727,7 +2690,41 @@ document.addEventListener('mousemove', e => {
   const caveLayers = [...document.querySelectorAll('.cave-layer')];
   const reticle = document.getElementById('reticle');
   const camHead = document.getElementById('camHead');
-  let camYaw = 200, camPitch = 16; // start aimed up-left at the reticle
+  const podBody = document.getElementById('podBody');
+  const podLens = document.getElementById('podLens');
+  const podSlit = document.getElementById('podSlit');
+  // yaw: 0 = lens straight at the viewer; +deg turns the lens to the
+  // viewer's left, -deg to the right. Range +60 .. -20, rest +20.
+  let camYaw = 20, camPitch = 0;
+
+  // 2.5D pod layout: the lens ellipse squashes with cos(yaw) and slides
+  // toward the side it looks at; the pill body extends the other way to
+  // expose the rear of the pod.
+  function layoutPod(yawDeg, pitchDeg) {
+    if (!camHead) return;
+    const W = camHead.clientWidth, H = camHead.clientHeight;
+    const D = H * 0.9;                       // lens diameter
+    const BL = W * 0.62;                     // body length along the view axis
+    const r = yawDeg * Math.PI / 180, s = Math.sin(r), c = Math.max(Math.cos(r), 0.3);
+    const cx = W / 2, cy = H / 2 - pitchDeg * 0.5;
+    const lensC = cx - s * BL / 2, rearC = cx + s * BL / 2;
+    const lensW = D * c;
+    const bodyL = s >= 0 ? lensC - (H / 2) * c : rearC - H / 2;
+    const bodyR = s >= 0 ? rearC + H / 2 : lensC + (H / 2) * c;
+    podBody.style.left = bodyL.toFixed(1) + 'px';
+    podBody.style.width = (bodyR - bodyL).toFixed(1) + 'px';
+    podBody.classList.toggle('flip', s < 0);
+    podLens.style.width = lensW.toFixed(1) + 'px';
+    podLens.style.height = D.toFixed(1) + 'px';
+    podLens.style.left = (lensC - lensW / 2).toFixed(1) + 'px';
+    podLens.style.marginTop = (-D / 2 + (cy - H / 2)).toFixed(1) + 'px';
+    const a = Math.abs(s);
+    podSlit.style.opacity = Math.max(0, Math.min(1, a * 2.2 - 0.4)).toFixed(2);
+    podSlit.style.left = (rearC - (s >= 0 ? H * 0.34 : H * 0.14) - W * 0.07 * (s < 0 ? 1 : 0)).toFixed(1) + 'px';
+    podSlit.style.top = (cy + H * 0.16).toFixed(1) + 'px';
+  }
+  layoutPod(camYaw, camPitch);
+  window.addEventListener('resize', () => layoutPod(camYaw, camPitch));
   const LOCK_RADIUS = 90; // px, distance from the reticle center that counts as "near the target"
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
@@ -2767,15 +2764,13 @@ document.addEventListener('mousemove', e => {
       reticle?.classList.remove('locked');
     }
 
-    // Camera head: yaw the barrel toward the cursor, with a touch of pitch,
-    // eased so it feels motorised rather than jittery.
-    // 180deg = tip pointing straight into the wall. Range: 60deg to the
-    // left (cursor at the left edge => 240) and 20deg to the right (=> 160),
-    // so the rest pose (cursor centered) is 200, aimed toward the reticle.
+    // Camera pod: swing the lens toward the cursor (60deg left at the left
+    // edge, 20deg right at the right edge, rest 20deg left), eased so it
+    // feels motorised rather than jittery.
     if (camHead && !reducedMotion) {
-      camYaw   += ((200 - nx * 40) - camYaw) * 0.08;
-      camPitch += ((16 - ny * 5) - camPitch) * 0.08;
-      camHead.style.transform = `rotateY(${camYaw.toFixed(2)}deg) rotateX(${camPitch.toFixed(2)}deg)`;
+      camYaw   += ((20 - nx * 40) - camYaw) * 0.08;
+      camPitch += ((-ny * 8) - camPitch) * 0.08;
+      layoutPod(camYaw, camPitch);
     }
 
     requestAnimationFrame(frame);
