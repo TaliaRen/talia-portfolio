@@ -92,7 +92,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── Scene palette tokens (dark sage) ── */
   :root {
-    --p-bg:#091510; --p-rock-far-0:#1F4030; --p-rock-far-1:#284A38; --p-rock-far-2:#325843; --p-rock-far-3:#163022; --p-rock-far-4:#12281C; --p-rock-far-5:#102319; --p-rock-far-6:#07140D; --p-rock-mid-0:#193426; --p-rock-mid-1:#3F6A50; --p-rock-near-0:#1A3728; --p-rock-near-1:#12291D; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#D9E4DC; --p-shell-1:#BFCFC4; --p-shell-2:#A3B7AA; --p-shell-edge:#789284; --p-drum-0:#0E1B14; --p-drum-1:#1C3226; --p-drum-2:#122019; --p-corner-0:#1E3A2B; --p-corner-1:#152B20; --p-corner-2:#0F2016; --p-screen-0:#0B2C1E; --p-screen-1:#082117; --p-screen-2:#051510; --p-screen-text:#8FE0B6; --p-cam-front:#DFE6E2; --p-cam-back-0:#EEF2EF; --p-cam-back-1:#D1DAD5; --p-cam-side-0:#E7EDE9; --p-cam-side-1:#D8E0DB; --p-cam-side-2:#BCC8C1; --p-cam-side-3:#CFD8D3; --p-cam-side-4:#B0BDB6; --p-cam-top:#F5F8F6; --p-cam-bottom:#98A8A0; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F;
+    --p-bg:#06100B; --p-rock-far-0:#183526; --p-rock-far-1:#203E2E; --p-rock-far-2:#294B38; --p-rock-far-3:#11271B; --p-rock-far-4:#0E2116; --p-rock-far-5:#0C1D13; --p-rock-far-6:#050F0A; --p-rock-mid-0:#142B1F; --p-rock-mid-1:#345A43; --p-rock-near-0:#152E21; --p-rock-near-1:#0E2217; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#D3DFD7; --p-shell-1:#B8C9BD; --p-shell-2:#9CB0A3; --p-shell-edge:#718A7C; --p-drum-0:#0B1610; --p-drum-1:#172A1F; --p-drum-2:#0F1B15; --p-corner-0:#193225; --p-corner-1:#12251B; --p-corner-2:#0C1A12; --p-screen-0:#092518; --p-screen-1:#061B12; --p-screen-2:#04110D; --p-screen-text:#8FE0B6; --p-cam-front:#DFE6E2; --p-cam-back-0:#EEF2EF; --p-cam-back-1:#D1DAD5; --p-cam-side-0:#E7EDE9; --p-cam-side-1:#D8E0DB; --p-cam-side-2:#BCC8C1; --p-cam-side-3:#CFD8D3; --p-cam-side-4:#B0BDB6; --p-cam-top:#F5F8F6; --p-cam-bottom:#98A8A0; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F;
     --p-glow-rgb:143,224,182;
   }
   :root { --bg:var(--p-bg); --ink:#1C1917; --muted:#78716C; }
@@ -270,7 +270,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     width:var(--cam-w); height:var(--cam-h);
     transform-style:preserve-3d;
     transform-origin:50% 60% 0; /* pivot on the side pin at mid-body */
-    transform:rotateY(202deg) rotateX(16deg);
+    transform:rotateY(200deg) rotateX(16deg);
     will-change:transform;
   }
   .cam-face {
@@ -2727,7 +2727,7 @@ document.addEventListener('mousemove', e => {
   const caveLayers = [...document.querySelectorAll('.cave-layer')];
   const reticle = document.getElementById('reticle');
   const camHead = document.getElementById('camHead');
-  let camYaw = 202, camPitch = 16; // start aimed up-left at the reticle
+  let camYaw = 200, camPitch = 16; // start aimed up-left at the reticle
   const LOCK_RADIUS = 90; // px, distance from the reticle center that counts as "near the target"
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
@@ -2769,11 +2769,11 @@ document.addEventListener('mousemove', e => {
 
     // Camera head: yaw the barrel toward the cursor, with a touch of pitch,
     // eased so it feels motorised rather than jittery.
-    // 180deg = tip pointing straight into the wall. Rest at 202deg so the
-    // barrel naturally aims toward the reticle on the left; cursor left
-    // swings it further left (up to ~240), cursor right swings it right (~164).
+    // 180deg = tip pointing straight into the wall. Range: 60deg to the
+    // left (cursor at the left edge => 240) and 20deg to the right (=> 160),
+    // so the rest pose (cursor centered) is 200, aimed toward the reticle.
     if (camHead && !reducedMotion) {
-      camYaw   += ((202 - nx * 38) - camYaw) * 0.08;
+      camYaw   += ((200 - nx * 40) - camYaw) * 0.08;
       camPitch += ((16 - ny * 5) - camPitch) * 0.08;
       camHead.style.transform = `rotateY(${camYaw.toFixed(2)}deg) rotateX(${camPitch.toFixed(2)}deg)`;
     }
