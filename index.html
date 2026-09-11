@@ -194,10 +194,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; top:4vh; right:4vw; z-index:7;
     width:min(11vw, 118px); height:auto; cursor:pointer;
     transform-origin:50% 50%; will-change:transform;
-    opacity:0; transition:opacity 1.2s ease;
+    scale:1; transition:opacity 1.2s ease, scale 0.35s cubic-bezier(0.22,1,0.36,1);
+    opacity:0;
     filter:drop-shadow(0 0 10px rgba(255,255,255,0.25));
   }
   .hero-emblem.ready { opacity:0.95; }
+  .hero-emblem:hover { scale:1.15; }   /* composes with the inline rotate() */
   @media (max-width:640px) { .hero-emblem { width:22vw; top:2vh; right:2vw; } }
   /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
   .hero-line {
