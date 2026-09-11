@@ -126,7 +126,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #star-field circle:hover { opacity:1; filter:brightness(1.9); }
 
   /* ── Nav ── */
-  nav {
+  nav:not(.log-rail) {
     position:fixed; top:20px; left:50%; transform:translateX(-50%);
     z-index:200;
     display:flex; align-items:center; justify-content:space-between;
@@ -220,10 +220,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── Left rail: vertical strip inside the frame — logo, music toggle,
      Play, About, then contact icons ── */
   .log-rail {
-    position:fixed; left:52px; top:50%; transform:translateY(-50%); z-index:70;
-    width:58px; padding:16px 0; box-sizing:border-box;
-    display:flex; flex-direction:column; align-items:center; gap:10px;
+    /* a plain vertical line just inside the frame's left edge; the logo
+       sits at the top, the icons stack below it */
+    position:fixed; left:40px; top:40px; bottom:40px; z-index:70;
+    width:56px; padding:6px 0; box-sizing:border-box;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    border-right:1px solid rgba(130, 215, 160, 0.34);
+    background:none; border-radius:0; backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none;
   }
+  .log-rail .rail-logo { margin-bottom:8px; }
   .log-rail a, .log-rail button {
     display:flex; align-items:center; justify-content:center;
     width:36px; height:36px; border-radius:10px; border:0; background:transparent; padding:0;
@@ -239,7 +244,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .log-rail .rail-music.on svg { animation:railBeat 1.2s ease-in-out infinite; }
   @keyframes railBeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
   @media (max-width:640px) {
-    .log-rail { left:26px; width:44px; gap:6px; padding:10px 0; }
+    .log-rail { left:22px; top:22px; bottom:22px; width:42px; gap:4px; padding:4px 0; }
     .log-rail a, .log-rail button { width:32px; height:32px; }
     .log-rail svg { width:17px; height:17px; }
     .log-rail .rail-logo img { width:26px; height:26px; }
