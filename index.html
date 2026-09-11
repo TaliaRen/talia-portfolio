@@ -190,12 +190,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
-    position:absolute; top:4vh; right:4vw; z-index:2;
-    width:min(34vw, 380px); height:auto; pointer-events:none;
-    mix-blend-mode:screen; opacity:0; transition:opacity 1.2s ease;
+    position:absolute; top:4vh; right:4vw; z-index:7;
+    width:min(20vw, 220px); height:auto; cursor:pointer;
+    opacity:0; transition:opacity 1.2s ease;
+    filter:drop-shadow(0 0 10px rgba(255,255,255,0.25));
   }
   .hero-emblem.ready { opacity:0.95; }
-  @media (max-width:640px) { .hero-emblem { width:46vw; top:2vh; right:2vw; } }
+  /* click toggles a slow continuous spin */
+  .hero-emblem.spin { animation:emblemSpin 14s linear infinite; }
+  @keyframes emblemSpin { to { transform:rotate(360deg); } }
+  @media (max-width:640px) { .hero-emblem { width:34vw; top:2vh; right:2vw; } }
   /* headline: portfolio hero spec (Source Serif 4, weight 200, 2.125rem) */
   .hero-line {
     position:absolute; left:8%; top:14%; z-index:6; max-width:min(640px, 70vw);
@@ -1142,11 +1146,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
   </div>
 
-  <!-- 1b. Emblem: glowing disc artwork in the top-right corner. Drop the
-       file at hero/emblem.png; it stays hidden until it loads. screen-blend
-       removes the artwork's own dark background. -->
-  <img class="hero-emblem" id="heroEmblem" src="hero/emblem.png" alt="" aria-hidden="true"
-       onload="this.classList.add('ready')">
+  <!-- 1b. Emblem: the Outer Wilds "music" starburst in the top-right
+       corner; fades in on load, click to start/stop it spinning. -->
+  <img class="hero-emblem" id="heroEmblem" src="outerwilds/music.png" alt="" role="button" aria-label="Spin emblem"
+       onload="this.classList.add('ready')" onclick="this.classList.toggle('spin')">
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
   <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
