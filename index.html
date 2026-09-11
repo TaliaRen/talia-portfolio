@@ -228,7 +228,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border-right:1px solid rgba(130, 215, 160, 0.34);
     background:none; border-radius:0; backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none;
   }
-  .log-rail .rail-logo { margin-bottom:22px; }
   .log-rail .rail-contact { margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:8px; }
   /* hover label beside each icon */
   .log-rail a, .log-rail button { position:relative; }
@@ -249,12 +248,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .log-rail a:hover, .log-rail button:hover { color:#fff; background:rgba(130, 215, 160, 0.12); transform:translateY(-1px); }
   .log-rail svg { width:19px; height:19px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
-  .log-rail .rail-logo img { width:30px; height:30px; display:block; transition:transform .2s ease-out; }
+  .log-rail .rail-logo img { width:24px; height:24px; display:block; transition:transform .2s ease-out; }
   .log-rail .rail-logo:hover img { transform:rotate(15deg) scale(1.07); }
   .log-rail .rail-sep { width:22px; height:1px; background:rgba(130, 215, 160, 0.34); margin:4px 0; }
-  .log-rail .rail-music.on { color:#63FF8A; }
-  .log-rail .rail-music.on svg { animation:railBeat 1.2s ease-in-out infinite; }
-  @keyframes railBeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
   @media (max-width:640px) {
     .log-rail { display:none; }                /* no side rail on phones */
   }
@@ -319,6 +315,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     filter:drop-shadow(0 0 10px rgba(255,255,255,0.25));
   }
   .hero-emblem.ready { opacity:0.95; }
+  .hero-emblem-label {
+    position:absolute; right:4vw; top:calc(4vh + min(6vw, 66px) + 10px); z-index:7; pointer-events:none;
+    padding:4px 9px; border-radius:6px; white-space:nowrap;
+    font-family:'Figtree', sans-serif; font-size:.74rem; font-weight:500; letter-spacing:.02em;
+    color:#fff; background:rgba(15, 30, 24, 0.92); border:1px solid rgba(130, 215, 160, 0.34);
+    opacity:0; transform:translateY(-4px); transition:opacity 0.18s ease, transform 0.18s ease;
+  }
+  .hero-emblem:hover + .hero-emblem-label { opacity:1; transform:translateY(0); }
   .hero-emblem:hover { scale:1.15; }   /* composes with the inline rotate() */
   @media (max-width:640px) { .hero-emblem { width:13vw; top:2vh; right:3vw; } }
   /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
@@ -1210,9 +1214,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <nav class="log-rail" aria-label="Site">
   <a class="rail-logo" href="#" data-label="Home" aria-label="Home"><img src="logo.png" alt=""></a>
-  <button type="button" class="rail-music" id="railMusic" data-label="Music" aria-label="Toggle music" aria-pressed="false">
-    <svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
-  </button>
   <a href="play.html" data-label="Playground" aria-label="Playground">
     <svg viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5.4 1.8L15 15H9l-1.6 1.8A3 3 0 0 1 2 15v-3a4 4 0 0 1 4-4z"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="12" r=".6"/><circle cx="18" cy="13.5" r=".6"/></svg>
   </a>
@@ -1275,6 +1276,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        click again: pauses both, holding the current angle (JS below). -->
   <img class="hero-emblem" id="heroEmblem" src="outerwilds/music.png" alt="" role="button" aria-label="Play music"
        onload="this.classList.add('ready')">
+  <span class="hero-emblem-label" id="heroEmblemLabel" aria-hidden="true">Play music</span>
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
   <!-- 2. Scan beams: a fan of translucent wedges from the camera's lens,
@@ -2717,6 +2719,7 @@ document.addEventListener('mousemove', e => {
   const emblem = document.getElementById('heroEmblem');
   if (emblem) {
     let spinning = false, angle = 0, last = 0, music = null;
+    const emblemLabel = document.getElementById('heroEmblemLabel');
     const RPM = 360 / 14;                                  // one turn every 14s
     function spinFrame(now) {
       if (!spinning) return;
@@ -2724,12 +2727,9 @@ document.addEventListener('mousemove', e => {
       emblem.style.transform = `rotate(${angle.toFixed(2)}deg)`;
       requestAnimationFrame(spinFrame);
     }
-    const railMusic = document.getElementById('railMusic');
-    railMusic?.addEventListener('click', () => emblem.click());
     emblem.addEventListener('click', () => {
       spinning = !spinning;
-      railMusic?.classList.toggle('on', spinning);
-      railMusic?.setAttribute('aria-pressed', String(spinning));
+      emblemLabel && (emblemLabel.textContent = spinning ? 'Pause music' : 'Play music');
       if (spinning) {
         last = performance.now(); requestAnimationFrame(spinFrame);
         if (!music) { music = new Audio('sound effect/music.mp3'); music.loop = true; music.volume = 0.7; }
