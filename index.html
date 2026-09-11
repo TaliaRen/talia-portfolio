@@ -2525,31 +2525,33 @@ document.addEventListener('mousemove', e => {
   const screenText = document.getElementById('screenText');
   // three lines, typed out one after another (\n => line break)
   const MESSAGE = "Translator Ready\nHover over the unknown text to decode it\nScroll to explore \u2193";
-  const renderScreen = s => {
+  // shown while a scrambled phrase is hovered (the "translation")
+  const INTRO = "Hi, I\u2019m Talia.\n\nI design AI-powered tools and complex workflows,\nmaking them clearer and more intuitive to use.";
+  const renderScreen = (s, capsule) => {
     screenText.textContent = '';
     s.split('\n').forEach((line, k) => {
       if (k) screenText.appendChild(document.createElement('br'));
-      if (k === 0) { const t = document.createElement('span'); t.className = 'screen-title'; t.textContent = line; screenText.appendChild(t); }
+      if (k === 0 && capsule) { const t = document.createElement('span'); t.className = 'screen-title'; t.textContent = line; screenText.appendChild(t); }
       else screenText.appendChild(document.createTextNode(line));
     });
   };
-  if (screenText) {
-    if (reducedMotion) {
-      renderScreen(MESSAGE);
-      screenText.classList.add('done');
-    } else {
-      let i = 0;
-      (function typeNext() {
-        renderScreen(MESSAGE.slice(0, i));
-        i++;
-        if (i <= MESSAGE.length) {
-          setTimeout(typeNext, MESSAGE[i - 1] === '\n' ? 260 : 28);   // brief pause at line ends
-        } else {
-          screenText.classList.add('done');
-        }
-      })();
-    }
+  // cancellable typewriter; `capsule` wraps the first line in the pill
+  let typeTimer = 0;
+  function typeScreen(text, { capsule = false, speed = 28, instant = false } = {}) {
+    clearTimeout(typeTimer);
+    screenText.classList.remove('done');
+    if (reducedMotion || instant) { renderScreen(text, capsule); screenText.classList.add('done'); return; }
+    let i = 0;
+    (function typeNext() {
+      renderScreen(text.slice(0, i), capsule);
+      i++;
+      if (i <= text.length) typeTimer = setTimeout(typeNext, text[i - 1] === '\n' ? 220 : speed);   // brief pause at line ends
+      else screenText.classList.add('done');
+    })();
   }
+  const showReady = instant => typeScreen(MESSAGE, { capsule: true, instant });
+  const showIntro = () => typeScreen(INTRO, { speed: 14 });
+  if (screenText) showReady(false);
 
   // ── 1b. Emblem: click toggles spin + music. Rotation is driven by rAF
   //      (not a CSS animation) so pausing keeps whatever angle it reached. ──
@@ -2973,8 +2975,8 @@ document.addEventListener('mousemove', e => {
       el.classList.remove('decoded'); S.fixed = 0; showText();
     };
     // hovering either phrase decodes BOTH and fires the beams at both
-    el.addEventListener('mouseenter', () => { strands.forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); });
-    el.addEventListener('mouseleave', () => { strands.forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); });
+    el.addEventListener('mouseenter', () => { strands.forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); if (screenText) showIntro(); });
+    el.addEventListener('mouseleave', () => { strands.forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); if (screenText) showReady(true); });
   });
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
   // rebuild a strand whenever its hidden text changes size (font load,
