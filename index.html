@@ -212,10 +212,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:relative; display:inline-block; cursor:help; white-space:nowrap;
     height:1.15em; vertical-align:-0.22em; overflow:visible;
   }
-  .glyph-canvas { position:absolute; left:0; top:0; pointer-events:none; transition:opacity 0.25s ease; }
+  .glyph-svg { position:absolute; left:0; top:0; pointer-events:none; overflow:visible; transition:opacity 0.25s ease; }
+  .glyph-core { fill:none; stroke-linejoin:round; stroke-linecap:round; }
+  .glyph-halo { fill:none; stroke-linejoin:round; stroke-linecap:round; }
   .glyph-text { position:absolute; left:0; top:0; color:#fff; opacity:0; transition:opacity 0.2s ease; }
   .glyph-probe { visibility:hidden; white-space:nowrap; }
-  .glyph.decoded .glyph-canvas { opacity:0; }
+  .glyph.decoded .glyph-svg { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
   @media (max-width:640px) { .hero-line { left:6%; top:12%; max-width:88vw; } }
 
@@ -1156,6 +1158,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        onload="this.classList.add('ready')" onclick="this.classList.toggle('spin')">
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <filter id="glyphGlow" x="-10%" y="-100%" width="120%" height="300%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
+  </defs></svg>
   <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
 
   <!-- 2. Scan beams: fired from the camera's lens at whichever waveform
@@ -2858,150 +2865,149 @@ document.addEventListener('mousemove', e => {
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   let locked = false;
 
-  // ── Headline glyphs: glowing coiled-line strands that decode on hover ──
-  // Each untranslated phrase is a canvas strand: a few CONTINUOUS strokes
-  // that coil into tiny loops as they travel along a centre path (a
-  // trochoid with noise), interweaving into a granular chain. The macro
-  // shape comes from a Catmull-Rom spline (straight / arc / custom); the
-  // texture and motion come from each stroke's phase along the path plus
-  // local noise — so bending the path never changes the texture.
-  //
-  // Config: window.StrandConfig (global defaults) — change live with
-  // window.updateStrands({ ...partial }). Per-element overrides via
-  // data-path / data-curve / data-points on the .glyph element.
+  // ── Headline glyphs: one continuous curling line per phrase ──
+  // Generation = "main path + local walker":
+  //   1. a main path runs left→right across the phrase (straight / curved);
+  //   2. it is sampled for position + tangent;
+  //   3. the drawing point always advances along it;
+  //   4. at every sample a local offset vector is rotated by an angular
+  //      velocity made of Perlin noise + a sine term + seeded randomness,
+  //      with a radius that also varies by noise;
+  //   5. when that rotation outruns the forward motion the point briefly
+  //      turns back on itself → irregular curls, kinks and small loops;
+  //   6. the offset is soft-clamped to ±bandWidth/2 around the main path.
+  // Samples are joined Catmull-Rom → cubic Bézier into ONE <path>; a <use>
+  // of the same path, blurred by an SVG filter, sits under it as the glow.
+  // Time enters the noise on a circle, so the animation loops seamlessly.
   window.StrandConfig = Object.assign({
-    path: 'straight',      // 'straight' | 'arc' | 'custom'
-    points: [[0, 0], [0.5, -0.4], [1, 0]],   // custom: [x 0..1, y in line-heights]
-    curve: 0.35,           // arc: sag in line-heights (negative = bow upward)
-    density: 2.2,          // loops per 10 CSS px of strand length (lower = more open)
-    thickness: 0.14,       // strand half-thickness in line-heights
-    speed: 1.4,            // internal motion speed
-    turbulence: 1,         // amount of local noise drift
-    glow: 0.5,             // bloom intensity
-    strokes: 3,            // number of interwoven continuous lines
-    color: '#63FF8A',
+    overallPath: 'straight',   // 'straight' | 'curved'
+    curveAmount: 0.35,         // curved: sag in line-heights
+    curlDensity: 0.13,         // curls per CSS px along the main path
+    curlSize: 0.2,             // curl radius in line-heights
+    irregularity: 1,           // how much noise/randomness shapes the curls
+    bandWidth: 0.42,           // total band width in line-heights
+    seed: 7,
+    strokeColor: '#63FF8A',
+    strokeWidth: 0.8,
+    glowStrength: 0.4,
+    animationSpeed: 1,
+    loopSeconds: 12,           // seamless loop period (÷ animationSpeed)
   }, window.StrandConfig || {});
 
-  // compact 2D simplex noise (Gustavson), returns [-1, 1]
-  const simplex2 = (() => {
-    const grad = [[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];
-    const p = new Uint8Array(512); const perm = [];
+  // seeded RNG + classic 3D Perlin noise
+  function mulberry32(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function makePerlin(seed) {
+    const rnd = mulberry32(seed * 1000 + 17), p = new Uint8Array(512), perm = [];
     for (let i = 0; i < 256; i++) perm[i] = i;
-    for (let i = 255; i > 0; i--) { const r = Math.floor(noise(i, 9.1) * (i + 1)); [perm[i], perm[r]] = [perm[r], perm[i]]; }
+    for (let i = 255; i > 0; i--) { const r = Math.floor(rnd() * (i + 1)); [perm[i], perm[r]] = [perm[r], perm[i]]; }
     for (let i = 0; i < 512; i++) p[i] = perm[i & 255];
-    const F2 = 0.5 * (Math.sqrt(3) - 1), G2 = (3 - Math.sqrt(3)) / 6;
-    return (xin, yin) => {
-      const s = (xin + yin) * F2, i = Math.floor(xin + s), j = Math.floor(yin + s), t = (i + j) * G2;
-      const x0 = xin - (i - t), y0 = yin - (j - t);
-      const i1 = x0 > y0 ? 1 : 0, j1 = x0 > y0 ? 0 : 1;
-      const x1 = x0 - i1 + G2, y1 = y0 - j1 + G2, x2 = x0 - 1 + 2 * G2, y2 = y0 - 1 + 2 * G2;
-      const ii = i & 255, jj = j & 255;
-      let n = 0;
-      [[x0, y0, p[ii + p[jj]]], [x1, y1, p[ii + i1 + p[jj + j1]]], [x2, y2, p[ii + 1 + p[jj + 1]]]].forEach(([x, y, g]) => {
-        let tt = 0.5 - x * x - y * y; if (tt < 0) return;
-        tt *= tt; const gr = grad[g & 7]; n += tt * tt * (gr[0] * x + gr[1] * y);
-      });
-      return 70 * n;
+    const fade = t => t * t * t * (t * (t * 6 - 15) + 10), lerp = (a, b, t) => a + t * (b - a);
+    const grad = (h, x, y, z) => { const u = h < 8 ? x : y, v = h < 4 ? y : (h === 12 || h === 14 ? x : z); return ((h & 1) ? -u : u) + ((h & 2) ? -v : v); };
+    return (x, y, z) => {
+      const X = Math.floor(x) & 255, Y = Math.floor(y) & 255, Z = Math.floor(z) & 255;
+      x -= Math.floor(x); y -= Math.floor(y); z -= Math.floor(z);
+      const u = fade(x), v = fade(y), w = fade(z);
+      const A = p[X] + Y, AA = p[A] + Z, AB = p[A + 1] + Z, B = p[X + 1] + Y, BA = p[B] + Z, BB = p[B + 1] + Z;
+      return lerp(lerp(lerp(grad(p[AA] & 15, x, y, z), grad(p[BA] & 15, x - 1, y, z), u),
+                       lerp(grad(p[AB] & 15, x, y - 1, z), grad(p[BB] & 15, x - 1, y - 1, z), u), v),
+                  lerp(lerp(grad(p[AA + 1] & 15, x, y, z - 1), grad(p[BA + 1] & 15, x - 1, y, z - 1), u),
+                       lerp(grad(p[AB + 1] & 15, x, y - 1, z - 1), grad(p[BB + 1] & 15, x - 1, y - 1, z - 1), u), v), w);
     };
-  })();
+  }
 
-  // Catmull-Rom through pts ([x,y] in px); returns {x,y,tx,ty} at u in [0,1]
-  function catmull(pts, u) {
-    const n = pts.length - 1, f = Math.min(Math.max(u, 0), 0.999999) * n, k = Math.floor(f), t = f - k;
-    const P = i => pts[Math.min(Math.max(i, 0), n)];
-    const p0 = P(k - 1), p1 = P(k), p2 = P(k + 1), p3 = P(k + 2);
-    const t2 = t * t, t3 = t2 * t;
-    const c = (a, b, cc, d) => 0.5 * ((2 * b) + (-a + cc) * t + (2 * a - 5 * b + 4 * cc - d) * t2 + (-a + 3 * b - 3 * cc + d) * t3);
-    const dc = (a, b, cc, d) => 0.5 * ((-a + cc) + 2 * (2 * a - 5 * b + 4 * cc - d) * t + 3 * (-a + 3 * b - 3 * cc + d) * t2);
-    const x = c(p0[0], p1[0], p2[0], p3[0]), y = c(p0[1], p1[1], p2[1], p3[1]);
-    let tx = dc(p0[0], p1[0], p2[0], p3[0]), ty = dc(p0[1], p1[1], p2[1], p3[1]);
-    const L = Math.hypot(tx, ty) || 1; tx /= L; ty /= L;
-    return { x, y, tx, ty };
+  // Catmull-Rom → cubic Bézier path string
+  function smoothPath(P) {
+    const n = P.length; if (n < 2) return '';
+    let d = 'M' + P[0][0].toFixed(1) + ',' + P[0][1].toFixed(1);
+    for (let i = 0; i < n - 1; i++) {
+      const p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(n - 1, i + 2)];
+      d += ' C' + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + ',' + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1)
+         + ' ' + (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + ',' + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1)
+         + ' ' + p2[0].toFixed(1) + ',' + p2[1].toFixed(1);
+    }
+    return d;
   }
 
   const strands = [];
-  function hexToRgb(h) { const v = parseInt(h.slice(1), 16); return [(v >> 16) & 255, (v >> 8) & 255, v & 255]; }
-
+  const svgNS = 'http://www.w3.org/2000/svg';
   document.querySelectorAll('.glyph').forEach((el, k) => {
     const text = el.dataset.text || '';
     const probe = document.createElement('span'); probe.className = 'glyph-probe'; probe.textContent = text;
     const txt = document.createElement('span'); txt.className = 'glyph-text'; txt.textContent = text;
-    const canvas = document.createElement('canvas'); canvas.className = 'glyph-canvas';
-    el.textContent = ''; el.appendChild(probe); el.appendChild(canvas); el.appendChild(txt);
-    const ctx = canvas.getContext('2d');
-    const off = document.createElement('canvas'), octx = off.getContext('2d');
-    const S = { el, canvas, ctx, off, octx, W: 100, H: 24, pad: 0, dpr: 1, cfg: null,
-                fixed: 0, hover: false, decodeTimer: 0, text: text, txt, probe, seed: k * 17.3 };
+    const svg = document.createElementNS(svgNS, 'svg'); svg.setAttribute('class', 'glyph-svg'); svg.setAttribute('aria-hidden', 'true');
+    const core = document.createElementNS(svgNS, 'path'); core.setAttribute('class', 'glyph-core'); core.id = 'glyphCore' + k;
+    const halo = document.createElementNS(svgNS, 'use'); halo.setAttribute('class', 'glyph-halo'); halo.setAttribute('href', '#glyphCore' + k); halo.setAttribute('filter', 'url(#glyphGlow)');
+    svg.appendChild(halo); svg.appendChild(core);
+    el.textContent = ''; el.appendChild(probe); el.appendChild(svg); el.appendChild(txt);
+    const S = { el, W: 100, H: 24, pad: 0, cfg: null, perlin: null, rnd: null, walk: null,
+                fixed: 0, hover: false, decodeTimer: 0, text, txt, probe, core, halo, svg, idx: k };
     strands.push(S);
 
-    function cfgFor() {
-      const c = Object.assign({}, window.StrandConfig);
-      if (el.dataset.path) c.path = el.dataset.path;
-      if (el.dataset.curve) c.curve = parseFloat(el.dataset.curve);
-      if (el.dataset.points) { try { c.points = JSON.parse(el.dataset.points); } catch (e) {} }
-      return c;
-    }
-    // centre path control points in canvas px (y relative to the line's centre)
-    function pathPoints(c) {
-      const W = S.W, H = S.H, cy = S.pad + H / 2 - H * 0.13, x0 = S.pad;   // optical centre of the lowercase letters
-      if (c.path === 'arc')    return [[x0, cy], [x0 + W * 0.5, cy + c.curve * H], [x0 + W, cy]];
-      if (c.path === 'custom') return c.points.map(([x, y]) => [x0 + x * W, cy + y * H]);
-      return [[x0, cy], [x0 + W * 0.5, cy], [x0 + W, cy]];
-    }
-    // (re)build the particle structure — only when size/density change
     function build() {
-      const c = S.cfg = cfgFor();
+      const c = S.cfg = Object.assign({}, window.StrandConfig);
       const r = probe.getBoundingClientRect();
       S.W = Math.max(20, r.width); S.H = Math.max(10, r.height);
       el.style.width = S.W + 'px';
-      S.pad = Math.ceil(S.H * (Math.abs(c.curve) + 1.2));
-      S.dpr = Math.min(window.devicePixelRatio || 1, 3);
+      S.pad = Math.ceil(S.H * 1.2);
       const cw = S.W + S.pad * 2, ch = S.H + S.pad * 2;
-      canvas.style.left = -S.pad + 'px'; canvas.style.top = -S.pad + 'px';
-      canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
-      canvas.width = off.width = Math.round(cw * S.dpr); canvas.height = off.height = Math.round(ch * S.dpr);
+      svg.style.left = -S.pad + 'px'; svg.style.top = -S.pad + 'px';
+      svg.setAttribute('width', cw); svg.setAttribute('height', ch); svg.setAttribute('viewBox', `0 0 ${cw} ${ch}`);
+      core.setAttribute('stroke', c.strokeColor); core.setAttribute('stroke-width', c.strokeWidth);
+      halo.setAttribute('stroke', c.strokeColor); halo.setAttribute('stroke-width', (c.strokeWidth * 3).toFixed(2));
+      halo.setAttribute('opacity', Math.min(1, c.glowStrength).toFixed(2));
+      S.perlin = makePerlin(c.seed + k * 101);
+      const rnd = mulberry32(c.seed * 7919 + k);
+      // per-sample static randomness (spin bias flips, size variation) — fixed
+      // per seed so the structure is stable and only "breathes" with time
+      const n = Math.max(120, Math.round(S.W * 4));    // ~4 samples per px
+      S.walk = { n, spinBias: [], sizeJit: [] };
+      let bias = 1;
+      for (let i = 0; i <= n; i++) {
+        if (rnd() < 0.035 * c.irregularity) bias = -bias;  // occasional direction reversal → backtracking
+        S.walk.spinBias.push(bias * (0.6 + rnd() * 0.8));
+        S.walk.sizeJit.push(0.6 + rnd() * 0.8);
+      }
+    }
+    // main path: position + unit tangent at s ∈ [0,1]
+    function mainPath(s) {
+      const c = S.cfg, x0 = S.pad, W = S.W, H = S.H, cy = S.pad + H / 2 - H * 0.13;
+      if (c.overallPath === 'curved') {
+        const x = x0 + s * W, y = cy + c.curveAmount * H * Math.sin(s * Math.PI);
+        const dy = c.curveAmount * H * Math.PI * Math.cos(s * Math.PI) / W;
+        const L = Math.hypot(1, dy);
+        return [x, y, 1 / L, dy / L];
+      }
+      return [x0 + s * W, cy, 1, 0];
     }
     function draw(time) {
-      const c = S.cfg, { W, H, pad, dpr } = S;
-      const pts = pathPoints(c), thick = c.thickness * H, [cr, cg, cb] = hexToRgb(c.color);
-      const T = time * 0.001 * c.speed;
-      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      octx.clearRect(0, 0, W + pad * 2, H + pad * 2);
-      octx.globalCompositeOperation = 'lighter';
-      octx.strokeStyle = `rgba(${cr},${cg},${cb},0.85)`;
-      octx.lineWidth = 0.75; octx.lineJoin = 'round'; octx.lineCap = 'round';
-      const loops = W * c.density / 10;                  // total loops along the strand
-      const steps = Math.max(200, Math.round(loops * 14)); // ~14 samples per loop keeps loops round
-      for (let s = 0; s < c.strokes; s++) {
-        const ph = s * 2.1 + S.seed;                     // each stroke has its own phase/coil
-        const rBase = (0.55 + 0.35 * noise(s, S.seed)) * thick;
-        octx.beginPath();
-        for (let i = 0; i <= steps; i++) {
-          const u = i / steps;
-          const P = catmull(pts, u);
-          const nx = -P.ty, ny = P.tx;
-          // coil: loops advance along the path; phase flows with time (energy)
-          const th = u * loops * Math.PI * 2 + T * 2.2 + ph;
-          // loop radius breathes and varies along the strand (open + closed loops)
-          const rr = rBase * (0.55 + 0.45 * simplex2(u * 6 + ph, T * 0.4)) * (1 + 0.3 * Math.sin(T * 1.1 + u * 17 + ph));
-          // slow lateral wander inside the band + a fine jitter
-          const lat = simplex2(u * 8 + ph * 3, T * 0.35) * thick * 0.6 * c.turbulence
-                    + simplex2(u * 70 + ph, T * 0.9) * 0.6 * c.turbulence;
-          const cx = P.x + P.tx * Math.cos(th) * rr * 1.1 + nx * (lat + Math.sin(th) * rr);
-          const cy = P.y + P.ty * Math.cos(th) * rr * 1.1 + ny * (lat + Math.sin(th) * rr);
-          if (i) octx.lineTo(cx, cy); else octx.moveTo(cx, cy);
-        }
-        octx.stroke();
+      const c = S.cfg, { W, H } = S, wk = S.walk, pn = S.perlin, n = wk.n;
+      // seamless loop: time → point on a circle in noise space
+      const period = c.loopSeconds / Math.max(0.05, c.animationSpeed);
+      const ang = (time * 0.001 % period) / period * Math.PI * 2;
+      const tz = Math.cos(ang) * 0.9, tw = Math.sin(ang) * 0.9;
+      const band = c.bandWidth * H / 2, size = c.curlSize * H, irr = c.irregularity;
+      const P = new Array(n + 1);
+      let theta = 0;
+      for (let i = 0; i <= n; i++) {
+        const s = i / n, xpx = s * W;
+        const [mx, my, tx, ty] = mainPath(s);
+        const nx = -ty, ny = tx;
+        // angular velocity per px: noise + sine + seeded random spin bias
+        const nz = pn(xpx * 0.11, tz + 3.1, tw);                   // slow drift
+        const nf = pn(xpx * 0.45 + 50, tz, tw - 2.2);              // fast wobble
+        const omega = c.curlDensity * Math.PI * 2 * wk.spinBias[i]
+                    * (1 + irr * (0.9 * nz + 0.5 * nf + 0.35 * Math.sin(xpx * 0.7 + ang)));
+        theta += omega * (W / n);
+        // curl radius: noise-shaped, tapered at both ends so the line thins out
+        const env = Math.min(1, s / 0.07, (1 - s) / 0.07);
+        const rad = size * wk.sizeJit[i] * (0.55 + 0.45 * pn(xpx * 0.23 - 7, tz - 1.4, tw + 1.1)) * env;
+        // slow lateral wander of the whole curl inside the band
+        const wander = pn(xpx * 0.05 + 20, tz, tw) * band * 0.7 * irr;
+        let ot = Math.cos(theta) * rad, on = Math.sin(theta) * rad + wander;
+        on = band * Math.tanh(on / band);                            // soft clamp to the band
+        P[i] = [mx + tx * ot + nx * on, my + ty * ot + ny * on];
       }
-      // composite: faint bloom under the crisp line
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = 'lighter';
-      if ('filter' in ctx && c.glow > 0) {
-        ctx.filter = `blur(${(4 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.5 * c.glow); ctx.drawImage(off, 0, 0);
-        ctx.filter = 'none';
-      }
-      ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
+      core.setAttribute('d', smoothPath(P));
     }
     S.build = build; S.draw = draw;
     function showText() { txt.textContent = text.slice(0, S.fixed) + '\u00a0'.repeat(text.length - S.fixed); }
@@ -3025,7 +3031,8 @@ document.addEventListener('mousemove', e => {
     Object.assign(window.StrandConfig, partial || {});
     strands.forEach(S => { S.build(); S.draw(performance.now()); });
   };
-  // animation loop: only while the headline is on screen and not decoded
+  window.randomizeStrandSeed = () => window.updateStrands({ seed: Math.floor(Math.random() * 1e6) });
+  // animation loop: one path 'd' update per strand per frame, only while on screen
   let strandsVisible = true;
   const heroLineEl = document.getElementById('heroLine');
   if (heroLineEl && 'IntersectionObserver' in window) {
