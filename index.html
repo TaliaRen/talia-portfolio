@@ -2992,20 +2992,26 @@ document.addEventListener('mousemove', e => {
         const s = i / n, xpx = s * W;
         const [mx, my, tx, ty] = mainPath(s);
         const nx = -ty, ny = tx;
-        // angular velocity per px: noise + sine + seeded random spin bias
-        const nz = pn(xpx * 0.11, tz + 3.1, tw);                   // slow drift
-        const nf = pn(xpx * 0.45 + 50, tz, tw - 2.2);              // fast wobble
+        // angular velocity per px: noise + sine + seeded random spin bias.
+        // Sampled at a FIXED point in time so the curl shapes never rotate;
+        // motion comes from breathing/wriggling below.
+        const nz = pn(xpx * 0.11, 3.1, 0.7);                       // slow variation
+        const nf = pn(xpx * 0.45 + 50, 0.2, -2.2);                 // fast variation
         const omega = c.curlDensity * Math.PI * 2 * wk.spinBias[i]
-                    * (1 + irr * (0.9 * nz + 0.5 * nf + 0.35 * Math.sin(xpx * 0.7 + ang)));
+                    * (1 + irr * (0.9 * nz + 0.5 * nf + 0.35 * Math.sin(xpx * 0.7 + c.seed)));
         theta += omega * (W / n);
         // curl radius: noise-shaped, tapered at both ends so the line thins out
         const env = Math.min(1, s / 0.07, (1 - s) / 0.07);
-        const rad = size * wk.sizeJit[i] * (0.55 + 0.45 * pn(xpx * 0.23 - 7, tz - 1.4, tw + 1.1)) * env;
+        const rad = size * wk.sizeJit[i] * (0.5 + 0.5 * pn(xpx * 0.23 - 7, tz * 1.6 - 1.4, tw * 1.6 + 1.1)) * env;
         // slow lateral wander of the whole curl inside the band
         const wander = pn(xpx * 0.05 + 20, tz, tw) * band * 0.7 * irr;
         let ot = Math.cos(theta) * rad, on = Math.sin(theta) * rad + wander;
         on = band * Math.tanh(on / band);                            // soft clamp to the band
-        P[i] = [mx + tx * ot + nx * on, my + ty * ot + ny * on];
+        // wriggle: a slow positional ripple travelling through the structure
+        // (smooth in s and time), so curls squirm in place without spinning
+        const rx = pn(xpx * 0.08 + 33, tz * 1.3, tw * 1.3) * size * 0.45;
+        const ry = pn(xpx * 0.08 - 33, tw * 1.3, tz * 1.3) * size * 0.45;
+        P[i] = [mx + tx * ot + nx * on + rx, my + ty * ot + ny * on + ry];
       }
       core.setAttribute('d', smoothPath(P));
     }
