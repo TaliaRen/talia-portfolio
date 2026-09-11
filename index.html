@@ -210,13 +210,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* untranslated phrase: a glowing particle strand (canvas) sized to the
      hidden text's width; hovering decodes it into the words */
+  /* inline-grid: the hidden measuring span and the decoded text share one
+     cell, so the glyph is baseline-aligned with the words around it */
   .glyph {
-    position:relative; display:inline-block; cursor:help; white-space:nowrap;
-    height:1.15em; vertical-align:-0.22em; overflow:visible;
+    position:relative; display:inline-grid; cursor:help; white-space:nowrap;
+    vertical-align:baseline; overflow:visible;
   }
   .glyph-canvas { position:absolute; left:0; top:0; pointer-events:none; transition:opacity 0.25s ease; }
-  .glyph-text { position:absolute; left:0; top:0; color:#fff; opacity:0; transition:opacity 0.2s ease; }
-  .glyph-probe { visibility:hidden; white-space:nowrap; }
+  .glyph-probe, .glyph-text { grid-area:1 / 1; white-space:nowrap; }
+  .glyph-probe { visibility:hidden; }
+  .glyph-text { color:#fff; opacity:0; transition:opacity 0.2s ease; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
   @media (max-width:640px) { .hero-line { top:26%; font-size:clamp(0.8rem, 3.1vw, 1rem); } }
@@ -2765,7 +2768,7 @@ document.addEventListener('mousemove', e => {
     }
     // centre path control points in canvas px (y relative to the line's centre)
     function pathPoints(c) {
-      const W = S.W, H = S.H, cy = S.pad + H / 2 - H * 0.13, x0 = S.pad;   // optical centre of the lowercase letters
+      const W = S.W, H = S.H, cy = S.pad + H / 2 + H * 0.04, x0 = S.pad;   // optical centre of the lowercase letters (box = full line box now)
       if (c.path === 'arc')    return [[x0, cy], [x0 + W * 0.5, cy + c.curve * H], [x0 + W, cy]];
       if (c.path === 'custom') return c.points.map(([x, y]) => [x0 + x * W, cy + y * H]);
       return [[x0, cy], [x0 + W * 0.5, cy], [x0 + W, cy]];
