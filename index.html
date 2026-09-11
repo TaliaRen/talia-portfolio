@@ -185,6 +185,49 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cave-near { z-index:3; }
 
   /* ── 2. Scan beams ── */
+  /* ── Aim cursor: a targeting reticle that replaces the pointer on fine
+     pointer devices; it locks on (brackets tighten, ring pulses) when
+     hovering anything interactive ── */
+  @media (hover:hover) and (pointer:fine) {
+    body, a, button, .glyph, .hero-emblem, [role="button"] { cursor:none !important; }
+  }
+  .aim-cursor {
+    position:fixed; left:0; top:0; z-index:10000; pointer-events:none;
+    width:36px; height:36px; margin:-18px 0 0 -18px;
+    opacity:0; transition:opacity 0.2s ease;
+    will-change:transform;
+  }
+  .aim-cursor.show { opacity:1; }
+  .aim-cursor .ac-c {
+    position:absolute; width:9px; height:9px;
+    border:1.5px solid rgba(255,255,255,0.9);
+    transition:all 0.22s cubic-bezier(0.22,1,0.36,1);
+  }
+  .aim-cursor .ac-tl { left:0; top:0; border-right:none; border-bottom:none; }
+  .aim-cursor .ac-tr { right:0; top:0; border-left:none; border-bottom:none; }
+  .aim-cursor .ac-bl { left:0; bottom:0; border-right:none; border-top:none; }
+  .aim-cursor .ac-br { right:0; bottom:0; border-left:none; border-top:none; }
+  .aim-cursor .ac-dot {
+    position:absolute; left:50%; top:50%; width:3px; height:3px; margin:-1.5px 0 0 -1.5px;
+    border-radius:50%; background:#fff; transition:all 0.22s ease;
+  }
+  .aim-cursor .ac-ring {
+    position:absolute; inset:2px; border-radius:50%;
+    border:1.5px solid var(--p-beam); opacity:0; transform:scale(0.6);
+  }
+  /* locked on: brackets pull in, dot turns mint, ring pulses out once */
+  .aim-cursor.locked .ac-c { border-color:var(--p-beam); width:7px; height:7px; }
+  .aim-cursor.locked .ac-tl { left:6px; top:6px; }
+  .aim-cursor.locked .ac-tr { right:6px; top:6px; }
+  .aim-cursor.locked .ac-bl { left:6px; bottom:6px; }
+  .aim-cursor.locked .ac-br { right:6px; bottom:6px; }
+  .aim-cursor.locked .ac-dot { background:var(--p-beam); width:5px; height:5px; margin:-2.5px 0 0 -2.5px; box-shadow:0 0 8px var(--p-beam); }
+  .aim-cursor.pulse .ac-ring { animation:aimPulse 0.55s ease-out; }
+  @keyframes aimPulse { 0% { opacity:0.9; transform:scale(0.5); } 100% { opacity:0; transform:scale(1.6); } }
+  /* pressed: quick squeeze */
+  .aim-cursor.down { transform-origin:center; }
+  .aim-cursor.down .ac-c { transform:scale(0.85); }
+
   /* ── 2. Scan beams (camera → hovered phrase) ── */
   .cam-beams { position:fixed; inset:0; width:100%; height:100%; z-index:59; pointer-events:none; }
   #beamFans { opacity:0; transition:opacity 0.4s ease; }
@@ -1085,6 +1128,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      six components this is built from (background, scan beams, signal
      detector shell, camera).
      ══════════════════════════════════════════════════════════════════════ -->
+<!-- Aim cursor (fine-pointer devices only; positioned by JS) -->
+<div class="aim-cursor" id="aimCursor" aria-hidden="true">
+  <span class="ac-ring"></span>
+  <span class="ac-c ac-tl"></span><span class="ac-c ac-tr"></span>
+  <span class="ac-c ac-bl"></span><span class="ac-c ac-br"></span>
+  <span class="ac-dot"></span>
+</div>
+
 <section id="hero" class="cave-scene">
 
   <!-- 1. Background: faceted lavender rock wall in three parallax layers.
@@ -3079,6 +3130,39 @@ document.addEventListener('mousemove', e => {
   // ── Kick off the load-in: detector rises, everything else is already
   //      animating via CSS as soon as the stylesheet applies ──
   requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
+})();
+
+// ── Aim cursor: reticle follows the pointer with a little easing and locks
+//    on over interactive elements ──
+(function () {
+  const cur = document.getElementById('aimCursor');
+  if (!cur || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const HOT = 'a, button, .glyph, .hero-emblem, [role="button"], input, textarea, select, label';
+  let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, shown = false, locked = false;
+  const place = () => { cur.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`; };
+  window.addEventListener('mousemove', e => {
+    tx = e.clientX; ty = e.clientY;
+    if (!shown) { shown = true; x = tx; y = ty; place(); cur.classList.add('show'); }
+    if (reduce) { x = tx; y = ty; place(); }
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => { shown = false; cur.classList.remove('show'); });
+  document.addEventListener('mouseenter', () => { shown = true; cur.classList.add('show'); });
+  window.addEventListener('mousedown', () => cur.classList.add('down'));
+  window.addEventListener('mouseup', () => cur.classList.remove('down'));
+  // lock-on when the pointer is over anything interactive
+  document.addEventListener('mouseover', e => {
+    const hot = e.target.closest && e.target.closest(HOT);
+    if (hot && !locked) { locked = true; cur.classList.add('locked'); cur.classList.remove('pulse'); void cur.offsetWidth; cur.classList.add('pulse'); }
+    else if (!hot && locked) { locked = false; cur.classList.remove('locked', 'pulse'); }
+  });
+  if (!reduce) {
+    (function tick() {
+      x += (tx - x) * 0.35; y += (ty - y) * 0.35;   // tight, snappy follow
+      place();
+      requestAnimationFrame(tick);
+    })();
+  }
 })();
 
 function playSound(src) {
