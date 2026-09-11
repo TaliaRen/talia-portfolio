@@ -2736,7 +2736,8 @@ document.addEventListener('mousemove', e => {
     path: 'straight',      // 'straight' | 'arc' | 'custom'
     points: [[0, 0], [0.5, -0.4], [1, 0]],   // custom: [x 0..1, y in line-heights]
     curve: 0.35,           // arc: sag in line-heights (negative = bow upward)
-    thickness: 0.16,       // strand half-thickness in line-heights
+    density: 3,            // particles per CSS px of strand length
+    thickness: 0.13,       // strand half-thickness in line-heights
     speed: 1.4,            // internal motion speed
     turbulence: 1,         // amount of local noise drift
     glow: 1,               // bloom intensity
@@ -2810,10 +2811,7 @@ document.addEventListener('mousemove', e => {
       if (c.path === 'custom') return c.points.map(([x, y]) => [x0 + x * W, cy + y * H]);
       return [[x0, cy], [x0 + W * 0.5, cy], [x0 + W, cy]];
     }
-    // (re)build the circuit structure — only when size changes.
-    // Nomai-style "circuit line": ONE connected spine along the path that
-    // takes right-angle steps, with short stubs branching off and small
-    // hexagons hanging from it (like the reference).
+    // (re)build the particle structure — only when size/density change
     function build() {
       const c = S.cfg = cfgFor();
       const r = probe.getBoundingClientRect();
@@ -2825,80 +2823,119 @@ document.addEventListener('mousemove', e => {
       canvas.style.left = -S.pad + 'px'; canvas.style.top = -S.pad + 'px';
       canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
       canvas.width = off.width = Math.round(cw * S.dpr); canvas.height = off.height = Math.round(ch * S.dpr);
-      // spine nodes every ~3px; each node has a lateral level (in "steps")
-      // and may carry a feature: 'hex' | 'stub' | 'stair'
-      const n = Math.max(12, Math.round(S.W / 3));
-      S.nodes = [];
-      let level = 0;
-      for (let i = 0; i <= n; i++) {
-        const a = noise(i, S.seed), b = noise(i, S.seed + 1.7), d = noise(i, S.seed + 3.3);
-        if (a < 0.34) level += (b < 0.5 ? -1 : 1);          // random walk of right-angle steps
-        level = Math.max(-2, Math.min(2, level));
-        let feat = null;
-        if (d < 0.11) feat = 'hex'; else if (d < 0.28) feat = 'stub'; else if (d < 0.36) feat = 'stair';
-        S.nodes.push({ u: i / n, level, feat, side: b < 0.5 ? -1 : 1, size: 0.7 + noise(i, S.seed + 5.1) * 0.8, phase: a * Math.PI * 2 });
+      // clusters of ~6 particles each, spaced along the path
+      const perCluster = 6, count = Math.max(8, Math.round(S.W * c.density / perCluster));
+      S.clusters = [];
+      for (let i = 0; i < count; i++) {
+        const n1 = noise(i, S.seed), n2 = noise(i, S.seed + 1.3), n3 = noise(i, S.seed + 2.9);
+        S.clusters.push({
+          u: (i + 0.5) / count + (n1 - 0.5) * 0.4 / count,   // progress along the path
+          off: (n2 - 0.5) * 2,                                // base lateral offset (× thickness)
+          r: 0.5 + n3 * 1.4,                                  // loop radius, px
+          phase: n1 * Math.PI * 2, spin: (n2 > 0.5 ? 1 : -1) * (0.6 + n3),
+          k: perCluster + (n3 > 0.8 ? 2 : 0),
+        });
       }
+      // "garbled code" marks: small polygons (3/4/5/6/8 sides), zigzag
+      // polylines, ticks, crosses and arcs scattered along the strand
+      const markCount = Math.max(8, Math.round(S.W / 5.2));
+      S.marks = [];
+      const kinds = ['poly3', 'poly4', 'poly5', 'poly6', 'poly8', 'zig', 'zig', 'tick', 'cross', 'arc', 'bar', 'line', 'line', 'line', 'wave', 'bracket'];
+      for (let i = 0; i < markCount; i++) {
+        const m1 = noise(i, S.seed + 4.2), m2 = noise(i, S.seed + 5.6), m3 = noise(i, S.seed + 7.1), m4 = noise(i, S.seed + 8.8);
+        S.marks.push({
+          u: (i + 0.5) / markCount + (m1 - 0.5) * 0.6 / markCount,
+          kind: kinds[Math.floor(m2 * kinds.length) % kinds.length],
+          size: 1.6 + m3 * 3.2,                               // px
+          rot: m4 * Math.PI * 2, off: (m1 - 0.5) * 2,         // rotation, lateral offset (× thickness)
+          phase: m2 * Math.PI * 2, alpha: 0.45 + m3 * 0.4,
+          spin: (m4 > 0.5 ? 1 : -1) * (0.25 + m1 * 0.6),      // continuous rotation, rad/s
+        });
+      }
+    }
+    function drawMark(g, m, x, y, rot, s) {
+      g.save(); g.translate(x, y); g.rotate(rot);
+      g.beginPath();
+      if (m.kind.startsWith('poly')) {
+        const n = parseInt(m.kind.slice(4), 10);
+        for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2; g[i ? 'lineTo' : 'moveTo'](Math.cos(a) * s, Math.sin(a) * s); }
+        g.closePath();
+      } else if (m.kind === 'zig') {
+        for (let i = 0; i < 6; i++) g[i ? 'lineTo' : 'moveTo']((i - 2.5) * s * 0.6, (i % 2 ? -1 : 1) * s * 0.5);
+      } else if (m.kind === 'tick') {
+        g.moveTo(-s, 0); g.lineTo(s, 0); g.moveTo(s * 0.4, -s * 0.5); g.lineTo(s, 0); g.lineTo(s * 0.4, s * 0.5);
+      } else if (m.kind === 'cross') {
+        g.moveTo(-s, -s); g.lineTo(s, s); g.moveTo(-s, s); g.lineTo(s, -s);
+      } else if (m.kind === 'arc') {
+        g.arc(0, 0, s, 0.3, Math.PI * 1.5);
+      } else if (m.kind === 'line') {                       // single longer stroke
+        g.moveTo(-s * 1.6, 0); g.lineTo(s * 1.6, 0);
+      } else if (m.kind === 'wave') {                       // short wavy stroke
+        for (let i = 0; i <= 8; i++) g[i ? 'lineTo' : 'moveTo']((i / 8 - 0.5) * s * 3, Math.sin(i / 8 * Math.PI * 2) * s * 0.35);
+      } else if (m.kind === 'bracket') {                    // angle bracket
+        g.moveTo(-s * 0.5, -s); g.lineTo(s * 0.4, 0); g.lineTo(-s * 0.5, s);
+      } else {                                              // bar: short double line
+        g.moveTo(-s, -s * 0.35); g.lineTo(s, -s * 0.35); g.moveTo(-s * 0.7, s * 0.35); g.lineTo(s * 0.7, s * 0.35);
+      }
+      g.stroke(); g.restore();
     }
     function draw(time) {
       const c = S.cfg, { W, H, pad, dpr } = S;
       const pts = pathPoints(c), thick = c.thickness * H, [cr, cg, cb] = hexToRgb(c.color);
       const T = time * 0.001 * c.speed;
-      const step = thick * 0.55;                             // one right-angle step, px
-      const hexR = thick * 0.5;                              // hexagon radius, px
       octx.setTransform(dpr, 0, 0, dpr, 0, 0);
       octx.clearRect(0, 0, W + pad * 2, H + pad * 2);
-      octx.globalCompositeOperation = 'source-over';
-      octx.strokeStyle = `rgba(${cr},${cg},${cb},0.95)`;
-      octx.lineWidth = 0.9; octx.lineJoin = 'miter'; octx.lineCap = 'butt';
-      // node -> screen point, with a gentle wriggle (breathing levels + slow ripple), no rotation
-      const P2 = (nd, extraLat = 0) => {
-        const P = catmull(pts, nd.u);
-        const nx = -P.ty, ny = P.tx;
-        const wr = simplex2(nd.u * 6 + S.seed, T * 0.35) * step * 0.6 * c.turbulence;   // lateral ripple
-        const wa = simplex2(nd.u * 4 - S.seed, T * 0.3) * step * 0.9 * c.turbulence;    // along-path ripple
-        const lat = nd.level * step * (1 + 0.18 * Math.sin(T * 0.9 + nd.phase)) + wr + extraLat;
-        return [P.x + nx * lat + P.tx * wa, P.y + ny * lat + P.ty * wa, P.tx, P.ty, nx, ny];
-      };
+      octx.globalCompositeOperation = 'lighter';
+      octx.fillStyle = `rgba(${cr},${cg},${cb},0.62)`;
+      const px1 = Math.max(1, Math.round(0.8 * dpr)) / dpr, snap = v => Math.round(v * dpr) / dpr;   // whole device pixels => crisp dots
+      octx.strokeStyle = `rgba(${cr},${cg},${cb},0.18)`;
+      octx.lineWidth = 0.6;
+      let px = null, py = null;
       octx.beginPath();
-      let prev = null;
-      for (let i = 0; i < S.nodes.length; i++) {
-        const nd = S.nodes[i];
-        const [x, y, tx, ty, nx, ny] = P2(nd);
-        if (!prev) { octx.moveTo(x, y); prev = [x, y]; continue; }
-        // right-angle connection: run along, then step across (Manhattan path)
-        const mx = x - nx * ((x - prev[0]) * nx + (y - prev[1]) * ny);   // point on prev's level under x
-        const my = y - ny * ((x - prev[0]) * nx + (y - prev[1]) * ny);
-        octx.lineTo(mx, my); octx.lineTo(x, y);
-        // features hanging off this node
-        if (nd.feat === 'stub') {                            // short branch out and back (dead end)
-          const L = step * (0.8 + nd.size * 0.8) * (1 + 0.15 * Math.sin(T * 1.2 + nd.phase));
-          const ex = x + nx * nd.side * L, ey = y + ny * nd.side * L;
-          octx.lineTo(ex, ey); octx.lineTo(ex + tx * step * 0.5, ey + ty * step * 0.5); octx.moveTo(x, y);
-        } else if (nd.feat === 'hex') {                      // small hexagon attached to the spine
-          const R = hexR * nd.size * (1 + 0.12 * Math.sin(T * 1.1 + nd.phase));
-          const cx = x + nx * nd.side * R, cy = y + ny * nd.side * R;
-          for (let k = 0; k <= 6; k++) {
-            const a = k / 6 * Math.PI * 2 + Math.atan2(ny, nx) * nd.side + Math.PI / 6;
-            const hx = cx + Math.cos(a) * R, hy = cy + Math.sin(a) * R;
-            if (k === 0) octx.moveTo(hx, hy); else octx.lineTo(hx, hy);
-          }
-          octx.moveTo(x, y);
-        } else if (nd.feat === 'stair') {                    // tiny double step
-          const s = step * 0.45;
-          octx.lineTo(x + nx * nd.side * s, y + ny * nd.side * s);
-          octx.lineTo(x + nx * nd.side * s + tx * s, y + ny * nd.side * s + ty * s);
-          octx.lineTo(x + tx * s, y + ty * s);
-          octx.moveTo(x, y);
+      for (const cl of S.clusters) {
+        // progress drifts slowly along the path (energy flow) and wraps
+        const u = (cl.u + T * 0.02) % 1;
+        const P = catmull(pts, u);
+        const nx = -P.ty, ny = P.tx;                        // path normal
+        // local offset: base + simplex drift (turbulence), confined to the band
+        const drift = simplex2(u * 14 + S.seed, T * 0.35 + cl.phase) * c.turbulence;
+        const lat = Math.max(-1, Math.min(1, cl.off * 0.5 + drift * 1.4)) * thick;
+        const along = simplex2(u * 9 - S.seed, T * 0.25) * c.turbulence * 6;
+        const cx = P.x + nx * lat + P.tx * along, cy = P.y + ny * lat + P.ty * along;
+        // loops breathe: radius expands/contracts organically
+        const rr = cl.r * (1 + 0.5 * Math.sin(T * 1.3 + cl.phase));
+        const a0 = cl.phase + T * cl.spin;
+        for (let j = 0; j < cl.k; j++) {
+          const a = a0 + j / cl.k * Math.PI * 2;
+          const jx = simplex2(j * 3.1 + cl.phase, T * 0.8) * 0.9, jy = simplex2(j * 5.7 - cl.phase, T * 0.8) * 0.9;
+          octx.fillRect(snap(cx + Math.cos(a) * rr + jx - px1 / 2), snap(cy + Math.sin(a) * rr + jy - px1 / 2), px1, px1);
         }
-        prev = [x, y];
+        // short jagged connections between neighbouring clusters
+        if (px !== null) { octx.moveTo(px, py); octx.lineTo(cx, cy); }
+        px = cx; py = cy;
       }
       octx.stroke();
-      // composite: mild glow under the crisp line
+      // code marks: sit on the strand, drift a little and slowly wobble in rotation
+      octx.lineWidth = 0.7; octx.lineJoin = 'round'; octx.lineCap = 'round';
+      for (const m of S.marks) {
+        const u = (m.u + T * 0.006) % 1;
+        const P = catmull(pts, u);
+        const nx = -P.ty, ny = P.tx;
+        const lat = Math.max(-1, Math.min(1, m.off * 0.6 + simplex2(u * 11 + m.phase, T * 0.35) * 1.1)) * thick;
+        const along = simplex2(u * 7 + m.phase * 2, T * 0.3) * thick * 1.6;          // left/right travel
+        const x = P.x + nx * lat + P.tx * along, y = P.y + ny * lat + P.ty * along;
+        const rot = m.rot + Math.atan2(P.ty, P.tx) + T * m.spin + simplex2(m.phase, T * 0.4) * 0.8;   // spin + wobble
+        const s = m.size * (1 + 0.15 * Math.sin(T * 1.1 + m.phase));
+        octx.strokeStyle = `rgba(${cr},${cg},${cb},${m.alpha.toFixed(2)})`;
+        drawMark(octx, m, x, y, rot, s);
+      }
+      // composite: soft bloom (blurred copy) under the crisp particles
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'lighter';
       if ('filter' in ctx) {
-        ctx.filter = `blur(${(2 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.35 * c.glow); ctx.drawImage(off, 0, 0);
+        ctx.filter = `blur(${(1.5 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.28 * c.glow); ctx.drawImage(off, 0, 0);
+        ctx.filter = `blur(${(6 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.12 * c.glow); ctx.drawImage(off, 0, 0);
         ctx.filter = 'none';
       }
       ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
