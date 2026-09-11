@@ -194,8 +194,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #beamFans { opacity:0; transition:opacity 0.4s ease; }
   .cam-beams.on #beamFans { opacity:1; }
   .beam-fan { filter:url(#beamSoft); }
-  .beam-cap { stroke:var(--p-beam-hi); stroke-width:3; stroke-linecap:round; filter:url(#beamGlow); }
-  .beam-cap-core { stroke:#FFFFFF; stroke-width:1.2; stroke-linecap:round; opacity:0.9; }
 
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
@@ -1121,7 +1119,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        Built + positioned by JS (viewport px, fixed overlay). -->
   <svg class="cam-beams" id="camBeams" aria-hidden="true">
     <defs>
-      <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.5"/></filter>
       <filter id="beamSoft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="4"/></filter>
     </defs>
     <g id="beamFans"></g>
@@ -2996,10 +2993,8 @@ document.addEventListener('mousemove', e => {
       const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       const fan = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
       fan.setAttribute('class', 'beam-fan'); fan.style.fill = 'var(--p-beam)'; fan.setAttribute('opacity', (0.22 + (i % 3) * 0.05).toFixed(2));
-      const cap = document.createElementNS('http://www.w3.org/2000/svg', 'line'); cap.setAttribute('class', 'beam-cap');
-      const core = document.createElementNS('http://www.w3.org/2000/svg', 'line'); core.setAttribute('class', 'beam-cap-core');
-      g.appendChild(fan); g.appendChild(cap); g.appendChild(core); beamFans.appendChild(g);
-      beamEls.push({ fan, cap, core, jitter: (noise(i, 4.4) - 0.5), len: 10 + noise(i, 6.1) * 8 });
+      g.appendChild(fan); beamFans.appendChild(g);
+      beamEls.push({ fan, jitter: (noise(i, 4.4) - 0.5), len: 10 + noise(i, 6.1) * 8 });
     }
   }
   function drawBeams() {
@@ -3014,12 +3009,8 @@ document.addEventListener('mousemove', e => {
         const tx = r.left + r.width * (0.18 + 0.32 * i), ty = r.top + r.height * (0.5 + b.jitter * 0.9);
         // wedge: apex at the lens, base centred on the impact point, perpendicular to the beam
         const dx = tx - sx, dy = ty - sy, L = Math.hypot(dx, dy) || 1;
-        const nx = -dy / L, ny = dx / L, half = b.len / 2, cw = half * 0.75;   // base half-width, cap half-length
+        const nx = -dy / L, ny = dx / L, half = b.len / 2;   // base half-width
         b.fan.setAttribute('points', `${sx.toFixed(1)},${sy.toFixed(1)} ${(tx + nx * half).toFixed(1)},${(ty + ny * half).toFixed(1)} ${(tx - nx * half).toFixed(1)},${(ty - ny * half).toFixed(1)}`);
-        [b.cap, b.core].forEach(l => {
-          l.setAttribute('x1', (tx + nx * cw).toFixed(1)); l.setAttribute('y1', (ty + ny * cw).toFixed(1));
-          l.setAttribute('x2', (tx - nx * cw).toFixed(1)); l.setAttribute('y2', (ty - ny * cw).toFixed(1));
-        });
       }
     });
   }
