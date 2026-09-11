@@ -2873,9 +2873,9 @@ document.addEventListener('mousemove', e => {
     path: 'straight',      // 'straight' | 'arc' | 'custom'
     points: [[0, 0], [0.5, -0.4], [1, 0]],   // custom: [x 0..1, y in line-heights]
     curve: 0.35,           // arc: sag in line-heights (negative = bow upward)
-    density: 10,           // particles per CSS px of strand length
+    density: 7,            // particles per CSS px of strand length
     thickness: 0.13,       // strand half-thickness in line-heights
-    speed: 1,              // internal motion speed
+    speed: 1.4,            // internal motion speed
     turbulence: 1,         // amount of local noise drift
     glow: 1,               // bloom intensity
     color: '#63FF8A',
@@ -2942,7 +2942,7 @@ document.addEventListener('mousemove', e => {
     }
     // centre path control points in canvas px (y relative to the line's centre)
     function pathPoints(c) {
-      const W = S.W, H = S.H, cy = S.pad + H / 2, x0 = S.pad;
+      const W = S.W, H = S.H, cy = S.pad + H / 2 - H * 0.13, x0 = S.pad;   // optical centre of the lowercase letters
       if (c.path === 'arc')    return [[x0, cy], [x0 + W * 0.5, cy + c.curve * H], [x0 + W, cy]];
       if (c.path === 'custom') return c.points.map(([x, y]) => [x0 + x * W, cy + y * H]);
       return [[x0, cy], [x0 + W * 0.5, cy], [x0 + W, cy]];
@@ -2967,7 +2967,7 @@ document.addEventListener('mousemove', e => {
         S.clusters.push({
           u: (i + 0.5) / count + (n1 - 0.5) * 0.4 / count,   // progress along the path
           off: (n2 - 0.5) * 2,                                // base lateral offset (× thickness)
-          r: 0.4 + n3 * 1.1,                                  // loop radius, px
+          r: 0.5 + n3 * 1.4,                                  // loop radius, px
           phase: n1 * Math.PI * 2, spin: (n2 > 0.5 ? 1 : -1) * (0.6 + n3),
           k: perCluster + (n3 > 0.8 ? 2 : 0),
         });
@@ -2987,20 +2987,20 @@ document.addEventListener('mousemove', e => {
       octx.beginPath();
       for (const cl of S.clusters) {
         // progress drifts slowly along the path (energy flow) and wraps
-        const u = (cl.u + T * 0.012) % 1;
+        const u = (cl.u + T * 0.02) % 1;
         const P = catmull(pts, u);
         const nx = -P.ty, ny = P.tx;                        // path normal
         // local offset: base + simplex drift (turbulence), confined to the band
         const drift = simplex2(u * 14 + S.seed, T * 0.35 + cl.phase) * c.turbulence;
-        const lat = Math.max(-1, Math.min(1, cl.off * 0.7 + drift * 0.5)) * thick;
-        const along = simplex2(u * 9 - S.seed, T * 0.25) * c.turbulence * 1.2;
+        const lat = Math.max(-1, Math.min(1, cl.off * 0.6 + drift * 0.9)) * thick;
+        const along = simplex2(u * 9 - S.seed, T * 0.25) * c.turbulence * 2.4;
         const cx = P.x + nx * lat + P.tx * along, cy = P.y + ny * lat + P.ty * along;
         // loops breathe: radius expands/contracts organically
-        const rr = cl.r * (1 + 0.35 * Math.sin(T * 1.3 + cl.phase));
+        const rr = cl.r * (1 + 0.5 * Math.sin(T * 1.3 + cl.phase));
         const a0 = cl.phase + T * cl.spin;
         for (let j = 0; j < cl.k; j++) {
           const a = a0 + j / cl.k * Math.PI * 2;
-          const jx = simplex2(j * 3.1 + cl.phase, T * 0.8) * 0.5, jy = simplex2(j * 5.7 - cl.phase, T * 0.8) * 0.5;
+          const jx = simplex2(j * 3.1 + cl.phase, T * 0.8) * 0.9, jy = simplex2(j * 5.7 - cl.phase, T * 0.8) * 0.9;
           octx.fillRect(cx + Math.cos(a) * rr + jx - 0.4, cy + Math.sin(a) * rr + jy - 0.4, 0.8, 0.8);
         }
         // short jagged connections between neighbouring clusters
