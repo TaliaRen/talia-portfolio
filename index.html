@@ -208,8 +208,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:640px) { .hero-emblem { width:34vw; top:2vh; right:2vw; } }
   /* headline: Libertinus Serif Regular, hero size 2.125rem */
   .hero-line {
-    position:absolute; left:8%; top:14%; z-index:6; max-width:min(640px, 70vw);
-    font-family:'Libertinus Serif', serif; font-weight:400; font-size:clamp(1.35rem, 2.6vw, 2.125rem);
+    position:absolute; left:50%; top:14%; transform:translateX(-50%); z-index:6;
+    white-space:nowrap; text-align:center;
+    font-family:'Libertinus Serif', serif; font-weight:400; font-size:clamp(0.95rem, 2.4vw, 2.125rem);
     line-height:1.3; color:#fff; margin:0;
   }
   /* untranslated phrase: a glowing particle strand (canvas) sized to the
@@ -223,7 +224,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph-probe { visibility:hidden; white-space:nowrap; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
-  @media (max-width:640px) { .hero-line { left:6%; top:12%; max-width:88vw; } }
+  @media (max-width:640px) { .hero-line { top:12%; font-size:clamp(0.8rem, 3.1vw, 1rem); } }
 
   /* ── 3. Signal waveform ── */
   .signal-waveform { position:absolute; inset:0; z-index:4; pointer-events:none; }
@@ -2879,7 +2880,7 @@ document.addEventListener('mousemove', e => {
     path: 'straight',      // 'straight' | 'arc' | 'custom'
     points: [[0, 0], [0.5, -0.4], [1, 0]],   // custom: [x 0..1, y in line-heights]
     curve: 0.35,           // arc: sag in line-heights (negative = bow upward)
-    density: 7,            // particles per CSS px of strand length
+    density: 3.2,          // particles per CSS px of strand length
     thickness: 0.13,       // strand half-thickness in line-heights
     speed: 1.4,            // internal motion speed
     turbulence: 1,         // amount of local noise drift
@@ -2978,6 +2979,41 @@ document.addEventListener('mousemove', e => {
           k: perCluster + (n3 > 0.8 ? 2 : 0),
         });
       }
+      // "garbled code" marks: small polygons (3/4/5/6/8 sides), zigzag
+      // polylines, ticks, crosses and arcs scattered along the strand
+      const markCount = Math.max(6, Math.round(S.W / 11));
+      S.marks = [];
+      const kinds = ['poly3', 'poly4', 'poly5', 'poly6', 'poly8', 'zig', 'tick', 'cross', 'arc', 'bar'];
+      for (let i = 0; i < markCount; i++) {
+        const m1 = noise(i, S.seed + 4.2), m2 = noise(i, S.seed + 5.6), m3 = noise(i, S.seed + 7.1), m4 = noise(i, S.seed + 8.8);
+        S.marks.push({
+          u: (i + 0.5) / markCount + (m1 - 0.5) * 0.6 / markCount,
+          kind: kinds[Math.floor(m2 * kinds.length) % kinds.length],
+          size: 1.6 + m3 * 3.2,                               // px
+          rot: m4 * Math.PI * 2, off: (m1 - 0.5) * 2,         // rotation, lateral offset (× thickness)
+          phase: m2 * Math.PI * 2, alpha: 0.45 + m3 * 0.4,
+        });
+      }
+    }
+    function drawMark(g, m, x, y, rot, s) {
+      g.save(); g.translate(x, y); g.rotate(rot);
+      g.beginPath();
+      if (m.kind.startsWith('poly')) {
+        const n = parseInt(m.kind.slice(4), 10);
+        for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2; g[i ? 'lineTo' : 'moveTo'](Math.cos(a) * s, Math.sin(a) * s); }
+        g.closePath();
+      } else if (m.kind === 'zig') {
+        for (let i = 0; i < 6; i++) g[i ? 'lineTo' : 'moveTo']((i - 2.5) * s * 0.6, (i % 2 ? -1 : 1) * s * 0.5);
+      } else if (m.kind === 'tick') {
+        g.moveTo(-s, 0); g.lineTo(s, 0); g.moveTo(s * 0.4, -s * 0.5); g.lineTo(s, 0); g.lineTo(s * 0.4, s * 0.5);
+      } else if (m.kind === 'cross') {
+        g.moveTo(-s, -s); g.lineTo(s, s); g.moveTo(-s, s); g.lineTo(s, -s);
+      } else if (m.kind === 'arc') {
+        g.arc(0, 0, s, 0.3, Math.PI * 1.5);
+      } else {                                              // bar: short double line
+        g.moveTo(-s, -s * 0.35); g.lineTo(s, -s * 0.35); g.moveTo(-s * 0.7, s * 0.35); g.lineTo(s * 0.7, s * 0.35);
+      }
+      g.stroke(); g.restore();
     }
     function draw(time) {
       const c = S.cfg, { W, H, pad, dpr } = S;
@@ -3015,13 +3051,26 @@ document.addEventListener('mousemove', e => {
         px = cx; py = cy;
       }
       octx.stroke();
+      // code marks: sit on the strand, drift a little and slowly wobble in rotation
+      octx.lineWidth = 0.7; octx.lineJoin = 'round'; octx.lineCap = 'round';
+      for (const m of S.marks) {
+        const u = (m.u + T * 0.006) % 1;
+        const P = catmull(pts, u);
+        const nx = -P.ty, ny = P.tx;
+        const lat = Math.max(-1, Math.min(1, m.off * 0.8 + simplex2(u * 11 + m.phase, T * 0.3) * 0.5)) * thick;
+        const x = P.x + nx * lat, y = P.y + ny * lat;
+        const rot = m.rot + Math.atan2(P.ty, P.tx) + simplex2(m.phase, T * 0.4) * 0.6;
+        const s = m.size * (1 + 0.15 * Math.sin(T * 1.1 + m.phase));
+        octx.strokeStyle = `rgba(${cr},${cg},${cb},${m.alpha.toFixed(2)})`;
+        drawMark(octx, m, x, y, rot, s);
+      }
       // composite: soft bloom (blurred copy) under the crisp particles
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'lighter';
       if ('filter' in ctx) {
-        ctx.filter = `blur(${(1.5 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.5 * c.glow); ctx.drawImage(off, 0, 0);
-        ctx.filter = `blur(${(7 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.25 * c.glow); ctx.drawImage(off, 0, 0);
+        ctx.filter = `blur(${(1.5 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.28 * c.glow); ctx.drawImage(off, 0, 0);
+        ctx.filter = `blur(${(6 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.12 * c.glow); ctx.drawImage(off, 0, 0);
         ctx.filter = 'none';
       }
       ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
