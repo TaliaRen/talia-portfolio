@@ -194,7 +194,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
     position:absolute; top:4vh; right:4vw; z-index:7;
-    width:min(8vw, 88px); height:auto; cursor:pointer;
+    width:min(6vw, 66px); height:auto; cursor:pointer;
     transform-origin:50% 50%; will-change:transform;
     scale:1; transition:opacity 1.2s ease, scale 0.35s cubic-bezier(0.22,1,0.36,1);
     opacity:0;
@@ -202,14 +202,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .hero-emblem.ready { opacity:0.95; }
   .hero-emblem:hover { scale:1.15; }   /* composes with the inline rotate() */
-  @media (max-width:640px) { .hero-emblem { width:16vw; top:2vh; right:3vw; } }
+  @media (max-width:640px) { .hero-emblem { width:13vw; top:2vh; right:3vw; } }
   /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
   .hero-line {
     /* responsive: fluid size, wraps inside a max width; the two scrambled
        phrases never break internally (the .glyph spans are nowrap) */
     position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:6;
     width:min(92vw, 1000px); text-align:center; text-wrap:balance;
-    font-family:'IM Fell English', serif; font-weight:400; font-size:clamp(1.15rem, 2.4vw, 2.125rem);
+    font-family:'IM Fell English', serif; font-weight:400; font-size:2.125rem;   /* same size at every viewport; it wraps instead */
     line-height:1.35; color:#fff; margin:0;
   }
   /* untranslated phrase: a glowing particle strand (canvas) sized to the
@@ -226,7 +226,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph-text { color:#fff; opacity:0; transition:opacity 0.2s ease; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
-  @media (max-width:640px) { .hero-line { top:24%; font-size:clamp(1.1rem, 5.2vw, 1.45rem); line-height:1.45; } }
+  @media (max-width:640px) { .hero-line { top:20%; line-height:1.4; } }
 
   /* ── 5 & 6. Detector shell + camera ──
      The shell is tilted back with rotateX inside a perspective wrapper so
