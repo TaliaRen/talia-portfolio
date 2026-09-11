@@ -169,7 +169,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ══════════════════════════════════════════════════════════════════
      Cave scanner hero scene — six layers, all vector/CSS, no images.
      Toggle: .cave-scene.paused (via the RS button) dims/stills layers
-     2 & 3 (beams, waveform) without touching layout.
+     the screen without touching layout.
      ══════════════════════════════════════════════════════════════════ */
   #hero.cave-scene {
     display:block; padding:0; overflow:hidden;
@@ -189,11 +189,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cave-near { z-index:3; }
 
   /* ── 2. Scan beams ── */
-  .cam-beams { position:fixed; inset:0; width:100%; height:100%; z-index:59; pointer-events:none; }
-  .cam-beam { opacity:0; transition:opacity 0.35s ease; }
-  .cam-beams.on .cam-beam { opacity:1; }
-  .cave-scene.paused .cam-beam { opacity:0; }
-
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
     position:absolute; top:4vh; right:4vw; z-index:7;
@@ -225,59 +220,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
   @media (max-width:640px) { .hero-line { top:12%; font-size:clamp(0.8rem, 3.1vw, 1rem); } }
-
-  /* ── 3. Signal waveform ── */
-  .signal-waveform { position:absolute; inset:0; z-index:4; pointer-events:none; }
-  .waveform-path { stroke-dasharray:4200; stroke-dashoffset:4200; animation:waveformDraw 2.8s ease-out forwards; }
-  @keyframes waveformDraw { to { stroke-dashoffset:0; } }
-  .cave-scene.paused .waveform-path { opacity:0.2; transition:opacity 0.6s ease; }
-  .wave-hit { pointer-events:stroke; cursor:crosshair; }
-  .waveform-path { transition:filter 0.3s ease; }
-  .signal-waveform.hot .waveform-path { filter:brightness(1.25); }
-
-  /* ── 4. Aim reticle — placed where the two circles overlap, per the reference ── */
-  .reticle {
-    position:absolute; top:44%; left:42.5%; transform:translate(-50%,-50%);
-    z-index:6; width:clamp(44px,5.5vw,58px); height:clamp(44px,5.5vw,58px);
-    animation:reticleBreathe 3.2s ease-in-out infinite;
-  }
-  @keyframes reticleBreathe {
-    0%,100% { transform:translate(-50%,-50%) scale(1); }
-    50%     { transform:translate(-50%,-50%) scale(1.05); }
-  }
-  .reticle-corner {
-    position:absolute; width:14px; height:14px;
-    border:2px solid rgba(255,255,255,0.75);
-    transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
-  }
-  .rc-tl { top:0; left:0; border-right:none; border-bottom:none; }
-  .rc-tr { top:0; right:0; border-left:none; border-bottom:none; }
-  .rc-bl { bottom:0; left:0; border-right:none; border-top:none; }
-  .rc-br { bottom:0; right:0; border-left:none; border-top:none; }
-  .reticle.locked .rc-tl { top:8px; left:8px; }
-  .reticle.locked .rc-tr { top:8px; right:8px; }
-  .reticle.locked .rc-bl { bottom:8px; left:8px; }
-  .reticle.locked .rc-br { bottom:8px; right:8px; }
-  .reticle-rs {
-    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-    width:30px; height:30px; border-radius:50%;
-    background:rgba(10,10,20,0.55);
-    border:1.5px solid rgba(255,255,255,0.6);
-    color:#fff; font-family:'Figtree',sans-serif; font-size:.55rem; font-weight:600;
-    cursor:pointer; pointer-events:auto;
-  }
-  .reticle-label {
-    position:absolute; left:calc(100% + 12px); top:50%; transform:translateY(-50%);
-    white-space:nowrap;
-    font-family:'Figtree',sans-serif; font-size:.95rem; color:rgba(255,255,255,0.7);
-    transition:color 0.3s ease, text-shadow 0.3s ease;
-  }
-  .reticle.locked .reticle-label { color:#fff; text-shadow:0 0 12px rgba(var(--p-glow-rgb),0.8); }
-  .reticle.pulse .reticle-rs { animation:reticlePulse 0.5s ease; }
-  @keyframes reticlePulse {
-    0%   { box-shadow:0 0 0 0 rgba(var(--p-glow-rgb),0.7); }
-    100% { box-shadow:0 0 0 16px rgba(var(--p-glow-rgb),0); }
-  }
 
   /* ── 5 & 6. Detector shell + camera ──
      The shell is tilted back with rotateX inside a perspective wrapper so
@@ -371,10 +313,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .detector { width:90vw; }
     .detector-shell { padding:10px 10px 12px; }
     .detector-screen { padding:22px 20px; min-height:140px; }
-    .reticle-label { font-size:.8rem; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cave-layer, .cam-beam, .reticle, .detector-camera, .detector-shell, .detector-screen {
+    .cave-layer, .detector-camera, .detector-shell, .detector-screen {
       animation:none !important; transition:none !important;
     }
     .detector-shell { transform:rotateX(9deg); }
@@ -1126,10 +1067,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ══════════════════════════════════════════════════════════════════════
      Hero: "Nomai cave scanner" scene — every visual layer is drawn with
      plain SVG/CSS (no image assets). See the <style> block above the
-     .cave-* / .scan-* / .signal-* / .reticle-* / .detector-* rules, and
+     .cave-* / .detector-* rules, and
      the "Cave scanner scene" <script> near the end of the file, for the
      six components this is built from (background, scan beams, signal
-     waveform, aim reticle, detector shell, camera).
+     detector shell, camera).
      ══════════════════════════════════════════════════════════════════════ -->
 <section id="hero" class="cave-scene">
 
@@ -1164,63 +1105,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
   <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
-
-  <!-- 2. Scan beams: fired from the camera's lens at whichever waveform
-       line is hovered. Fixed overlay in viewport px; JS sets the endpoints
-       and the tapering gradients every frame. -->
-  <svg class="cam-beams" id="camBeams" aria-hidden="true">
-    <defs>
-      <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="6"/>
-      </filter>
-      <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
-        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
-        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
-      </linearGradient>
-      <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
-        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
-        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
-      </linearGradient>
-    </defs>
-    <g class="cam-beam" id="beamA">
-      <line stroke="url(#beamGradA)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
-      <line stroke="url(#beamGradA)" stroke-width="2.6" stroke-linecap="round"/>
-    </g>
-    <g class="cam-beam" id="beamB">
-      <line stroke="url(#beamGradB)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
-      <line stroke="url(#beamGradB)" stroke-width="2.6" stroke-linecap="round"/>
-    </g>
-    <circle class="cam-beam" id="beamOrigin" r="4" style="fill:var(--p-beam-hi)" filter="url(#beamGlow)"/>
-  </svg>
-
-  <!-- 3. Signal waveform: two overlapping electric scribble-circles plus a
-       branch trailing down to the camera. A soft glow path sits under a
-       thin bright core; both are regenerated with fresh jitter by JS. -->
-  <svg class="signal-waveform" id="signalWaveform" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <defs>
-      <filter id="waveGlow" x="-30%" y="-30%" width="160%" height="160%">
-        <feGaussianBlur stdDeviation="4"/>
-      </filter>
-    </defs>
-    <path class="waveform-path waveform-glow" id="waveformGlow" fill="none" style="stroke:var(--p-wave-glow)" stroke-width="7" opacity="0.5" filter="url(#waveGlow)"/>
-    <path class="waveform-path" id="waveformPath" fill="none" style="stroke:var(--p-wave-core)" stroke-width="1.6" stroke-linejoin="round"/>
-    <!-- invisible, wide hit areas so each line can be hovered -->
-    <path class="wave-hit" id="waveHitA" fill="none" stroke="transparent" stroke-width="30"/>
-    <path class="wave-hit" id="waveHitB" fill="none" stroke="transparent" stroke-width="30"/>
-    <path class="wave-hit" id="waveHitC" fill="none" stroke="transparent" stroke-width="30"/>
-  </svg>
-
-  <!-- 4. Aim reticle (sits between the two circles, like the reference) -->
-  <div class="reticle" id="reticle">
-    <span class="reticle-corner rc-tl"></span>
-    <span class="reticle-corner rc-tr"></span>
-    <span class="reticle-corner rc-bl"></span>
-    <span class="reticle-corner rc-br"></span>
-    <button class="reticle-rs" id="reticleRS" aria-label="Toggle scan">RS</button>
-    <span class="reticle-label" id="reticleLabel">Aim Translator</span>
-  </div>
 
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
        and the boxy 3/4-view camera unit cabled into its top-right corner -->
@@ -2598,12 +2482,10 @@ document.addEventListener('mousemove', e => {
 
 // ══════════════════════════════════════════════════════════════════════
 // Cave scanner scene: ties the six hero components together.
-//   - waveform: generates + continuously jitters the connected-circle path
 //   - typewriter: reveals the detector screen text one character at a time
-//   - pointer loop: parallax on the cave layers and reticle lock-on,
+//   - pointer loop: parallax on the cave layers,
 //     driven from one rAF loop keyed off the last known mouse position
 //     (the camera is intentionally static)
-//   - scan toggle: the RS button pauses/resumes beams + waveform
 // ══════════════════════════════════════════════════════════════════════
 (function () {
   const scene = document.querySelector('.cave-scene');
@@ -2611,68 +2493,11 @@ document.addEventListener('mousemove', e => {
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ── 3. Signal waveform: two overlapping scribble-circles + a branch
-  //      reaching toward the detector, redrawn with fresh jitter on a
-  //      timer so it reads as a live current rather than a static line ──
-  const waveformPath = document.getElementById('waveformPath');
-  const waveformGlow = document.getElementById('waveformGlow');
-  // Deterministic per-point noise so consecutive redraws feel like the same
-  // current flickering, not a brand-new random line each tick.
+  // Deterministic per-index noise shared by the camera and the strands
   function noise(i, seed) {
     const v = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453;
     return v - Math.floor(v); // fractional part, always in [0, 1)
   }
-  // Electric scribble: a slow radius wobble plus dense high-frequency
-  // spikes, so the loop reads as a live current rather than a polygon.
-  function scribbleCircle(cx, cy, r, points, seed) {
-    let d = '';
-    for (let i = 0; i <= points; i++) {
-      const a = (i / points) * Math.PI * 2;
-      const wobble = 1 + 0.06 * Math.sin(a * 3 + seed) + 0.04 * Math.cos(a * 7 - seed * 1.3);
-      const spike  = (noise(i, seed) - 0.5) * 0.11;
-      const rr = r * (wobble + spike);
-      const x = cx + Math.cos(a) * rr;
-      const y = cy + Math.sin(a) * rr;
-      d += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
-    }
-    return d;
-  }
-  function branchPath(x1, y1, cx1, cy1, x2, y2, segments, seed) {
-    // quadratic-curve spine with spiky perpendicular jitter
-    let d = 'M' + x1.toFixed(1) + ',' + y1.toFixed(1) + ' ';
-    for (let i = 1; i <= segments; i++) {
-      const t = i / segments;
-      const mt = 1 - t;
-      const sx = mt * mt * x1 + 2 * mt * t * cx1 + t * t * x2;
-      const sy = mt * mt * y1 + 2 * mt * t * cy1 + t * t * y2;
-      const spike = (noise(i + 500, seed) - 0.5) * 13;
-      d += 'L' + (sx + spike).toFixed(1) + ',' + (sy - spike * 0.6).toFixed(1) + ' ';
-    }
-    return d;
-  }
-  const waveHits = ['waveHitA', 'waveHitB', 'waveHitC'].map(id => document.getElementById(id));
-  function buildWaveform(seed) {
-    if (!waveformPath) return;
-    const parts = [
-      scribbleCircle(500, 365, 118, 150, seed),
-      scribbleCircle(712, 335, 106, 140, seed + 1.7),
-      branchPath(805, 395, 960, 470, 1108, 548, 70, seed + 3.1),
-    ];
-    const d = parts.join(' ');
-    waveformPath.setAttribute('d', d);
-    if (waveformGlow) waveformGlow.setAttribute('d', d);
-    waveHits.forEach((el, k) => el && el.setAttribute('d', parts[k]));
-  }
-  let waveSeed = 0;
-  buildWaveform(waveSeed);
-  if (!reducedMotion) {
-    setInterval(() => {
-      if (scene.classList.contains('paused')) return;
-      waveSeed += 0.35;
-      buildWaveform(waveSeed);
-    }, 180);
-  }
-
   // ── 5. Detector screen: typewriter reveal ──
   const screenText = document.getElementById('screenText');
   const MESSAGE = "SYSTEM: Aim Translator calibrated. Scanning ambient curiosity levels…";
@@ -2694,20 +2519,13 @@ document.addEventListener('mousemove', e => {
     }
   }
 
-  // ── Scan toggle (RS button): pause/resume beams + waveform ──
-  const rsBtn = document.getElementById('reticleRS');
-  rsBtn?.addEventListener('click', () => {
-    scene.classList.toggle('paused');
-  });
-
-  // ── 1, 4 & 6. Pointer-driven loop: cave parallax, reticle lock-on,
-  //      and the camera head panning to face the cursor ──
+  // ── 1 & 6. Pointer-driven loop: cave parallax and the camera head
+  //      panning to face the cursor ──
   const caveLayers = [...document.querySelectorAll('.cave-layer')];
-  const reticle = document.getElementById('reticle');
   const camHead = document.getElementById('camHead');
   const camBox = document.getElementById('detectorCamera');
   const camFaces = document.getElementById('camFaces');
-  let camYaw = 200, camPitch = 16; // start aimed up-left at the reticle
+  let camYaw = 200, camPitch = 16; // start aimed up-left into the scene
 
   // ── Projected barrel ───────────────────────────────────────────────
   // Local space: x right, y down, z toward the viewer; box centred on the
@@ -2860,10 +2678,8 @@ document.addEventListener('mousemove', e => {
   }
   renderCam(camYaw, camPitch);
   window.addEventListener('resize', () => renderCam(camYaw, camPitch));
-  const LOCK_RADIUS = 90; // px, distance from the reticle center that counts as "near the target"
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-  let locked = false;
 
   // ── Headline glyphs: glowing particle strands that decode on hover ──
   // Each untranslated phrase is a canvas strand: thousands of tiny additive
@@ -3118,53 +2934,6 @@ document.addEventListener('mousemove', e => {
     })(performance.now());
   }
 
-  // ── Camera beams: hover a waveform line and the camera fires two beams
-  //    from its lens that converge on that line ──
-  const camBeams = document.getElementById('camBeams');
-  const beamA = document.getElementById('beamA'), beamB = document.getElementById('beamB');
-  const beamOrigin = document.getElementById('beamOrigin');
-  const beamGradA = document.getElementById('beamGradA'), beamGradB = document.getElementById('beamGradB');
-  const waveSvg = document.getElementById('signalWaveform');
-  let beamTarget = null, hoverTarget = null, translating = null, translateTimer = 0;
-  function syncBeams() {
-    beamTarget = translating || hoverTarget;
-    camBeams?.classList.toggle('on', !!beamTarget);
-    waveSvg?.classList.toggle('hot', !!beamTarget);
-  }
-  document.querySelectorAll('.wave-hit').forEach(el => {
-    el.addEventListener('mouseenter', () => { hoverTarget = el; syncBeams(); });
-    el.addEventListener('mouseleave', () => { if (hoverTarget === el) { hoverTarget = null; syncBeams(); } });
-    // click = start translating: the beams stay locked on this line for
-    // the duration, even if the cursor moves off
-    el.addEventListener('click', () => {
-      translating = el; syncBeams();
-      clearTimeout(translateTimer);
-      translateTimer = setTimeout(() => { translating = null; syncBeams(); }, 3800);
-    });
-  });
-  function setBeam(g, grad, x1, y1, x2, y2) {
-    g.querySelectorAll('line').forEach(l => {
-      l.setAttribute('x1', x1.toFixed(1)); l.setAttribute('y1', y1.toFixed(1));
-      l.setAttribute('x2', x2.toFixed(1)); l.setAttribute('y2', y2.toFixed(1));
-    });
-    grad.setAttribute('x1', x1.toFixed(1)); grad.setAttribute('y1', y1.toFixed(1));
-    grad.setAttribute('x2', x2.toFixed(1)); grad.setAttribute('y2', y2.toFixed(1));
-  }
-  function drawBeams() {
-    if (!camBeams || !beamTarget) return;
-    const r = beamTarget.getBoundingClientRect();
-    const tx = r.left + r.width / 2, ty = r.top + r.height / 2;
-    const rad = Math.min(r.width, r.height) / 2;
-    const [sx, sy] = camLensScreen;
-    // two impact points on the target's rim, either side of the line of sight
-    const a = Math.atan2(ty - sy, tx - sx) + Math.PI;   // direction back toward the camera
-    const p1 = [tx + Math.cos(a + 0.6) * rad, ty + Math.sin(a + 0.6) * rad];
-    const p2 = [tx + Math.cos(a - 0.6) * rad, ty + Math.sin(a - 0.6) * rad];
-    setBeam(beamA, beamGradA, sx, sy, p1[0], p1[1]);
-    setBeam(beamB, beamGradB, sx, sy, p2[0], p2[1]);
-    beamOrigin.setAttribute('cx', sx.toFixed(1)); beamOrigin.setAttribute('cy', sy.toFixed(1));
-  }
-
   window.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -3184,33 +2953,16 @@ document.addEventListener('mousemove', e => {
       });
     }
 
-    // Lock-on: is the cursor within LOCK_RADIUS of the reticle's actual center?
-    const rr = reticle ? reticle.getBoundingClientRect() : null;
-    const rx = rr ? rr.left + rr.width / 2 : cx;
-    const ry = rr ? rr.top + rr.height / 2 : cy;
-    const dist = Math.hypot(mouseX - rx, mouseY - ry);
-    const nowLocked = dist < LOCK_RADIUS;
-    if (nowLocked && !locked) {
-      locked = true;
-      reticle?.classList.add('locked', 'pulse');
-      setTimeout(() => reticle?.classList.remove('pulse'), 500);
-    } else if (!nowLocked && locked) {
-      locked = false;
-      reticle?.classList.remove('locked');
-    }
-
     // Camera head: yaw the barrel toward the cursor, with a touch of pitch,
     // eased so it feels motorised rather than jittery.
     // 180deg = tip pointing straight into the wall. Range: 60deg to the
     // left (cursor at the left edge => 240) and 20deg to the right (=> 160),
-    // so the rest pose (cursor centered) is 200, aimed toward the reticle.
+    // so the rest pose (cursor centered) is 200, aimed up-left.
     if (camHead && !reducedMotion) {
       camYaw   += ((200 - nx * 40) - camYaw) * 0.08;
       camPitch += ((16 - ny * 5) - camPitch) * 0.08;
       renderCam(camYaw, camPitch);
     }
-    drawBeams();
-
     requestAnimationFrame(frame);
   }
   if (!reducedMotion) requestAnimationFrame(frame);
