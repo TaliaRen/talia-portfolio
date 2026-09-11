@@ -111,21 +111,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     animation-timing-function: ease;
   }
   body {
+    /* one flat plane: the whole page shares the hero's solid background */
     background-color:var(--bg);
-    background-image:
-      radial-gradient(ellipse 60% 45% at 18% 22%, rgba(255,255,255,0.045) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 82% 15%, rgba(255,255,255,0.03) 0%, transparent 55%),
-      radial-gradient(ellipse 70% 50% at 70% 80%, rgba(0,0,0,0.22) 0%, transparent 60%),
-      radial-gradient(ellipse 55% 45% at 10% 85%, rgba(0,0,0,0.18) 0%, transparent 55%),
-      radial-gradient(ellipse 40% 35% at 45% 50%, rgba(255,255,255,0.02) 0%, transparent 60%);
-    background-attachment:fixed;
     font-family:'Figtree',sans-serif; color:var(--ink); overflow-x:hidden;
   }
   /* TEMP (space-idea): top nav hidden while the hero is being designed */
   nav { display:none !important; }
-  #circuit-glow { position:fixed; inset:0; pointer-events:none; opacity:0.4; }
+  /* TEMP (space-idea): the old fixed backdrops (circuit glow, star field)
+     are hidden so every section sits on the same plane as the hero scene */
+  #circuit-glow { display:none !important; }
 
-  #star-field { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity 0.15s linear; }
+  #star-field { display:none !important; }
   #star-field circle { pointer-events:auto; transition:opacity 0.2s ease, filter 0.2s ease; }
   #star-field circle:hover { opacity:1; filter:brightness(1.9); }
 
