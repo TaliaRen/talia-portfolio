@@ -220,15 +220,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── Left rail: vertical strip inside the frame — logo, music toggle,
      Play, About, then contact icons ── */
   .log-rail {
-    /* a plain vertical line just inside the frame's left edge; the logo
-       sits at the top, the icons stack below it */
-    position:fixed; left:40px; top:40px; bottom:40px; z-index:70;
-    width:56px; padding:6px 0; box-sizing:border-box;
+    /* a plain vertical line just inside the frame's left edge: logo at the
+       top, site links under it, contact icons pinned to the bottom */
+    position:fixed; left:40px; top:40px; bottom:40px; z-index:50;   /* below the translator board (60) */
+    width:56px; padding:18px 0 14px; box-sizing:border-box;
     display:flex; flex-direction:column; align-items:center; gap:8px;
     border-right:1px solid rgba(130, 215, 160, 0.34);
     background:none; border-radius:0; backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none;
   }
-  .log-rail .rail-logo { margin-bottom:8px; }
+  .log-rail .rail-logo { margin-bottom:22px; }
+  .log-rail .rail-contact { margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  /* hover label beside each icon */
+  .log-rail a, .log-rail button { position:relative; }
+  .log-rail [data-label]::after {
+    content:attr(data-label); position:absolute; left:calc(100% + 12px); top:50%; transform:translate(-4px, -50%);
+    white-space:nowrap; padding:4px 9px; border-radius:6px;
+    font-family:'Figtree', sans-serif; font-size:.74rem; font-weight:500; letter-spacing:.02em;
+    color:#fff; background:rgba(15, 30, 24, 0.92); border:1px solid rgba(130, 215, 160, 0.34);
+    opacity:0; pointer-events:none; transition:opacity 0.18s ease, transform 0.18s ease;
+  }
+  .log-rail [data-label]:hover::after { opacity:1; transform:translate(0, -50%); }
+  .log-rail .rail-x svg { fill:currentColor; stroke:none; width:16px; height:16px; }
   .log-rail a, .log-rail button {
     display:flex; align-items:center; justify-content:center;
     width:36px; height:36px; border-radius:10px; border:0; background:transparent; padding:0;
@@ -244,10 +256,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .log-rail .rail-music.on svg { animation:railBeat 1.2s ease-in-out infinite; }
   @keyframes railBeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
   @media (max-width:640px) {
-    .log-rail { left:22px; top:22px; bottom:22px; width:42px; gap:4px; padding:4px 0; }
-    .log-rail a, .log-rail button { width:32px; height:32px; }
-    .log-rail svg { width:17px; height:17px; }
-    .log-rail .rail-logo img { width:26px; height:26px; }
+    .log-rail { display:none; }                /* no side rail on phones */
   }
 
   /* ── Aim cursor: a targeting reticle that replaces the pointer on fine
@@ -1200,29 +1209,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span class="log-tick lt-bl"></span><span class="log-tick lt-br"></span>
 </div>
 <nav class="log-rail" aria-label="Site">
-  <a class="rail-logo" href="#" title="Talia Ren" aria-label="Home"><img src="logo.png" alt=""></a>
-  <button type="button" class="rail-music" id="railMusic" title="Music" aria-label="Toggle music" aria-pressed="false">
+  <a class="rail-logo" href="#" data-label="Home" aria-label="Home"><img src="logo.png" alt=""></a>
+  <button type="button" class="rail-music" id="railMusic" data-label="Music" aria-label="Toggle music" aria-pressed="false">
     <svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
   </button>
-  <a href="play.html" title="Play" aria-label="Play">
-    <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
+  <a href="play.html" data-label="Playground" aria-label="Playground">
+    <svg viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5.4 1.8L15 15H9l-1.6 1.8A3 3 0 0 1 2 15v-3a4 4 0 0 1 4-4z"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="12" r=".6"/><circle cx="18" cy="13.5" r=".6"/></svg>
   </a>
-  <a href="#about-section" title="About" aria-label="About">
+  <a href="#about-section" data-label="About" aria-label="About">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
   </a>
-  <span class="rail-sep" aria-hidden="true"></span>
-  <a href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
-  </a>
-  <a href="mailto:taliaren0826@gmail.com" title="Email" aria-label="Email">
-    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-  </a>
-  <a href="https://github.com/TaliaRen" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
-    <svg viewBox="0 0 24 24"><path d="M9 19c-4.5 1.4-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-  </a>
-  <a href="https://x.com/" target="_blank" rel="noopener" title="X" aria-label="X">
-    <svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>
-  </a>
+  <div class="rail-contact">
+    <span class="rail-sep" aria-hidden="true"></span>
+    <a href="mailto:taliaren0826@gmail.com" data-label="Email" aria-label="Email">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" data-label="LinkedIn" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+    </a>
+    <a href="https://github.com/TaliaRen" target="_blank" rel="noopener" data-label="GitHub" aria-label="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M9 19c-4.5 1.4-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+    </a>
+    <a class="rail-x" href="https://x.com/" target="_blank" rel="noopener" data-label="X" aria-label="X">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>
+    </a>
+  </div>
 </nav>
 
 <!-- Aim cursor (fine-pointer devices only; positioned by JS) -->
