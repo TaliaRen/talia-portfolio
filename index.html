@@ -191,8 +191,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── 2. Scan beams ── */
   /* ── 2. Scan beams (camera → hovered phrase) ── */
   .cam-beams { position:fixed; inset:0; width:100%; height:100%; z-index:59; pointer-events:none; }
-  .cam-beam { opacity:0; transition:opacity 0.35s ease; }
-  .cam-beams.on .cam-beam { opacity:1; }
+  #beamFans { opacity:0; transition:opacity 0.4s ease; }
+  .cam-beams.on #beamFans { opacity:1; }
+  .beam-fan { filter:url(#beamSoft); }
+  .beam-cap { stroke:var(--p-beam-hi); stroke-width:3; stroke-linecap:round; filter:url(#beamGlow); }
+  .beam-cap-core { stroke:#FFFFFF; stroke-width:1.2; stroke-linecap:round; opacity:0.9; }
 
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
@@ -323,7 +326,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .detector-screen { padding:22px 20px; min-height:140px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cave-layer, .cam-beam, .detector-camera, .detector-shell, .detector-screen {
+    .cave-layer, .detector-camera, .detector-shell, .detector-screen {
       animation:none !important; transition:none !important;
     }
     .detector-shell { transform:rotateX(9deg); }
@@ -1113,30 +1116,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        onload="this.classList.add('ready')">
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
-  <!-- 2. Scan beams: fired from the camera's lens at the hovered headline
-       phrase. Fixed overlay in viewport px; JS sets endpoints each frame. -->
+  <!-- 2. Scan beams: a fan of translucent wedges from the camera's lens,
+       each capped by a bright bar where it lands on the headline phrases.
+       Built + positioned by JS (viewport px, fixed overlay). -->
   <svg class="cam-beams" id="camBeams" aria-hidden="true">
     <defs>
-      <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
-      <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
-        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
-        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
-      </linearGradient>
-      <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
-        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
-        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
-      </linearGradient>
+      <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.5"/></filter>
+      <filter id="beamSoft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="4"/></filter>
     </defs>
-    <g class="cam-beam" id="beamA">
-      <line stroke="url(#beamGradA)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
-      <line stroke="url(#beamGradA)" stroke-width="2.6" stroke-linecap="round"/>
-    </g>
-    <g class="cam-beam" id="beamB">
-      <line stroke="url(#beamGradB)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
-      <line stroke="url(#beamGradB)" stroke-width="2.6" stroke-linecap="round"/>
-    </g>
+    <g id="beamFans"></g>
   </svg>
   <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
 
@@ -2801,7 +2789,7 @@ document.addEventListener('mousemove', e => {
   }
 
   const strands = [];
-  let beamTarget = null;   // the hovered phrase the camera aims its beams at
+  let beamsOn = false;     // beams fire while any phrase is hovered
   function hexToRgb(h) { const v = parseInt(h.slice(1), 16); return [(v >> 16) & 255, (v >> 8) & 255, v & 255]; }
 
   document.querySelectorAll('.glyph').forEach((el, k) => {
@@ -2963,20 +2951,21 @@ document.addEventListener('mousemove', e => {
     function showText() { txt.textContent = text.slice(0, S.fixed) + '\u00a0'.repeat(text.length - S.fixed); }
     build(); draw(0); showText();
     if (document.fonts?.ready) document.fonts.ready.then(() => { build(); draw(0); });
-    el.addEventListener('mouseenter', () => {
+    S.decode = () => {
       S.hover = true; el.classList.add('decoded');
-      beamTarget = el; camBeams?.classList.add('on');
       clearInterval(S.decodeTimer);
       S.decodeTimer = setInterval(() => {                  // reveal left to right
         S.fixed = Math.min(text.length, S.fixed + 1); showText();
         if (S.fixed >= text.length) clearInterval(S.decodeTimer);
       }, 28);
-    });
-    el.addEventListener('mouseleave', () => {
+    };
+    S.encode = () => {
       S.hover = false; clearInterval(S.decodeTimer);
-      if (beamTarget === el) { beamTarget = null; camBeams?.classList.remove('on'); }
       el.classList.remove('decoded'); S.fixed = 0; showText();
-    });
+    };
+    // hovering either phrase decodes BOTH and fires the beams at both
+    el.addEventListener('mouseenter', () => { strands.forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); });
+    el.addEventListener('mouseleave', () => { strands.forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); });
   });
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
   window.updateStrands = partial => {
@@ -2996,26 +2985,43 @@ document.addEventListener('mousemove', e => {
     })(performance.now());
   }
 
-  // ── 2. Camera beams: two beams from the lens converge on the hovered phrase ──
+  // ── 2. Camera beams: a fan of wedges from the lens, each landing on one of
+  //      the phrases with a bright bar at the impact point (like the reference) ──
   const camBeams = document.getElementById('camBeams');
-  const beamA = document.getElementById('beamA'), beamB = document.getElementById('beamB');
-  const beamGradA = document.getElementById('beamGradA'), beamGradB = document.getElementById('beamGradB');
-  function setBeam(g, grad, x1, y1, x2, y2) {
-    g.querySelectorAll('line').forEach(l => {
-      l.setAttribute('x1', x1.toFixed(1)); l.setAttribute('y1', y1.toFixed(1));
-      l.setAttribute('x2', x2.toFixed(1)); l.setAttribute('y2', y2.toFixed(1));
-    });
-    grad.setAttribute('x1', x1.toFixed(1)); grad.setAttribute('y1', y1.toFixed(1));
-    grad.setAttribute('x2', x2.toFixed(1)); grad.setAttribute('y2', y2.toFixed(1));
+  const beamFans = document.getElementById('beamFans');
+  const BEAMS_PER_PHRASE = 3, beamEls = [];
+  if (beamFans) {
+    const N = BEAMS_PER_PHRASE * Math.max(1, strands.length);
+    for (let i = 0; i < N; i++) {
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      const fan = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      fan.setAttribute('class', 'beam-fan'); fan.style.fill = 'var(--p-beam)'; fan.setAttribute('opacity', (0.22 + (i % 3) * 0.05).toFixed(2));
+      const cap = document.createElementNS('http://www.w3.org/2000/svg', 'line'); cap.setAttribute('class', 'beam-cap');
+      const core = document.createElementNS('http://www.w3.org/2000/svg', 'line'); core.setAttribute('class', 'beam-cap-core');
+      g.appendChild(fan); g.appendChild(cap); g.appendChild(core); beamFans.appendChild(g);
+      beamEls.push({ fan, cap, core, jitter: (noise(i, 4.4) - 0.5), len: 10 + noise(i, 6.1) * 8 });
+    }
   }
   function drawBeams() {
-    if (!camBeams || !beamTarget) return;
-    const r = beamTarget.getBoundingClientRect();
+    if (!camBeams || !beamsOn || !beamEls.length) return;
     const [sx, sy] = camLensScreen;
-    // impact points at 25% and 75% along the phrase, on its centre line
-    const cy = r.top + r.height * 0.5;
-    setBeam(beamA, beamGradA, sx, sy, r.left + r.width * 0.25, cy);
-    setBeam(beamB, beamGradB, sx, sy, r.left + r.width * 0.75, cy);
+    let k = 0;
+    strands.forEach(S => {
+      const r = S.el.getBoundingClientRect();
+      for (let i = 0; i < BEAMS_PER_PHRASE; i++, k++) {
+        const b = beamEls[k]; if (!b) return;
+        // impact point spread along the phrase, a little above/below its centre
+        const tx = r.left + r.width * (0.18 + 0.32 * i), ty = r.top + r.height * (0.5 + b.jitter * 0.9);
+        // wedge: apex at the lens, base centred on the impact point, perpendicular to the beam
+        const dx = tx - sx, dy = ty - sy, L = Math.hypot(dx, dy) || 1;
+        const nx = -dy / L, ny = dx / L, half = b.len / 2, cw = half * 0.75;   // base half-width, cap half-length
+        b.fan.setAttribute('points', `${sx.toFixed(1)},${sy.toFixed(1)} ${(tx + nx * half).toFixed(1)},${(ty + ny * half).toFixed(1)} ${(tx - nx * half).toFixed(1)},${(ty - ny * half).toFixed(1)}`);
+        [b.cap, b.core].forEach(l => {
+          l.setAttribute('x1', (tx + nx * cw).toFixed(1)); l.setAttribute('y1', (ty + ny * cw).toFixed(1));
+          l.setAttribute('x2', (tx - nx * cw).toFixed(1)); l.setAttribute('y2', (ty - ny * cw).toFixed(1));
+        });
+      }
+    });
   }
 
   window.addEventListener('mousemove', e => {
