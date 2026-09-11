@@ -2858,13 +2858,13 @@ document.addEventListener('mousemove', e => {
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   let locked = false;
 
-  // ── Headline glyphs: glowing particle strands that decode on hover ──
-  // Each untranslated phrase is a canvas strand: thousands of tiny additive
-  // particles arranged in small loops/clusters along a centre path. The
-  // macro shape comes from a Catmull-Rom spline (straight / arc / custom);
-  // the granular texture and motion come from each particle's own progress
-  // along the path plus a small local offset driven by simplex noise — so
-  // bending the path never changes the texture, only the shape.
+  // ── Headline glyphs: glowing coiled-line strands that decode on hover ──
+  // Each untranslated phrase is a canvas strand: a few CONTINUOUS strokes
+  // that coil into tiny loops as they travel along a centre path (a
+  // trochoid with noise), interweaving into a granular chain. The macro
+  // shape comes from a Catmull-Rom spline (straight / arc / custom); the
+  // texture and motion come from each stroke's phase along the path plus
+  // local noise — so bending the path never changes the texture.
   //
   // Config: window.StrandConfig (global defaults) — change live with
   // window.updateStrands({ ...partial }). Per-element overrides via
@@ -2873,11 +2873,12 @@ document.addEventListener('mousemove', e => {
     path: 'straight',      // 'straight' | 'arc' | 'custom'
     points: [[0, 0], [0.5, -0.4], [1, 0]],   // custom: [x 0..1, y in line-heights]
     curve: 0.35,           // arc: sag in line-heights (negative = bow upward)
-    density: 7,            // particles per CSS px of strand length
-    thickness: 0.13,       // strand half-thickness in line-heights
+    density: 2.2,          // loops per 10 CSS px of strand length (lower = more open)
+    thickness: 0.14,       // strand half-thickness in line-heights
     speed: 1.4,            // internal motion speed
     turbulence: 1,         // amount of local noise drift
-    glow: 1,               // bloom intensity
+    glow: 0.5,             // bloom intensity
+    strokes: 3,            // number of interwoven continuous lines
     color: '#63FF8A',
   }, window.StrandConfig || {});
 
@@ -2929,7 +2930,7 @@ document.addEventListener('mousemove', e => {
     el.textContent = ''; el.appendChild(probe); el.appendChild(canvas); el.appendChild(txt);
     const ctx = canvas.getContext('2d');
     const off = document.createElement('canvas'), octx = off.getContext('2d');
-    const S = { el, canvas, ctx, off, octx, W: 100, H: 24, pad: 0, dpr: 1, clusters: [], links: 0, cfg: null,
+    const S = { el, canvas, ctx, off, octx, W: 100, H: 24, pad: 0, dpr: 1, cfg: null,
                 fixed: 0, hover: false, decodeTimer: 0, text: text, txt, probe, seed: k * 17.3 };
     strands.push(S);
 
@@ -2959,19 +2960,6 @@ document.addEventListener('mousemove', e => {
       canvas.style.left = -S.pad + 'px'; canvas.style.top = -S.pad + 'px';
       canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
       canvas.width = off.width = Math.round(cw * S.dpr); canvas.height = off.height = Math.round(ch * S.dpr);
-      // clusters of ~6 particles each, spaced along the path
-      const perCluster = 6, count = Math.max(8, Math.round(S.W * c.density / perCluster));
-      S.clusters = [];
-      for (let i = 0; i < count; i++) {
-        const n1 = noise(i, S.seed), n2 = noise(i, S.seed + 1.3), n3 = noise(i, S.seed + 2.9);
-        S.clusters.push({
-          u: (i + 0.5) / count + (n1 - 0.5) * 0.4 / count,   // progress along the path
-          off: (n2 - 0.5) * 2,                                // base lateral offset (× thickness)
-          r: 0.5 + n3 * 1.4,                                  // loop radius, px
-          phase: n1 * Math.PI * 2, spin: (n2 > 0.5 ? 1 : -1) * (0.6 + n3),
-          k: perCluster + (n3 > 0.8 ? 2 : 0),
-        });
-      }
     }
     function draw(time) {
       const c = S.cfg, { W, H, pad, dpr } = S;
@@ -2980,42 +2968,37 @@ document.addEventListener('mousemove', e => {
       octx.setTransform(dpr, 0, 0, dpr, 0, 0);
       octx.clearRect(0, 0, W + pad * 2, H + pad * 2);
       octx.globalCompositeOperation = 'lighter';
-      octx.fillStyle = `rgba(${cr},${cg},${cb},0.62)`;
-      const px1 = Math.max(1, Math.round(0.8 * dpr)) / dpr, snap = v => Math.round(v * dpr) / dpr;   // whole device pixels => crisp dots
-      octx.strokeStyle = `rgba(${cr},${cg},${cb},0.18)`;
-      octx.lineWidth = 0.6;
-      let px = null, py = null;
-      octx.beginPath();
-      for (const cl of S.clusters) {
-        // progress drifts slowly along the path (energy flow) and wraps
-        const u = (cl.u + T * 0.02) % 1;
-        const P = catmull(pts, u);
-        const nx = -P.ty, ny = P.tx;                        // path normal
-        // local offset: base + simplex drift (turbulence), confined to the band
-        const drift = simplex2(u * 14 + S.seed, T * 0.35 + cl.phase) * c.turbulence;
-        const lat = Math.max(-1, Math.min(1, cl.off * 0.6 + drift * 0.9)) * thick;
-        const along = simplex2(u * 9 - S.seed, T * 0.25) * c.turbulence * 2.4;
-        const cx = P.x + nx * lat + P.tx * along, cy = P.y + ny * lat + P.ty * along;
-        // loops breathe: radius expands/contracts organically
-        const rr = cl.r * (1 + 0.5 * Math.sin(T * 1.3 + cl.phase));
-        const a0 = cl.phase + T * cl.spin;
-        for (let j = 0; j < cl.k; j++) {
-          const a = a0 + j / cl.k * Math.PI * 2;
-          const jx = simplex2(j * 3.1 + cl.phase, T * 0.8) * 0.9, jy = simplex2(j * 5.7 - cl.phase, T * 0.8) * 0.9;
-          octx.fillRect(snap(cx + Math.cos(a) * rr + jx - px1 / 2), snap(cy + Math.sin(a) * rr + jy - px1 / 2), px1, px1);
+      octx.strokeStyle = `rgba(${cr},${cg},${cb},0.85)`;
+      octx.lineWidth = 0.75; octx.lineJoin = 'round'; octx.lineCap = 'round';
+      const loops = W * c.density / 10;                  // total loops along the strand
+      const steps = Math.max(200, Math.round(loops * 14)); // ~14 samples per loop keeps loops round
+      for (let s = 0; s < c.strokes; s++) {
+        const ph = s * 2.1 + S.seed;                     // each stroke has its own phase/coil
+        const rBase = (0.55 + 0.35 * noise(s, S.seed)) * thick;
+        octx.beginPath();
+        for (let i = 0; i <= steps; i++) {
+          const u = i / steps;
+          const P = catmull(pts, u);
+          const nx = -P.ty, ny = P.tx;
+          // coil: loops advance along the path; phase flows with time (energy)
+          const th = u * loops * Math.PI * 2 + T * 2.2 + ph;
+          // loop radius breathes and varies along the strand (open + closed loops)
+          const rr = rBase * (0.55 + 0.45 * simplex2(u * 6 + ph, T * 0.4)) * (1 + 0.3 * Math.sin(T * 1.1 + u * 17 + ph));
+          // slow lateral wander inside the band + a fine jitter
+          const lat = simplex2(u * 8 + ph * 3, T * 0.35) * thick * 0.6 * c.turbulence
+                    + simplex2(u * 70 + ph, T * 0.9) * 0.6 * c.turbulence;
+          const cx = P.x + P.tx * Math.cos(th) * rr * 1.1 + nx * (lat + Math.sin(th) * rr);
+          const cy = P.y + P.ty * Math.cos(th) * rr * 1.1 + ny * (lat + Math.sin(th) * rr);
+          if (i) octx.lineTo(cx, cy); else octx.moveTo(cx, cy);
         }
-        // short jagged connections between neighbouring clusters
-        if (px !== null) { octx.moveTo(px, py); octx.lineTo(cx, cy); }
-        px = cx; py = cy;
+        octx.stroke();
       }
-      octx.stroke();
-      // composite: soft bloom (blurred copy) under the crisp particles
+      // composite: faint bloom under the crisp line
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'lighter';
-      if ('filter' in ctx) {
-        ctx.filter = `blur(${(1.5 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.5 * c.glow); ctx.drawImage(off, 0, 0);
-        ctx.filter = `blur(${(7 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.25 * c.glow); ctx.drawImage(off, 0, 0);
+      if ('filter' in ctx && c.glow > 0) {
+        ctx.filter = `blur(${(4 * dpr).toFixed(1)}px)`; ctx.globalAlpha = Math.min(1, 0.5 * c.glow); ctx.drawImage(off, 0, 0);
         ctx.filter = 'none';
       }
       ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
