@@ -292,7 +292,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:relative; overflow:hidden;
     background:radial-gradient(ellipse at 50% 15%, var(--p-screen-0) 0%, var(--p-screen-1) 50%, var(--p-screen-2) 100%);
     border-radius:16px; padding:36px 48px; min-height:200px;
-    display:flex; align-items:center; justify-content:center;
+    display:flex; align-items:center; justify-content:flex-start;
     box-shadow:inset 0 0 0 2px rgba(0,0,0,0.35), inset 0 0 30px rgba(0,0,0,0.65), 0 1px 0 rgba(255,255,255,0.45);
     animation:screenFlicker 5s linear infinite;
     transition:filter 0.6s ease;
@@ -307,9 +307,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* portfolio type spec: Figtree, body size 18px */
     font-family:'Figtree', sans-serif; font-size:clamp(.95rem, 1.2vw, 1.125rem); font-weight:400; letter-spacing:0;
     color:var(--p-screen-text); text-shadow:0 0 8px rgba(255,255,255,0.25);
-    text-align:center; line-height:1.7; margin:0; min-height:2.6em;
+    text-align:left; line-height:1.7; margin:0; min-height:2.6em; width:100%;
   }
-  .screen-text .screen-title { font-weight:600; letter-spacing:.12em; }
+  /* capsule label on the first line, then a gap before the two hint lines */
+  .screen-text .screen-title {
+    display:inline-block; padding:.12em .8em; border-radius:999px;
+    border:1px solid rgba(255,255,255,0.45); background:rgba(255,255,255,0.06);
+    margin-bottom:.55em; line-height:1.5;
+  }
   .screen-text::after {
     content:''; display:inline-block; width:6px; height:1em; margin-left:2px;
     background:var(--p-screen-text); vertical-align:-2px; animation:caretBlink 0.9s step-end infinite;
@@ -2519,7 +2524,7 @@ document.addEventListener('mousemove', e => {
   // ── 5. Detector screen: typewriter reveal ──
   const screenText = document.getElementById('screenText');
   // three lines, typed out one after another (\n => line break)
-  const MESSAGE = "TRANSLATOR READY\nHover over the unknown text above to decode it\nScroll to explore \u2193";
+  const MESSAGE = "Translator Ready\nHover over the unknown text above to decode it\nScroll to explore \u2193";
   const renderScreen = s => {
     screenText.textContent = '';
     s.split('\n').forEach((line, k) => {
