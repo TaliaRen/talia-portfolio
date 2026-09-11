@@ -194,7 +194,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
     position:absolute; top:4vh; right:4vw; z-index:7;
-    width:min(11vw, 118px); height:auto; cursor:pointer;
+    width:min(8vw, 88px); height:auto; cursor:pointer;
     transform-origin:50% 50%; will-change:transform;
     scale:1; transition:opacity 1.2s ease, scale 0.35s cubic-bezier(0.22,1,0.36,1);
     opacity:0;
@@ -202,7 +202,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .hero-emblem.ready { opacity:0.95; }
   .hero-emblem:hover { scale:1.15; }   /* composes with the inline rotate() */
-  @media (max-width:640px) { .hero-emblem { width:22vw; top:2vh; right:2vw; } }
+  @media (max-width:640px) { .hero-emblem { width:16vw; top:2vh; right:3vw; } }
   /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
   .hero-line {
     /* responsive: fluid size, wraps inside a max width; the two scrambled
@@ -2817,8 +2817,7 @@ document.addEventListener('mousemove', e => {
     function build() {
       const c = S.cfg = cfgFor();
       const r = probe.getBoundingClientRect();
-      S.W = Math.max(20, r.width); S.H = Math.max(10, r.height);
-      el.style.width = S.W + 'px';
+      S.W = Math.max(20, r.width); S.H = Math.max(10, r.height);   // box sizes itself from the probe (inline-grid)
       S.pad = Math.ceil(S.H * (Math.abs(c.curve) + 1.2));
       S.dpr = Math.min(window.devicePixelRatio || 1, 3);
       const cw = S.W + S.pad * 2, ch = S.H + S.pad * 2;
@@ -2963,6 +2962,19 @@ document.addEventListener('mousemove', e => {
     el.addEventListener('mouseleave', () => { strands.forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); });
   });
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
+  // rebuild a strand whenever its hidden text changes size (font load,
+  // breakpoints, wrapping) so the strand always spans the whole phrase
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(entries => {
+      entries.forEach(en => {
+        const S = strands.find(s => s.probe === en.target);
+        if (!S) return;
+        const w = en.contentRect.width, h = en.contentRect.height;
+        if (Math.abs(w - S.W) > 0.5 || Math.abs(h - S.H) > 0.5) { S.build(); S.draw(performance.now()); }
+      });
+    });
+    strands.forEach(S => ro.observe(S.probe));
+  }
   window.updateStrands = partial => {
     Object.assign(window.StrandConfig, partial || {});
     strands.forEach(S => { S.build(); S.draw(performance.now()); });
