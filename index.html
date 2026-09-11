@@ -201,7 +201,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .aim-cursor .ac-c {
     position:absolute; width:10px; height:10px;
     border:2px solid #fff;
-    filter:drop-shadow(0 0 2px rgba(0,0,0,0.9)) drop-shadow(0 0 5px rgba(255,255,255,0.55));
+    filter:drop-shadow(0 0 1.5px rgba(0,0,0,0.9));   /* thin dark outline only, no glow */
     transition:all 0.22s cubic-bezier(0.22,1,0.36,1);
   }
   .aim-cursor .ac-tl { left:0; top:0; border-right:none; border-bottom:none; }
@@ -212,20 +212,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; left:50%; top:50%; width:3px; height:3px; margin:-1.5px 0 0 -1.5px;
     border-radius:50%; background:#fff; transition:all 0.22s ease;
     width:4px; height:4px; margin:-2px 0 0 -2px;
-    box-shadow:0 0 0 1px rgba(0,0,0,0.6), 0 0 6px rgba(255,255,255,0.8);
+    box-shadow:0 0 0 1px rgba(0,0,0,0.6);
   }
   .aim-cursor .ac-ring {
     position:absolute; inset:2px; border-radius:50%;
-    border:2px solid var(--p-beam-hi); opacity:0; transform:scale(0.6);
-    box-shadow:0 0 8px var(--p-beam);
+    border:2px solid #63FF8A; opacity:0; transform:scale(0.6);
   }
   /* locked on: brackets pull in, dot turns mint, ring pulses out once */
-  .aim-cursor.locked .ac-c { border-color:var(--p-beam-hi); width:8px; height:8px; filter:drop-shadow(0 0 2px rgba(0,0,0,0.9)) drop-shadow(0 0 6px var(--p-beam)); }
+  .aim-cursor.locked .ac-c { border-color:#63FF8A; width:8px; height:8px; }   /* same green as the scrambled strands */
   .aim-cursor.locked .ac-tl { left:6px; top:6px; }
   .aim-cursor.locked .ac-tr { right:6px; top:6px; }
   .aim-cursor.locked .ac-bl { left:6px; bottom:6px; }
   .aim-cursor.locked .ac-br { right:6px; bottom:6px; }
-  .aim-cursor.locked .ac-dot { background:var(--p-beam-hi); width:6px; height:6px; margin:-3px 0 0 -3px; box-shadow:0 0 0 1px rgba(0,0,0,0.6), 0 0 10px var(--p-beam); }
+  .aim-cursor.locked .ac-dot { background:#63FF8A; width:6px; height:6px; margin:-3px 0 0 -3px; box-shadow:0 0 0 1px rgba(0,0,0,0.6); }
   .aim-cursor.pulse .ac-ring { animation:aimPulse 0.55s ease-out; }
   @keyframes aimPulse { 0% { opacity:0.9; transform:scale(0.5); } 100% { opacity:0; transform:scale(1.6); } }
   /* pressed: quick squeeze */
