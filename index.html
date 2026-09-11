@@ -25,7 +25,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preload" href="project cover/agencyroot cover.png" as="image">
 <link rel="preload" href="fonts/Figtree/Figtree-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Source_Serif_4/SourceSerif4-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="fonts/Libertinus_Serif/LibertinusSerif-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/IM_Fell_English/IMFellEnglish-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Crimson_Text/CrimsonText-Bold.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Crimson_Text/CrimsonText-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Crimson_Text/CrimsonText-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
@@ -51,8 +51,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-display: block;
   }
   @font-face {
-    font-family: 'Libertinus Serif';
-    src: url('fonts/Libertinus_Serif/LibertinusSerif-Regular.ttf') format('truetype');
+    font-family: 'IM Fell English';
+    src: url('fonts/IM_Fell_English/IMFellEnglish-Regular.ttf') format('truetype');
     font-weight: 400; font-style: normal; font-display: block;
   }
   @font-face {
@@ -201,11 +201,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .hero-emblem.spin { animation:emblemSpin 14s linear infinite; }
   @keyframes emblemSpin { to { transform:rotate(360deg); } }
   @media (max-width:640px) { .hero-emblem { width:34vw; top:2vh; right:2vw; } }
-  /* headline: Libertinus Serif Regular, hero size 2.125rem */
+  /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
   .hero-line {
-    position:absolute; left:50%; top:14%; transform:translateX(-50%); z-index:6;
+    position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:6;
     white-space:nowrap; text-align:center;
-    font-family:'Libertinus Serif', serif; font-weight:400; font-size:clamp(0.95rem, 2.4vw, 2.125rem);
+    font-family:'IM Fell English', serif; font-weight:400; font-size:clamp(0.95rem, 2.4vw, 2.125rem);
     line-height:1.3; color:#fff; margin:0;
   }
   /* untranslated phrase: a glowing particle strand (canvas) sized to the
@@ -219,7 +219,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph-probe { visibility:hidden; white-space:nowrap; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
-  @media (max-width:640px) { .hero-line { top:12%; font-size:clamp(0.8rem, 3.1vw, 1rem); } }
+  @media (max-width:640px) { .hero-line { top:26%; font-size:clamp(0.8rem, 3.1vw, 1rem); } }
 
   /* ── 5 & 6. Detector shell + camera ──
      The shell is tilted back with rotateX inside a perspective wrapper so
