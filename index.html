@@ -169,7 +169,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      ══════════════════════════════════════════════════════════════════ */
   #hero.cave-scene {
     display:block; padding:0; overflow:hidden;
-    background:var(--p-bg);
+    background:transparent;   /* the design-log frame shows through */
   }
 
   /* ── 1. Background: three parallax rock layers ── */
@@ -185,6 +185,55 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cave-near { z-index:3; }
 
   /* ── 2. Scan beams ── */
+  /* ── Design-log frame: retro-futuristic ship-log chrome behind the whole
+     page — a double line frame inset from the viewport, a title bar, and a
+     faint CRT scanline/vignette wash. Fixed, non-interactive, behind content. ── */
+  body { background-color:transparent; }   /* <html> keeps the page colour; the frame (z-index:-1) shows through */
+  .log-frame {
+    --lf-line:rgba(120, 200, 150, 0.42);
+    --lf-line-soft:rgba(120, 200, 150, 0.2);
+    position:fixed; inset:18px; z-index:-1; pointer-events:none;
+    border:1px solid var(--lf-line);
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 18%, rgba(120,200,150,0.06) 0%, transparent 70%),
+      linear-gradient(180deg, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0.18) 100%);
+  }
+  .log-frame::before {                       /* inner line of the double frame */
+    content:''; position:absolute; inset:6px; border:1px solid var(--lf-line-soft);
+  }
+  .log-frame::after {                        /* CRT scanlines + vignette */
+    content:''; position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0 1px, transparent 1px 4px),
+      radial-gradient(ellipse 85% 80% at 50% 50%, transparent 55%, rgba(0,0,0,0.28) 100%);
+  }
+  .log-bar {                                  /* title bar: a rule across the top of the panel */
+    position:absolute; left:6px; right:6px; top:64px; height:1px; background:var(--lf-line-soft);
+  }
+  .log-label {
+    position:absolute; left:26px; top:22px;
+    font-family:'Figtree', sans-serif; font-size:.72rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+    color:rgba(140, 220, 165, 0.85);
+  }
+  .log-meta {
+    position:absolute; right:26px; top:23px;
+    font-family:'Figtree', sans-serif; font-size:.68rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(140, 220, 165, 0.5);
+  }
+  .log-tick {                                 /* corner ticks on the inner frame */
+    position:absolute; width:10px; height:10px; border-color:var(--lf-line); border-style:solid; border-width:0;
+  }
+  .lt-tl { left:6px; top:6px; border-left-width:2px; border-top-width:2px; }
+  .lt-tr { right:6px; top:6px; border-right-width:2px; border-top-width:2px; }
+  .lt-bl { left:6px; bottom:6px; border-left-width:2px; border-bottom-width:2px; }
+  .lt-br { right:6px; bottom:6px; border-right-width:2px; border-bottom-width:2px; }
+  @media (max-width:640px) {
+    .log-frame { inset:10px; }
+    .log-bar { top:48px; }
+    .log-label { left:16px; top:15px; font-size:.62rem; }
+    .log-meta { display:none; }
+  }
+
   /* ── Aim cursor: a targeting reticle that replaces the pointer on fine
      pointer devices; it locks on (brackets tighten, ring pulses) when
      hovering anything interactive ── */
@@ -1129,6 +1178,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      six components this is built from (background, scan beams, signal
      detector shell, camera).
      ══════════════════════════════════════════════════════════════════════ -->
+<!-- Design-log frame (decorative, behind everything) -->
+<div class="log-frame" aria-hidden="true">
+  <span class="log-tick lt-tl"></span><span class="log-tick lt-tr"></span>
+  <span class="log-tick lt-bl"></span><span class="log-tick lt-br"></span>
+  <span class="log-label">Design Log</span>
+  <span class="log-meta">Talia Ren &middot; 2026</span>
+  <span class="log-bar"></span>
+</div>
+
 <!-- Aim cursor (fine-pointer devices only; positioned by JS) -->
 <div class="aim-cursor" id="aimCursor" aria-hidden="true">
   <span class="ac-ring"></span>
