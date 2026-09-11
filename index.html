@@ -2881,7 +2881,7 @@ document.addEventListener('mousemove', e => {
     points: [[0, 0], [0.5, -0.4], [1, 0]],   // custom: [x 0..1, y in line-heights]
     curve: 0.35,           // arc: sag in line-heights (negative = bow upward)
     density: 3,            // particles per CSS px of strand length
-    thickness: 0.3,        // strand half-thickness in line-heights (≈ cap height of the text)
+    thickness: 0.13,       // strand half-thickness in line-heights
     speed: 1.4,            // internal motion speed
     turbulence: 1,         // amount of local noise drift
     glow: 1,               // bloom intensity
@@ -2989,7 +2989,7 @@ document.addEventListener('mousemove', e => {
         S.marks.push({
           u: (i + 0.5) / markCount + (m1 - 0.5) * 0.6 / markCount,
           kind: kinds[Math.floor(m2 * kinds.length) % kinds.length],
-          size: 2 + m3 * 4.2,                                 // px
+          size: 1.6 + m3 * 3.2,                               // px
           rot: m4 * Math.PI * 2, off: (m1 - 0.5) * 2,         // rotation, lateral offset (× thickness)
           phase: m2 * Math.PI * 2, alpha: 0.45 + m3 * 0.4,
           spin: (m4 > 0.5 ? 1 : -1) * (0.25 + m1 * 0.6),      // continuous rotation, rad/s
