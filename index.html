@@ -190,9 +190,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      faint CRT scanline/vignette wash. Fixed, non-interactive, behind content. ── */
   body { background-color:transparent; }   /* <html> keeps the page colour; the frame (z-index:-1) shows through */
   .log-frame {
-    --lf-line:rgba(120, 200, 150, 0.42);
-    --lf-line-soft:rgba(120, 200, 150, 0.2);
-    position:fixed; inset:18px; z-index:-1; pointer-events:none;
+    --lf-line:rgba(130, 215, 160, 0.62);
+    --lf-line-soft:rgba(130, 215, 160, 0.34);
+    position:fixed; inset:34px; z-index:-1; pointer-events:none;
     border:1px solid var(--lf-line);
     background:
       radial-gradient(ellipse 70% 55% at 50% 18%, rgba(120,200,150,0.06) 0%, transparent 70%),
@@ -228,7 +228,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .lt-bl { left:6px; bottom:6px; border-left-width:2px; border-bottom-width:2px; }
   .lt-br { right:6px; bottom:6px; border-right-width:2px; border-bottom-width:2px; }
   @media (max-width:640px) {
-    .log-frame { inset:10px; }
+    .log-frame { inset:16px; }
     .log-bar { top:48px; }
     .log-label { left:16px; top:15px; font-size:.62rem; }
     .log-meta { display:none; }
