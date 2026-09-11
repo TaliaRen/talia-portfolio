@@ -189,6 +189,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cave-near { z-index:3; }
 
   /* ── 2. Scan beams ── */
+  /* ── 2. Scan beams (camera → hovered phrase) ── */
+  .cam-beams { position:fixed; inset:0; width:100%; height:100%; z-index:59; pointer-events:none; }
+  .cam-beam { opacity:0; transition:opacity 0.35s ease; }
+  .cam-beams.on .cam-beam { opacity:1; }
+
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
     position:absolute; top:4vh; right:4vw; z-index:7;
@@ -318,7 +323,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .detector-screen { padding:22px 20px; min-height:140px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cave-layer, .detector-camera, .detector-shell, .detector-screen {
+    .cave-layer, .cam-beam, .detector-camera, .detector-shell, .detector-screen {
       animation:none !important; transition:none !important;
     }
     .detector-shell { transform:rotateX(9deg); }
@@ -1108,6 +1113,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        onload="this.classList.add('ready')">
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
+  <!-- 2. Scan beams: fired from the camera's lens at the hovered headline
+       phrase. Fixed overlay in viewport px; JS sets endpoints each frame. -->
+  <svg class="cam-beams" id="camBeams" aria-hidden="true">
+    <defs>
+      <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+      <linearGradient id="beamGradA" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
+        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
+        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
+      </linearGradient>
+      <linearGradient id="beamGradB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" style="stop-color:var(--p-beam-hi)" stop-opacity="0.95"/>
+        <stop offset="0.7" style="stop-color:var(--p-beam)" stop-opacity="0.85"/>
+        <stop offset="1" style="stop-color:var(--p-beam)" stop-opacity="0.05"/>
+      </linearGradient>
+    </defs>
+    <g class="cam-beam" id="beamA">
+      <line stroke="url(#beamGradA)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
+      <line stroke="url(#beamGradA)" stroke-width="2.6" stroke-linecap="round"/>
+    </g>
+    <g class="cam-beam" id="beamB">
+      <line stroke="url(#beamGradB)" stroke-width="11" stroke-linecap="round" opacity="0.5" filter="url(#beamGlow)"/>
+      <line stroke="url(#beamGradB)" stroke-width="2.6" stroke-linecap="round"/>
+    </g>
+  </svg>
   <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
 
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
@@ -2771,6 +2801,7 @@ document.addEventListener('mousemove', e => {
   }
 
   const strands = [];
+  let beamTarget = null;   // the hovered phrase the camera aims its beams at
   function hexToRgb(h) { const v = parseInt(h.slice(1), 16); return [(v >> 16) & 255, (v >> 8) & 255, v & 255]; }
 
   document.querySelectorAll('.glyph').forEach((el, k) => {
@@ -2934,6 +2965,7 @@ document.addEventListener('mousemove', e => {
     if (document.fonts?.ready) document.fonts.ready.then(() => { build(); draw(0); });
     el.addEventListener('mouseenter', () => {
       S.hover = true; el.classList.add('decoded');
+      beamTarget = el; camBeams?.classList.add('on');
       clearInterval(S.decodeTimer);
       S.decodeTimer = setInterval(() => {                  // reveal left to right
         S.fixed = Math.min(text.length, S.fixed + 1); showText();
@@ -2942,6 +2974,7 @@ document.addEventListener('mousemove', e => {
     });
     el.addEventListener('mouseleave', () => {
       S.hover = false; clearInterval(S.decodeTimer);
+      if (beamTarget === el) { beamTarget = null; camBeams?.classList.remove('on'); }
       el.classList.remove('decoded'); S.fixed = 0; showText();
     });
   });
@@ -2961,6 +2994,28 @@ document.addEventListener('mousemove', e => {
       if (strandsVisible) strands.forEach(S => { if (!S.hover) S.draw(now); });
       requestAnimationFrame(strandLoop);
     })(performance.now());
+  }
+
+  // ── 2. Camera beams: two beams from the lens converge on the hovered phrase ──
+  const camBeams = document.getElementById('camBeams');
+  const beamA = document.getElementById('beamA'), beamB = document.getElementById('beamB');
+  const beamGradA = document.getElementById('beamGradA'), beamGradB = document.getElementById('beamGradB');
+  function setBeam(g, grad, x1, y1, x2, y2) {
+    g.querySelectorAll('line').forEach(l => {
+      l.setAttribute('x1', x1.toFixed(1)); l.setAttribute('y1', y1.toFixed(1));
+      l.setAttribute('x2', x2.toFixed(1)); l.setAttribute('y2', y2.toFixed(1));
+    });
+    grad.setAttribute('x1', x1.toFixed(1)); grad.setAttribute('y1', y1.toFixed(1));
+    grad.setAttribute('x2', x2.toFixed(1)); grad.setAttribute('y2', y2.toFixed(1));
+  }
+  function drawBeams() {
+    if (!camBeams || !beamTarget) return;
+    const r = beamTarget.getBoundingClientRect();
+    const [sx, sy] = camLensScreen;
+    // impact points at 25% and 75% along the phrase, on its centre line
+    const cy = r.top + r.height * 0.5;
+    setBeam(beamA, beamGradA, sx, sy, r.left + r.width * 0.25, cy);
+    setBeam(beamB, beamGradB, sx, sy, r.left + r.width * 0.75, cy);
   }
 
   window.addEventListener('mousemove', e => {
@@ -2992,6 +3047,7 @@ document.addEventListener('mousemove', e => {
       camPitch += ((16 - ny * 5) - camPitch) * 0.08;
       renderCam(camYaw, camPitch);
     }
+    drawBeams();
     requestAnimationFrame(frame);
   }
   if (!reducedMotion) requestAnimationFrame(frame);
