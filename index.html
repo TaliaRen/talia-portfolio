@@ -192,15 +192,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── 1b. Emblem (top-right) ── */
   .hero-emblem {
     position:absolute; top:4vh; right:4vw; z-index:7;
-    width:min(20vw, 220px); height:auto; cursor:pointer;
+    width:min(14vw, 150px); height:auto; cursor:pointer;
+    transform-origin:50% 50%; will-change:transform;
     opacity:0; transition:opacity 1.2s ease;
     filter:drop-shadow(0 0 10px rgba(255,255,255,0.25));
   }
   .hero-emblem.ready { opacity:0.95; }
-  /* click toggles a slow continuous spin */
-  .hero-emblem.spin { animation:emblemSpin 14s linear infinite; }
-  @keyframes emblemSpin { to { transform:rotate(360deg); } }
-  @media (max-width:640px) { .hero-emblem { width:34vw; top:2vh; right:2vw; } }
+  @media (max-width:640px) { .hero-emblem { width:26vw; top:2vh; right:2vw; } }
   /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
   .hero-line {
     position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:6;
@@ -1102,9 +1100,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- 1b. Emblem: the Outer Wilds "music" starburst in the top-right
-       corner; fades in on load, click to start/stop it spinning. -->
-  <img class="hero-emblem" id="heroEmblem" src="outerwilds/music.png" alt="" role="button" aria-label="Spin emblem"
-       onload="this.classList.add('ready')" onclick="this.classList.toggle('spin')">
+       corner; fades in on load. Click: starts spinning + plays music;
+       click again: pauses both, holding the current angle (JS below). -->
+  <img class="hero-emblem" id="heroEmblem" src="outerwilds/music.png" alt="" role="button" aria-label="Play music"
+       onload="this.classList.add('ready')">
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
   <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
@@ -2520,6 +2519,31 @@ document.addEventListener('mousemove', e => {
         }
       })();
     }
+  }
+
+  // ── 1b. Emblem: click toggles spin + music. Rotation is driven by rAF
+  //      (not a CSS animation) so pausing keeps whatever angle it reached. ──
+  const emblem = document.getElementById('heroEmblem');
+  if (emblem) {
+    let spinning = false, angle = 0, last = 0, music = null;
+    const RPM = 360 / 14;                                  // one turn every 14s
+    function spinFrame(now) {
+      if (!spinning) return;
+      angle = (angle + (now - last) / 1000 * RPM) % 360; last = now;
+      emblem.style.transform = `rotate(${angle.toFixed(2)}deg)`;
+      requestAnimationFrame(spinFrame);
+    }
+    emblem.addEventListener('click', () => {
+      spinning = !spinning;
+      if (spinning) {
+        last = performance.now(); requestAnimationFrame(spinFrame);
+        if (!music) { music = new Audio('sound effect/music.mp3'); music.loop = true; music.volume = 0.7; }
+        music.play().catch(() => {});
+      } else {
+        music?.pause();                                    // angle is left where it stopped
+      }
+      emblem.setAttribute('aria-label', spinning ? 'Pause music' : 'Play music');
+    });
   }
 
   // ── 1 & 6. Pointer-driven loop: cave parallax and the camera head
