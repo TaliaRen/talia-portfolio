@@ -270,31 +270,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* the view itself scrolls: on iOS/Safari the iframe grows to its content
        height, so the container must be the scroller (with momentum) */
     overflow:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
-    /* entrance: fade + settle (opacity/transform only, so it's smooth); exit is instant */
-    opacity:0; transform:translateY(14px);
+    /* entrance: a plain, quick fade in; exit is instant */
+    opacity:0;
   }
-  .project-view.open {
-    visibility:visible; opacity:1; transform:none;
-    transition:opacity 0.5s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
-  }
+  .project-view.open { visibility:visible; opacity:1; transition:opacity 0.35s ease; }
   .project-view.closing { transition:none !important; }
-  /* scan sweep: a mint line runs down the frame as the project decodes in */
-  .scan-sweep {
-    position:fixed; z-index:960; pointer-events:none; overflow:hidden; opacity:0;
-    top:calc(var(--frame-inset) + 7px); bottom:calc(var(--frame-inset) + 7px);
-    left:calc(var(--frame-inset) + 7px); right:calc(var(--frame-inset) + 7px);
-  }
-  .scan-sweep::before {
-    content:''; position:absolute; left:0; right:0; top:-160px; height:160px;
-    background:linear-gradient(to bottom, rgba(99,255,138,0) 0%, rgba(99,255,138,0.10) 65%, rgba(99,255,138,0.75) 100%);
-  }
-  .scan-sweep.run { opacity:1; }
-  .scan-sweep.run::before { animation:scanDown 0.75s cubic-bezier(0.4,0,0.2,1) forwards; }
-  @keyframes scanDown { to { transform:translateY(calc(100vh + 160px)); } }
-  @media (prefers-reduced-motion: reduce) {
-    .project-view.open { transition:none; }
-    .scan-sweep.run::before { animation:none; }
-  }
+  @media (prefers-reduced-motion: reduce) { .project-view.open { transition:none; } }
   /* phone-only Back (fixed in the parent, so it never scrolls away inside the iframe) */
   .project-view-back-m {
     display:none; position:absolute; left:16px; top:14px; z-index:2; align-items:center; gap:6px;
@@ -1246,7 +1227,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- In-frame project viewer (filled by JS when a project card is clicked) -->
-<div class="scan-sweep" id="scanSweep" aria-hidden="true"></div>
 <div class="project-view" id="projectView" aria-hidden="true">
   <button type="button" class="project-view-back-m" id="projectViewBackM" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
 </div>
@@ -3267,8 +3247,6 @@ document.addEventListener('mousemove', e => {
       if (shown || current !== name) return; shown = true;
       view.classList.remove('closing');
       view.classList.add('open'); view.setAttribute('aria-hidden', 'false'); document.body.classList.add('project-open');
-      const sweep = document.getElementById('scanSweep');              // scan line runs once per open
-      if (sweep) { sweep.classList.remove('run'); void sweep.offsetWidth; sweep.classList.add('run'); setTimeout(() => sweep.classList.remove('run'), 900); }
     };
     frame.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(show)));
     setTimeout(show, 700);
