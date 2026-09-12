@@ -240,6 +240,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .log-rail [data-label]:hover::after { opacity:1; transform:translate(0, -50%); }
   .log-rail .rail-x svg { fill:currentColor; stroke:none; width:16px; height:16px; }
+  .log-rail .copied { color:#63FF8A !important; }
+  .log-rail .copied::after { opacity:1 !important; transform:translate(0, -50%) !important; }
   .log-rail a, .log-rail button {
     display:flex; align-items:center; justify-content:center;
     width:36px; height:36px; border-radius:10px; border:0; background:transparent; padding:0;
@@ -1222,7 +1224,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
   <div class="rail-contact">
     <span class="rail-sep" aria-hidden="true"></span>
-    <a href="mailto:taliaren0826@gmail.com" data-label="Email" aria-label="Email">
+    <a href="mailto:taliaren0826@gmail.com" id="railEmail" data-label="Copy email" aria-label="Copy email address">
       <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
     </a>
     <a href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" data-label="LinkedIn" aria-label="LinkedIn">
@@ -3242,6 +3244,23 @@ document.addEventListener('mousemove', e => {
   // ── Kick off the load-in: detector rises, everything else is already
   //      animating via CSS as soon as the stylesheet applies ──
   requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
+})();
+
+// ── Rail: the email icon copies the address to the clipboard ──
+(function () {
+  const el = document.getElementById('railEmail');
+  if (!el) return;
+  const EMAIL = 'taliaren0826@gmail.com';
+  let t = 0;
+  el.addEventListener('click', e => {
+    if (!navigator.clipboard) return;                 // no clipboard API: let the mailto: link open
+    e.preventDefault();
+    navigator.clipboard.writeText(EMAIL).then(() => {
+      el.dataset.label = 'Copied!'; el.classList.add('copied');
+      clearTimeout(t);
+      t = setTimeout(() => { el.classList.remove('copied'); el.dataset.label = 'Copy email'; }, 1600);
+    }).catch(() => { location.href = el.href; });     // copy refused: fall back to mailto:
+  });
 })();
 
 // ── Aim cursor: reticle follows the pointer with a little easing and locks
