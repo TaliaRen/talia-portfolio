@@ -25,6 +25,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Talia Ren</title>
 <link rel="preload" href="project cover/agencyroot cover.png" as="image">
 <link rel="preload" href="fonts/Figtree/Figtree-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/IM_Fell_English/IMFellEnglish-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Labrada/Labrada-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Labrada/Labrada-Italic-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Libertinus_Serif/LibertinusSerif-Regular.ttf" as="font" type="font/ttf" crossorigin>
@@ -36,6 +37,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-weight: 300 900;
     font-style: normal;
     font-display: block;
+  }
+  @font-face {
+    font-family: 'IM Fell English';
+    src: url('fonts/IM_Fell_English/IMFellEnglish-Regular.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: block;
   }
   @font-face {
     font-family: 'Labrada';
@@ -221,7 +227,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* outer + inner lines (above content, no hit testing); the inner line's 1px sits just outside the clipped area */
   .frame-mask::before { content:''; position:absolute; inset:calc(var(--m) - 7px); border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
   /* a third, fainter line further out, so the bezel reads as layered */
-  .frame-mask .fm-outer { position:absolute; inset:calc(var(--m) - 13px); border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }   /* 6px outside the outer line, same tone as the inner line */
+  .frame-mask .fm-outer { position:absolute; inset:calc(var(--m) - 11px); border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }   /* 4px outside the main line, same tone as it */
   .frame-mask::after  { content:''; position:absolute; inset:calc(var(--m) - 1px); border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }
   @media (max-width:640px) {
     .log-frame { inset:23px; }
@@ -326,13 +332,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cam-beams.on #beamFans { opacity:1; }
   .beam-fan { filter:url(#beamSoft); }
 
-  /* headline: Labrada Regular, hero size 2.125rem, centred a little above the middle */
+  /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
   .hero-line {
     /* responsive: fluid size, wraps inside a max width; the two scrambled
        phrases never break internally (the .glyph spans are nowrap) */
     position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:6;
     width:max-content; max-width:min(92vw, 1000px); box-sizing:border-box; text-align:center; text-wrap:balance;
-    font-family:'Labrada', serif; font-weight:400; font-size:2.125rem;   /* same size at every viewport; it wraps instead */
+    font-family:'IM Fell English', serif; font-weight:400; font-size:2.125rem;   /* same size at every viewport; it wraps instead */
     line-height:1.35; color:#fff; margin:0;
   }
   /* untranslated phrase: a glowing particle strand (canvas) sized to the
