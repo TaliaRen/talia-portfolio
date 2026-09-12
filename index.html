@@ -150,14 +150,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .log-frame {
     --lf-line:rgba(130, 215, 160, 0.62);
     --lf-line-soft:rgba(130, 215, 160, 0.34);
-    position:fixed; inset:34px; z-index:-1; pointer-events:none;
-    border:1px solid var(--lf-line);
+    position:fixed; inset:41px; z-index:-1; pointer-events:none;   /* inside the inner line */
     background:
       radial-gradient(ellipse 70% 55% at 50% 18%, rgba(120,200,150,0.06) 0%, transparent 70%),
       linear-gradient(180deg, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0.18) 100%);
-  }
-  .log-frame::before {                       /* inner line of the double frame */
-    content:''; position:absolute; inset:6px; border:1px solid var(--lf-line-soft);
   }
   .log-frame::after {                        /* CRT scanlines + vignette */
     content:''; position:absolute; inset:0;
@@ -165,13 +161,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0 1px, transparent 1px 4px),
       radial-gradient(ellipse 85% 80% at 50% 50%, transparent 55%, rgba(0,0,0,0.28) 100%);
   }
-  .log-tick {                                 /* corner ticks on the inner frame */
-    position:absolute; width:10px; height:10px; border-color:var(--lf-line); border-style:solid; border-width:0;
+  .log-tick {                                 /* corner ticks on the inner line (drawn on the mask, above everything) */
+    position:absolute; width:10px; height:10px; border-color:rgba(130, 215, 160, 0.62); border-style:solid; border-width:0; z-index:1;
   }
-  .lt-tl { left:6px; top:6px; border-left-width:2px; border-top-width:2px; }
-  .lt-tr { right:6px; top:6px; border-right-width:2px; border-top-width:2px; }
-  .lt-bl { left:6px; bottom:6px; border-left-width:2px; border-bottom-width:2px; }
-  .lt-br { right:6px; bottom:6px; border-right-width:2px; border-bottom-width:2px; }
+  .lt-tl { left:-1px; top:-1px; border-left-width:2px; border-top-width:2px; }
+  .lt-tr { right:-1px; top:-1px; border-right-width:2px; border-top-width:2px; }
+  .lt-bl { left:-1px; bottom:-1px; border-left-width:2px; border-bottom-width:2px; }
+  .lt-br { right:-1px; bottom:-1px; border-right-width:2px; border-bottom-width:2px; }
   /* ── Content area: everything below the hero lives in the frame's right
      part — to the right of the rail, inside the frame's right edge ── */
   :root {
@@ -195,14 +191,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* full-viewport element: its thick border IS the margin outside the frame
        (no giant box-shadow — Safari caps those); the inner line is drawn by ::after */
     position:fixed; inset:0; z-index:900; pointer-events:none; box-sizing:border-box;
-    border:40px solid var(--p-bg);   /* = frame inset (34) + inner line offset (6): clips at the INNER line */
+    border:41px solid var(--p-bg);   /* inset 34 + 6 gap + the 1px inner line: content is clipped INSIDE the line */
   }
-  /* outer line + inner line, drawn on the mask so they stay above content */
-  .frame-mask::before { content:''; position:absolute; inset:-6px; border:1px solid rgba(130, 215, 160, 0.62); }
-  .frame-mask::after  { content:''; position:absolute; inset:0; border:1px solid rgba(130, 215, 160, 0.34); }
+  /* outer + inner lines, drawn on the mask (above content); the inner line's 1px sits just outside the clip */
+  .frame-mask::before { content:''; position:absolute; inset:-7px; border:1px solid rgba(130, 215, 160, 0.62); }
+  .frame-mask::after  { content:''; position:absolute; inset:-1px; border:1px solid rgba(130, 215, 160, 0.34); }
   @media (max-width:640px) {
-    .log-frame { inset:16px; }
-    .frame-mask { border-width:22px; }
+    .log-frame { inset:23px; }
+    .frame-mask { border-width:23px; }
   }
   /* ── Left rail: vertical strip inside the frame — logo, music toggle,
      Play, About, then contact icons ── */
@@ -259,18 +255,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     top:calc(var(--frame-inset) + 7px); bottom:calc(var(--frame-inset) + 7px);
     left:calc(var(--frame-inset) + 7px + var(--rail-w)); right:calc(var(--frame-inset) + 7px);
     display:flex; flex-direction:column; background:var(--p-bg);
-    opacity:0; visibility:hidden; transform:translateY(12px);
-    transition:opacity 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0.35s;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.5s ease, visibility 0s linear 0.5s;
   }
-  .project-view.open { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+  .project-view.open { opacity:1; visibility:visible; transition-delay:0s; }
   .project-view iframe { flex:1 1 auto; width:100%; border:0; background:var(--p-bg); }
   body.project-open { overflow:hidden; }
   /* while a project is open: translator slides down out of view, the rail
      fades away and the viewer takes the full frame width */
-  body.project-open .detector { transform:translate(-50%, 130%) !important; }
+  /* everything on the homepage simply fades under the viewer — no sliding */
+  .detector { transition:opacity 0.4s ease, transform 0.9s cubic-bezier(0.22,1,0.36,1) !important; }
+  body.project-open .detector { opacity:0; pointer-events:none; }
   body.project-open .cam-beams { opacity:0; }
-  .log-rail { transition:opacity 0.3s ease, transform 0.3s ease; }
-  body.project-open .log-rail { opacity:0; transform:translateX(-16px); pointer-events:none; }
+  .log-rail { transition:opacity 0.4s ease; }
+  body.project-open .log-rail { opacity:0; pointer-events:none; }
   body.project-open .project-view { left:calc(var(--frame-inset) + 7px); }
   @media (max-width:640px) {
     .project-view { left:calc(16px + 7px); right:calc(16px + 7px); top:calc(16px + 7px); bottom:calc(16px + 7px); }
@@ -1167,10 +1165,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      detector shell, camera).
      ══════════════════════════════════════════════════════════════════════ -->
 <!-- Design-log frame (decorative, behind everything) -->
-<div class="log-frame" aria-hidden="true">
-  <span class="log-tick lt-tl"></span><span class="log-tick lt-tr"></span>
-  <span class="log-tick lt-bl"></span><span class="log-tick lt-br"></span>
-</div>
+<div class="log-frame" aria-hidden="true"></div>
 <nav class="log-rail" aria-label="Site">
   <a class="rail-logo" href="#" data-label="Home" aria-label="Home"><img src="logo.png" alt=""></a>
   <a href="play.html" data-label="Playground" aria-label="Playground">
@@ -1201,7 +1196,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <!-- Frame mask: clips everything to the frame (paints over the outside margin) -->
-<div class="frame-mask" aria-hidden="true"></div>
+<div class="frame-mask" aria-hidden="true">
+  <span class="log-tick lt-tl"></span><span class="log-tick lt-tr"></span>
+  <span class="log-tick lt-bl"></span><span class="log-tick lt-br"></span>
+</div>
 
 <!-- In-frame project viewer (filled by JS when a project card is clicked) -->
 <div class="project-view" id="projectView" aria-hidden="true"></div>
@@ -3207,8 +3205,11 @@ document.addEventListener('mousemove', e => {
     frame = document.createElement('iframe');
     frame.src = name + '.html?embed=1'; frame.title = title || name; frame.loading = 'eager';
     view.appendChild(frame);
-    view.classList.add('open'); view.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('project-open');
+    // fade in only once the page has painted (or after 700ms), so nothing pops mid-fade
+    let shown = false;
+    const show = () => { if (shown || current !== name) return; shown = true; view.classList.add('open'); view.setAttribute('aria-hidden', 'false'); document.body.classList.add('project-open'); };
+    frame.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(show)));
+    setTimeout(show, 700);
     if (push) history.pushState({ project: name }, '', '?project=' + encodeURIComponent(name));
   }
   function close(push) {
@@ -3216,7 +3217,7 @@ document.addEventListener('mousemove', e => {
     current = null;
     view.classList.remove('open'); view.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('project-open');
-    setTimeout(() => { if (!current && frame) { frame.remove(); frame = null; } }, 400);
+    setTimeout(() => { if (!current && frame) { frame.remove(); frame = null; } }, 550);
     if (push) history.pushState({}, '', location.pathname + location.hash);
   }
   document.querySelectorAll('.project-card').forEach(card => {

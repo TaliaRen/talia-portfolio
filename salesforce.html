@@ -454,12 +454,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   html.embed footer, html.embed nav { display:none !important; }
   html.embed .case-sidebar { top:28px; left:28px; transform:none; gap:14px; }
   html.embed .case-back {
-    display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; padding:6px 12px 6px 9px;
-    border-radius:6px; border:1px solid rgba(130, 215, 160, 0.34); background:transparent; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px; margin-bottom:12px; padding:0;
+    border:0; background:transparent; cursor:pointer;
     font-family:'Figtree',sans-serif; font-size:.78rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#fff;
-    transition:background-color 0.2s ease, border-color 0.2s ease;
+    transition:color 0.2s ease, transform 0.2s ease;
   }
-  html.embed .case-back:hover { background:rgba(130, 215, 160, 0.12); border-color:rgba(130, 215, 160, 0.6); }
+  html.embed .case-back:hover { color:#63FF8A; transform:translateX(-2px); }
   html.embed .case-back svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
   .case-back { display:none; }   /* only shown when embedded */
 </style>
