@@ -21,8 +21,11 @@
   document.addEventListener('mouseenter', () => { shown = true; cur.classList.add('show'); });
   window.addEventListener('mousedown', () => cur.classList.add('down'));
   window.addEventListener('mouseup', () => cur.classList.remove('down'));
-  // lock-on when the pointer is over anything interactive
+  // lock-on when the pointer is over anything interactive; over an <iframe>
+  // the embedded page draws its own reticle, so hide this one
   document.addEventListener('mouseover', e => {
+    if (e.target.tagName === 'IFRAME') { shown = false; cur.classList.remove('show', 'locked', 'pulse'); locked = false; return; }
+    if (!shown) { shown = true; cur.classList.add('show'); }
     const hot = e.target.closest && e.target.closest(HOT);
     if (hot && !locked) { locked = true; cur.classList.add('locked'); cur.classList.remove('pulse'); void cur.offsetWidth; cur.classList.add('pulse'); }
     else if (!hot && locked) { locked = false; cur.classList.remove('locked', 'pulse'); }

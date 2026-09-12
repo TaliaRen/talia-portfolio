@@ -180,7 +180,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     box-sizing:border-box; max-width:none;
   }
   @media (max-width:640px) {
-    :root { --content-left:calc(16px + 20px); --content-right:calc(16px + 20px); }   /* no rail on phones */
+    :root { --frame-inset:16px; --content-left:calc(16px + 20px); --content-right:calc(16px + 20px); }   /* no rail on phones */
   }
 
   /* ── Frame mask: everything scrolls INSIDE the frame. A fixed element
@@ -190,15 +190,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .frame-mask {
     /* full-viewport element: its thick border IS the margin outside the frame
        (no giant box-shadow — Safari caps those); the inner line is drawn by ::after */
-    position:fixed; inset:0; z-index:900; pointer-events:none; box-sizing:border-box;
+    position:fixed; inset:0; z-index:900; box-sizing:border-box;
     border:41px solid var(--p-bg);   /* inset 34 + 6 gap + the 1px inner line: content is clipped INSIDE the line */
+    /* the margin swallows pointer events (nothing underneath can be hovered/clicked
+       outside the frame); the hole in the middle lets events through to content */
+    pointer-events:auto;
+    clip-path:polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 41px 41px, calc(100% - 41px) 41px, calc(100% - 41px) calc(100% - 41px), 41px calc(100% - 41px), 41px 41px);
+    cursor:default;
   }
   /* outer + inner lines, drawn on the mask (above content); the inner line's 1px sits just outside the clip */
-  .frame-mask::before { content:''; position:absolute; inset:-7px; border:1px solid rgba(130, 215, 160, 0.62); }
-  .frame-mask::after  { content:''; position:absolute; inset:-1px; border:1px solid rgba(130, 215, 160, 0.34); }
+  .frame-mask::before { content:''; position:absolute; inset:-7px; border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
+  .frame-mask::after  { content:''; position:absolute; inset:-1px; border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }
   @media (max-width:640px) {
     .log-frame { inset:23px; }
-    .frame-mask { border-width:23px; }
+    .frame-mask { border-width:23px; clip-path:polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 23px 23px, calc(100% - 23px) 23px, calc(100% - 23px) calc(100% - 23px), 23px calc(100% - 23px), 23px 23px); }
   }
   /* ── Left rail: vertical strip inside the frame — logo, music toggle,
      Play, About, then contact icons ── */
@@ -255,11 +260,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     top:calc(var(--frame-inset) + 7px); bottom:calc(var(--frame-inset) + 7px);
     left:calc(var(--frame-inset) + 7px + var(--rail-w)); right:calc(var(--frame-inset) + 7px);
     display:flex; flex-direction:column; background:var(--p-bg);
-    opacity:0; visibility:hidden;
-    transition:opacity 0.5s ease, visibility 0s linear 0.5s;
+    visibility:hidden;
   }
-  .project-view.open { opacity:1; visibility:visible; transition-delay:0s; }
-  .project-view iframe { flex:1 1 auto; width:100%; border:0; background:var(--p-bg); }
+  .project-view.open { visibility:visible; }
+  /* open/close effects — pick with ?fx=wipe|scale|blur (default wipe) */
+  .project-view[data-fx="wipe"]  { clip-path:inset(0 0 100% 0); transition:clip-path 0.65s cubic-bezier(0.77,0,0.18,1), visibility 0s linear 0.65s; }
+  .project-view[data-fx="wipe"].open { clip-path:inset(0 0 0 0); transition-delay:0s; }
+  .project-view[data-fx="scale"] { opacity:0; transform:scale(0.965); transform-origin:50% 60%; transition:opacity 0.45s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0.45s; }
+  .project-view[data-fx="scale"].open { opacity:1; transform:none; transition-delay:0s; }
+  .project-view[data-fx="blur"]  { opacity:0; filter:blur(14px); transition:opacity 0.5s ease, filter 0.6s ease, visibility 0s linear 0.5s; }
+  .project-view[data-fx="blur"].open { opacity:1; filter:blur(0); transition-delay:0s; }
+  /* phone-only Back (fixed in the parent, so it never scrolls away inside the iframe) */
+  .project-view-back-m {
+    display:none; position:absolute; left:16px; top:14px; z-index:2; align-items:center; gap:6px;
+    padding:6px 10px 6px 6px; border:0; border-radius:6px; background:rgba(11, 20, 16, 0.85); cursor:pointer;
+    font-family:'Figtree',sans-serif; font-size:.78rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#fff;
+  }
+  .project-view-back-m svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .project-view iframe { flex:1 1 auto; width:1px; min-width:100%; border:0; background:var(--p-bg); }   /* width:1px+min-width: iOS sizing fix */
   body.project-open { overflow:hidden; }
   /* while a project is open: translator slides down out of view, the rail
      fades away and the viewer takes the full frame width */
@@ -271,7 +289,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   body.project-open .log-rail { opacity:0; pointer-events:none; }
   body.project-open .project-view { left:calc(var(--frame-inset) + 7px); }
   @media (max-width:640px) {
-    .project-view { left:calc(16px + 7px); right:calc(16px + 7px); top:calc(16px + 7px); bottom:calc(16px + 7px); }
+    .project-view, body.project-open .project-view { left:calc(16px + 7px); right:calc(16px + 7px); top:calc(16px + 7px); bottom:calc(16px + 7px); }
+    .project-view-back-m { display:inline-flex; }
   }
 
 
@@ -1202,7 +1221,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- In-frame project viewer (filled by JS when a project card is clicked) -->
-<div class="project-view" id="projectView" aria-hidden="true"></div>
+<div class="project-view" id="projectView" data-fx="wipe" aria-hidden="true">
+  <button type="button" class="project-view-back-m" id="projectViewBackM" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
+</div>
 
 
 <section id="hero" class="cave-scene">
@@ -3217,7 +3238,7 @@ document.addEventListener('mousemove', e => {
     current = null;
     view.classList.remove('open'); view.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('project-open');
-    setTimeout(() => { if (!current && frame) { frame.remove(); frame = null; } }, 550);
+    setTimeout(() => { if (!current && frame) { frame.remove(); frame = null; } }, 700);
     if (push) history.pushState({}, '', location.pathname + location.hash);
   }
   document.querySelectorAll('.project-card').forEach(card => {
@@ -3230,6 +3251,9 @@ document.addEventListener('mousemove', e => {
   });
   // the Back button lives inside the embedded page (top-left, above its section nav)
   window.addEventListener('message', e => { if (e.data === 'project:back' && current) close(true); });
+  document.getElementById('projectViewBackM')?.addEventListener('click', () => { if (current) close(true); });
+  // transition effect: ?fx=wipe|scale|blur
+  const fx = new URLSearchParams(location.search).get('fx'); if (fx && ['wipe','scale','blur'].includes(fx)) view.dataset.fx = fx;
   window.addEventListener('keydown', e => { if (e.key === 'Escape' && current) close(true); });
   window.addEventListener('popstate', () => {
     const name = new URLSearchParams(location.search).get('project');
