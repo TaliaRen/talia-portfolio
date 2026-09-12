@@ -240,10 +240,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .log-rail [data-label]:hover::after { opacity:1; transform:translate(0, -50%); }
   .log-rail .rail-x svg { fill:currentColor; stroke:none; width:16px; height:16px; }
+  .log-rail .rail-music img { width:30px; height:30px; object-fit:contain; display:block; }
   .log-rail .rail-music .ic-on { display:none; }
   .log-rail .rail-music.on .ic-off { display:none; }
   .log-rail .rail-music.on .ic-on { display:block; animation:railBeat 1.2s ease-in-out infinite; }
-  .log-rail .rail-music.on { color:#63FF8A; }
   @keyframes railBeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
   .log-rail .copied { color:#63FF8A !important; }
   .log-rail .copied::after { opacity:1 !important; transform:translate(0, -50%) !important; }
@@ -1228,9 +1228,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
   </a>
   <button type="button" class="rail-music" id="railMusic" data-label="Music off" aria-label="Toggle music" aria-pressed="false">
-    <!-- off: note with a slash; on: plain note -->
-    <svg class="ic-off" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></svg>
-    <svg class="ic-on" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
+    <!-- off: green line-art badge; on: full-colour badge (outerwilds/) -->
+    <img class="ic-off" src="outerwilds/music off.png" alt="">
+    <img class="ic-on" src="outerwilds/music on.png" alt="">
   </button>
   <div class="rail-contact">
     <span class="rail-sep" aria-hidden="true"></span>
