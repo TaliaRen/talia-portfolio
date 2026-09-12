@@ -1225,7 +1225,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <svg class="ic-on" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
   </button>
   <div class="rail-contact">
-    <a href="mailto:taliaren0826@gmail.com" id="railEmail" data-label="Copy email" aria-label="Copy email address">
+    <a href="mailto:taliaren0826@gmail.com" id="railEmail" data-label="Email" aria-label="Copy email address">
       <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
     </a>
     <a href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" data-label="LinkedIn" aria-label="LinkedIn">
@@ -3281,7 +3281,7 @@ document.addEventListener('mousemove', e => {
     navigator.clipboard.writeText(EMAIL).then(() => {
       el.dataset.label = 'Copied!'; el.classList.add('copied');
       clearTimeout(t);
-      t = setTimeout(() => { el.classList.remove('copied'); el.dataset.label = 'Copy email'; }, 1600);
+      t = setTimeout(() => { el.classList.remove('copied'); el.dataset.label = 'Email'; }, 1600);
     }).catch(() => { location.href = el.href; });     // copy refused: fall back to mailto:
   });
 })();
