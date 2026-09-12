@@ -2769,15 +2769,19 @@ document.addEventListener('mousemove', e => {
   };
   // cancellable typewriter; `capsule` wraps the first line in the pill
   let typeTimer = 0;
-  function typeScreen(text, { capsule = false, speed = 28, instant = false } = {}) {
+  function typeScreen(text, { capsule = false, speed = 28, instant = false, tailWhole = false } = {}) {
     clearTimeout(typeTimer);
     screenText.classList.remove('done');
     if (reducedMotion || instant) { renderScreen(text, capsule); screenText.classList.add('done'); return; }
+    // tailWhole: only the first line is typed; the rest appears as a whole after a short pause
+    const nl = text.indexOf('\n');
+    const typedEnd = tailWhole && nl >= 0 ? nl : text.length;
     let i = 0;
     (function typeNext() {
       renderScreen(text.slice(0, i), capsule);
       i++;
-      if (i <= text.length) typeTimer = setTimeout(typeNext, text[i - 1] === '\n' ? 220 : speed);   // brief pause at line ends
+      if (i <= typedEnd) typeTimer = setTimeout(typeNext, text[i - 1] === '\n' ? 220 : speed);   // brief pause at line ends
+      else if (typedEnd < text.length) typeTimer = setTimeout(() => { renderScreen(text, capsule); screenText.classList.add('done'); }, 320);
       else screenText.classList.add('done');
     })();
   }
@@ -2793,7 +2797,7 @@ document.addEventListener('mousemove', e => {
     atEnd = nearEnd;
     screenEl?.classList.toggle('at-end', atEnd);
     document.getElementById('screenRoast')?.setAttribute('aria-hidden', String(!atEnd));
-    if (atEnd) { typeScreen(QUOTE, { capsule: 'quote', speed: 40 }); window.roastRelayout?.(); }
+    if (atEnd) { typeScreen(QUOTE, { capsule: 'quote', speed: 40, tailWhole: true }); window.roastRelayout?.(); }
     else showReady(true);
   }
   window.addEventListener('scroll', checkEnd, { passive: true });
