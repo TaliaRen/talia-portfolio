@@ -445,7 +445,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph-text { color:#fff; opacity:0; transition:opacity 0.2s ease; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
-  @media (max-width:640px) { .hero-line { top:20%; line-height:1.4; } }
+  /* phones: a touch smaller so the sentence settles into three lines and
+     stays clear of the translator below */
+  @media (max-width:640px) { .hero-line { top:20%; line-height:1.4; font-size:30px; } }
+  @media (max-width:340px) { .hero-line { font-size:26px; } }
 
   /* ── 5 & 6. Detector shell + camera ──
      The shell is tilted back with rotateX inside a perspective wrapper so
