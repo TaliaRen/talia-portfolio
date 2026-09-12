@@ -266,7 +266,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      pointer devices; it locks on (brackets tighten, ring pulses) when
      hovering anything interactive ── */
   @media (hover:hover) and (pointer:fine) {
-    body, a, button, .glyph, .hero-emblem, [role="button"] { cursor:none !important; }
+    body, a, button, .glyph, [role="button"] { cursor:none !important; }
   }
   .aim-cursor {
     position:fixed; left:0; top:0; z-index:10000; pointer-events:none;
@@ -312,26 +312,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cam-beams.on #beamFans { opacity:1; }
   .beam-fan { filter:url(#beamSoft); }
 
-  /* ── 1b. Emblem (top-right) ── */
-  .hero-emblem {
-    position:absolute; top:4vh; right:4vw; z-index:7;
-    width:min(6vw, 66px); height:auto; cursor:pointer;
-    transform-origin:50% 50%; will-change:transform;
-    scale:1; transition:opacity 1.2s ease, scale 0.35s cubic-bezier(0.22,1,0.36,1);
-    opacity:0;
-    filter:drop-shadow(0 0 10px rgba(255,255,255,0.25));
-  }
-  .hero-emblem.ready { opacity:0.95; }
-  .hero-emblem-label {
-    position:absolute; right:4vw; top:calc(4vh + min(6vw, 66px) + 10px); z-index:7; pointer-events:none;
-    padding:4px 9px; border-radius:6px; white-space:nowrap;
-    font-family:'Figtree', sans-serif; font-size:.74rem; font-weight:500; letter-spacing:.02em;
-    color:#fff; background:rgba(15, 30, 24, 0.92); border:1px solid rgba(130, 215, 160, 0.34);
-    opacity:0; transform:translateY(-4px); transition:opacity 0.18s ease, transform 0.18s ease;
-  }
-  .hero-emblem:hover + .hero-emblem-label { opacity:1; transform:translateY(0); }
-  .hero-emblem:hover { scale:1.15; }   /* composes with the inline rotate() */
-  @media (max-width:640px) { .hero-emblem { width:13vw; top:2vh; right:3vw; } }
   /* headline: IM Fell English Regular, hero size 2.125rem, centred a little above the middle */
   .hero-line {
     /* responsive: fluid size, wraps inside a max width; the two scrambled
@@ -1283,12 +1263,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </svg>
   </div>
 
-  <!-- 1b. Emblem: the Outer Wilds "music" starburst in the top-right
-       corner; fades in on load. Click: starts spinning + plays music;
-       click again: pauses both, holding the current angle (JS below). -->
-  <img class="hero-emblem" id="heroEmblem" src="outerwilds/music.png" alt="" role="button" aria-label="Play music"
-       onload="this.classList.add('ready')">
-  <span class="hero-emblem-label" id="heroEmblemLabel" aria-hidden="true">Play music</span>
 
   <!-- 1c. Headline: two phrases are "untranslated" glyph noise until hovered -->
   <!-- 2. Scan beams: a fan of translucent wedges from the camera's lens,
@@ -2726,33 +2700,21 @@ document.addEventListener('mousemove', e => {
   const showIntro = () => typeScreen(INTRO, { speed: 14 });
   if (screenText) showReady(false);
 
-  // ── 1b. Emblem: click toggles spin + music. Rotation is driven by rAF
-  //      (not a CSS animation) so pausing keeps whatever angle it reached. ──
-  const emblem = document.getElementById('heroEmblem');
-  if (emblem) {
-    let spinning = false, angle = 0, last = 0, music = null;
-    const emblemLabel = document.getElementById('heroEmblemLabel');
-    const RPM = 360 / 14;                                  // one turn every 14s
-    function spinFrame(now) {
-      if (!spinning) return;
-      angle = (angle + (now - last) / 1000 * RPM) % 360; last = now;
-      emblem.style.transform = `rotate(${angle.toFixed(2)}deg)`;
-      requestAnimationFrame(spinFrame);
-    }
-    const railMusic = document.getElementById('railMusic');
-    railMusic?.addEventListener('click', () => emblem.click());
-    emblem.addEventListener('click', () => {
-      spinning = !spinning;
-      emblemLabel && (emblemLabel.textContent = spinning ? 'Pause music' : 'Play music');
-      if (railMusic) { railMusic.classList.toggle('on', spinning); railMusic.dataset.label = spinning ? 'Music on' : 'Music off'; railMusic.setAttribute('aria-pressed', String(spinning)); }
-      if (spinning) {
-        last = performance.now(); requestAnimationFrame(spinFrame);
+  // ── Music toggle (rail button) ──
+  const railMusic = document.getElementById('railMusic');
+  if (railMusic) {
+    let playing = false, music = null;
+    railMusic.addEventListener('click', () => {
+      playing = !playing;
+      railMusic.classList.toggle('on', playing);
+      railMusic.dataset.label = playing ? 'Music on' : 'Music off';
+      railMusic.setAttribute('aria-pressed', String(playing));
+      if (playing) {
         if (!music) { music = new Audio('sound effect/music.mp3'); music.loop = true; music.volume = 0.7; }
         music.play().catch(() => {});
       } else {
-        music?.pause();                                    // angle is left where it stopped
+        music?.pause();
       }
-      emblem.setAttribute('aria-label', spinning ? 'Pause music' : 'Play music');
     });
   }
 
@@ -3282,7 +3244,7 @@ document.addEventListener('mousemove', e => {
   const cur = document.getElementById('aimCursor');
   if (!cur || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const HOT = 'a, button, .glyph, .hero-emblem, [role="button"], input, textarea, select, label';
+  const HOT = 'a, button, .glyph, [role="button"], input, textarea, select, label';
   let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, shown = false, locked = false;
   const place = () => { cur.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`; };
   window.addEventListener('mousemove', e => {
