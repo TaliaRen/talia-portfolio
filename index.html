@@ -273,6 +273,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .project-view-back svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
   .project-view iframe { flex:1 1 auto; width:100%; border:0; background:var(--p-bg); }
   body.project-open { overflow:hidden; }
+  /* while a project is open: translator slides down out of view, the rail
+     fades away and the viewer takes the full frame width */
+  body.project-open .detector { transform:translate(-50%, 130%) !important; }
+  body.project-open .cam-beams { opacity:0; }
+  .log-rail { transition:opacity 0.3s ease, transform 0.3s ease; }
+  body.project-open .log-rail { opacity:0; transform:translateX(-16px); pointer-events:none; }
+  body.project-open .project-view { left:calc(var(--frame-inset) + 7px); }
   @media (max-width:640px) {
     .project-view { left:calc(16px + 7px); right:calc(16px + 7px); top:calc(16px + 7px); bottom:calc(16px + 7px); }
   }

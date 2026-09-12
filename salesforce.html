@@ -449,11 +449,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-icon-btn:hover { color:#e0e0e0; }
   .footer-quote { font-family:'IM Fell English',serif; font-weight:300; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Figtree',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
-  /* embedded inside the homepage frame (?embed=1): no own nav/footer */
-  html.embed nav, html.embed footer { display:none !important; }
-  html.embed body { padding-top:0; }
+  /* embedded inside the homepage frame (?embed=1): keep the top nav, hide the footer */
+  html.embed footer { display:none !important; }
 </style>
-<script>if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add('embed');</script>
+<script>
+  if (/[?&]embed=1/.test(location.search)) {
+    document.documentElement.classList.add('embed');
+    // nav links navigate the main window, not the embedded panel
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('nav a[href]').forEach(a => { if (!a.getAttribute('href').startsWith('#')) a.target = '_top'; });
+    });
+  }
+</script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
