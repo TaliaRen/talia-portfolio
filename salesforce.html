@@ -449,8 +449,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-icon-btn:hover { color:#e0e0e0; }
   .footer-quote { font-family:'IM Fell English',serif; font-weight:300; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Figtree',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
-  /* embedded inside the homepage frame (?embed=1): keep the top nav, hide the footer */
+  /* embedded inside the homepage frame (?embed=1): keep the top nav, hide
+     the footer, pin the section nav to the top-left with a Back button above it */
   html.embed footer { display:none !important; }
+  html.embed .case-sidebar { top:28px; left:28px; transform:none; gap:14px; }
+  html.embed .case-back {
+    display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; padding:6px 12px 6px 9px;
+    border-radius:6px; border:1px solid rgba(130, 215, 160, 0.34); background:transparent; cursor:pointer;
+    font-family:'Figtree',sans-serif; font-size:.78rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#fff;
+    transition:background-color 0.2s ease, border-color 0.2s ease;
+  }
+  html.embed .case-back:hover { background:rgba(130, 215, 160, 0.12); border-color:rgba(130, 215, 160, 0.6); }
+  html.embed .case-back svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .case-back { display:none; }   /* only shown when embedded */
 </style>
 <script>
   if (/[?&]embed=1/.test(location.search)) {
@@ -458,6 +469,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     // nav links navigate the main window, not the embedded panel
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('nav a[href]').forEach(a => { if (!a.getAttribute('href').startsWith('#')) a.target = '_top'; });
+      // Back button above the section nav: tells the homepage to close the viewer
+      const sb = document.querySelector('.case-sidebar');
+      if (sb) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'case-back';
+        b.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back';
+        b.addEventListener('click', () => { if (window.parent !== window) window.parent.postMessage('project:back', '*'); else location.href = 'index.html#projects'; });
+        sb.prepend(b);
+      }
     });
   }
 </script>
