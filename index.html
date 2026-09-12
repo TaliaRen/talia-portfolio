@@ -3904,13 +3904,12 @@ function unlockScroll() {
     // Capture toasted color
     const fill=mallow.getAttribute('fill');
     const stroke=mallow.getAttribute('stroke');
-    // Toasted marshmallow lands at the stick's home spot — at the handle end (bottom-left), on the ground
-    const hx=(_cachedPosX ?? posX), hy=(_cachedPosY ?? posY);
-    const w=stickEl.offsetWidth, h=stickEl.offsetHeight;
-    const vx=17-w/2, vy=124-h/2;   /* the handle end of the stick (svg y≈124), rotated like the stick */
-    const handle={ x:hx+w/2+vx*Math.cos(STICK_ROT)-vy*Math.sin(STICK_ROT), y:hy+h/2+vx*Math.sin(STICK_ROT)+vy*Math.cos(STICK_ROT) };
+    // Toasted marshmallow lands just right of the fire, bottom-aligned with the fire's base
+    const sr=scene.getBoundingClientRect(), k=K();
+    const fr=fireWrap.getBoundingClientRect();
+    const fireRight=(fr.right-sr.left)/k, fireBottom=(fr.bottom-sr.top)/k;
     const placed=document.createElement('div');
-    placed.style.cssText=`position:absolute;left:${(handle.x-18).toFixed(1)}px;top:${(handle.y-4).toFixed(1)}px;pointer-events:none;z-index:5;transform:translateY(-6px);opacity:0;transition:transform 0.35s ease,opacity 0.2s ease;`;
+    placed.style.cssText=`position:absolute;left:${(fireRight+6).toFixed(1)}px;top:${(fireBottom-24-8).toFixed(1)}px;pointer-events:none;z-index:5;transform:translateY(-6px);opacity:0;transition:transform 0.35s ease,opacity 0.2s ease;`;
     placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
     scene.appendChild(placed);
     requestAnimationFrame(()=>{ placed.style.transform='translateY(10px)'; placed.style.opacity='1'; });   /* settles slightly below the tip */

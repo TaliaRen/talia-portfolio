@@ -7,6 +7,7 @@
     const HOT = 'a, button, .glyph, [role="button"], input, textarea, select, label';
     const send = (event, e) => window.parent.postMessage({ type: 'cursor', event, x: e && e.clientX, y: e && e.clientY, hot: !!(e && e.target && e.target.closest && e.target.closest(HOT)) }, '*');
     window.addEventListener('mousemove', e => send('move', e), { passive: true });
+    window.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') send('move', e); }, { passive: true });
     document.addEventListener('mouseover', e => send('over', e));
     window.addEventListener('mousedown', e => send('down', e));
     window.addEventListener('mouseup', e => send('up', e));
@@ -24,11 +25,15 @@
   const HOT = 'a, button, .glyph, [role="button"], input, textarea, select, label, .mallow-stick-el';
   let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, shown = false, locked = false;
   const place = () => { cur.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`; };
-  window.addEventListener('mousemove', e => {
+  const onMove = e => {
     tx = e.clientX; ty = e.clientY;
     if (!shown) { shown = true; x = tx; y = ty; place(); cur.classList.add('show'); }
     if (reduce) { x = tx; y = ty; place(); }
-  }, { passive: true });
+  };
+  window.addEventListener('mousemove', onMove, { passive: true });
+  // pointermove keeps arriving while an element holds pointer capture (e.g. dragging the marshmallow stick),
+  // when mousemove does not — so follow both
+  window.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') onMove(e); }, { passive: true });
   document.addEventListener('mouseleave', () => { shown = false; cur.classList.remove('show'); });
   document.addEventListener('mouseenter', () => { shown = true; cur.classList.add('show'); });
   window.addEventListener('mousedown', () => cur.classList.add('down'));
