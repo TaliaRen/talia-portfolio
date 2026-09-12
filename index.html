@@ -1167,6 +1167,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .detector-screen.at-end .screen-roast { display:block; }
   .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
   .detector-screen.at-end .screen-text.done::after { display:none; }
+  .screen-text .screen-credit {
+    display:inline-block; margin-top:.6em;
+    font-family:'Figtree', sans-serif; font-size:14px; font-weight:400; font-style:normal; letter-spacing:.01em;
+    color:#8F9994; text-shadow:none;
+  }
   .screen-text .screen-quote {
     font-family:'Labrada', serif; font-style:italic; font-weight:300; font-size:clamp(1.4rem, 2.2vw, 2rem);
     letter-spacing:0.02em; line-height:1.3; color:#fff;
@@ -2757,7 +2762,7 @@ document.addEventListener('mousemove', e => {
     screenText.textContent = '';
     s.split('\n').forEach((line, k) => {
       if (k) screenText.appendChild(document.createElement('br'));
-      if (capsule === 'quote') { const q = document.createElement('span'); q.className = 'screen-quote'; q.textContent = line; screenText.appendChild(q); }
+      if (capsule === 'quote') { const q = document.createElement('span'); q.className = k === 0 ? 'screen-quote' : 'screen-credit'; q.textContent = line; screenText.appendChild(q); }
       else if (k === 0 && capsule) { const t = document.createElement('span'); t.className = 'screen-title'; t.textContent = line; screenText.appendChild(t); }
       else screenText.appendChild(document.createTextNode(line));
     });
@@ -2779,7 +2784,7 @@ document.addEventListener('mousemove', e => {
   const showReady = instant => typeScreen(MESSAGE, { capsule: true, instant });
   const showIntro = () => typeScreen(INTRO, { speed: 14 });
   // bottom of the page: the screen shows the closing line + the campfire
-  const QUOTE = "The universe is, and we are.";
+  const QUOTE = "The universe is, and we are.\nInspired by Outer Wilds, built with Claude";
   const screenEl = document.querySelector('.detector-screen');
   let atEnd = false;
   function checkEnd() {
