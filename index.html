@@ -1162,7 +1162,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* the campfire slot inside the translator screen (only at the bottom of the page):
      a fixed 186×124 box so the screen keeps its normal height, campfire scaled to fit */
   .screen-roast { display:none; flex:0 0 186px; min-width:0; width:186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }   /* min-width:0: the 300px scene inside must not widen the slot (it's scaled to 186) */
-  .screen-roast .campfire-svg-wrap { left:auto; right:0; transform:translateY(-50%); }   /* fire hugs the slot's right edge = the screen's right padding */
+  .screen-roast .campfire-svg-wrap { left:auto; right:0; top:64%; transform:translateY(-50%); }   /* fire hugs the slot's right edge, sitting low */
   .screen-roast .roast-hint { font-family:'Figtree', sans-serif; font-style:normal; font-size:calc(14px / 0.62); top:2px; color:#8F9994; opacity:1 !important; }   /* scene is scaled 0.62 → renders at 14px; stays visible */
   .detector-screen.at-end .screen-roast { display:block; }
   .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
@@ -3850,7 +3850,7 @@ function unlockScroll() {
       const fr=fireWrap.getBoundingClientRect();
       const fx=(fr.left-sr.left+fr.width/2)/k;
       const fy=(fr.top-sr.top)/k+22;
-      const rest=posForTip({ x:fx-118, y:fy+58 });   /* marshmallow rests lower-left of the fire */
+      const rest=posForTip({ x:fx-118, y:fy+26 });   /* marshmallow rests to the left of the fire */
       _cachedPosX=rest.x;
       _cachedPosY=rest.y;
     }
@@ -3868,11 +3868,12 @@ function unlockScroll() {
   // is rotated 35deg about its centre, so rotate the marshmallow's local
   // position (17,20 in the unrotated svg) the same way
   const STICK_ROT=35*Math.PI/180;
-  function mallowTip() {
+  function tipAt(px,py) {
     const w=stickEl.offsetWidth, h=stickEl.offsetHeight;
     const vx=17-w/2, vy=20-h/2;
-    return { x:posX+w/2+vx*Math.cos(STICK_ROT)-vy*Math.sin(STICK_ROT), y:posY+h/2+vx*Math.sin(STICK_ROT)+vy*Math.cos(STICK_ROT) };
+    return { x:px+w/2+vx*Math.cos(STICK_ROT)-vy*Math.sin(STICK_ROT), y:py+h/2+vx*Math.sin(STICK_ROT)+vy*Math.cos(STICK_ROT) };
   }
+  function mallowTip() { return tipAt(posX,posY); }
   // pos that puts the marshmallow at a given scene point (inverse of mallowTip)
   function posForTip(t) {
     const w=stickEl.offsetWidth, h=stickEl.offsetHeight;
@@ -3903,8 +3904,8 @@ function unlockScroll() {
     // Capture toasted color
     const fill=mallow.getAttribute('fill');
     const stroke=mallow.getAttribute('stroke');
-    // Toasted marshmallow drops off right where the stick's tip is
-    const tip=mallowTip();
+    // Toasted marshmallow lands where the marshmallow rests when the stick is home
+    const tip=tipAt(_cachedPosX ?? posX, _cachedPosY ?? posY);
     const placed=document.createElement('div');
     placed.style.cssText=`position:absolute;left:${(tip.x-18).toFixed(1)}px;top:${(tip.y-12).toFixed(1)}px;pointer-events:none;z-index:5;transform:translateY(-6px);opacity:0;transition:transform 0.35s ease,opacity 0.2s ease;`;
     placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;

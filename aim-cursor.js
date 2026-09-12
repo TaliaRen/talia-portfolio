@@ -21,7 +21,7 @@
   const cur = document.getElementById('aimCursor');
   if (!cur || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const HOT = 'a, button, .glyph, [role="button"], input, textarea, select, label';
+  const HOT = 'a, button, .glyph, [role="button"], input, textarea, select, label, .mallow-stick-el';
   let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, shown = false, locked = false;
   const place = () => { cur.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`; };
   window.addEventListener('mousemove', e => {
