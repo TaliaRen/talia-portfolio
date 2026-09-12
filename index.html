@@ -70,7 +70,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── Scene palette tokens (dark sage) ── */
   :root {
-    --p-bg:#0A0D0C; --p-rock-far-0:#132B1E; --p-rock-far-1:#193325; --p-rock-far-2:#213E2E; --p-rock-far-3:#0D2015; --p-rock-far-4:#0A1B11; --p-rock-far-5:#09180F; --p-rock-far-6:#040C08; --p-rock-mid-0:#10231A; --p-rock-mid-1:#2B4C38; --p-rock-near-0:#11261B; --p-rock-near-1:#0B1C13; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#CDD9D1; --p-shell-1:#B0C1B5; --p-shell-2:#94A89B; --p-shell-edge:#68806F; --p-drum-0:#08110C; --p-drum-1:#122219; --p-drum-2:#0C1611; --p-corner-0:#142A1F; --p-corner-1:#0E1E16; --p-corner-2:#0A150E; --p-screen-0:#071E13; --p-screen-1:#05160E; --p-screen-2:#030E0A; --p-screen-text:#F5F8F6; --p-cam-front:#C4CFC9; --p-cam-back-0:#C2CDC7; --p-cam-back-1:#A2AFA8; --p-cam-side-0:#CDD7D1; --p-cam-side-1:#BEC9C3; --p-cam-side-2:#A3B0A9; --p-cam-side-3:#B6C1BB; --p-cam-side-4:#98A59E; --p-cam-top:#E2EAE6; --p-cam-bottom:#7F8E87; --p-cam-panel:#5F7268; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F; --p-lens-lit:#DCE6E0; --p-lens-halo:#F4F8F6;
+    --p-bg:#0A0D0C; --p-rock-far-0:#132B1E; --p-rock-far-1:#193325; --p-rock-far-2:#213E2E; --p-rock-far-3:#0D2015; --p-rock-far-4:#0A1B11; --p-rock-far-5:#09180F; --p-rock-far-6:#040C08; --p-rock-mid-0:#10231A; --p-rock-mid-1:#2B4C38; --p-rock-near-0:#11261B; --p-rock-near-1:#0B1C13; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#CDD9D1; --p-shell-1:#B0C1B5; --p-shell-2:#94A89B; --p-shell-edge:#68806F; --p-drum-0:#08110C; --p-drum-1:#122219; --p-drum-2:#0C1611; --p-corner-0:#142A1F; --p-corner-1:#0E1E16; --p-corner-2:#0A150E; --p-screen-0:#071E13; --p-screen-1:#05160E; --p-screen-2:#030E0A; --p-screen-text:#F5F8F6; --p-cam-front:#C4CFC9; --p-cam-back-0:#C2CDC7; --p-cam-back-1:#A2AFA8; --p-cam-side-0:#CDD7D1; --p-cam-side-1:#BEC9C3; --p-cam-side-2:#A3B0A9; --p-cam-side-3:#B6C1BB; --p-cam-side-4:#98A59E; --p-cam-top:#E2EAE6; --p-cam-bottom:#7F8E87; --p-cam-panel:#5F7268; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F; --p-lens-lit:#D2EBDC; --p-lens-halo:#CFF5DE;
     --p-glow-rgb:143,224,182;
   }
   :root { --bg:var(--p-bg); --ink:#1C1917; --muted:#78716C; }
@@ -476,10 +476,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     pointer-events:none;
   }
   .cam-svg { position:absolute; overflow:visible; display:block; }
-  /* the lens panel's soft white light breathes slowly (kept dim) */
-  .cam-glow { opacity:0.45; animation:camGlowPulse 3.2s ease-in-out infinite; }
-  @keyframes camGlowPulse { 0%, 100% { opacity:0.3; } 50% { opacity:0.55; } }
-  @media (prefers-reduced-motion: reduce) { .cam-glow { animation:none; } }
+  /* the lens panel's soft greenish-white light blinks: on most of the time,
+     a quick wink off every couple of seconds (kept dim) */
+  .cam-lens-lit { animation:camLensBlink 2.6s ease-in-out infinite; }
+  .cam-glow { opacity:0.45; animation:camGlowBlink 2.6s ease-in-out infinite; }
+  @keyframes camLensBlink { 0%, 62%, 100% { opacity:1; }    72% { opacity:0.08; } 84% { opacity:1; } }
+  @keyframes camGlowBlink { 0%, 62%, 100% { opacity:0.45; } 72% { opacity:0.03; } 84% { opacity:0.45; } }
+  @media (prefers-reduced-motion: reduce) { .cam-glow, .cam-lens-lit { animation:none; } }
   .cam-svg path { stroke-linejoin:round; stroke-linecap:round; paint-order:stroke; }
   .cam-svg #camHullPath { stroke:none; }
   .detector-drum {
@@ -2976,10 +2979,11 @@ document.addEventListener('mousemove', e => {
     { face:'right', fill:'var(--p-accent-0)', r:0.03, pts:(w,h,d)=>[[w/2,-h/2,d/2],[w/2,-h/2,d/2-0.2*d],[w/2,-h/2+0.56*h,d/2-0.108*d],[w/2,-h/2+0.56*h,d/2]] },
     // wedge on the front tip face (upper part)
     { face:'front', fill:'var(--p-accent-1)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,-h/2+0.39*h,d/2],[-w/2,-h/2+0.52*h,d/2]] },
-    // lens panel on the near face, inset evenly — softly lit white
-    // (glow:true also draws a blurred, unclipped copy behind the body so a
-    //  little light spills past the silhouette)
-    { face:'back', fill:'var(--p-lens-lit)', glow:true, r:0.04, pts:(w,h,d)=>[[0.25*w,-0.25*h,-d/2],[-0.25*w,-0.25*h,-d/2],[-0.25*w,0.25*h,-d/2],[0.25*w,0.25*h,-d/2]] },
+    // lens panel on the near face, inset evenly: the dark "off" panel, with
+    // the lit greenish-white panel blinking on top of it (glow:true also
+    // draws a blurred, unclipped halo so a little light spills past the body)
+    { face:'back', fill:'var(--p-cam-panel)', r:0.04, pts:(w,h,d)=>[[0.25*w,-0.25*h,-d/2],[-0.25*w,-0.25*h,-d/2],[-0.25*w,0.25*h,-d/2],[0.25*w,0.25*h,-d/2]] },
+    { face:'back', fill:'var(--p-lens-lit)', glow:true, cls:'cam-lens-lit', r:0.04, pts:(w,h,d)=>[[0.25*w,-0.25*h,-d/2],[-0.25*w,-0.25*h,-d/2],[-0.25*w,0.25*h,-d/2],[0.25*w,0.25*h,-d/2]] },
   ];
   // Elements, created once. Per face: a fill-only path (exact shared
   // vertices => seamless, never overlapping) and a clip so the face's
@@ -3005,6 +3009,7 @@ document.addEventListener('mousemove', e => {
     camDetailDefs.forEach(dd => {
       const p = svgEl('path');
       p.setAttribute('fill', dd.fill); p.setAttribute('stroke', dd.fill);
+      if (dd.cls) p.setAttribute('class', dd.cls);
       const entry = camPaths.get(dd.face);
       entry.dg.appendChild(p);
       let gp = null;
@@ -3072,7 +3077,11 @@ document.addEventListener('mousemove', e => {
       });
       order.push({ entry, depth: pts.reduce((a, p) => a + p[2], 0) / pts.length });
     });
-    order.sort((a, b) => a.depth - b.depth).forEach(o => camFaces.appendChild(o.entry.g)); // far -> near
+    // far -> near. Only touch the DOM when the order actually changed:
+    // re-appending a node restarts any CSS animation on it (the lens blink)
+    order.sort((a, b) => a.depth - b.depth);
+    const shown = [...camFaces.children].filter(g => g.style.display !== 'none');
+    if (order.some((o, i) => shown[i] !== o.entry.g)) order.forEach(o => camFaces.appendChild(o.entry.g));
     // One rounded silhouette: convex hull of every visible corner, each
     // hull vertex replaced by a quadratic curve of radius CAM_R·w.
     camHullPath.setAttribute('d', roundedHull(allPts, CAM_R * w));
