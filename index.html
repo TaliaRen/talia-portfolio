@@ -279,7 +279,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .m-burger {
       display:flex; flex-direction:column; justify-content:center; gap:5px;
       position:fixed; left:calc(var(--frame-inset) + 14px); top:calc(var(--frame-inset) + 14px); z-index:870;
-      width:40px; height:40px; padding:0 9px; border:0; border-radius:8px; background:rgba(10,13,12,0.6); cursor:pointer;
+      width:44px; height:44px; padding:0 11px; border:0; border-radius:10px; background:rgba(10,13,12,0.6); cursor:pointer;
     }
     .m-burger span { display:block; height:2px; width:100%; background:rgba(150,225,175,0.9); border-radius:2px; transition:transform 0.25s ease, opacity 0.2s ease; }
     body.menu-open .m-burger span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
@@ -289,23 +289,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* compact dropdown just below the hamburger */
     .m-menu {
       display:flex; flex-direction:column; gap:2px;
-      position:fixed; left:calc(var(--frame-inset) + 14px); top:calc(var(--frame-inset) + 62px); z-index:860;
-      width:max-content; padding:8px; border-radius:12px;   /* fits the longest item, so both sides pad equally */
+      position:fixed; left:calc(var(--frame-inset) + 14px); top:calc(var(--frame-inset) + 68px); z-index:860;
+      width:max-content; padding:12px; border-radius:14px;   /* fits the longest item, so both sides pad equally */
       background:rgba(10,13,12,0.96); border:1px solid rgba(130,215,160,0.34);
       opacity:0; visibility:hidden; transform:translateY(-6px);
       transition:opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
     }
     body.menu-open .m-menu { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
     .m-menu a {
-      display:flex; align-items:center; gap:12px; padding:9px 12px; border-radius:8px; text-align:left;
-      font-family:'Figtree',sans-serif; font-size:.92rem; font-weight:500; color:#fff; text-decoration:none; cursor:pointer;
+      display:flex; align-items:center; gap:14px; padding:13px 16px; border-radius:10px; text-align:left;
+      font-family:'Figtree',sans-serif; font-size:1rem; font-weight:500; color:#fff; text-decoration:none; cursor:pointer;
       transition:background-color 0.2s ease, color 0.2s ease;
     }
     .m-menu a:hover, .m-menu a:active { background:rgba(130, 215, 160, 0.12); }   /* same tint as the desktop rail */
-    .m-menu svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:rgba(150,225,175,0.85); }
-    .m-menu .m-sep { height:1px; background:rgba(130,215,160,0.3); margin:6px 4px; }
+    .m-menu svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:rgba(150,225,175,0.85); }
+    .m-menu .m-sep { height:1px; background:rgba(130,215,160,0.3); margin:10px 6px; }
     .m-menu .m-contact { display:flex; justify-content:space-between; }
-    .m-menu .m-contact a { padding:9px 8px; }   /* narrower than the text rows, so the text rows set the panel width */
+    .m-menu .m-contact a { padding:12px 10px; }   /* narrower than the text rows, so the text rows set the panel width */
   }
 
   /* ── In-frame project viewer: a project page opens inside the frame's
@@ -1161,7 +1161,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-roast { width:300px; height:200px; position:relative; overflow:visible; transform:scale(0.62); transform-origin:top left; }
   /* the campfire slot inside the translator screen (only at the bottom of the page):
      a fixed 186×124 box so the screen keeps its normal height, campfire scaled to fit */
-  .screen-roast { display:none; flex:0 0 186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }
+  .screen-roast { display:none; flex:0 0 186px; min-width:0; width:186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }   /* min-width:0: the 300px scene inside must not widen the slot (it's scaled to 186) */
+  .screen-roast .campfire-svg-wrap { left:auto; right:0; transform:translateY(-50%); }   /* fire hugs the slot's right edge = the screen's right padding */
+  .screen-roast .roast-hint { font-size:calc(12px / 0.62); top:6px; }   /* scene is scaled 0.62 → renders at 12px */
   .detector-screen.at-end .screen-roast { display:block; }
   .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
   .detector-screen.at-end .screen-text.done::after { display:none; }
