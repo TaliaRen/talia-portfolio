@@ -1228,8 +1228,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* the campfire slot inside the translator screen (only at the bottom of the page):
      a fixed 186×124 box so the screen keeps its normal height, campfire scaled to fit */
   .screen-roast { display:none; flex:0 0 186px; min-width:0; width:186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }   /* min-width:0: the 300px scene inside must not widen the slot (it's scaled to 186) */
-  .screen-roast .campfire-svg-wrap { left:auto; right:0; top:44%; transform:translateY(-50%); }   /* fire hugs the slot's right edge, above the hint */
-  .screen-roast .roast-hint { font-family:'Figtree', sans-serif; font-style:normal; font-size:calc(14px / 0.62); top:auto; bottom:0; color:#8F9994; opacity:1 !important; }   /* scene is scaled 0.62 → renders at 14px; sits under the fire; stays visible */
+  .screen-roast .campfire-svg-wrap { left:auto; right:0; top:30%; transform:translateY(-50%); }   /* fire hugs the slot's right edge, above the hint */
+  .screen-roast .roast-hint { font-family:'Figtree', sans-serif; font-style:normal; font-size:calc(14px / 0.62); top:auto; bottom:42px; color:#8F9994; opacity:1 !important; }   /* scene is scaled 0.62 → renders at 14px; sits under the fire, its baseline level with the credit line on the left; stays visible */
   .detector-screen.at-end .screen-roast { display:block; }
   .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
   .detector-screen.at-end .screen-text.done::after { display:none; }
