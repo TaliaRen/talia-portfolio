@@ -449,9 +449,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-icon-btn:hover { color:#e0e0e0; }
   .footer-quote { font-family:'IM Fell English',serif; font-weight:300; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Figtree',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
-  /* embedded inside the homepage frame (?embed=1): keep the top nav, hide
+  /* embedded inside the homepage frame (?embed=1): hide the top nav and
      the footer, pin the section nav to the top-left with a Back button above it */
-  html.embed footer { display:none !important; }
+  html.embed footer, html.embed nav { display:none !important; }
   html.embed .case-sidebar { top:28px; left:28px; transform:none; gap:14px; }
   html.embed .case-back {
     display:inline-flex; align-items:center; gap:8px; margin-bottom:10px; padding:6px 12px 6px 9px;
