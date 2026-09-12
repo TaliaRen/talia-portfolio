@@ -1163,7 +1163,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      a fixed 186×124 box so the screen keeps its normal height, campfire scaled to fit */
   .screen-roast { display:none; flex:0 0 186px; min-width:0; width:186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }   /* min-width:0: the 300px scene inside must not widen the slot (it's scaled to 186) */
   .screen-roast .campfire-svg-wrap { left:auto; right:0; transform:translateY(-50%); }   /* fire hugs the slot's right edge = the screen's right padding */
-  .screen-roast .roast-hint { font-size:calc(14px / 0.62); top:2px; }   /* scene is scaled 0.62 → renders at 14px */
+  .screen-roast .roast-hint { font-family:'Figtree', sans-serif; font-style:normal; font-size:calc(14px / 0.62); top:2px; color:#8F9994; opacity:1 !important; }   /* scene is scaled 0.62 → renders at 14px; stays visible */
   .detector-screen.at-end .screen-roast { display:block; }
   .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
   .detector-screen.at-end .screen-text.done::after { display:none; }
@@ -3846,13 +3846,13 @@ function unlockScroll() {
 
   function init() {
     if (_cachedPosX===null) {
-      const sr=scene.getBoundingClientRect();
+      const sr=scene.getBoundingClientRect(), k=K();
       const fr=fireWrap.getBoundingClientRect();
-      const fx=fr.left-sr.left+fr.width/2;
-      const fy=fr.top-sr.top+22;
-      const offset=Math.min(200, sr.width*0.45);
-      _cachedPosX=fx-17-offset;
-      _cachedPosY=fy-20;
+      const fx=(fr.left-sr.left+fr.width/2)/k;
+      const fy=(fr.top-sr.top)/k+22;
+      const rest=posForTip({ x:fx-118, y:fy+58 });   /* marshmallow rests lower-left of the fire */
+      _cachedPosX=rest.x;
+      _cachedPosY=rest.y;
     }
     posX=_cachedPosX;
     posY=_cachedPosY;
@@ -3861,15 +3861,29 @@ function unlockScroll() {
     stickEl.style.filter='';
   }
 
+  // the scene may be transform-scaled (0.62 inside the translator): K converts
+  // measured (screen) px back to the scene's own layout px
+  const K=()=>{ const w=scene.getBoundingClientRect().width; return w&&scene.offsetWidth ? w/scene.offsetWidth : 1; };
+  // where the marshmallow actually is, in scene layout px: the stick element
+  // is rotated 35deg about its centre, so rotate the marshmallow's local
+  // position (17,20 in the unrotated svg) the same way
+  const STICK_ROT=35*Math.PI/180;
   function mallowTip() {
-    const sr=scene.getBoundingClientRect();
-    const er=stickEl.getBoundingClientRect();
-    return { x:er.left-sr.left+94, y:er.top-sr.top+26 };
+    const w=stickEl.offsetWidth, h=stickEl.offsetHeight;
+    const vx=17-w/2, vy=20-h/2;
+    return { x:posX+w/2+vx*Math.cos(STICK_ROT)-vy*Math.sin(STICK_ROT), y:posY+h/2+vx*Math.sin(STICK_ROT)+vy*Math.cos(STICK_ROT) };
   }
+  // pos that puts the marshmallow at a given scene point (inverse of mallowTip)
+  function posForTip(t) {
+    const w=stickEl.offsetWidth, h=stickEl.offsetHeight;
+    const vx=17-w/2, vy=20-h/2;
+    return { x:t.x-(w/2+vx*Math.cos(STICK_ROT)-vy*Math.sin(STICK_ROT)), y:t.y-(h/2+vx*Math.sin(STICK_ROT)+vy*Math.cos(STICK_ROT)) };
+  }
+  window.__roastPosForTip=posForTip;
   function fireTip() {
-    const sr=scene.getBoundingClientRect();
+    const sr=scene.getBoundingClientRect(), k=K();
     const fr=fireWrap.getBoundingClientRect();
-    return { x:fr.left-sr.left+fr.width/2, y:fr.top-sr.top+26 };
+    return { x:(fr.left-sr.left+fr.width/2)/k, y:(fr.top-sr.top)/k+38 };   /* middle of the flames */
   }
   function dist(a,b){ return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2); }
 
@@ -3889,15 +3903,13 @@ function unlockScroll() {
     // Capture toasted color
     const fill=mallow.getAttribute('fill');
     const stroke=mallow.getAttribute('stroke');
-    // Place toasted marshmallow to the right of the fire
-    const sr=scene.getBoundingClientRect();
-    const fr=fireWrap.getBoundingClientRect();
-    const placeX=fr.left-sr.left+fr.width+10;
+    // Toasted marshmallow drops off right where the stick's tip is
+    const tip=mallowTip();
     const placed=document.createElement('div');
-    placed.style.cssText=`position:absolute;left:${placeX}px;bottom:14px;pointer-events:none;z-index:5;transform:translateY(-12px);opacity:0;transition:transform 0.3s ease,opacity 0.2s ease;`;
+    placed.style.cssText=`position:absolute;left:${(tip.x-18).toFixed(1)}px;top:${(tip.y-12).toFixed(1)}px;pointer-events:none;z-index:5;transform:translateY(-6px);opacity:0;transition:transform 0.35s ease,opacity 0.2s ease;`;
     placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
     scene.appendChild(placed);
-    requestAnimationFrame(()=>{ placed.style.transform='translateY(0)'; placed.style.opacity='1'; });
+    requestAnimationFrame(()=>{ placed.style.transform='translateY(10px)'; placed.style.opacity='1'; });   /* settles slightly below the tip */
     // Status
     statusEl.style.opacity='0';
     // Fade placed marshmallow
@@ -3919,7 +3931,7 @@ function unlockScroll() {
       lastTS=ts;
       const tip=mallowTip(), fire=fireTip();
       const d=dist(tip,fire);
-      const R=75;
+      const R=40;   /* scene px: the marshmallow has to touch the flames */
       if (d<R) {
         const intensity=Math.pow(1-d/R, 0.7);
         setVol(audioActive ? 0.6+intensity*1.4 : 0);
@@ -3928,7 +3940,7 @@ function unlockScroll() {
         stickEl.style.filter=`drop-shadow(0 0 ${Math.round(intensity*16)}px rgba(255,140,0,${(intensity*0.75).toFixed(2)}))`;
         if (toastLevel>=1) doDrop();
       } else {
-        setVol(audioActive && d<R*2.5 ? 0.06 : 0);
+        setVol(audioActive && d<R*3 ? 0.06 : 0);
         stickEl.style.filter='drop-shadow(0 2px 6px rgba(0,0,0,0.1))';
       }
     }
@@ -3941,17 +3953,17 @@ function unlockScroll() {
     stickEl.setPointerCapture(e.pointerId);
     dragging=true; audioActive=true;
     startAudio();
-    const sr=scene.getBoundingClientRect();
-    dragOX=e.clientX-sr.left-posX;
-    dragOY=e.clientY-sr.top-posY;
+    const sr=scene.getBoundingClientRect(), k=K();
+    dragOX=(e.clientX-sr.left)/k-posX;
+    dragOY=(e.clientY-sr.top)/k-posY;
     if (!hinted){ hinted=true; hint.style.opacity='0'; }
     stickEl.style.zIndex='20';
   });
   stickEl.addEventListener('pointermove', e=>{
     if (!dragging||dropped) return;
-    const sr=scene.getBoundingClientRect();
-    posX=e.clientX-sr.left-dragOX;
-    posY=e.clientY-sr.top-dragOY;
+    const sr=scene.getBoundingClientRect(), k=K();
+    posX=(e.clientX-sr.left)/k-dragOX;
+    posY=(e.clientY-sr.top)/k-dragOY;
     stickEl.style.left=posX+'px';
     stickEl.style.top=posY+'px';
   });
