@@ -445,10 +445,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph-text { color:#fff; opacity:0; transition:opacity 0.2s ease; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
-  /* phones: a touch smaller so the sentence settles into three lines and
-     stays clear of the translator below */
-  @media (max-width:640px) { .hero-line { top:20%; line-height:1.4; font-size:30px; } }
-  @media (max-width:340px) { .hero-line { font-size:26px; } }
+  @media (max-width:640px) { .hero-line { top:20%; line-height:1.4; } }   /* same 36px on phones; it wraps */
 
   /* ── 5 & 6. Detector shell + camera ──
      The shell is tilted back with rotateX inside a perspective wrapper so
@@ -1177,7 +1174,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-right { display:flex; flex-direction:column; align-items:flex-start; gap:24px; flex:1; min-width:340px; }
   .about-greeting {
     font-family:'Labrada', Georgia, serif;
-    font-style:italic; font-weight:400; font-size:3.025rem;
+    font-style:italic; font-weight:400; font-size:36px;
     color:rgba(255,255,255,0.95); line-height:1.15;
     text-align:left;
   }
@@ -1213,7 +1210,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @media (max-width:900px) {
     .about-section { padding:60px 24px 60px; gap:40px; }
-    .about-greeting { font-size:2.4rem; }
     .about-photos-viewport { height:320px; margin-top:-58px; }
     .about-photos-row img { width:96px; height:130px; }
   }
@@ -4153,6 +4149,12 @@ if (location.hash === '#projects') {
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   });
+}
+
+// Once a section hash has done its job, drop it from the URL: a refresh of the
+// homepage always starts from the top (a ?project= URL keeps reopening the project)
+if (location.hash && !/[?&]project=/.test(location.search)) {
+  history.replaceState(history.state, '', location.pathname + location.search);
 }
 
 // About photo orbit: clone the photo set around a circle and drive position with
