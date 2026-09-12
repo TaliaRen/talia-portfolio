@@ -1,0 +1,43 @@
+/* ── Aim cursor: a targeting reticle that replaces the pointer on fine
+   pointer devices; it locks on (brackets tighten, ring pulses) when
+   hovering anything interactive ── */
+@media (hover:hover) and (pointer:fine) {
+  body, a, button, .glyph, [role="button"] { cursor:none !important; }
+}
+.aim-cursor {
+  position:fixed; left:0; top:0; z-index:10000; pointer-events:none;
+  width:36px; height:36px; margin:-18px 0 0 -18px;
+  opacity:0; transition:opacity 0.2s ease;
+  will-change:transform;
+}
+.aim-cursor.show { opacity:1; }
+.aim-cursor .ac-c {
+  position:absolute; width:10px; height:10px;
+  border:2px solid #fff;
+  transition:all 0.22s cubic-bezier(0.22,1,0.36,1);
+}
+.aim-cursor .ac-tl { left:0; top:0; border-right:none; border-bottom:none; }
+.aim-cursor .ac-tr { right:0; top:0; border-left:none; border-bottom:none; }
+.aim-cursor .ac-bl { left:0; bottom:0; border-right:none; border-top:none; }
+.aim-cursor .ac-br { right:0; bottom:0; border-left:none; border-top:none; }
+.aim-cursor .ac-dot {
+  position:absolute; left:50%; top:50%; width:3px; height:3px; margin:-1.5px 0 0 -1.5px;
+  border-radius:50%; background:#fff; transition:all 0.22s ease;
+  width:4px; height:4px; margin:-2px 0 0 -2px;
+}
+.aim-cursor .ac-ring {
+  position:absolute; inset:2px; border-radius:50%;
+  border:2px solid #16A84E; opacity:0; transform:scale(0.6);
+}
+/* locked on: brackets pull in, dot turns mint, ring pulses out once */
+.aim-cursor.locked .ac-c { border-color:#16A84E; width:8px; height:8px; }
+.aim-cursor.locked .ac-tl { left:6px; top:6px; }
+.aim-cursor.locked .ac-tr { right:6px; top:6px; }
+.aim-cursor.locked .ac-bl { left:6px; bottom:6px; }
+.aim-cursor.locked .ac-br { right:6px; bottom:6px; }
+.aim-cursor.locked .ac-dot { background:#16A84E; width:6px; height:6px; margin:-3px 0 0 -3px; }
+.aim-cursor.pulse .ac-ring { animation:aimPulse 0.55s ease-out; }
+@keyframes aimPulse { 0% { opacity:0.9; transform:scale(0.5); } 100% { opacity:0; transform:scale(1.6); } }
+/* pressed: quick squeeze */
+.aim-cursor.down { transform-origin:center; }
+.aim-cursor.down .ac-c { transform:scale(0.85); }
