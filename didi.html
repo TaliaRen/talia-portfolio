@@ -444,9 +444,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     background:rgba(255,255,255,0.10);
     border-radius:14px; padding:24px 28px;
     display:flex; flex-direction:column; gap:0;
-    cursor:default; transition:background 0.2s;
+    cursor:pointer; transition:background 0.2s;
   }
-  .didi-decision-card:hover { background:rgba(255,255,255,0.20); }
+  .didi-decision-card:hover, .didi-decision-card.open { background:rgba(255,255,255,0.20); }
   .didi-decision-main { display:flex; flex-direction:column; gap:12px; }
   .didi-decision-title {
     font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:500;
@@ -466,14 +466,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     transition:grid-template-rows 0.35s cubic-bezier(0.4,0,0.2,1);
     will-change:grid-template-rows;
   }
-  .didi-decision-card:hover .didi-decision-expand { grid-template-rows:1fr; }
+  .didi-decision-card.open .didi-decision-expand { grid-template-rows:1fr; }
   .didi-decisions .didi-decision-card:nth-child(1) .didi-decision-expand { transition-duration:0.55s; }
   .didi-decisions .didi-decision-card:nth-child(2) .didi-decision-expand { transition-duration:0.5s; }
   .didi-decision-expand-inner {
     overflow:hidden; contain:layout style;
     opacity:0; transition:opacity 0.25s ease 0.1s;
   }
-  .didi-decision-card:hover .didi-decision-expand-inner { opacity:1; }
+  .didi-decision-card.open .didi-decision-expand-inner { opacity:1; }
   .didi-decision-imgs {
     display:flex; gap:16px; align-items:flex-start; padding-top:16px;
   }
@@ -682,10 +682,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <span class="didi-decision-hint">
           <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1v10.5l3-2.5 1.5 4 1.5-.5-1.5-4H9L1 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-          Hover each card to see related designs
+          Click each card to see related designs
         </span>
         <div class="didi-decisions">
-          <div class="didi-decision-card">
+          <div class="didi-decision-card" role="button" tabindex="0" aria-expanded="false">
             <div class="didi-decision-main">
               <p class="didi-decision-title">Clarify hierarchy and improve usability</p>
               <p class="didi-decision-body">Organize structure and visual priority so that users can quickly understand options and make confident choices.</p>
@@ -719,7 +719,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
           </div>
-          <div class="didi-decision-card">
+          <div class="didi-decision-card" role="button" tabindex="0" aria-expanded="false">
             <div class="didi-decision-main">
               <p class="didi-decision-title">Reduce cognitive load</p>
               <p class="didi-decision-body">Simplify interactions and minimize unnecessary steps to create a seamless flow.</p>
@@ -733,7 +733,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
           </div>
-          <div class="didi-decision-card">
+          <div class="didi-decision-card" role="button" tabindex="0" aria-expanded="false">
             <div class="didi-decision-main">
               <p class="didi-decision-title">Strengthen brand perception</p>
               <p class="didi-decision-body">Highlight DiDi Luxe's premium positioning through refined visuals and copy to differentiate it from standard services.</p>
@@ -1088,6 +1088,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   update();
 })();
 
+</script>
+<script>
+  // Key design decisions: click a card to open it (only one open at a time)
+  (function () {
+    const cards = [...document.querySelectorAll('.didi-decision-card')];
+    const setOpen = (card, open) => { card.classList.toggle('open', open); card.setAttribute('aria-expanded', String(open)); };
+    cards.forEach(card => {
+      const toggle = () => { const open = !card.classList.contains('open'); cards.forEach(c => setOpen(c, c === card && open)); };
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    });
+  })();
 </script>
 <script src="aim-cursor.js"></script>
 </body>
