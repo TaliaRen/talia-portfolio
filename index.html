@@ -247,6 +247,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .log-rail { display:none; }                /* no side rail on phones */
   }
 
+  /* ── In-frame project viewer: a project page opens inside the frame's
+     content area (embedded), with a Back button; the page behind stops
+     scrolling while it's open ── */
+  .project-view {
+    position:fixed; z-index:80;
+    top:calc(var(--frame-inset) + 7px); bottom:calc(var(--frame-inset) + 7px);
+    left:calc(var(--frame-inset) + 7px + var(--rail-w)); right:calc(var(--frame-inset) + 7px);
+    display:flex; flex-direction:column; background:var(--p-bg);
+    opacity:0; visibility:hidden; transform:translateY(12px);
+    transition:opacity 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0.35s;
+  }
+  .project-view.open { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+  .project-view-bar {
+    flex:0 0 auto; display:flex; align-items:center; gap:14px; padding:12px 18px;
+    border-bottom:1px solid rgba(130, 215, 160, 0.34);
+    font-family:'Figtree', sans-serif; font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(150, 225, 175, 0.72);
+  }
+  .project-view-back {
+    display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:6px;
+    border:1px solid rgba(130, 215, 160, 0.34); background:transparent; color:#fff; cursor:pointer;
+    font:inherit; letter-spacing:.06em; transition:background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .project-view-back:hover { background:rgba(130, 215, 160, 0.12); border-color:rgba(130, 215, 160, 0.6); }
+  .project-view-back svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .project-view iframe { flex:1 1 auto; width:100%; border:0; background:var(--p-bg); }
+  body.project-open { overflow:hidden; }
+  @media (max-width:640px) {
+    .project-view { left:calc(16px + 7px); right:calc(16px + 7px); top:calc(16px + 7px); bottom:calc(16px + 7px); }
+  }
+
   /* ── Aim cursor: a targeting reticle that replaces the pointer on fine
      pointer devices; it locks on (brackets tighten, ring pulses) when
      hovering anything interactive ── */
@@ -1215,6 +1245,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Frame mask: clips everything to the frame (paints over the outside margin) -->
 <div class="frame-mask" aria-hidden="true"></div>
+
+<!-- In-frame project viewer (filled by JS when a project card is clicked) -->
+<div class="project-view" id="projectView" aria-hidden="true">
+  <div class="project-view-bar">
+    <button type="button" class="project-view-back" id="projectViewBack">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back
+    </button>
+    <span id="projectViewTitle"></span>
+  </div>
+</div>
 
 <!-- Aim cursor (fine-pointer devices only; positioned by JS) -->
 <div class="aim-cursor" id="aimCursor" aria-hidden="true">
@@ -3206,6 +3246,56 @@ document.addEventListener('mousemove', e => {
   // ── Kick off the load-in: detector rises, everything else is already
   //      animating via CSS as soon as the stylesheet applies ──
   requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
+})();
+
+// ── In-frame project viewer: project cards open the case study inside the
+//    frame (embedded page with its own nav/footer hidden). The URL gets
+//    ?project=<name> so back/forward and direct links work. ──
+(function () {
+  const view = document.getElementById('projectView'), bar = view?.querySelector('.project-view-bar');
+  const back = document.getElementById('projectViewBack'), titleEl = document.getElementById('projectViewTitle');
+  if (!view) return;
+  let frame = null, current = null;
+  const nameOf = href => href.replace(/^.*\//, '').replace(/\.html.*$/, '');
+  function open(href, title, push) {
+    const name = nameOf(href);
+    if (current === name) return;
+    current = name;
+    if (frame) frame.remove();
+    frame = document.createElement('iframe');
+    frame.src = name + '.html?embed=1'; frame.title = title || name; frame.loading = 'eager';
+    view.appendChild(frame);
+    titleEl.textContent = title || '';
+    view.classList.add('open'); view.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('project-open');
+    if (push) history.pushState({ project: name }, '', '?project=' + encodeURIComponent(name));
+  }
+  function close(push) {
+    if (!current) return;
+    current = null;
+    view.classList.remove('open'); view.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('project-open');
+    setTimeout(() => { if (!current && frame) { frame.remove(); frame = null; } }, 400);
+    if (push) history.pushState({}, '', location.pathname + location.hash);
+  }
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', e => {
+      const href = card.getAttribute('href');
+      if (!href || !/\.html$/.test(href) || e.metaKey || e.ctrlKey || e.shiftKey) return;   // let modifier-clicks open a tab
+      e.preventDefault();
+      open(href, card.querySelector('.project-title')?.textContent?.trim() || '', true);
+    });
+  });
+  back.addEventListener('click', () => close(true));
+  window.addEventListener('keydown', e => { if (e.key === 'Escape' && current) close(true); });
+  window.addEventListener('popstate', () => {
+    const name = new URLSearchParams(location.search).get('project');
+    if (name) open(name + '.html', document.querySelector(`.project-card[href="${name}.html"] .project-title`)?.textContent?.trim() || '', false);
+    else close(false);
+  });
+  // direct link: index.html?project=didi
+  const initial = new URLSearchParams(location.search).get('project');
+  if (initial) open(initial + '.html', document.querySelector(`.project-card[href="${initial}.html"] .project-title`)?.textContent?.trim() || '', false);
 })();
 
 // ── Rail: keep the contact group clear of the fixed translator board.
