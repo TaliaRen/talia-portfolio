@@ -189,9 +189,69 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --content-left:calc(var(--frame-inset) + 6px + var(--rail-w) + 56px);   /* frame + rail + gutter */
     --content-right:calc(var(--frame-inset) + 56px);
   }
-  #projects, .about-section, footer {
+  #projects, #vibe, .about-section, footer {
     padding-left:var(--content-left) !important; padding-right:var(--content-right) !important;
     box-sizing:border-box; max-width:none;
+  }
+  /* ── Vibe coding: two playground pieces (Truthly, Christmas tree) on the homepage,
+     between the works and the About section ── */
+  #vibe { padding-top:200px; padding-bottom:40px; }
+  .vibe-title {
+    font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:2.2rem;
+    color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 56px;
+  }
+  .vibe-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:1180px; margin:0 auto; align-items:start; }
+  .play-card {
+    background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.08); border-radius:24px;
+    display:flex; flex-direction:column; align-items:center; width:100%;
+  }
+  .play-card-body { padding:32px 40px 40px; display:flex; flex-direction:column; gap:16px; width:100%; }
+  .play-card-video { width:100%; padding:40px 40px 0; }
+  .play-card-video video { width:100%; height:auto; display:block; border-radius:14px; }
+  .play-title-row { display:flex; align-items:center; gap:10px; }
+  .play-title { font-family:'Figtree', sans-serif; font-size:1.4rem; font-weight:400; color:#fff; line-height:1.2; margin:0; }
+  .play-tooltip {
+    position:relative; display:inline-flex; align-items:center; justify-content:center;
+    width:14px; height:14px; border-radius:50%; border:1px solid rgba(255,255,255,0.35);
+    color:rgba(255,255,255,0.55); font-family:'Figtree', sans-serif; font-size:.68rem; font-weight:400; cursor:default;
+  }
+  .play-tooltip-text {
+    position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); width:260px;
+    background:#1E2620; border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 16px;
+    font-family:'Figtree', sans-serif; font-size:.85rem; font-weight:300; color:rgba(255,255,255,0.85); line-height:1.6;
+    opacity:0; visibility:hidden; transition:opacity .2s, visibility .2s; pointer-events:none; z-index:50;
+  }
+  .play-tooltip:hover .play-tooltip-text { opacity:1; visibility:visible; }
+  .play-desc { font-family:'Figtree', sans-serif; font-size:.95rem; font-weight:300; color:rgba(255,255,255,0.7); line-height:1.7; margin:0; }
+  .play-link {
+    display:inline-flex; align-self:flex-start; align-items:center; gap:8px;
+    font-family:'Figtree', sans-serif; font-size:.9rem; font-weight:400; color:#fff; text-decoration:none;
+    border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:2px; transition:border-color .2s, color .2s; margin-top:8px;
+  }
+  .play-link:hover { border-color:#fff; }
+  /* phone mockup with the live Truthly app, scaled to fit the card */
+  .play-phone-wrap { padding:48px 40px 0; width:100%; display:flex; align-items:center; justify-content:center; gap:20px; }
+  .phone-mockup {
+    flex:0 0 auto; position:relative; width:220px; height:468px; background:#111; border-radius:42px;
+    box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.12), 0 0 0 8px #1a1a1a, 0 0 0 9.5px rgba(255,255,255,0.07), 0 32px 80px rgba(0,0,0,0.6);
+  }
+  .phone-mockup::before { content:''; position:absolute; right:-10px; top:110px; width:4px; height:56px; background:#1a1a1a; border-radius:0 3px 3px 0; box-shadow:0 66px 0 #1a1a1a; }
+  .phone-mockup::after  { content:''; position:absolute; left:-10px; top:90px; width:4px; height:32px; background:#1a1a1a; border-radius:3px 0 0 3px; box-shadow:0 48px 0 #1a1a1a, 0 92px 0 #1a1a1a; }
+  .phone-island { position:absolute; top:12px; left:50%; transform:translateX(-50%); width:72px; height:22px; background:#000; border-radius:20px; z-index:10; }
+  .phone-screen { position:absolute; inset:0; border-radius:42px; overflow:hidden; }
+  .phone-screen iframe { width:390px; height:844px; border:none; transform-origin:top left; transform:scale(0.5641); pointer-events:all; }
+  .play-click-hint { font-family:'Labrada', serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,0.45); white-space:nowrap; margin:0; }
+  @media (max-width:1100px) { .vibe-grid { grid-template-columns:1fr; max-width:640px; } }
+  @media (max-width:640px) {
+    #vibe { padding-top:80px; }
+    .vibe-title { font-size:1.6rem; margin-bottom:32px; }
+    .play-card-body { padding:24px 22px 28px; }
+    .play-card-video { padding:24px 22px 0; }
+    .play-phone-wrap { padding:32px 16px 0; gap:12px; }
+    .phone-mockup { width:190px; height:404px; border-radius:38px; }
+    .phone-screen { border-radius:38px; }
+    .phone-screen iframe { transform:scale(0.487); }
+    .play-click-hint { display:none; }
   }
   /* the embedded page is 82px narrower than the window (frame on both sides): its ≤860 rule hides
      the section nav when the window is ≤942, so show our Back from there */
@@ -1107,7 +1167,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-section {
     display:flex; flex-direction:column; align-items:center;
     gap:0;
-    padding:270px 220px 120px;
+    padding:200px 220px 120px;
   }
   .about-text { max-width:860px; display:flex; flex-direction:column; align-items:center; gap:28px; }
   .about-row { display:flex; flex-direction:row; align-items:flex-end; gap:56px; width:100%; }
@@ -1735,6 +1795,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   </div>
 </div>
+</section>
+
+<!-- Vibe coding: two playground pieces, live on the homepage -->
+<section id="vibe">
+  <p class="vibe-title">Vibe coding</p>
+  <div class="vibe-grid">
+    <div class="play-card">
+      <div class="play-phone-wrap">
+        <div style="width:40px;"></div>
+        <div class="phone-mockup">
+          <div class="phone-island"></div>
+          <div class="phone-screen">
+            <iframe src="https://truthordare-self.vercel.app/" scrolling="no" title="Truthly" loading="lazy"></iframe>
+          </div>
+        </div>
+        <p class="play-click-hint">Click me</p>
+      </div>
+      <div class="play-card-body">
+        <div class="play-title-row">
+          <h2 class="play-title">Truthly</h2>
+          <span class="play-tooltip">i
+            <span class="play-tooltip-text">Inspired by a friend who loves playing Truth or Dare but always spends too much time searching for good prompts</span>
+          </span>
+        </div>
+        <p class="play-desc">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages, creating playful, flexible, and frictionless interactions</p>
+        <a class="play-link" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener">View it full screen ↗</a>
+      </div>
+    </div>
+    <div class="play-card">
+      <div class="play-card-video">
+        <video autoplay muted loop playsinline preload="metadata">
+          <source src="playground/christmas memory.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="play-card-body">
+        <h2 class="play-title">Gesture-Controlled Christmas Tree</h2>
+        <p class="play-desc">Decorate a Christmas tree with your own photos — and control it all with just your hands</p>
+        <a class="play-link" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener">Try it yourself ↗</a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Contact modal -->
