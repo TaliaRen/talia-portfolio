@@ -262,6 +262,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     left:calc(var(--frame-inset) + 7px + var(--rail-w)); right:calc(var(--frame-inset) + 7px);
     display:flex; flex-direction:column; background:var(--p-bg);
     visibility:hidden;
+    /* the view itself scrolls: on iOS/Safari the iframe grows to its content
+       height, so the container must be the scroller (with momentum) */
+    overflow:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
   }
   .project-view.open { visibility:visible; }
   /* phone-only Back (fixed in the parent, so it never scrolls away inside the iframe) */
@@ -272,7 +275,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .project-view-back-m svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
   .project-view-back-m:hover, .project-view-back-m:active { color:#63FF8A; background:rgba(99, 255, 138, 0.12); }
-  .project-view iframe { flex:1 1 auto; width:1px; min-width:100%; border:0; background:var(--p-bg); }   /* width:1px+min-width: iOS sizing fix */
+  .project-view iframe { flex:1 0 auto; width:1px; min-width:100%; min-height:100%; border:0; background:var(--p-bg); }   /* width:1px+min-width: iOS sizing fix */
   body.project-open { overflow:hidden; }
   /* while a project is open: translator slides down out of view, the rail
      fades away and the viewer takes the full frame width */
@@ -3226,7 +3229,7 @@ document.addEventListener('mousemove', e => {
     current = name;
     if (frame) frame.remove();
     frame = document.createElement('iframe');
-    frame.src = name + '.html?embed=1'; frame.title = title || name; frame.loading = 'eager';
+    frame.src = name + '.html?embed=1'; frame.title = title || name; frame.loading = 'eager'; frame.setAttribute('scrolling', 'yes');
     view.appendChild(frame);
     // fade in only once the page has painted (or after 700ms), so nothing pops mid-fade
     let shown = false;
