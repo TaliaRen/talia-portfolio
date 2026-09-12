@@ -332,6 +332,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:relative; display:inline-grid; cursor:help; white-space:nowrap;
     vertical-align:baseline; overflow:visible;
   }
+  /* gentle outline around each untranslated phrase, in the frame's mint */
+  .glyph::before {
+    content:''; position:absolute; inset:-7px -11px; border-radius:8px; pointer-events:none;
+    border:1px solid rgba(130, 215, 160, 0.38);
+    background:rgba(130, 215, 160, 0.035);
+    transition:border-color 0.25s ease, background-color 0.25s ease;
+  }
+  .glyph:hover::before, .glyph.decoded::before { border-color:rgba(130, 215, 160, 0.6); background:rgba(130, 215, 160, 0.06); }
   .glyph-canvas { position:absolute; left:0; top:0; pointer-events:none; transition:opacity 0.25s ease; }
   .glyph-probe, .glyph-text { grid-area:1 / 1; white-space:nowrap; }
   .glyph-probe { visibility:hidden; }
