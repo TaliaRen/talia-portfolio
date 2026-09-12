@@ -19,6 +19,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 
 <meta charset="UTF-8">
+<script>if (/[?&]project=/.test(location.search)) document.documentElement.classList.add('boot-project');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="logo.png">
 <title>Talia Ren</title>
@@ -275,6 +276,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .project-view.open { visibility:visible; opacity:1; transition:opacity 0.35s ease; }
   .project-view.closing { transition:none !important; }
+  /* refreshed/deep-linked directly into a project: no homepage flash, no fade —
+     the page simply IS the project until the viewer has opened */
+  html.boot-project .cave-scene, html.boot-project #projects, html.boot-project .about-section,
+  html.boot-project footer, html.boot-project .log-rail, html.boot-project .detector, html.boot-project .cam-beams { visibility:hidden !important; }
+  html.boot-project .project-view { transition:none !important; }
   @media (prefers-reduced-motion: reduce) { .project-view.open { transition:none; } }
   /* phone-only Back (fixed in the parent, so it never scrolls away inside the iframe) */
   .project-view-back-m {
@@ -3247,6 +3253,8 @@ document.addEventListener('mousemove', e => {
       if (shown || current !== name) return; shown = true;
       view.classList.remove('closing');
       view.classList.add('open'); view.setAttribute('aria-hidden', 'false'); document.body.classList.add('project-open');
+      // booted straight into this project: drop the flag once the viewer has painted (timeout, not rAF — rAF pauses in hidden tabs)
+      if (document.documentElement.classList.contains('boot-project')) setTimeout(() => document.documentElement.classList.remove('boot-project'), 80);
     };
     frame.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(show)));
     setTimeout(show, 700);
@@ -3255,6 +3263,7 @@ document.addEventListener('mousemove', e => {
   function close(push) {
     if (!current) return;
     current = null;
+    document.documentElement.classList.remove('boot-project');           // safety: never leave the homepage hidden
     view.classList.add('closing');                                       // exit is instant (no fade-out)
     view.classList.remove('open'); view.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('project-open');
