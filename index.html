@@ -228,7 +228,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border-right:1px solid rgba(130, 215, 160, 0.34);
     background:none; border-radius:0; backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none;
   }
-  .log-rail .rail-contact { margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .log-rail .rail-contact {
+    margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:8px;
+    transition:transform 0.55s cubic-bezier(0.22,1,0.36,1);   /* slides up out of the translator's way */
+  }
   /* hover label beside each icon */
   .log-rail a, .log-rail button { position:relative; }
   .log-rail [data-label]::after {
@@ -3219,6 +3222,40 @@ document.addEventListener('mousemove', e => {
   // ── Kick off the load-in: detector rises, everything else is already
   //      animating via CSS as soon as the stylesheet applies ──
   requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
+})();
+
+// ── Rail: keep the contact group clear of the fixed translator board.
+//    If the board overlaps the rail horizontally and would cover the
+//    contact icons, they slide up to sit just above the board (eased). ──
+(function () {
+  const rail = document.querySelector('.log-rail'), contact = rail?.querySelector('.rail-contact');
+  const board = document.querySelector('.detector-shell'), topGroup = rail?.querySelector('.rail-music') || rail?.querySelector('a:nth-of-type(3)');
+  if (!rail || !contact || !board) return;
+  let shift = 0;
+  function update() {
+    if (getComputedStyle(rail).display === 'none') return;
+    const r = rail.getBoundingClientRect(), b = board.getBoundingClientRect(), c = contact.getBoundingClientRect();
+    // rest position = flush with the rail's bottom padding (independent of any in-flight transition)
+    const padB = parseFloat(getComputedStyle(rail).paddingBottom) || 0;
+    const restBottom = r.bottom - padB, restTop = restBottom - c.height;
+    const overlapsX = b.left < r.right + 8;
+    let want = 0;
+    if (overlapsX && b.top < restBottom + 12) {
+      want = restBottom + 12 - b.top;
+      const ceiling = restTop - (topGroup ? topGroup.getBoundingClientRect().bottom + 16 : r.top + 16);
+      want = Math.max(0, Math.min(want, ceiling));                         // never run into the top group
+    }
+    if (Math.abs(want - shift) > 0.5) { shift = want; contact.style.transform = shift ? `translateY(${-shift.toFixed(1)}px)` : ''; }
+  }
+  let t = 0;
+  const schedule = () => { clearTimeout(t); t = setTimeout(update, 60); };
+  window.addEventListener('resize', schedule);
+  if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(board);
+  if (document.fonts?.ready) document.fonts.ready.then(schedule);
+  // the board rises in on load: re-check when that transition ends (and a few times after, as a safety net)
+  document.getElementById('detector')?.addEventListener('transitionend', schedule);
+  [200, 800, 1600].forEach(ms => setTimeout(update, ms));
+  requestAnimationFrame(() => requestAnimationFrame(update));
 })();
 
 // ── Rail: the email icon copies the address to the clipboard ──
