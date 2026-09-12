@@ -290,7 +290,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .m-menu {
       display:flex; flex-direction:column; gap:2px;
       position:fixed; left:calc(var(--frame-inset) + 14px); top:calc(var(--frame-inset) + 62px); z-index:860;
-      min-width:180px; padding:8px; border-radius:12px;
+      width:max-content; padding:8px; border-radius:12px;   /* fits the longest item, so both sides pad equally */
       background:rgba(10,13,12,0.96); border:1px solid rgba(130,215,160,0.34);
       opacity:0; visibility:hidden; transform:translateY(-6px);
       transition:opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
@@ -304,8 +304,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .m-menu a:hover, .m-menu a:active { background:rgba(130, 215, 160, 0.12); }   /* same tint as the desktop rail */
     .m-menu svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:rgba(150,225,175,0.85); }
     .m-menu .m-sep { height:1px; background:rgba(130,215,160,0.3); margin:6px 4px; }
-    .m-menu .m-contact { display:flex; gap:2px; }
-    .m-menu .m-contact a { padding:9px; }
+    .m-menu .m-contact { display:flex; justify-content:space-between; }
+    .m-menu .m-contact a { padding:9px 12px; }
   }
 
   /* ── In-frame project viewer: a project page opens inside the frame's
