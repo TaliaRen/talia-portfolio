@@ -1120,15 +1120,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
-  .footer-top { display:flex; flex-direction:row; align-items:center; justify-content:space-between; padding:102px 0 2px 0; }
+  .footer-top { display:none; }   /* quote + campfire now live in the translator when scrolled to the bottom */
   .footer-bottom { display:flex; flex-direction:column; align-items:center; gap:12px; padding:28px 0 44px; border-top:1px solid rgba(28,25,23,.05); }
   .footer-icons { display:flex; align-items:center; gap:32px; }
   /* Campfire roasting scene */
-  .footer-roast { flex:0 0 360px; position:relative; height:240px; overflow:visible; }
+  .footer-roast { flex:0 0 300px; position:relative; height:200px; overflow:visible; transform:scale(0.82); transform-origin:center; }
+  /* the campfire slot inside the translator screen: only at the bottom of the page */
+  .screen-roast { display:none; flex:0 0 300px; align-self:center; margin-left:auto; }
+  .detector-screen.at-end .screen-roast { display:block; }
+  .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
+  .detector-screen.at-end .screen-text.done::after { display:none; }
+  .screen-text .screen-quote {
+    font-family:'Labrada', serif; font-style:italic; font-weight:300; font-size:clamp(1.4rem, 2.2vw, 2rem);
+    letter-spacing:0.02em; line-height:1.3; color:#fff;
+  }
+  @media (max-width:768px) { .screen-roast { display:none !important; } }
   @media (max-width:768px) {
     footer { padding:0 24px; }
     .footer-top { flex-direction:column; padding:36px 0; gap:0; }
-    .footer-roast { display:none; }
     .footer-bottom { padding:24px 0 36px; }
   }
   .campfire-svg-wrap { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
@@ -1319,6 +1328,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="detector-screen">
         <div class="screen-scanlines" aria-hidden="true"></div>
         <p class="screen-text" id="screenText"></p>
+        <!-- campfire (shown inside the screen when scrolled to the bottom) -->
+        <div class="screen-roast" id="screenRoast" aria-hidden="true">
+        <!-- Campfire roasting scene -->
+        <div class="footer-roast" id="footer-roast">
+        <div class="campfire-svg-wrap" id="campfire-svg-wrap">
+          <svg class="fire-svg" viewBox="0 0 120 95" width="180" height="143" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="fr-glow" cx="50%" cy="100%" r="65%">
+                <stop offset="0%" stop-color="#ff7700" stop-opacity="0.45"/>
+                <stop offset="100%" stop-color="#ff7700" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <ellipse cx="60" cy="90" rx="50" ry="13" fill="url(#fr-glow)"/>
+            <line x1="18" y1="75" x2="82" y2="67" stroke="#5D4037" stroke-width="8" stroke-linecap="round"/>
+            <line x1="22" y1="67" x2="88" y2="75" stroke="#4E342E" stroke-width="8" stroke-linecap="round"/>
+            <circle class="em1" cx="44" cy="68" r="2.2" fill="#ff8c00"/>
+            <circle class="em2" cx="63" cy="65" r="1.6" fill="#ffcc00"/>
+            <circle class="em3" cx="76" cy="70" r="2" fill="#ff6b00"/>
+            <ellipse class="flame f-back"   cx="60" cy="46" rx="22" ry="28" fill="#c03000"/>
+            <ellipse class="flame f-mid1"   cx="51" cy="51" rx="15" ry="20" fill="#e05000"/>
+            <ellipse class="flame f-mid2"   cx="69" cy="52" rx="14" ry="18" fill="#e06200"/>
+            <ellipse class="flame f-front1" cx="54" cy="56" rx="10" ry="14" fill="#ff7700"/>
+            <ellipse class="flame f-front2" cx="66" cy="57" rx="9"  ry="12" fill="#ff8800"/>
+            <ellipse class="flame f-core"   cx="60" cy="60" rx="7"  ry="9"  fill="#ffcc00"/>
+            <ellipse class="flame f-tip"    cx="60" cy="65" rx="4"  ry="5"  fill="#fff3a0"/>
+          </svg>
+        </div>
+        <!-- Marshmallow on stick (draggable) -->
+        <div class="mallow-stick-el" id="mallow-stick-el">
+          <svg viewBox="0 0 34 160" width="34" height="160" style="overflow:visible">
+            <line x1="17" y1="38" x2="17" y2="158" stroke="#8B6914" stroke-width="4" stroke-linecap="round"/>
+            <rect id="mallow-rect" x="4" y="4" width="26" height="32" rx="10" fill="#fff8f4" stroke="#e8ddd0" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="roast-hint" id="roast-hint">Drag to toast a marshmallow</div>
+        <div class="roast-status" id="roast-status"></div>
+      </div>
+        </div>
       </div>
       <div class="detector-corner dc-bl" aria-hidden="true"></div>
       <div class="detector-corner dc-br" aria-hidden="true"></div>
@@ -1827,42 +1874,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Image Slider -->
 <footer>
   <div class="footer-top">
-    <p class="footer-quote">The universe is, and we are.</p>
-    <!-- Campfire roasting scene -->
-    <div class="footer-roast" id="footer-roast">
-    <div class="campfire-svg-wrap" id="campfire-svg-wrap">
-      <svg class="fire-svg" viewBox="0 0 120 95" width="180" height="143" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="fr-glow" cx="50%" cy="100%" r="65%">
-            <stop offset="0%" stop-color="#ff7700" stop-opacity="0.45"/>
-            <stop offset="100%" stop-color="#ff7700" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <ellipse cx="60" cy="90" rx="50" ry="13" fill="url(#fr-glow)"/>
-        <line x1="18" y1="75" x2="82" y2="67" stroke="#5D4037" stroke-width="8" stroke-linecap="round"/>
-        <line x1="22" y1="67" x2="88" y2="75" stroke="#4E342E" stroke-width="8" stroke-linecap="round"/>
-        <circle class="em1" cx="44" cy="68" r="2.2" fill="#ff8c00"/>
-        <circle class="em2" cx="63" cy="65" r="1.6" fill="#ffcc00"/>
-        <circle class="em3" cx="76" cy="70" r="2" fill="#ff6b00"/>
-        <ellipse class="flame f-back"   cx="60" cy="46" rx="22" ry="28" fill="#c03000"/>
-        <ellipse class="flame f-mid1"   cx="51" cy="51" rx="15" ry="20" fill="#e05000"/>
-        <ellipse class="flame f-mid2"   cx="69" cy="52" rx="14" ry="18" fill="#e06200"/>
-        <ellipse class="flame f-front1" cx="54" cy="56" rx="10" ry="14" fill="#ff7700"/>
-        <ellipse class="flame f-front2" cx="66" cy="57" rx="9"  ry="12" fill="#ff8800"/>
-        <ellipse class="flame f-core"   cx="60" cy="60" rx="7"  ry="9"  fill="#ffcc00"/>
-        <ellipse class="flame f-tip"    cx="60" cy="65" rx="4"  ry="5"  fill="#fff3a0"/>
-      </svg>
-    </div>
-    <!-- Marshmallow on stick (draggable) -->
-    <div class="mallow-stick-el" id="mallow-stick-el">
-      <svg viewBox="0 0 34 160" width="34" height="160" style="overflow:visible">
-        <line x1="17" y1="38" x2="17" y2="158" stroke="#8B6914" stroke-width="4" stroke-linecap="round"/>
-        <rect id="mallow-rect" x="4" y="4" width="26" height="32" rx="10" fill="#fff8f4" stroke="#e8ddd0" stroke-width="1.5"/>
-      </svg>
-    </div>
-    <div class="roast-hint" id="roast-hint">Drag to toast a marshmallow</div>
-    <div class="roast-status" id="roast-status"></div>
-  </div>
   </div><!-- end footer-top -->
   <div class="footer-bottom">
     <div class="footer-icons">
@@ -2695,7 +2706,8 @@ document.addEventListener('mousemove', e => {
     screenText.textContent = '';
     s.split('\n').forEach((line, k) => {
       if (k) screenText.appendChild(document.createElement('br'));
-      if (k === 0 && capsule) { const t = document.createElement('span'); t.className = 'screen-title'; t.textContent = line; screenText.appendChild(t); }
+      if (capsule === 'quote') { const q = document.createElement('span'); q.className = 'screen-quote'; q.textContent = line; screenText.appendChild(q); }
+      else if (k === 0 && capsule) { const t = document.createElement('span'); t.className = 'screen-title'; t.textContent = line; screenText.appendChild(t); }
       else screenText.appendChild(document.createTextNode(line));
     });
   };
@@ -2715,6 +2727,21 @@ document.addEventListener('mousemove', e => {
   }
   const showReady = instant => typeScreen(MESSAGE, { capsule: true, instant });
   const showIntro = () => typeScreen(INTRO, { speed: 14 });
+  // bottom of the page: the screen shows the closing line + the campfire
+  const QUOTE = "The universe is, and we are.";
+  const screenEl = document.querySelector('.detector-screen');
+  let atEnd = false;
+  function checkEnd() {
+    const nearEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40;
+    if (nearEnd === atEnd || document.body.classList.contains('project-open')) return;
+    atEnd = nearEnd;
+    screenEl?.classList.toggle('at-end', atEnd);
+    document.getElementById('screenRoast')?.setAttribute('aria-hidden', String(!atEnd));
+    if (atEnd) { typeScreen(QUOTE, { capsule: 'quote', speed: 40 }); window.roastRelayout?.(); }
+    else showReady(true);
+  }
+  window.addEventListener('scroll', checkEnd, { passive: true });
+  window.addEventListener('resize', checkEnd);
   if (screenText) showReady(false);
 
   // ── Music toggle (rail button) ──
@@ -3133,7 +3160,7 @@ document.addEventListener('mousemove', e => {
     };
     // hovering either phrase decodes BOTH and fires the beams at both
     el.addEventListener('mouseenter', () => { strands.forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); if (screenText) showIntro(); });
-    el.addEventListener('mouseleave', () => { strands.forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); if (screenText) showReady(true); });
+    el.addEventListener('mouseleave', () => { strands.forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); if (screenText && !atEnd) showReady(true); });
   });
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
   // rebuild a strand whenever its hidden text changes size (font load,
@@ -3705,7 +3732,7 @@ function unlockScroll() {
 
 // Campfire marshmallow roasting
 (function() {
-  const scene    = document.getElementById('footer-roast');
+  const scene    = document.getElementById('footer-roast');   // now lives inside the translator screen
   const stickEl  = document.getElementById('mallow-stick-el');
   const mallow   = document.getElementById('mallow-rect');
   const fireWrap = document.getElementById('campfire-svg-wrap');
@@ -3866,6 +3893,8 @@ function unlockScroll() {
 
   requestAnimationFrame(()=>{ init(); requestAnimationFrame(loop); });
   window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
+  // the slot is display:none until the page bottom: re-measure when it appears
+  window.roastRelayout = () => requestAnimationFrame(() => { _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
 })();
 
 // Works nav: scroll to the globe row (with breathing room above), not the cards below it
