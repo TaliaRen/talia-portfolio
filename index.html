@@ -164,10 +164,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .log-tick {                                 /* corner ticks on the inner line (drawn on the mask, above everything) */
     position:absolute; width:10px; height:10px; border-color:rgba(130, 215, 160, 0.62); border-style:solid; border-width:0; z-index:1;
   }
-  .lt-tl { left:-1px; top:-1px; border-left-width:2px; border-top-width:2px; }
-  .lt-tr { right:-1px; top:-1px; border-right-width:2px; border-top-width:2px; }
-  .lt-bl { left:-1px; bottom:-1px; border-left-width:2px; border-bottom-width:2px; }
-  .lt-br { right:-1px; bottom:-1px; border-right-width:2px; border-bottom-width:2px; }
+  .lt-tl { left:calc(var(--m) - 1px); top:calc(var(--m) - 1px); border-left-width:2px; border-top-width:2px; }
+  .lt-tr { right:calc(var(--m) - 1px); top:calc(var(--m) - 1px); border-right-width:2px; border-top-width:2px; }
+  .lt-bl { left:calc(var(--m) - 1px); bottom:calc(var(--m) - 1px); border-left-width:2px; border-bottom-width:2px; }
+  .lt-br { right:calc(var(--m) - 1px); bottom:calc(var(--m) - 1px); border-right-width:2px; border-bottom-width:2px; }
   /* ── Content area: everything below the hero lives in the frame's right
      part — to the right of the rail, inside the frame's right edge ── */
   :root {
@@ -191,20 +191,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .frame-mask {
     /* full-viewport element: its thick border IS the margin outside the frame
        (no giant box-shadow — Safari caps those); the inner line is drawn by ::after */
-    position:fixed; inset:0; z-index:900; box-sizing:border-box;
-    border:41px solid var(--p-bg);   /* inset 34 + 6 gap + the 1px inner line: content is clipped INSIDE the line */
-    /* the margin swallows pointer events (nothing underneath can be hovered/clicked
-       outside the frame); the hole in the middle lets events through to content */
-    pointer-events:auto;
-    clip-path:polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 41px 41px, calc(100% - 41px) 41px, calc(100% - 41px) calc(100% - 41px), 41px calc(100% - 41px), 41px 41px);
-    cursor:none;
+    /* The margin is four real strips (.fm-*) — NOT a clip-path hole: Chrome's
+       compositor scroll hit-test ignores clip-path, which made the wheel target
+       the mask instead of the project iframe and killed scrolling. */
+    --m:41px;   /* inset 34 + 6 gap + the 1px inner line: content is clipped INSIDE the line */
+    position:fixed; inset:0; z-index:900; pointer-events:none;
   }
-  /* outer + inner lines, drawn on the mask (above content); the inner line's 1px sits just outside the clip */
-  .frame-mask::before { content:''; position:absolute; inset:-7px; border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
-  .frame-mask::after  { content:''; position:absolute; inset:-1px; border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }
+  .frame-mask .fm { position:absolute; background:var(--p-bg); pointer-events:auto; cursor:none; }   /* margin: paints + swallows pointer events */
+  .frame-mask .fm-t { top:0; left:0; right:0; height:var(--m); }
+  .frame-mask .fm-b { bottom:0; left:0; right:0; height:var(--m); }
+  .frame-mask .fm-l { top:0; bottom:0; left:0; width:var(--m); }
+  .frame-mask .fm-r { top:0; bottom:0; right:0; width:var(--m); }
+  /* outer + inner lines (above content, no hit testing); the inner line's 1px sits just outside the clipped area */
+  .frame-mask::before { content:''; position:absolute; inset:calc(var(--m) - 7px); border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
+  .frame-mask::after  { content:''; position:absolute; inset:calc(var(--m) - 1px); border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }
   @media (max-width:640px) {
     .log-frame { inset:23px; }
-    .frame-mask { border-width:23px; clip-path:polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 23px 23px, calc(100% - 23px) 23px, calc(100% - 23px) calc(100% - 23px), 23px calc(100% - 23px), 23px 23px); }
+    .frame-mask { --m:23px; }
   }
   /* ── Left rail: vertical strip inside the frame — logo, music toggle,
      Play, About, then contact icons ── */
@@ -1212,6 +1215,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Frame mask: clips everything to the frame (paints over the outside margin) -->
 <div class="frame-mask" aria-hidden="true">
+  <span class="fm fm-t"></span><span class="fm fm-b"></span><span class="fm fm-l"></span><span class="fm fm-r"></span>
   <span class="log-tick lt-tl"></span><span class="log-tick lt-tr"></span>
   <span class="log-tick lt-bl"></span><span class="log-tick lt-br"></span>
 </div>
