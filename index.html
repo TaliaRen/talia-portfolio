@@ -2760,8 +2760,8 @@ document.addEventListener('mousemove', e => {
   const MESSAGE = "Translator Ready\nHover over the unknown text \u2063 to decode it\nScroll to explore \u2193";   // \u2063 = live sample of unknown text
   // shown while a scrambled phrase is hovered (the "translation")
   const INTRO = "Hi, I\u2019m Talia.\n\nI design AI-powered tools and complex workflows,\nmaking them clearer and more intuitive to use.";
-  // a tiny live strand (~4 letters wide) that shows what "unknown text" looks like; one persistent element
-  const sampleEl = document.createElement('span'); sampleEl.className = 'glyph glyph-sample'; sampleEl.dataset.text = 'text';
+  // a tiny live strand (~2 letters wide) that shows what "unknown text" looks like; one persistent element
+  const sampleEl = document.createElement('span'); sampleEl.className = 'glyph glyph-sample'; sampleEl.dataset.text = 'te';
   let sampleStrand = null;
   const mountSample = () => {
     screenText.appendChild(sampleEl);
@@ -2794,7 +2794,16 @@ document.addEventListener('mousemove', e => {
       renderScreen(text.slice(0, i), capsule);
       i++;
       if (i <= typedEnd) typeTimer = setTimeout(typeNext, text[i - 1] === '\n' ? 220 : speed);   // brief pause at line ends
-      else if (typedEnd < text.length) typeTimer = setTimeout(() => { renderScreen(text, capsule); screenText.classList.add('done'); }, 320);
+      else if (typedEnd < text.length) {
+        // the rest is typed word by word (each word lands whole), after a short pause
+        const head = text.slice(0, typedEnd + 1), words = text.slice(typedEnd + 1).split(' ');
+        let w = 0;
+        const nextWord = () => {
+          w++; renderScreen(head + words.slice(0, w).join(' '), capsule);
+          if (w < words.length) typeTimer = setTimeout(nextWord, 110); else screenText.classList.add('done');
+        };
+        typeTimer = setTimeout(nextWord, 360);
+      }
       else screenText.classList.add('done');
     })();
   }
