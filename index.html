@@ -179,6 +179,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding-left:var(--content-left) !important; padding-right:var(--content-right) !important;
     box-sizing:border-box; max-width:none;
   }
+  @media (max-width:860px) { .project-view .project-view-back-m { display:inline-flex; } }   /* beats the base display:none declared later */
   @media (max-width:640px) {
     :root { --frame-inset:16px; --content-left:calc(16px + 20px); --content-right:calc(16px + 20px); }   /* no rail on phones */
   }
@@ -196,7 +197,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        outside the frame); the hole in the middle lets events through to content */
     pointer-events:auto;
     clip-path:polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 41px 41px, calc(100% - 41px) 41px, calc(100% - 41px) calc(100% - 41px), 41px calc(100% - 41px), 41px 41px);
-    cursor:default;
+    cursor:none;
   }
   /* outer + inner lines, drawn on the mask (above content); the inner line's 1px sits just outside the clip */
   .frame-mask::before { content:''; position:absolute; inset:-7px; border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
@@ -3202,7 +3203,10 @@ document.addEventListener('mousemove', e => {
   requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
   // replay the load-in (board rises, screen re-types) — used when closing a project
   window.replayHeroIntro = () => {
+    const det = document.getElementById('detector');
+    if (det) det.style.transition = 'none';               // jump back to the start pose instantly…
     scene.classList.remove('loaded'); void scene.offsetWidth;
+    if (det) det.style.transition = '';                   // …then let the normal 1s rise-in run
     requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
     if (screenText) showReady(false);
   };

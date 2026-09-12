@@ -2,7 +2,7 @@
    pointer devices; it locks on (brackets tighten, ring pulses) when
    hovering anything interactive ── */
 @media (hover:hover) and (pointer:fine) {
-  body, a, button, .glyph, [role="button"] { cursor:none !important; }
+  *, *::before, *::after { cursor:none !important; }
 }
 .aim-cursor {
   position:fixed; left:0; top:0; z-index:10000; pointer-events:none;
