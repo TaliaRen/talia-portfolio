@@ -221,7 +221,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* outer + inner lines (above content, no hit testing); the inner line's 1px sits just outside the clipped area */
   .frame-mask::before { content:''; position:absolute; inset:calc(var(--m) - 7px); border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
   /* a third, fainter line further out, so the bezel reads as layered */
-  .frame-mask .fm-outer { position:absolute; inset:calc(var(--m) - 11px); border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }   /* 4px outside the main line, same tone as it */
+  .frame-mask .fm-outer { position:absolute; inset:calc(var(--m) - 10px); border:1px solid rgba(140, 225, 170, 0.78); pointer-events:none; }   /* 3px outside the main line, a touch brighter than it */
   .frame-mask::after  { content:''; position:absolute; inset:calc(var(--m) - 1px); border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }
   @media (max-width:640px) {
     .log-frame { inset:23px; }
