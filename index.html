@@ -476,13 +476,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     pointer-events:none;
   }
   .cam-svg { position:absolute; overflow:visible; display:block; }
-  /* the lens panel's soft greenish-white light blinks: on most of the time,
-     a quick wink off every couple of seconds (kept dim) */
-  .cam-lens-lit { animation:camLensBlink 2.6s ease-in-out infinite; }
-  .cam-glow { opacity:0.45; animation:camGlowBlink 2.6s ease-in-out infinite; }
-  @keyframes camLensBlink { 0%, 62%, 100% { opacity:1; }    72% { opacity:0.08; } 84% { opacity:1; } }
-  @keyframes camGlowBlink { 0%, 62%, 100% { opacity:0.45; } 72% { opacity:0.03; } 84% { opacity:0.45; } }
-  @media (prefers-reduced-motion: reduce) { .cam-glow, .cam-lens-lit { animation:none; } }
+  /* the lens panel is plain grey at rest; it lights up soft green while the
+     unknown text is being decoded (hover on a .glyph) */
+  .cam-lens-lit, .cam-glow { opacity:0; transition:opacity 0.35s ease; }
+  .detector-camera.lit .cam-lens-lit { opacity:1; }
+  .detector-camera.lit .cam-glow { opacity:0.45; }
   .cam-svg path { stroke-linejoin:round; stroke-linecap:round; paint-order:stroke; }
   .cam-svg #camHullPath { stroke:none; }
   .detector-drum {
@@ -3360,8 +3358,8 @@ document.addEventListener('mousemove', e => {
     S.sample = el.classList.contains('glyph-sample');
     if (S.sample) return S;   // the little "what unknown text looks like" sample in the screen: no hover, no beams
     // hovering either phrase decodes BOTH and fires the beams at both
-    el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); if (screenText) showIntro(); });
-    el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); if (screenText && !atEnd) showReady(true); });
+    el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); document.getElementById('detectorCamera')?.classList.add('lit'); if (screenText) showIntro(); });
+    el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); document.getElementById('detectorCamera')?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); });
     return S;
   }
   document.querySelectorAll('.glyph:not(.glyph-sample)').forEach(initGlyph);
