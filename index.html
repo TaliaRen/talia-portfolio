@@ -214,8 +214,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .lt-tr { right:6px; top:6px; border-right-width:2px; border-top-width:2px; }
   .lt-bl { left:6px; bottom:6px; border-left-width:2px; border-bottom-width:2px; }
   .lt-br { right:6px; bottom:6px; border-right-width:2px; border-bottom-width:2px; }
+  /* ── Frame mask: everything scrolls INSIDE the frame. A fixed element
+     paints the page colour over the margin outside the frame (via a huge
+     box-shadow) and draws the frame line on top, so content, the board and
+     the rail are clipped at the frame edge. ── */
+  .frame-mask {
+    position:fixed; inset:34px; z-index:900; pointer-events:none;
+    border:1px solid rgba(130, 215, 160, 0.62);
+    box-shadow:0 0 0 200vmax var(--p-bg);
+  }
   @media (max-width:640px) {
     .log-frame { inset:16px; }
+    .frame-mask { inset:16px; }
   }
   /* ── Left rail: vertical strip inside the frame — logo, music toggle,
      Play, About, then contact icons ── */
@@ -347,7 +357,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .detector {
     /* pinned to the viewport: the board + camera stay put while the page
        (and the cave behind them) scrolls */
-    position:fixed; left:50%; bottom:2vh; z-index:60;
+    position:fixed; left:50%; bottom:calc(34px + 1vh); z-index:60;   /* inside the frame */
     width:min(880px, 84vw);
     perspective:1400px;
     transform:translate(-50%, 16%);
@@ -434,7 +444,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @keyframes caretBlink { 50% { opacity:0; } }
 
   @media (max-width:640px) {
-    .detector { width:90vw; }
+    .detector { width:90vw; bottom:calc(16px + 1vh); }
     .detector-shell { padding:10px 10px 12px; }
     .detector-screen { padding:36px 24px; }   /* same height as desktop; only the side padding tightens */
   }
@@ -1229,6 +1239,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
   </div>
 </nav>
+
+<!-- Frame mask: clips everything to the frame (paints over the outside margin) -->
+<div class="frame-mask" aria-hidden="true"></div>
 
 <!-- Aim cursor (fine-pointer devices only; positioned by JS) -->
 <div class="aim-cursor" id="aimCursor" aria-hidden="true">
