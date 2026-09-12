@@ -240,6 +240,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .log-rail [data-label]:hover::after { opacity:1; transform:translate(0, -50%); }
   .log-rail .rail-x svg { fill:currentColor; stroke:none; width:16px; height:16px; }
+  .log-rail .rail-music.on { color:#63FF8A; }
+  .log-rail .rail-music.on svg { animation:railBeat 1.2s ease-in-out infinite; }
+  @keyframes railBeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
   .log-rail .copied { color:#63FF8A !important; }
   .log-rail .copied::after { opacity:1 !important; transform:translate(0, -50%) !important; }
   .log-rail a, .log-rail button {
@@ -1222,6 +1225,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="#about-section" data-label="About" aria-label="About">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
   </a>
+  <button type="button" class="rail-music" id="railMusic" data-label="Play music" aria-label="Toggle music" aria-pressed="false">
+    <svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
+  </button>
   <div class="rail-contact">
     <span class="rail-sep" aria-hidden="true"></span>
     <a href="mailto:taliaren0826@gmail.com" id="railEmail" data-label="Copy email" aria-label="Copy email address">
@@ -2729,9 +2735,12 @@ document.addEventListener('mousemove', e => {
       emblem.style.transform = `rotate(${angle.toFixed(2)}deg)`;
       requestAnimationFrame(spinFrame);
     }
+    const railMusic = document.getElementById('railMusic');
+    railMusic?.addEventListener('click', () => emblem.click());
     emblem.addEventListener('click', () => {
       spinning = !spinning;
       emblemLabel && (emblemLabel.textContent = spinning ? 'Pause music' : 'Play music');
+      if (railMusic) { railMusic.classList.toggle('on', spinning); railMusic.dataset.label = spinning ? 'Pause music' : 'Play music'; railMusic.setAttribute('aria-pressed', String(spinning)); }
       if (spinning) {
         last = performance.now(); requestAnimationFrame(spinFrame);
         if (!music) { music = new Audio('sound effect/music.mp3'); music.loop = true; music.volume = 0.7; }
