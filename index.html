@@ -286,25 +286,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     body.menu-open .m-burger span:nth-child(2) { opacity:0; }
     body.menu-open .m-burger span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
     body.project-open .m-burger { display:none; }
+    /* compact dropdown just below the hamburger */
     .m-menu {
-      display:flex; flex-direction:column; justify-content:center; gap:6px;
-      position:fixed; inset:calc(var(--frame-inset) + 7px); z-index:860; padding:32px 28px;
-      background:var(--p-bg); overflow:auto;
-      opacity:0; visibility:hidden; transition:opacity 0.25s ease, visibility 0s linear 0.25s;
+      display:flex; flex-direction:column; gap:2px;
+      position:fixed; left:calc(var(--frame-inset) + 14px); top:calc(var(--frame-inset) + 62px); z-index:860;
+      min-width:180px; padding:8px; border-radius:12px;
+      background:rgba(10,13,12,0.96); border:1px solid rgba(130,215,160,0.34);
+      opacity:0; visibility:hidden; transform:translateY(-6px);
+      transition:opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
     }
-    body.menu-open .m-menu { opacity:1; visibility:visible; transition-delay:0s; }
-    .m-menu a, .m-menu button {
-      display:flex; align-items:center; gap:14px; padding:12px 4px; border:0; background:none; text-align:left;
-      font-family:'Figtree',sans-serif; font-size:1.25rem; font-weight:500; color:#fff; text-decoration:none; cursor:pointer;
+    body.menu-open .m-menu { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+    .m-menu a {
+      display:flex; align-items:center; gap:12px; padding:9px 12px; border-radius:8px; text-align:left;
+      font-family:'Figtree',sans-serif; font-size:.92rem; font-weight:500; color:#fff; text-decoration:none; cursor:pointer;
+      transition:background-color 0.2s ease, color 0.2s ease;
     }
-    .m-menu svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:rgba(150,225,175,0.85); }
-    .m-menu .m-sep { height:1px; background:rgba(130,215,160,0.3); margin:14px 0; }
-    .m-menu .m-contact { display:flex; gap:8px; }
-    .m-menu .m-contact a { padding:10px; }
-    .m-menu .m-music.on svg { color:#63FF8A; }
-    .m-menu .m-music .ic-on { display:none; }
-    .m-menu .m-music.on .ic-off { display:none; }
-    .m-menu .m-music.on .ic-on { display:block; }
+    .m-menu a:hover, .m-menu a:active { background:rgba(130, 215, 160, 0.12); }   /* same tint as the desktop rail */
+    .m-menu svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:rgba(150,225,175,0.85); }
+    .m-menu .m-sep { height:1px; background:rgba(130,215,160,0.3); margin:6px 4px; }
+    .m-menu .m-contact { display:flex; gap:2px; }
+    .m-menu .m-contact a { padding:9px; }
   }
 
   /* ── In-frame project viewer: a project page opens inside the frame's
@@ -1257,13 +1258,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Phone menu (≤640px): hamburger + full-frame list; mirrors the rail -->
 <button type="button" class="m-burger" id="mBurger" aria-label="Menu" aria-expanded="false" aria-controls="mMenu"><span></span><span></span><span></span></button>
 <nav class="m-menu" id="mMenu" aria-label="Site">
+  <a href="#"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
   <a href="play.html"><svg viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5.4 1.8L15 15H9l-1.6 1.8A3 3 0 0 1 2 15v-3a4 4 0 0 1 4-4z"/><path d="M7 11v3M5.5 12.5h3"/></svg>Playground</a>
   <a href="#about-section" data-close="1"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>About</a>
-  <button type="button" class="m-music" id="mMusic" aria-pressed="false">
-    <svg class="ic-off" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></svg>
-    <svg class="ic-on" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
-    <span class="m-music-label">Music off</span>
-  </button>
   <div class="m-sep" aria-hidden="true"></div>
   <div class="m-contact">
     <a href="mailto:taliaren0826@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
@@ -2797,16 +2794,14 @@ document.addEventListener('mousemove', e => {
   if (screenText) showReady(false);
 
   // ── Music toggle (rail button) ──
-  const railMusic = document.getElementById('railMusic'), mMusic = document.getElementById('mMusic');
+  const railMusic = document.getElementById('railMusic');
   if (railMusic) {
     let playing = false, music = null;
-    mMusic?.addEventListener('click', () => railMusic.click());
     railMusic.addEventListener('click', () => {
       playing = !playing;
       railMusic.classList.toggle('on', playing);
       railMusic.dataset.label = playing ? 'Music on' : 'Music off';
       railMusic.setAttribute('aria-pressed', String(playing));
-      if (mMusic) { mMusic.classList.toggle('on', playing); mMusic.setAttribute('aria-pressed', String(playing)); mMusic.querySelector('.m-music-label').textContent = playing ? 'Music on' : 'Music off'; }
       if (playing) {
         if (!music) { music = new Audio('sound effect/music.mp3'); music.loop = true; music.volume = 0.7; }
         music.play().catch(() => {});
@@ -3439,6 +3434,7 @@ document.addEventListener('mousemove', e => {
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => set(false)));
   window.addEventListener('keydown', e => { if (e.key === 'Escape') set(false); });
   window.addEventListener('resize', () => { if (innerWidth > 640) set(false); });
+  document.addEventListener('click', e => { if (document.body.classList.contains('menu-open') && !menu.contains(e.target) && !burger.contains(e.target)) set(false); });
 })();
 
 // ── Rail: the email icon copies the address to the clipboard ──
