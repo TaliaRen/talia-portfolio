@@ -70,7 +70,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── Scene palette tokens (dark sage) ── */
   :root {
-    --p-bg:#0A0D0C; --p-rock-far-0:#132B1E; --p-rock-far-1:#193325; --p-rock-far-2:#213E2E; --p-rock-far-3:#0D2015; --p-rock-far-4:#0A1B11; --p-rock-far-5:#09180F; --p-rock-far-6:#040C08; --p-rock-mid-0:#10231A; --p-rock-mid-1:#2B4C38; --p-rock-near-0:#11261B; --p-rock-near-1:#0B1C13; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#CDD9D1; --p-shell-1:#B0C1B5; --p-shell-2:#94A89B; --p-shell-edge:#68806F; --p-drum-0:#08110C; --p-drum-1:#122219; --p-drum-2:#0C1611; --p-corner-0:#142A1F; --p-corner-1:#0E1E16; --p-corner-2:#0A150E; --p-screen-0:#071E13; --p-screen-1:#05160E; --p-screen-2:#030E0A; --p-screen-text:#F5F8F6; --p-cam-front:#C4CFC9; --p-cam-back-0:#C2CDC7; --p-cam-back-1:#A2AFA8; --p-cam-side-0:#CDD7D1; --p-cam-side-1:#BEC9C3; --p-cam-side-2:#A3B0A9; --p-cam-side-3:#B6C1BB; --p-cam-side-4:#98A59E; --p-cam-top:#E2EAE6; --p-cam-bottom:#7F8E87; --p-cam-panel:#5F7268; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F; --p-lit-0:#3BD27A; --p-lit-1:#5DEC93; --p-lit-halo:#4FE388;
+    --p-bg:#0A0D0C; --p-rock-far-0:#132B1E; --p-rock-far-1:#193325; --p-rock-far-2:#213E2E; --p-rock-far-3:#0D2015; --p-rock-far-4:#0A1B11; --p-rock-far-5:#09180F; --p-rock-far-6:#040C08; --p-rock-mid-0:#10231A; --p-rock-mid-1:#2B4C38; --p-rock-near-0:#11261B; --p-rock-near-1:#0B1C13; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#CDD9D1; --p-shell-1:#B0C1B5; --p-shell-2:#94A89B; --p-shell-edge:#68806F; --p-drum-0:#08110C; --p-drum-1:#122219; --p-drum-2:#0C1611; --p-corner-0:#142A1F; --p-corner-1:#0E1E16; --p-corner-2:#0A150E; --p-screen-0:#071E13; --p-screen-1:#05160E; --p-screen-2:#030E0A; --p-screen-text:#F5F8F6; --p-cam-front:#C4CFC9; --p-cam-back-0:#C2CDC7; --p-cam-back-1:#A2AFA8; --p-cam-side-0:#CDD7D1; --p-cam-side-1:#BEC9C3; --p-cam-side-2:#A3B0A9; --p-cam-side-3:#B6C1BB; --p-cam-side-4:#98A59E; --p-cam-top:#E2EAE6; --p-cam-bottom:#7F8E87; --p-cam-panel:#5F7268; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F; --p-lens-lit:#DCE6E0; --p-lens-halo:#F4F8F6;
     --p-glow-rgb:143,224,182;
   }
   :root { --bg:var(--p-bg); --ink:#1C1917; --muted:#78716C; }
@@ -476,9 +476,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     pointer-events:none;
   }
   .cam-svg { position:absolute; overflow:visible; display:block; }
-  /* the lit band at the camera's tip breathes slowly */
-  .cam-glow { opacity:0.8; animation:camGlowPulse 3s ease-in-out infinite; }
-  @keyframes camGlowPulse { 0%, 100% { opacity:0.55; } 50% { opacity:1; } }
+  /* the lens panel's soft white light breathes slowly (kept dim) */
+  .cam-glow { opacity:0.45; animation:camGlowPulse 3.2s ease-in-out infinite; }
+  @keyframes camGlowPulse { 0%, 100% { opacity:0.3; } 50% { opacity:0.55; } }
   @media (prefers-reduced-motion: reduce) { .cam-glow { animation:none; } }
   .cam-svg path { stroke-linejoin:round; stroke-linecap:round; paint-order:stroke; }
   .cam-svg #camHullPath { stroke:none; }
@@ -1436,14 +1436,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <linearGradient id="camGradBack"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-back-0)"/><stop offset="1" style="stop-color:var(--p-cam-back-1)"/></linearGradient>
           <linearGradient id="camGradLeft"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-0)"/><stop offset="0.7" style="stop-color:var(--p-cam-side-1)"/><stop offset="1" style="stop-color:var(--p-cam-side-2)"/></linearGradient>
           <linearGradient id="camGradRight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--p-cam-side-3)"/><stop offset="1" style="stop-color:var(--p-cam-side-4)"/></linearGradient>
-          <!-- soft halo for the lit band at the tip (drawn unclipped, behind the body) -->
-          <filter id="camGlowF" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+          <!-- soft halo for the lit lens panel (drawn unclipped, behind the body) -->
+          <filter id="camGlowF" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
         </defs>
         <clipPath id="camHull"><path id="camHullPath"/></clipPath>
-        <g id="camGlow" class="cam-glow" filter="url(#camGlowF)"></g>
         <!-- seam-to-seam fills + clipped details; the whole group is clipped
              by ONE rounded silhouette so every corner rounds the same way -->
         <g id="camFaces" clip-path="url(#camHull)"></g>
+        <!-- the lens panel's light, in front of the body (it faces the viewer) -->
+        <g id="camGlow" class="cam-glow" filter="url(#camGlowF)"></g>
       </svg>
     </div>
     <div class="detector-drum drum-left" aria-hidden="true"></div>
@@ -2967,18 +2968,18 @@ document.addEventListener('mousemove', e => {
   // r = corner radius as a fraction of w (smaller than the shell's).
   const camDetailDefs = [
     // green wedge across the tip end of the top face, slanted like before
-    // (the band at the tip is lit: glow:true also draws a blurred, unclipped
-    //  copy behind the body so the light spills a little past the silhouette)
-    { face:'top', fill:'var(--p-lit-1)', glow:true, r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2-0.15*d],[w/2,-h/2,d/2-0.099*d],[w/2,-h/2,d/2],[-w/2,-h/2,d/2]] },
+    { face:'top', fill:'var(--p-accent-1)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2-0.15*d],[w/2,-h/2,d/2-0.099*d],[w/2,-h/2,d/2],[-w/2,-h/2,d/2]] },
     // pill-shaped clip on the top face near the tip
     { face:'top', fill:'var(--p-navy-0)', r:0.045, pts:(w,h,d)=>[[-0.36*w,-h/2,d/2-0.20*d],[0.36*w,-h/2,d/2-0.20*d],[0.36*w,-h/2,d/2-0.08*d],[-0.36*w,-h/2,d/2-0.08*d]] },
     // wedge wrapping onto the left and right sides at the tip
-    { face:'left',  fill:'var(--p-lit-0)', glow:true, r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2-0.2*d],[-w/2,-h/2,d/2],[-w/2,-h/2+0.56*h,d/2],[-w/2,-h/2+0.56*h,d/2-0.108*d]] },
-    { face:'right', fill:'var(--p-lit-0)', glow:true, r:0.03, pts:(w,h,d)=>[[w/2,-h/2,d/2],[w/2,-h/2,d/2-0.2*d],[w/2,-h/2+0.56*h,d/2-0.108*d],[w/2,-h/2+0.56*h,d/2]] },
+    { face:'left',  fill:'var(--p-accent-0)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2-0.2*d],[-w/2,-h/2,d/2],[-w/2,-h/2+0.56*h,d/2],[-w/2,-h/2+0.56*h,d/2-0.108*d]] },
+    { face:'right', fill:'var(--p-accent-0)', r:0.03, pts:(w,h,d)=>[[w/2,-h/2,d/2],[w/2,-h/2,d/2-0.2*d],[w/2,-h/2+0.56*h,d/2-0.108*d],[w/2,-h/2+0.56*h,d/2]] },
     // wedge on the front tip face (upper part)
-    { face:'front', fill:'var(--p-lit-1)', glow:true, r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,-h/2+0.39*h,d/2],[-w/2,-h/2+0.52*h,d/2]] },
-    // flat navy lens panel on the back, inset evenly
-    { face:'back', fill:'var(--p-cam-panel)', r:0.04, pts:(w,h,d)=>[[0.25*w,-0.25*h,-d/2],[-0.25*w,-0.25*h,-d/2],[-0.25*w,0.25*h,-d/2],[0.25*w,0.25*h,-d/2]] },
+    { face:'front', fill:'var(--p-accent-1)', r:0.03, pts:(w,h,d)=>[[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,-h/2+0.39*h,d/2],[-w/2,-h/2+0.52*h,d/2]] },
+    // lens panel on the near face, inset evenly — softly lit white
+    // (glow:true also draws a blurred, unclipped copy behind the body so a
+    //  little light spills past the silhouette)
+    { face:'back', fill:'var(--p-lens-lit)', glow:true, r:0.04, pts:(w,h,d)=>[[0.25*w,-0.25*h,-d/2],[-0.25*w,-0.25*h,-d/2],[-0.25*w,0.25*h,-d/2],[0.25*w,0.25*h,-d/2]] },
   ];
   // Elements, created once. Per face: a fill-only path (exact shared
   // vertices => seamless, never overlapping) and a clip so the face's
@@ -3009,7 +3010,7 @@ document.addEventListener('mousemove', e => {
       let gp = null;
       if (dd.glow && camGlowG) {               // blurred twin behind the body: the spill of light
         gp = svgEl('path');
-        gp.setAttribute('fill', 'var(--p-lit-halo)'); gp.setAttribute('stroke', 'var(--p-lit-halo)');
+        gp.setAttribute('fill', 'var(--p-lens-halo)'); gp.setAttribute('stroke', 'var(--p-lens-halo)');
         camGlowG.appendChild(gp);
       }
       entry.details.push({ def:dd, p, gp });
