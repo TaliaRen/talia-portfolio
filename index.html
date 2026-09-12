@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0B1410">
+<html lang="en" style="background:#0A0D0C">
 <head>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -56,7 +56,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ── Scene palette tokens (dark sage) ── */
   :root {
-    --p-bg:#0B1410; --p-rock-far-0:#132B1E; --p-rock-far-1:#193325; --p-rock-far-2:#213E2E; --p-rock-far-3:#0D2015; --p-rock-far-4:#0A1B11; --p-rock-far-5:#09180F; --p-rock-far-6:#040C08; --p-rock-mid-0:#10231A; --p-rock-mid-1:#2B4C38; --p-rock-near-0:#11261B; --p-rock-near-1:#0B1C13; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#CDD9D1; --p-shell-1:#B0C1B5; --p-shell-2:#94A89B; --p-shell-edge:#68806F; --p-drum-0:#08110C; --p-drum-1:#122219; --p-drum-2:#0C1611; --p-corner-0:#142A1F; --p-corner-1:#0E1E16; --p-corner-2:#0A150E; --p-screen-0:#071E13; --p-screen-1:#05160E; --p-screen-2:#030E0A; --p-screen-text:#F5F8F6; --p-cam-front:#C4CFC9; --p-cam-back-0:#C2CDC7; --p-cam-back-1:#A2AFA8; --p-cam-side-0:#CDD7D1; --p-cam-side-1:#BEC9C3; --p-cam-side-2:#A3B0A9; --p-cam-side-3:#B6C1BB; --p-cam-side-4:#98A59E; --p-cam-top:#E2EAE6; --p-cam-bottom:#7F8E87; --p-cam-panel:#5F7268; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F;
+    --p-bg:#0A0D0C; --p-rock-far-0:#132B1E; --p-rock-far-1:#193325; --p-rock-far-2:#213E2E; --p-rock-far-3:#0D2015; --p-rock-far-4:#0A1B11; --p-rock-far-5:#09180F; --p-rock-far-6:#040C08; --p-rock-mid-0:#10231A; --p-rock-mid-1:#2B4C38; --p-rock-near-0:#11261B; --p-rock-near-1:#0B1C13; --p-beam-hi:#CFF0DC; --p-beam:#8AD3AC; --p-wave-glow:#A2DDBC; --p-wave-core:#ECFAF1; --p-shell-0:#CDD9D1; --p-shell-1:#B0C1B5; --p-shell-2:#94A89B; --p-shell-edge:#68806F; --p-drum-0:#08110C; --p-drum-1:#122219; --p-drum-2:#0C1611; --p-corner-0:#142A1F; --p-corner-1:#0E1E16; --p-corner-2:#0A150E; --p-screen-0:#071E13; --p-screen-1:#05160E; --p-screen-2:#030E0A; --p-screen-text:#F5F8F6; --p-cam-front:#C4CFC9; --p-cam-back-0:#C2CDC7; --p-cam-back-1:#A2AFA8; --p-cam-side-0:#CDD7D1; --p-cam-side-1:#BEC9C3; --p-cam-side-2:#A3B0A9; --p-cam-side-3:#B6C1BB; --p-cam-side-4:#98A59E; --p-cam-top:#E2EAE6; --p-cam-bottom:#7F8E87; --p-cam-panel:#5F7268; --p-accent-0:#2A7A58; --p-accent-1:#359A72; --p-navy-0:#1B3328; --p-navy-1:#1A3227; --p-navy-2:#12241A; --p-hazard-dark:#182A20; --p-navy-3:#2B4C3C; --p-cable-0:#172520; --p-cable-1:#3E5A4F;
     --p-glow-rgb:143,224,182;
   }
   :root { --bg:var(--p-bg); --ink:#1C1917; --muted:#78716C; }
@@ -263,13 +263,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     visibility:hidden;
   }
   .project-view.open { visibility:visible; }
-  /* open/close effects — pick with ?fx=wipe|scale|blur (default wipe) */
-  .project-view[data-fx="wipe"]  { clip-path:inset(0 0 100% 0); transition:clip-path 0.65s cubic-bezier(0.77,0,0.18,1), visibility 0s linear 0.65s; }
-  .project-view[data-fx="wipe"].open { clip-path:inset(0 0 0 0); transition-delay:0s; }
-  .project-view[data-fx="scale"] { opacity:0; transform:scale(0.965); transform-origin:50% 60%; transition:opacity 0.45s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1), visibility 0s linear 0.45s; }
-  .project-view[data-fx="scale"].open { opacity:1; transform:none; transition-delay:0s; }
-  .project-view[data-fx="blur"]  { opacity:0; filter:blur(14px); transition:opacity 0.5s ease, filter 0.6s ease, visibility 0s linear 0.5s; }
-  .project-view[data-fx="blur"].open { opacity:1; filter:blur(0); transition-delay:0s; }
   /* phone-only Back (fixed in the parent, so it never scrolls away inside the iframe) */
   .project-view-back-m {
     display:none; position:absolute; left:16px; top:14px; z-index:2; align-items:center; gap:6px;
@@ -277,16 +270,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Figtree',sans-serif; font-size:.78rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#fff;
   }
   .project-view-back-m svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .project-view-back-m:hover, .project-view-back-m:active { color:#63FF8A; background:rgba(99, 255, 138, 0.12); }
   .project-view iframe { flex:1 1 auto; width:1px; min-width:100%; border:0; background:var(--p-bg); }   /* width:1px+min-width: iOS sizing fix */
   body.project-open { overflow:hidden; }
   /* while a project is open: translator slides down out of view, the rail
      fades away and the viewer takes the full frame width */
   /* everything on the homepage simply fades under the viewer — no sliding */
-  .detector { transition:opacity 0.4s ease, transform 0.9s cubic-bezier(0.22,1,0.36,1) !important; }
-  body.project-open .detector { opacity:0; pointer-events:none; }
-  body.project-open .cam-beams { opacity:0; }
-  .log-rail { transition:opacity 0.4s ease; }
-  body.project-open .log-rail { opacity:0; pointer-events:none; }
+  body.project-open .detector { visibility:hidden; pointer-events:none; }
+  body.project-open .cam-beams { visibility:hidden; }
+  body.project-open .log-rail { visibility:hidden; pointer-events:none; }
   body.project-open .project-view { left:calc(var(--frame-inset) + 7px); }
   @media (max-width:640px) {
     .project-view, body.project-open .project-view { left:calc(16px + 7px); right:calc(16px + 7px); top:calc(16px + 7px); bottom:calc(16px + 7px); }
@@ -1221,7 +1213,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- In-frame project viewer (filled by JS when a project card is clicked) -->
-<div class="project-view" id="projectView" data-fx="wipe" aria-hidden="true">
+<div class="project-view" id="projectView" aria-hidden="true">
   <button type="button" class="project-view-back-m" id="projectViewBackM" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
 </div>
 
@@ -3208,6 +3200,12 @@ document.addEventListener('mousemove', e => {
   // ── Kick off the load-in: detector rises, everything else is already
   //      animating via CSS as soon as the stylesheet applies ──
   requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
+  // replay the load-in (board rises, screen re-types) — used when closing a project
+  window.replayHeroIntro = () => {
+    scene.classList.remove('loaded'); void scene.offsetWidth;
+    requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
+    if (screenText) showReady(false);
+  };
 })();
 
 // ── In-frame project viewer: project cards open the case study inside the
@@ -3238,7 +3236,8 @@ document.addEventListener('mousemove', e => {
     current = null;
     view.classList.remove('open'); view.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('project-open');
-    setTimeout(() => { if (!current && frame) { frame.remove(); frame = null; } }, 700);
+    if (frame) { frame.remove(); frame = null; }
+    window.replayHeroIntro?.();               // translator rises in + types again, like first load
     if (push) history.pushState({}, '', location.pathname + location.hash);
   }
   document.querySelectorAll('.project-card').forEach(card => {
@@ -3251,9 +3250,13 @@ document.addEventListener('mousemove', e => {
   });
   // the Back button lives inside the embedded page (top-left, above its section nav)
   window.addEventListener('message', e => { if (e.data === 'project:back' && current) close(true); });
+  // the embedded page forwards its pointer so the homepage's reticle (topmost layer) tracks it
+  window.addEventListener('message', e => {
+    const m = e.data; if (!m || m.type !== 'cursor' || !frame) return;
+    const r = frame.getBoundingClientRect();
+    window.aimCursor?.remote(m.event, r.left + (m.x || 0), r.top + (m.y || 0), !!m.hot);
+  });
   document.getElementById('projectViewBackM')?.addEventListener('click', () => { if (current) close(true); });
-  // transition effect: ?fx=wipe|scale|blur
-  const fx = new URLSearchParams(location.search).get('fx'); if (fx && ['wipe','scale','blur'].includes(fx)) view.dataset.fx = fx;
   window.addEventListener('keydown', e => { if (e.key === 'Escape' && current) close(true); });
   window.addEventListener('popstate', () => {
     const name = new URLSearchParams(location.search).get('project');

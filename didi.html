@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0B1410">
+<html lang="en" style="background:#0A0D0C">
 <head>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -49,7 +49,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { height:100%; background:#0B1410; }
+  html, body { height:100%; background:#0A0D0C; }
   html { scrollbar-gutter: stable; }
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) {
@@ -226,7 +226,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .case-sidebar a.active::before { width:12px; }
   @media(max-width:1100px) {
     .case-sidebar { display:none; }
-    /* embedded on small screens: keep just the Back button, top-left */
+    /* embedded on tablets: keep the nav, narrower, long labels wrap */
+    html.embed .case-sidebar { display:flex; width:118px; gap:12px; }
+    html.embed .case-sidebar a { white-space:normal; line-height:1.35; }
+    /* tablet: hero meta wraps into two columns instead of squeezing four */
+    html.embed .didi-meta { flex-wrap:wrap; gap:32px 48px; }
+    html.embed .didi-meta-col { flex:0 0 calc(50% - 24px); }
+    html.embed .didi-meta-col:not(:last-child) { border-right:none; margin-right:0; }
+  }
+  @media(max-width:640px) {
     html.embed .case-sidebar { display:none; }   /* the homepage shows its own fixed Back on phones */
   }
 
