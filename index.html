@@ -179,7 +179,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding-left:var(--content-left) !important; padding-right:var(--content-right) !important;
     box-sizing:border-box; max-width:none;
   }
-  @media (max-width:860px) { .project-view .project-view-back-m { display:inline-flex; } }   /* beats the base display:none declared later */
+  /* the embedded page is 82px narrower than the window (frame on both sides): its ≤860 rule hides
+     the section nav when the window is ≤942, so show our Back from there */
+  @media (max-width:942px) { .project-view .project-view-back-m { display:inline-flex; } }
   @media (max-width:640px) {
     :root { --frame-inset:16px; --content-left:calc(16px + 20px); --content-right:calc(16px + 20px); }   /* no rail on phones */
   }
