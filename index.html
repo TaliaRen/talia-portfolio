@@ -2801,7 +2801,7 @@ document.addEventListener('mousemove', e => {
   const screenEl = document.querySelector('.detector-screen');
   let atEnd = false;
   function checkEnd() {
-    const nearEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40;
+    const nearEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 320;   // switch a little before the very bottom
     if (nearEnd === atEnd || document.body.classList.contains('project-open')) return;
     atEnd = nearEnd;
     screenEl?.classList.toggle('at-end', atEnd);
