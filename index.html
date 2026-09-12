@@ -3899,15 +3899,18 @@ function unlockScroll() {
   }
 
   function doDrop() {
-    dropped=true; audioActive=false;
+    dropped=true; audioActive=false;   /* sound off until the next marshmallow is toasted */
     setVol(0);
     // Capture toasted color
     const fill=mallow.getAttribute('fill');
     const stroke=mallow.getAttribute('stroke');
-    // Toasted marshmallow lands where the marshmallow rests when the stick is home
-    const tip=tipAt(_cachedPosX ?? posX, _cachedPosY ?? posY);
+    // Toasted marshmallow lands at the stick's home spot — at the handle end (bottom-left), on the ground
+    const hx=(_cachedPosX ?? posX), hy=(_cachedPosY ?? posY);
+    const w=stickEl.offsetWidth, h=stickEl.offsetHeight;
+    const vx=17-w/2, vy=150-h/2;   /* the handle end of the stick (svg y≈150), rotated like the stick */
+    const handle={ x:hx+w/2+vx*Math.cos(STICK_ROT)-vy*Math.sin(STICK_ROT), y:hy+h/2+vx*Math.sin(STICK_ROT)+vy*Math.cos(STICK_ROT) };
     const placed=document.createElement('div');
-    placed.style.cssText=`position:absolute;left:${(tip.x-18).toFixed(1)}px;top:${(tip.y-12).toFixed(1)}px;pointer-events:none;z-index:5;transform:translateY(-6px);opacity:0;transition:transform 0.35s ease,opacity 0.2s ease;`;
+    placed.style.cssText=`position:absolute;left:${(handle.x-18).toFixed(1)}px;top:${(handle.y-4).toFixed(1)}px;pointer-events:none;z-index:5;transform:translateY(-6px);opacity:0;transition:transform 0.35s ease,opacity 0.2s ease;`;
     placed.innerHTML=`<svg viewBox="0 0 36 24" width="36" height="24"><rect x="2" y="2" width="32" height="20" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
     scene.appendChild(placed);
     requestAnimationFrame(()=>{ placed.style.transform='translateY(10px)'; placed.style.opacity='1'; });   /* settles slightly below the tip */
@@ -3935,13 +3938,13 @@ function unlockScroll() {
       const R=40;   /* scene px: the marshmallow has to touch the flames */
       if (d<R) {
         const intensity=Math.pow(1-d/R, 0.7);
-        setVol(audioActive ? 0.6+intensity*1.4 : 0);
+        setVol(audioActive ? 0.6+intensity*1.4 : 0);   /* crackle only while toasting */
         toastLevel=Math.min(1, toastLevel+dt*(1/5));
         updateColor();
         stickEl.style.filter=`drop-shadow(0 0 ${Math.round(intensity*16)}px rgba(255,140,0,${(intensity*0.75).toFixed(2)}))`;
         if (toastLevel>=1) doDrop();
       } else {
-        setVol(audioActive && d<R*3 ? 0.06 : 0);
+        setVol(0);                                      /* away from the fire: silent */
         stickEl.style.filter='drop-shadow(0 2px 6px rgba(0,0,0,0.1))';
       }
     }
@@ -3952,7 +3955,7 @@ function unlockScroll() {
     if (dropped) return;
     e.preventDefault();
     stickEl.setPointerCapture(e.pointerId);
-    dragging=true; audioActive=true;
+    dragging=true; audioActive=true;   /* armed: becomes audible only when the marshmallow touches the flames */
     startAudio();
     const sr=scene.getBoundingClientRect(), k=K();
     dragOX=(e.clientX-sr.left)/k-posX;
