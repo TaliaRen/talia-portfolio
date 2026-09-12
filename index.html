@@ -164,7 +164,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .log-frame {
     --lf-line:rgba(130, 215, 160, 0.62);
     --lf-line-soft:rgba(130, 215, 160, 0.34);
-    position:fixed; inset:41px; z-index:-1; pointer-events:none;   /* inside the inner line */
+    position:fixed; inset:53px; z-index:-1; pointer-events:none;   /* inside the inner line */
     background:
       radial-gradient(ellipse 70% 55% at 50% 18%, rgba(120,200,150,0.06) 0%, transparent 70%),
       linear-gradient(180deg, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0.18) 100%);
@@ -185,7 +185,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── Content area: everything below the hero lives in the frame's right
      part — to the right of the rail, inside the frame's right edge ── */
   :root {
-    --frame-inset:34px; --rail-w:56px;
+    --frame-inset:46px; --rail-w:56px;
     --content-left:calc(var(--frame-inset) + 6px + var(--rail-w) + 56px);   /* frame + rail + gutter */
     --content-right:calc(var(--frame-inset) + 56px);
   }
@@ -210,7 +210,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* The margin is four real strips (.fm-*) — NOT a clip-path hole: Chrome's
        compositor scroll hit-test ignores clip-path, which made the wheel target
        the mask instead of the project iframe and killed scrolling. */
-    --m:41px;   /* inset 34 + 6 gap + the 1px inner line: content is clipped INSIDE the line */
+    --m:53px;   /* inset 46 + 6 gap + the 1px inner line: content is clipped INSIDE the line */
     position:fixed; inset:0; z-index:900; pointer-events:none;
   }
   .frame-mask .fm { position:absolute; background:var(--p-bg); pointer-events:auto; cursor:none; }   /* margin: paints + swallows pointer events */
@@ -220,6 +220,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .frame-mask .fm-r { top:0; bottom:0; right:0; width:var(--m); }
   /* outer + inner lines (above content, no hit testing); the inner line's 1px sits just outside the clipped area */
   .frame-mask::before { content:''; position:absolute; inset:calc(var(--m) - 7px); border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
+  /* a third, fainter line further out, so the bezel reads as layered */
+  .frame-mask .fm-outer { position:absolute; inset:calc(var(--m) - 19px); border:1px solid rgba(130, 215, 160, 0.22); pointer-events:none; }
   .frame-mask::after  { content:''; position:absolute; inset:calc(var(--m) - 1px); border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }
   @media (max-width:640px) {
     .log-frame { inset:23px; }
@@ -230,7 +232,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .log-rail {
     /* a plain vertical line just inside the frame's left edge: logo at the
        top, site links under it, contact icons pinned to the bottom */
-    position:fixed; left:40px; top:40px; bottom:40px; z-index:50;   /* below the translator board (60) */
+    position:fixed; left:calc(var(--frame-inset) + 6px); top:calc(var(--frame-inset) + 6px); bottom:calc(var(--frame-inset) + 6px); z-index:50;   /* just inside the inner line */
     width:56px; padding:18px 0 14px; box-sizing:border-box;
     display:flex; flex-direction:column; align-items:center; gap:8px;
     border-right:1px solid rgba(130, 215, 160, 0.34);
@@ -1241,6 +1243,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Frame mask: clips everything to the frame (paints over the outside margin) -->
 <div class="frame-mask" aria-hidden="true">
   <span class="fm fm-t"></span><span class="fm fm-b"></span><span class="fm fm-l"></span><span class="fm fm-r"></span>
+  <span class="fm-outer"></span>
   <span class="log-tick lt-tl"></span><span class="log-tick lt-tr"></span>
   <span class="log-tick lt-bl"></span><span class="log-tick lt-br"></span>
 </div>
