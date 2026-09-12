@@ -1124,9 +1124,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-bottom { display:flex; flex-direction:column; align-items:center; gap:12px; padding:28px 0 44px; border-top:1px solid rgba(28,25,23,.05); }
   .footer-icons { display:flex; align-items:center; gap:32px; }
   /* Campfire roasting scene */
-  .footer-roast { flex:0 0 300px; position:relative; height:200px; overflow:visible; transform:scale(0.82); transform-origin:center; }
-  /* the campfire slot inside the translator screen: only at the bottom of the page */
-  .screen-roast { display:none; flex:0 0 300px; align-self:center; margin-left:auto; }
+  .footer-roast { width:300px; height:200px; position:relative; overflow:visible; transform:scale(0.62); transform-origin:top left; }
+  /* the campfire slot inside the translator screen (only at the bottom of the page):
+     a fixed 186×124 box so the screen keeps its normal height, campfire scaled to fit */
+  .screen-roast { display:none; flex:0 0 186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }
   .detector-screen.at-end .screen-roast { display:block; }
   .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
   .detector-screen.at-end .screen-text.done::after { display:none; }
