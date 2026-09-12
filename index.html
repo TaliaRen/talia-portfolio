@@ -172,6 +172,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .lt-tr { right:6px; top:6px; border-right-width:2px; border-top-width:2px; }
   .lt-bl { left:6px; bottom:6px; border-left-width:2px; border-bottom-width:2px; }
   .lt-br { right:6px; bottom:6px; border-right-width:2px; border-bottom-width:2px; }
+  /* ── Content area: everything below the hero lives in the frame's right
+     part — to the right of the rail, inside the frame's right edge ── */
+  :root {
+    --frame-inset:34px; --rail-w:56px;
+    --content-left:calc(var(--frame-inset) + 6px + var(--rail-w) + 56px);   /* frame + rail + gutter */
+    --content-right:calc(var(--frame-inset) + 56px);
+  }
+  #projects, .about-section, footer {
+    padding-left:var(--content-left) !important; padding-right:var(--content-right) !important;
+    box-sizing:border-box; max-width:none;
+  }
+  @media (max-width:640px) {
+    :root { --content-left:calc(16px + 20px); --content-right:calc(16px + 20px); }   /* no rail on phones */
+  }
+
   /* ── Frame mask: everything scrolls INSIDE the frame. A fixed element
      paints the page colour over the margin outside the frame (via a huge
      box-shadow) and draws the frame line on top, so content, the board and
@@ -424,8 +439,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin:200px 0 56px;
   }
   .projects-vertical-wrap {
-    display:flex; align-items:flex-start; gap:120px;
-    max-width:1320px; margin:0 auto; padding:0 40px;
+    display:flex; align-items:flex-start; gap:96px;
+    max-width:none; margin:0; padding:0;   /* fills the content area (see --content-left/right) */
   }
   .projects-nav-vertical {
     position:sticky; top:140px;
