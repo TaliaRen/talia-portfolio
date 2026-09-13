@@ -2731,8 +2731,8 @@ document.addEventListener('mousemove', e => {
   }
   const showReady = instant => typeScreen(MESSAGE, { capsule: true, instant });
   const showIntro = () => typeScreen(INTRO, { speed: 14 });
-  // ship log: hovering an entry translates it — its name in the capsule, its subtitle below
-  window.screenTranslate = (title, subtitle) => { if (screenText && !atEnd) typeScreen(title + '\n' + subtitle, { capsule: true, speed: 14 }); };
+  // project log: hovering an entry translates it — just its subtitle, plain text (no capsule)
+  window.screenTranslate = (title, subtitle) => { if (screenText && !atEnd) typeScreen(subtitle, { speed: 14 }); };
   window.screenReady = () => { if (screenText && !atEnd) showReady(true); };
   // bottom of the page: the screen shows the closing line + the campfire
   const QUOTE = "The universe is, and we are.\nInspired by Outer Wilds, built with Claude Code";
