@@ -125,7 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .nav-link:hover, .nav-link:active { color:#41E981; }
 
   #hero {
-    height:80vh; position:relative;   /* shorter than the viewport so the project log starts closer to the headline */
+    height:100vh; position:relative;
     display:flex; align-items:center; justify-content:center;
     padding: 80px 48px 0;
     overflow:visible;
@@ -566,7 +566,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:rgba(255,255,255,0.95);
     line-height:1.15;
     text-align:center;
-    margin:30px 0;   /* empty now; just the gap between the hero scene and the project log */
+    margin:0;   /* empty now (the title is gone) */
   }
   .projects-vertical-wrap {
     display:flex; align-items:flex-start; gap:96px;
@@ -1055,7 +1055,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* PROJECTS */
-  #projects { padding:10px 0 80px; max-width:none; }
+  #projects { padding:0 0 80px; margin-top:-48px; max-width:none; }   /* the log is pulled up into the hero's empty lower band */
 
   /* ── Ship-log rumor map: the four projects as log entries on a faint grid,
         snaking down the map (left, right, left, right) and linked in order by
