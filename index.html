@@ -199,11 +199,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         a frequency (click a marker) and the piece it carries comes up on the
         stage; the others sit as faint blips on the band. ── */
   #vibe { padding-top:160px; padding-bottom:40px; overflow-x:clip; }   /* the heading strand's canvas bleeds a little sideways */
-  .scope-head { display:flex; justify-content:center; margin:0 0 96px; text-align:center; }
-  /* the line under the heading is unknown text; hovering it decodes it (and the translator reads it) */
-  .scope-sub { font-family:'Figtree',sans-serif; font-size:24px; font-weight:500; letter-spacing:.02em; line-height:1.5; color:#fff; margin:0; }
-  .scope-sub .glyph { cursor:default; }
-  .scope-sub .glyph-text { color:#fff; }
+  /* the section's node: a boxed label on the translator's axis, same as the Project Log node */
+  #vibe { --axis:calc(50vw - var(--content-left)); }
+  .scope-head { position:relative; display:flex; align-items:flex-start; margin:0 0 72px; }
+  .scope-label {
+    position:relative; left:var(--axis); transform:translateX(-50%); width:max-content;
+    padding:10px 20px; background:rgba(95,227,154,0.10); border:1px solid rgba(95,227,154,0.55);
+    font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
+  }
   .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px minmax(0, 560px); justify-content:center; gap:0 40px; align-items:stretch; }   /* band + pieces travel together, centred as one block */
   /* the pieces: just the image / video / phone, nothing around them */
   .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:center; }
@@ -226,8 +229,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; text-align:right; }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
-    .scope-head { margin-bottom:56px; }
-    .scope-sub { font-size:18px; }   /* the strand cannot wrap: keep the line inside a phone's width */
+    .scope-head { margin-bottom:48px; }
     .scope { grid-template-columns:36px 1fr; gap:0 14px; }
     .scope-freq { right:14px; padding:4px 6px; }
     .scope-freq .freq-name { display:none; }   /* on phones the band keeps its ticks and spikes only */
@@ -1660,7 +1662,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
   <div class="scope-head">
-    <p class="scope-sub"><span class="glyph glyph-vibe" data-text="Signals I chased on my own time"></span></p>
+    <span class="scope-label">Experiment Log</span>
   </div>
   <div class="scope" id="scope">
     <div class="scope-band" id="scopeBand">
@@ -3224,20 +3226,14 @@ document.addEventListener('mousemove', e => {
     };
     // sample: the little "what unknown text looks like" strand in the screen;
     // node: an unfound ship-log entry's label. Neither hovers nor draws beams.
-    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node') || el.classList.contains('glyph-vibe');
+    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node');
     if (S.sample) return S;
     // hovering either phrase decodes BOTH and fires the beams at both
     el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); document.getElementById('detectorCamera')?.classList.add('lit'); if (screenText) showIntro(); });
     el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); document.getElementById('detectorCamera')?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); });
     return S;
   }
-  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node):not(.glyph-vibe)').forEach(initGlyph);
-  // the vibe-coding line: unknown text that decodes on hover (and the translator reads it)
-  document.querySelectorAll('.glyph-vibe').forEach((el, i) => {
-    const S = initGlyph(el, 80 + i);
-    el.addEventListener('mouseenter', () => { S.decode(); window.screenTranslate?.('', el.dataset.text || ''); });
-    el.addEventListener('mouseleave', () => { S.encode(); window.screenReady?.(); });
-  });
+  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node)').forEach(initGlyph);
   window.initGlyph = initGlyph;
   (window.__pendingGlyphs || []).forEach(el => initGlyph(el, 99));
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
