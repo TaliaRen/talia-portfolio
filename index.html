@@ -195,44 +195,68 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* ── Vibe coding: two playground pieces (Truthly, Christmas tree) on the homepage,
      between the works and the About section ── */
-  /* ── Scout snapshots: vibe-coding pieces as photos sent back by a little
-        probe — a framed shot with corner brackets and scanlines, a data strip
-        underneath, pinned at a slight tilt. (The project log is the ship's
-        formal record; these are quick probes into unknown territory.) ── */
+  /* ── Signalscope: vibe-coding pieces as signals on a frequency band. Tune to
+        a frequency (click a marker) and the piece it carries comes up on the
+        stage; the others sit as faint blips on the band. ── */
   #vibe { padding-top:160px; padding-bottom:40px; }
-  .scout-head { display:flex; flex-direction:column; align-items:center; gap:18px; margin:0 0 72px; text-align:center; }
-  .scout-label {
+  .scope-head { display:flex; flex-direction:column; align-items:center; gap:18px; margin:0 0 56px; text-align:center; }
+  .scope-label {
     padding:10px 20px; background:rgba(95,227,154,0.10); border:1px solid rgba(95,227,154,0.55);
     font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
   }
-  .scout-sub { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.6; color:#8F9994; max-width:560px; margin:0; }
-  .scout-board { display:flex; justify-content:center; align-items:flex-start; flex-wrap:wrap; gap:64px; max-width:1180px; margin:0 auto; }
-  .scout-shot { margin:0; width:var(--w, 460px); max-width:100%; transform:rotate(var(--tilt, 0deg)); transition:transform .5s cubic-bezier(.22,1,.36,1); }
-  .scout-shot:hover { transform:rotate(0deg) translateY(-4px); }
-  .scout-shot.shot-2 { margin-top:72px; }
-  .scout-frame { position:relative; background:#0B100E; border:1px solid rgba(95,227,154,0.45); padding:14px; }
-  .scout-img { position:relative; overflow:hidden; background:#07120D; display:flex; align-items:center; justify-content:center; }
-  .scout-img.tall { aspect-ratio:4 / 5; }
-  .scout-img video { width:100%; height:auto; display:block; }
-  /* the probe's photo look: scanlines over the shot, brackets in the corners */
-  .scout-img::after { content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px); }
-  .scout-corner { position:absolute; width:14px; height:14px; border:1.5px solid #5FE39A; pointer-events:none; z-index:2; }
-  .scout-corner.tl { left:6px; top:6px; border-right:none; border-bottom:none; }
-  .scout-corner.tr { right:6px; top:6px; border-left:none; border-bottom:none; }
-  .scout-corner.bl { left:6px; bottom:6px; border-right:none; border-top:none; }
-  .scout-corner.br { right:6px; bottom:6px; border-left:none; border-top:none; }
-  .scout-data { display:flex; flex-wrap:wrap; gap:6px 18px; padding:12px 2px 0; font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD; }
-  .scout-data .live { display:inline-flex; align-items:center; gap:7px; color:#63FF8A; }
-  .scout-data .live::before { content:''; width:6px; height:6px; border-radius:50%; background:#63FF8A; box-shadow:0 0 6px rgba(99,255,138,0.8); animation:scoutBlink 1.6s ease-in-out infinite; }
-  @keyframes scoutBlink { 0%, 100% { opacity:1; } 50% { opacity:0.25; } }
-  .scout-caption { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.55; color:rgba(255,255,255,0.88); margin:16px 0 0; }
-  .scout-link {
-    display:inline-flex; align-items:center; gap:8px; margin-top:12px;
+  .scope-sub { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.6; color:#8F9994; max-width:560px; margin:0; }
+  .scope { max-width:1100px; margin:0 auto; }
+  /* the stage: all panels stacked in one cell, the tuned one visible */
+  .scope-stage { display:grid; margin-bottom:40px; }
+  .scope-panel {
+    grid-area:1 / 1; display:flex; align-items:center; gap:56px;
+    opacity:0; visibility:hidden; transform:translateY(8px);
+    transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1), visibility 0s linear .5s;
+  }
+  .scope-panel.on { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+  .scope-media { flex:0 0 auto; max-width:min(560px, 100%); display:flex; align-items:center; justify-content:center; }
+  .scope-media video { width:560px; max-width:100%; height:auto; display:block; border:1px solid rgba(95,227,154,0.35); }   /* a fixed size: the video's own 1920px must not size the column */
+  .scope-text { flex:1 1 auto; min-width:0; }
+  .scope-data { display:flex; flex-wrap:wrap; gap:6px 18px; font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD; margin-bottom:18px; }
+  .scope-data .live { display:inline-flex; align-items:center; gap:7px; color:#63FF8A; }
+  .scope-data .live::before { content:''; width:6px; height:6px; border-radius:50%; background:#63FF8A; box-shadow:0 0 6px rgba(99,255,138,0.8); animation:scopeBlink 1.6s ease-in-out infinite; }
+  @keyframes scopeBlink { 0%, 100% { opacity:1; } 50% { opacity:0.25; } }
+  .scope-title { font-family:'Libertinus Serif',serif; font-size:28px; font-weight:400; line-height:1.25; color:#fff; margin:0 0 14px; }
+  .scope-title::after { content:''; display:block; width:36px; height:1px; background:#5FE39A; margin-top:8px; }
+  .scope-caption { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.6; color:rgba(255,255,255,0.88); margin:0; max-width:460px; }
+  .scope-link {
+    display:inline-flex; align-items:center; gap:8px; margin-top:20px;
     font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; color:#fff; text-decoration:none;
     border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:2px; transition:border-color .2s;
   }
-  .scout-link:hover { border-color:#fff; }
-  /* phone mockup with the live Truthly app inside its snapshot */
+  .scope-link:hover { border-color:#fff; }
+  /* the band: a canvas draws the noise floor and the signal spikes; markers sit on it */
+  .scope-band { position:relative; height:120px; }
+  .scope-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
+  .scope-freq {
+    position:absolute; left:var(--x); top:50%; transform:translate(-50%, -50%);
+    display:flex; flex-direction:column; align-items:center; gap:0; padding:36px 18px 6px;
+    background:none; border:none; color:#8F9994; font-family:'Figtree',sans-serif; cursor:pointer;
+    transition:color .3s ease;
+  }
+  .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; }
+  .scope-freq .freq-hz { font-size:12px; letter-spacing:.1em; text-transform:uppercase; margin-top:4px; opacity:.7; white-space:nowrap; }
+  .scope-freq:hover { color:#CFF5DE; }
+  .scope-freq.on { color:#63FF8A; }
+  .scope-freq:focus-visible { outline:1px solid #63FF8A; outline-offset:4px; }
+  @media (max-width:900px) {
+    .scope-panel { flex-direction:column; align-items:flex-start; gap:32px; }
+    .scope-media { max-width:100%; }
+    .scope-caption { max-width:none; }
+  }
+  @media (max-width:640px) {
+    #vibe { padding-top:96px; }
+    .scope-head { margin-bottom:40px; }
+    .scope-media { align-self:center; }
+    .scope-freq { padding:36px 8px 6px; }
+    .scope-freq .freq-name { font-size:12px; }
+  }
+  /* phone mockup with the live Truthly app */
   .phone-mockup {
     flex:0 0 auto; position:relative; width:220px; height:468px; background:#111; border-radius:42px;
     box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.12), 0 0 0 8px #1a1a1a, 0 0 0 9.5px rgba(255,255,255,0.07), 0 32px 80px rgba(0,0,0,0.6);
@@ -242,12 +266,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .phone-island { position:absolute; top:12px; left:50%; transform:translateX(-50%); width:72px; height:22px; background:#000; border-radius:20px; z-index:10; }
   .phone-screen { position:absolute; inset:0; border-radius:42px; overflow:hidden; }
   .phone-screen iframe { width:390px; height:844px; border:none; transform-origin:top left; transform:scale(0.5641); pointer-events:all; }
-  @media (max-width:1100px) { .scout-board { gap:48px; } .scout-shot.shot-2 { margin-top:0; } }
   @media (max-width:640px) {
-    #vibe { padding-top:96px; }
-    .scout-head { margin-bottom:48px; }
-    .scout-shot { --tilt:0deg !important; }
-    .scout-img.tall { aspect-ratio:auto; padding:32px 0; }
     .phone-mockup { width:190px; height:404px; border-radius:38px; }
     .phone-screen { border-radius:38px; }
     .phone-screen iframe { transform:scale(0.487); }
@@ -1663,15 +1682,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
-  <div class="scout-head">
-    <span class="scout-label">Scout Snapshots</span>
-    <p class="scout-sub">Small things built fast with Claude Code, launched to see what's out there</p>
+  <div class="scope-head">
+    <span class="scope-label">Signalscope</span>
+    <p class="scope-sub">Small things built fast with Claude Code. Tune to a frequency to bring one up</p>
   </div>
-  <div class="scout-board">
-    <figure class="scout-shot shot-1" style="--w:460px; --tilt:-1.6deg" data-note="Scout 01 · a Truth or Dare app, built in two evenings with Claude Code">
-      <div class="scout-frame">
-        <span class="scout-corner tl"></span><span class="scout-corner tr"></span><span class="scout-corner bl"></span><span class="scout-corner br"></span>
-        <div class="scout-img tall">
+  <div class="scope" id="scope">
+    <div class="scope-stage">
+      <div class="scope-panel on" data-note="Signal 01 · a Truth or Dare app, built in two evenings with Claude Code">
+        <div class="scope-media">
           <div class="phone-mockup">
             <div class="phone-island"></div>
             <div class="phone-screen">
@@ -1679,24 +1697,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </div>
         </div>
+        <div class="scope-text">
+          <div class="scope-data"><span>Signal 01</span><span class="live">Live · try it</span></div>
+          <h3 class="scope-title">Truthly</h3>
+          <p class="scope-caption">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages</p>
+          <a class="scope-link" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener">Open full screen ↗</a>
+        </div>
       </div>
-      <figcaption class="scout-data"><span>Scout 01</span><span>Truthly</span><span class="live">Live · try it</span></figcaption>
-      <p class="scout-caption">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages</p>
-      <a class="scout-link" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener">Open full screen ↗</a>
-    </figure>
-    <figure class="scout-shot shot-2" style="--w:560px; --tilt:1.4deg" data-note="Scout 02 · a gesture-controlled Christmas tree, built with Claude Code">
-      <div class="scout-frame">
-        <span class="scout-corner tl"></span><span class="scout-corner tr"></span><span class="scout-corner bl"></span><span class="scout-corner br"></span>
-        <div class="scout-img">
-          <video autoplay muted loop playsinline preload="metadata">
+      <div class="scope-panel" data-note="Signal 02 · a gesture-controlled Christmas tree, built with Claude Code">
+        <div class="scope-media">
+          <video muted loop playsinline preload="metadata">
             <source src="playground/christmas memory.mp4" type="video/mp4">
           </video>
         </div>
+        <div class="scope-text">
+          <div class="scope-data"><span>Signal 02</span><span>Gesture control</span></div>
+          <h3 class="scope-title">Gesture-Controlled Christmas Tree</h3>
+          <p class="scope-caption">Decorate a Christmas tree with your own photos and control it all with just your hands</p>
+          <a class="scope-link" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener">Try it yourself ↗</a>
+        </div>
       </div>
-      <figcaption class="scout-data"><span>Scout 02</span><span>Christmas tree</span><span>Gesture control</span></figcaption>
-      <p class="scout-caption">Decorate a Christmas tree with your own photos and control it all with just your hands</p>
-      <a class="scout-link" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener">Try it yourself ↗</a>
-    </figure>
+    </div>
+    <div class="scope-band" id="scopeBand">
+      <canvas id="scopeWave" aria-hidden="true"></canvas>
+      <button class="scope-freq on" type="button" style="--x:32%" data-i="0"><span class="freq-name">Truthly</span><span class="freq-hz">01 · live</span></button>
+      <button class="scope-freq" type="button" style="--x:68%" data-i="1"><span class="freq-name">Christmas tree</span><span class="freq-hz">02 · gesture</span></button>
+    </div>
   </div>
 </section>
 
@@ -4003,7 +4029,7 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
 // Rail + phone menu: Playground / About scroll to their sections on the homepage
 document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => {
   e.preventDefault();
-  const target = a.dataset.scroll === 'vibe' ? document.querySelector('.scout-head') : document.querySelector('.about-greeting');
+  const target = a.dataset.scroll === 'vibe' ? document.querySelector('.scope-head') : document.querySelector('.about-greeting');
   if (!target) return;
   if (document.body.classList.contains('project-open')) history.back();   // leave an open project first
   const go = () => { const y = target.getBoundingClientRect().top + window.scrollY - 120; window.scrollTo({ top: y, behavior: 'smooth' }); };
@@ -4189,11 +4215,65 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (document.fonts?.ready) document.fonts.ready.then(layout);
   layout(); check();
 
-  // scout snapshots: hovering one reads its note on the translator
-  document.querySelectorAll('.scout-shot').forEach(sh => {
-    sh.addEventListener('mouseenter', () => window.screenTranslate?.('', sh.dataset.note || ''));
-    sh.addEventListener('mouseleave', () => window.screenReady?.());
-  });
+  // Signalscope: click a frequency to bring its piece up; the band's canvas
+  // draws a noise floor with a spike at each frequency (the tuned one strong)
+  (function () {
+    const band = document.getElementById('scopeBand'), cv = document.getElementById('scopeWave');
+    const freqs = [...document.querySelectorAll('.scope-freq')], panels = [...document.querySelectorAll('.scope-panel')];
+    if (!band || !cv || !freqs.length) return;
+    const ctx = cv.getContext('2d');
+    let active = 0, W = 0, H = 0, dpr = 1, inView = false;
+    const amp = freqs.map((f, i) => i === 0 ? 1 : 0);          // per-frequency spike strength, eased toward target
+    function tune(i) {
+      active = i;
+      freqs.forEach((f, k) => f.classList.toggle('on', k === i));
+      panels.forEach((p, k) => { p.classList.toggle('on', k === i); const v = p.querySelector('video'); if (v) { if (k === i) v.play().catch(() => {}); else v.pause(); } });
+    }
+    freqs.forEach((f, i) => {
+      f.addEventListener('click', () => tune(i));
+      f.addEventListener('mouseenter', () => window.screenTranslate?.('', panels[i]?.dataset.note || ''));
+      f.addEventListener('mouseleave', () => window.screenReady?.());
+    });
+    panels.forEach(p => {
+      p.addEventListener('mouseenter', () => window.screenTranslate?.('', p.dataset.note || ''));
+      p.addEventListener('mouseleave', () => window.screenReady?.());
+    });
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = band.clientWidth; H = band.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    }
+    function draw(t) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      const mid = H * 0.5, T = t * 0.001;
+      const xs = freqs.map(f => parseFloat(f.style.getPropertyValue('--x')) / 100 * W);
+      freqs.forEach((f, i) => { amp[i] += ((i === active ? 1 : 0.28) - amp[i]) * 0.08; });
+      // noise floor + spikes
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 2) {
+        let y = Math.sin(x * 0.05 + T * 2.1) * 1.2 + Math.sin(x * 0.013 - T * 1.3) * 1.6 + (Math.random() - 0.5) * 1.4;
+        xs.forEach((fx, i) => {
+          const d = (x - fx) / 26, g = Math.exp(-d * d);
+          y -= g * (18 + 10 * Math.sin(T * 6 + i)) * amp[i] * (0.75 + 0.25 * Math.sin(x * 0.9 + T * 14));
+        });
+        ctx[x ? 'lineTo' : 'moveTo'](x, mid + y);
+      }
+      ctx.strokeStyle = 'rgba(99,255,138,0.55)'; ctx.lineWidth = 1.2; ctx.stroke();
+      // baseline
+      ctx.beginPath(); ctx.moveTo(0, mid); ctx.lineTo(W, mid); ctx.strokeStyle = 'rgba(95,227,154,0.18)'; ctx.lineWidth = 1; ctx.stroke();
+      // ticks at each frequency
+      xs.forEach((fx, i) => {
+        ctx.beginPath(); ctx.moveTo(fx, mid - 6); ctx.lineTo(fx, mid + 6);
+        ctx.strokeStyle = i === active ? '#63FF8A' : 'rgba(95,227,154,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
+      });
+    }
+    (function loop(t) { if (inView) draw(t); requestAnimationFrame(loop); })(0);
+    size(); draw(0);
+    window.addEventListener('resize', () => { size(); draw(performance.now()); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(band); else inView = true;
+    tune(0);
+  })();
 
 })();
 
