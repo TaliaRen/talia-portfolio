@@ -1267,7 +1267,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ascii-silhouette { -webkit-mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); cursor:help; }   /* the field dissolves at its edges */
   .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; transition:opacity .6s ease; }
   /* the photo itself, lined up with the silhouette by script; hovering decodes the field into it */
-  .ascii-photo { position:absolute; display:block; max-width:none; opacity:0; transition:opacity .6s ease; pointer-events:none; -webkit-mask-image:radial-gradient(ellipse 46% 62% at 50% 46%, #000 40%, transparent 100%); mask-image:radial-gradient(ellipse 46% 62% at 50% 46%, #000 40%, transparent 100%); }   /* soft-edged, like the field */
+  .ascii-photo { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; opacity:0; transition:opacity .6s ease; pointer-events:none; -webkit-mask-image:radial-gradient(ellipse 52% 56% at 50% 48%, #000 45%, transparent 100%); mask-image:radial-gradient(ellipse 52% 56% at 50% 48%, #000 45%, transparent 100%); }   /* soft-edged, like the field */
   .ascii-silhouette.decoded canvas { opacity:0; }
   .ascii-silhouette.decoded .ascii-photo { opacity:1; }
   /* one sentence about me, with the parts that matter written in unknown text — the same
@@ -1896,7 +1896,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <h1 class="about-greeting">Hey there, I'm Talia</h1>
   <!-- ASCII silhouette: a generative field of terminal characters. The figure is never
        drawn; it appears where the characters thin out (density, not outline) -->
-  <div class="ascii-silhouette" data-note="That's me, on a hill above Florence at golden hour" aria-hidden="true"><img class="ascii-photo" src="about/about.jpg" alt=""></div>
+  <div class="ascii-silhouette" data-note="That's me, on a hill above Florence at golden hour" aria-hidden="true"><img class="ascii-photo" src="about/about.jpg?v=2" alt=""></div>
   <p class="about-facts">Product designer, <span class="glyph glyph-fact" data-text="AI-first" data-note="I design AI-powered SaaS products and use AI to research, design, and build"></span>. Based in <span class="glyph glyph-fact" data-text="New York" data-note="Based in New York City, happy to relocate for the right team"></span>, <span class="glyph glyph-fact" data-text="open to relocate" data-note="Open to relocating for the right team, anywhere"></span>. Off duty, <span class="glyph glyph-fact" data-text="puzzles, cafés, video games" data-note="If you've made it this far you've probably noticed: I love jigsaw puzzles, and not just the ones that come in a box"></span>.</p>
   <p class="about-body">I became a product designer because I’ve always been curious about why some experiences feel more confusing or frustrating than they need to be. Design gives me a way to look beneath the surface, understand the people and systems behind a problem, and turn complexity into experiences that feel clear, thoughtful, and useful.<br><br>That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks, so I can spend more time solving the problems that truly matter.</p>
   <div class="record" id="record">
@@ -4271,9 +4271,9 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     outsideDensity: 0.88,   // chance of a character far outside the figure
     insideDensity: 0.28,    // chance deep inside the figure (never zero: the figure stays embedded)
     edgeSoftness: 0.14,     // feather width, as a fraction of the silhouette's height
-    silhouetteScale: 0.58,  // silhouette height (crown to where the crop ends) as a fraction of the component
-    silhouetteX: 0.52,      // horizontal centre of the figure (0–1); a touch right of centre, like the photo
-    silhouetteTop: 0.16,    // where the crown sits (0–1 of the height)
+    silhouetteScale: 0.797, // silhouette height (crown to where the crop ends) as a fraction of the component
+    silhouetteX: 0.548,     // horizontal centre of the figure (0–1); a touch right of centre, like the photo
+    silhouetteTop: 0.203,   // where the crown sits (0–1 of the height)
     color: '#63FF8A',        // the unknown text's green
     minOpacity: 0.45,
     maxOpacity: 0.95,
@@ -4399,18 +4399,11 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       else k.on = Math.random() < k.d;
     }
   }
-  // the photo the contour was traced from, scaled and placed so its head sits exactly on
-  // the silhouette's (photo crop: crown at y 195, body to 960, axis at x 1046 of 1706×960)
-  const photo = host.querySelector('.ascii-photo');
-  function placePhoto() {
-    if (!photo || !W || !H) return;
-    const k = (H * settings.silhouetteScale) / 765;
-    photo.style.width = (1706 * k).toFixed(1) + 'px'; photo.style.height = (960 * k).toFixed(1) + 'px';
-    photo.style.left = (W * settings.silhouetteX - 1046 * k).toFixed(1) + 'px'; photo.style.top = (H * settings.silhouetteTop - 195 * k).toFixed(1) + 'px';
-  }
-  const rebuild = () => { build(); placePhoto(); };
-  rebuild();
-  if ('ResizeObserver' in window) new ResizeObserver(rebuild).observe(host); else window.addEventListener('resize', rebuild);
+  // the square photo the contour was traced from fills the box; silhouetteScale/X/Top are
+  // set from it (crown at y 195 of 960, body to the bottom, axis at x 526) so that on hover
+  // the photo's head lands exactly on the silhouette's
+  build();
+  if ('ResizeObserver' in window) new ResizeObserver(build).observe(host); else window.addEventListener('resize', build);
   // hovering decodes the field into the photo: the camera's beams land on it and the
   // translator reads the caption, like the unknown text
   host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
