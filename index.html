@@ -1263,10 +1263,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-section > :not(.strip) { position:relative; left:calc((var(--content-right, 0px) - var(--content-left, 0px)) / 2); }   /* centred on the screen, not on the content box */
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* holo ID: the silhouette in unknown text, over a projector glow */
-  .crew-holo { position:relative; width:240px; height:264px; margin:0 0 36px; }
-  .glyph-figure { position:absolute; left:0; top:0; display:block; pointer-events:none; }
-  .glyph-figure .glyph-probe { display:block; width:240px; height:264px; }
-  .glyph-figure .glyph-text { display:none; }
+  .crew-holo { position:relative; width:340px; height:382px; margin:0 0 36px; }
+  #portraitGlyphs { position:absolute; inset:0; width:100%; height:100%; display:block; }
   .holo-base { position:absolute; left:50%; bottom:-10px; width:230px; height:18px; transform:translateX(-50%); border-radius:50%; background:radial-gradient(ellipse at center, rgba(99,255,138,0.40), rgba(99,255,138,0.08) 55%, transparent 72%); }
   /* one sentence about me, with the parts that matter written in unknown text — the same
      device as the hero line: hovering decodes a fragment and the translator reads the long version */
@@ -1316,6 +1314,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @media (max-width:640px) {
     .about-facts { margin-bottom:32px; }
+    .crew-holo { width:300px; height:337px; }
     .print img { width:110px; height:146px; }
   }
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
@@ -1891,16 +1890,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        written in unknown text (hover decodes them, the translator reads the long version),
        notes, then a living trace down the middle with every project as a burst on it. -->
   <h1 class="about-greeting">Hey there, I'm Talia</h1>
-  <!-- holo ID: Talia's silhouette (hair, face, shoulders, scarf) traced from a photo and
-       drawn in unknown text — the same particle strands as the scrambled words -->
+  <!-- holo ID: the portrait in unknown text. The photo is sampled on a grid and every
+       cell gets one of the code marks (polygons, zigzags, ticks, arcs…) at the cell's
+       brightness, so the face reads through the glyphs; the field around it stays dim -->
   <div class="crew-holo" aria-hidden="true">
-    <span class="glyph glyph-figure" data-text="" data-path="custom" data-pad="24" data-thickness="0.009" data-density="8" data-points='[[0.264,0.188],[0.222,0.106],[0.201,0.004],[0.197,-0.097],[0.206,-0.198],[0.225,-0.299],[0.261,-0.388],[0.319,-0.458],[0.386,-0.496],[0.444,-0.508],[0.514,-0.496],[0.583,-0.458],[0.646,-0.401],[0.692,-0.325],[0.719,-0.236],[0.739,-0.135],[0.757,-0.034],[0.771,0.068],[0.764,0.156],[0.729,0.226]]'></span>
-    <span class="glyph glyph-figure" data-text="" data-path="custom" data-pad="24" data-thickness="0.009" data-density="6" data-points='[[0.289,-0.312],[0.282,-0.236],[0.289,-0.167],[0.312,-0.11],[0.354,-0.065],[0.41,-0.046],[0.465,-0.062],[0.511,-0.103],[0.542,-0.16],[0.556,-0.23],[0.553,-0.306]]'></span>
-    <span class="glyph glyph-figure" data-text="" data-path="custom" data-pad="24" data-thickness="0.009" data-density="4" data-points='[[0.372,-0.14],[0.392,-0.126],[0.414,-0.121],[0.436,-0.126],[0.453,-0.14]]'></span>
-    <span class="glyph glyph-figure" data-text="" data-path="custom" data-pad="24" data-thickness="0.009" data-density="5" data-points='[[0.264,0.188],[0.194,0.175],[0.132,0.197],[0.076,0.245],[0.035,0.321],[0.014,0.409],[0.007,0.46]]'></span>
-    <span class="glyph glyph-figure" data-text="" data-path="custom" data-pad="24" data-thickness="0.009" data-density="5" data-points='[[0.729,0.226],[0.806,0.188],[0.875,0.207],[0.931,0.27],[0.965,0.359],[0.983,0.46]]'></span>
-    <span class="glyph glyph-figure" data-text="" data-path="custom" data-pad="24" data-thickness="0.009" data-density="5" data-points='[[0.34,-0.04],[0.319,0.03],[0.322,0.118],[0.34,0.219],[0.361,0.321],[0.382,0.422],[0.392,0.46]]'></span>
-    <span class="glyph glyph-figure" data-text="" data-path="custom" data-pad="24" data-thickness="0.009" data-density="5" data-points='[[0.535,-0.04],[0.562,0.03],[0.572,0.118],[0.556,0.219],[0.542,0.321],[0.531,0.422],[0.525,0.46]]'></span>
+    <canvas id="portraitGlyphs" data-src="about/about.jpg"></canvas>
     <div class="holo-base"></div>
   </div>
   <p class="about-facts">Product designer, <span class="glyph glyph-fact" data-text="AI-first" data-note="I design AI-powered SaaS products and use AI to research, design, and build"></span>. Based in <span class="glyph glyph-fact" data-text="New York" data-note="Based in New York City, happy to relocate for the right team"></span>, <span class="glyph glyph-fact" data-text="open to relocate" data-note="Open to relocating for the right team, anywhere"></span>. Off duty, <span class="glyph glyph-fact" data-text="puzzles, cafés, video games" data-note="If you've made it this far you've probably noticed: I love jigsaw puzzles, and not just the ones that come in a box"></span>.</p>
@@ -3263,15 +3257,14 @@ document.addEventListener('mousemove', e => {
     };
     // sample: the little "what unknown text looks like" strand in the screen;
     // node: an unfound ship-log entry's label. Neither hovers nor draws beams.
-    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node') || el.classList.contains('glyph-fact') || el.classList.contains('glyph-figure');
+    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node') || el.classList.contains('glyph-fact');
     if (S.sample) return S;
     // hovering either phrase decodes BOTH and fires the beams at both
     el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); document.getElementById('detectorCamera')?.classList.add('lit'); if (screenText) showIntro(); });
     el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); document.getElementById('detectorCamera')?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); });
     return S;
   }
-  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node):not(.glyph-fact):not(.glyph-figure)').forEach(initGlyph);
-  document.querySelectorAll('.glyph-figure').forEach((el, i) => initGlyph(el, 200 + i));   // the silhouette's strands
+  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node):not(.glyph-fact)').forEach(initGlyph);
   // crew facts: unknown text that decodes on hover; the translator reads the long version
   document.querySelectorAll('.glyph-fact').forEach((el, i) => {
     const S = initGlyph(el, 120 + i);
@@ -4253,6 +4246,94 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (document.fonts?.ready) document.fonts.ready.then(() => { size(); draw(performance.now()); });
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(band); else inView = true;
   if ('ResizeObserver' in window) { const ro = new ResizeObserver(() => { size(); draw(performance.now()); }); rows.forEach(r => ro.observe(r)); ro.observe(band); }
+})();
+
+// About — portrait in unknown text. The photo is sampled on a grid; each cell is drawn
+// as one of the code marks (the same alphabet as the strands) at the cell's brightness.
+// Cells inside the figure's silhouette read the photo; the field around stays dim.
+(function () {
+  const cv = document.getElementById('portraitGlyphs');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const off = document.createElement('canvas'), octx = off.getContext('2d');
+  const CELL = 6, GREEN = [99, 255, 138];
+  // crop of the photo (px) and the silhouette traced on it: hair over the head, then the shoulders
+  const crop = { x0: 690, y0: 150, x1: 1410, y1: 960 };
+  const outline = [[880,745],[850,680],[835,600],[832,520],[838,440],[852,360],[878,290],[920,235],[968,205],[1010,195],[1060,205],[1110,235],[1155,280],[1188,340],[1208,410],[1222,490],[1235,570],[1245,650],[1240,720],[1215,775],[1270,745],[1320,760],[1360,810],[1385,880],[1398,960],[695,960],[700,920],[715,850],[745,790],[785,752],[830,735]];
+  const kinds = ['poly3','poly4','poly5','poly6','poly8','zig','zig','tick','cross','arc','bar','line','line','wave','bracket','dot','dot'];
+  let W = 0, H = 0, dpr = 1, cols = 0, rows = 0, cells = [], inView = false, ready = false, last = 0;
+  const hash = (i, k) => { const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x); };
+  function mark(g, kind, x, y, rot, sz) {
+    g.save(); g.translate(x, y); g.rotate(rot); g.beginPath();
+    if (kind.startsWith('poly')) { const n = +kind.slice(4); for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2; g[i ? 'lineTo' : 'moveTo'](Math.cos(a) * sz, Math.sin(a) * sz); } g.closePath(); }
+    else if (kind === 'zig') { for (let i = 0; i < 6; i++) g[i ? 'lineTo' : 'moveTo']((i - 2.5) * sz * 0.6, (i % 2 ? -1 : 1) * sz * 0.5); }
+    else if (kind === 'tick') { g.moveTo(-sz, 0); g.lineTo(sz, 0); g.moveTo(sz * 0.4, -sz * 0.5); g.lineTo(sz, 0); g.lineTo(sz * 0.4, sz * 0.5); }
+    else if (kind === 'cross') { g.moveTo(-sz, -sz); g.lineTo(sz, sz); g.moveTo(-sz, sz); g.lineTo(sz, -sz); }
+    else if (kind === 'arc') { g.arc(0, 0, sz, 0.3, Math.PI * 1.5); }
+    else if (kind === 'line') { g.moveTo(-sz * 1.4, 0); g.lineTo(sz * 1.4, 0); }
+    else if (kind === 'wave') { for (let i = 0; i <= 8; i++) g[i ? 'lineTo' : 'moveTo']((i / 8 - 0.5) * sz * 2.6, Math.sin(i / 8 * Math.PI * 2) * sz * 0.35); }
+    else if (kind === 'bracket') { g.moveTo(-sz * 0.5, -sz); g.lineTo(sz * 0.4, 0); g.lineTo(-sz * 0.5, sz); }
+    else if (kind === 'dot') { g.rect(-sz * 0.35, -sz * 0.35, sz * 0.7, sz * 0.7); }
+    else { g.moveTo(-sz, -sz * 0.35); g.lineTo(sz, -sz * 0.35); g.moveTo(-sz * 0.7, sz * 0.35); g.lineTo(sz * 0.7, sz * 0.35); }
+    g.stroke(); g.restore();
+  }
+  function sample(img) {
+    W = cv.clientWidth; H = cv.clientHeight; dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = off.width = Math.round(W * dpr); cv.height = off.height = Math.round(H * dpr);
+    cols = Math.floor(W / CELL); rows = Math.floor(H / CELL);
+    // average the crop down to one pixel per cell
+    const sc = document.createElement('canvas'); sc.width = cols; sc.height = rows;
+    const g = sc.getContext('2d'); g.drawImage(img, crop.x0, crop.y0, crop.x1 - crop.x0, crop.y1 - crop.y0, 0, 0, cols, rows);
+    const px = g.getImageData(0, 0, cols, rows).data;
+    // silhouette mask in cell space
+    const mc = document.createElement('canvas'); mc.width = cols; mc.height = rows;
+    const mg = mc.getContext('2d'); mg.beginPath();
+    outline.forEach(([x, y], i) => mg[i ? 'lineTo' : 'moveTo']((x - crop.x0) / (crop.x1 - crop.x0) * cols, (y - crop.y0) / (crop.y1 - crop.y0) * rows));
+    mg.closePath(); mg.fillStyle = '#fff'; mg.fill();
+    const mk = mg.getImageData(0, 0, cols, rows).data;
+    // a soft halo just outside the silhouette, so its edge reads against the field
+    mg.clearRect(0, 0, cols, rows); mg.lineWidth = 7; mg.strokeStyle = '#fff'; mg.filter = 'blur(1.5px)'; mg.stroke(); mg.filter = 'none';
+    const hl = mg.getImageData(0, 0, cols, rows).data;
+    cells = [];
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const i = (r * cols + c) * 4, L = (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]) / 255;
+      const inside = mk[i + 3] > 64;
+      // inside: the photo's tones, stretched; outside: a dim field
+      const lit = inside ? Math.min(1, Math.max(0, (L - 0.08) / 0.72)) : 0;
+      const a = inside ? 0.05 + Math.pow(lit, 1.5) * 0.95 : 0.10 + (hl[i + 3] / 255) * 0.22;
+      cells.push({ x: (c + 0.5) * CELL, y: (r + 0.5) * CELL, a, k: r * cols + c, kind: kinds[Math.floor(hash(r * cols + c, 1) * kinds.length) % kinds.length], rot: hash(r * cols + c, 2) < 0.25 ? Math.PI / 2 : 0, ph: hash(r * cols + c, 3) * Math.PI * 2, inside });
+    }
+    ready = true;
+  }
+  function draw(t) {
+    const T = t * 0.001;
+    octx.setTransform(dpr, 0, 0, dpr, 0, 0); octx.clearRect(0, 0, W, H);
+    octx.lineWidth = 0.8; octx.lineCap = 'round'; octx.lineJoin = 'round';
+    for (const c of cells) {
+      // a slow shimmer per cell; now and then a cell swaps its mark, like code ticking over
+      if (hash(c.k, Math.floor(T * 2)) < 0.03 && ((T * 2) % 1) < 0.08) c.kind = kinds[Math.floor(hash(c.k, T | 0) * kinds.length) % kinds.length];
+      const a = c.a * (0.82 + 0.18 * Math.sin(T * 1.6 + c.ph));
+      octx.strokeStyle = `rgba(${GREEN[0]},${GREEN[1]},${GREEN[2]},${a.toFixed(3)})`;
+      mark(octx, c.kind, c.x, c.y, c.rot, 1.9);
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.globalCompositeOperation = 'lighter';
+    if ('filter' in ctx) {
+      ctx.filter = `blur(${(2 * dpr).toFixed(1)}px)`; ctx.globalAlpha = 0.5; ctx.drawImage(off, 0, 0);
+      ctx.filter = `blur(${(8 * dpr).toFixed(1)}px)`; ctx.globalAlpha = 0.22; ctx.drawImage(off, 0, 0);
+      ctx.filter = 'none';
+    }
+    ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
+  }
+  const img = new Image(); img.src = cv.dataset.src;
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  img.onload = () => {
+    sample(img); draw(0);
+    if (reduce) return;
+    (function loop(t) { if (inView && t - last > 40) { last = t; draw(t); } requestAnimationFrame(loop); })(0);
+    window.addEventListener('resize', () => { sample(img); draw(performance.now()); });
+  };
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(cv); else inView = true;
 })();
 
 // About — off-duty prints: duplicate them for a seamless loop; hovering one reads
