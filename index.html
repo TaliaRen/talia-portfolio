@@ -201,15 +201,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #vibe { padding-top:160px; padding-bottom:40px; overflow-x:clip; }   /* the heading strand's canvas bleeds a little sideways */
   .scope-head { display:flex; justify-content:center; margin:0 0 56px; text-align:center; }
   /* the line under the heading is unknown text; hovering it decodes it (and the translator reads it) */
-  .scope-sub { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.6; color:#8F9994; margin:0; }
+  .scope-sub { font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; line-height:1.6; color:#fff; margin:0; }
   .scope-sub .glyph { cursor:default; }
-  .scope-sub .glyph-text { color:#8F9994; }
+  .scope-sub .glyph-text { color:#fff; }
   .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px minmax(0, 560px); justify-content:center; gap:0 40px; align-items:stretch; }   /* band + pieces travel together, centred as one block */
   /* the pieces: just the image / video / phone, nothing around them */
   .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:center; }
   .sig-item { display:block; width:min(560px, 100%); color:inherit; text-decoration:none; transition:transform .3s ease, filter .4s ease, opacity .4s ease; }
   /* hovering one piece: the others go grey and dim, the hovered one keeps its colour */
-  .scope-grid:hover .sig-item:not(:hover) { filter:grayscale(0.75); opacity:0.6; }
+  .scope.hovering .sig-item:not(.on) { filter:grayscale(1); opacity:0.22; }
+  .scope.hovering .scope-freq:not(.on) { color:rgba(255,255,255,0.22); }
   .sig-item img, .sig-item video { width:100%; height:auto; display:block; }
   .sig-item.sig-phone { width:auto; }
   a.sig-item:hover { transform:translateY(-3px); }
@@ -219,11 +220,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-freq {
     position:absolute; right:34px; top:var(--y); transform:translateY(-50%);   /* sits left of the vertical baseline; the spike reaches out to the left */
     display:flex; flex-direction:column; align-items:flex-end; gap:0; padding:6px 10px;
-    background:none; border:none; color:#8F9994; font-family:'Figtree',sans-serif; cursor:pointer;
-    transition:color .3s ease;
+    background:none; border:none; color:#63FF8A; font-family:'Figtree',sans-serif; pointer-events:none;   /* labels only: nothing here reacts to the mouse */
+    transition:color .4s ease;
   }
   .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; text-align:right; }
-  .scope-freq:focus-visible { outline:1px solid #63FF8A; outline-offset:4px; }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
     .scope-head { margin-bottom:40px; }
@@ -1659,7 +1659,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
   <div class="scope-head">
-    <p class="scope-sub"><span class="glyph glyph-vibe" data-text="Small things built fast with Claude Code"></span></p>
+    <p class="scope-sub"><span class="glyph glyph-vibe" data-text="Weekend experiments, shipped with Claude Code"></span></p>
   </div>
   <div class="scope" id="scope">
     <div class="scope-band" id="scopeBand">
@@ -4217,14 +4217,10 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     }
     // sweeping the pointer down the band tunes to the nearest frequency (a needle follows it)
     let needle = null;
-    freqs.forEach((f, i) => {
-      f.addEventListener('click', () => tune(i));
-      f.addEventListener('mouseenter', () => window.screenTranslate?.('', panels[i]?.dataset.note || ''));
-      f.addEventListener('mouseleave', () => window.screenReady?.());
-    });
+    const scope = document.getElementById('scope');
     panels.forEach((p, i) => {
-      p.addEventListener('mouseenter', () => { tune(i); window.screenTranslate?.('', p.dataset.note || ''); });
-      p.addEventListener('mouseleave', () => window.screenReady?.());
+      p.addEventListener('mouseenter', () => { tune(i); scope?.classList.add('hovering'); window.screenTranslate?.('', p.dataset.note || ''); });
+      p.addEventListener('mouseleave', () => { scope?.classList.remove('hovering'); window.screenReady?.(); });
     });
     function size() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
