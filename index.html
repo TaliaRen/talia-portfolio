@@ -199,9 +199,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         a frequency (click a marker) and the piece it carries comes up on the
         stage; the others sit as faint blips on the band. ── */
   #vibe { padding-top:160px; padding-bottom:40px; overflow-x:clip; }   /* the heading strand's canvas bleeds a little sideways */
-  .scope-head { display:flex; justify-content:center; margin:0 0 56px; text-align:center; }
+  .scope-head { display:flex; justify-content:center; margin:0 0 96px; text-align:center; }
   /* the line under the heading is unknown text; hovering it decodes it (and the translator reads it) */
-  .scope-sub { font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.04em; line-height:1.6; color:#fff; margin:0; }
+  .scope-sub { font-family:'Figtree',sans-serif; font-size:24px; font-weight:500; letter-spacing:.02em; line-height:1.5; color:#fff; margin:0; }
   .scope-sub .glyph { cursor:default; }
   .scope-sub .glyph-text { color:#fff; }
   .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px minmax(0, 560px); justify-content:center; gap:0 40px; align-items:stretch; }   /* band + pieces travel together, centred as one block */
@@ -226,7 +226,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; text-align:right; }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
-    .scope-head { margin-bottom:40px; }
+    .scope-head { margin-bottom:56px; }
+    .scope-sub { font-size:18px; }   /* the strand cannot wrap: keep the line inside a phone's width */
     .scope { grid-template-columns:36px 1fr; gap:0 14px; }
     .scope-freq { right:14px; padding:4px 6px; }
     .scope-freq .freq-name { display:none; }   /* on phones the band keeps its ticks and spikes only */
@@ -1659,7 +1660,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
   <div class="scope-head">
-    <p class="scope-sub"><span class="glyph glyph-vibe" data-text="Things I built when nobody asked"></span></p>
+    <p class="scope-sub"><span class="glyph glyph-vibe" data-text="Signals I chased on my own time"></span></p>
   </div>
   <div class="scope" id="scope">
     <div class="scope-band" id="scopeBand">
