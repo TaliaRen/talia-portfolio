@@ -195,42 +195,41 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* ── Vibe coding: two playground pieces (Truthly, Christmas tree) on the homepage,
      between the works and the About section ── */
-  /* ── Signalscope: vibe-coding pieces as signals on a frequency band. Tune to
-        a frequency (click a marker) and the piece it carries comes up on the
-        stage; the others sit as faint blips on the band. ── */
-  #vibe { padding-top:160px; padding-bottom:40px; overflow-x:clip; }   /* the heading strand's canvas bleeds a little sideways */
-  /* the section's title is the first signal on the trace: a bigger label with a standing spike */
-  .scope-freq.scope-title { top:56px; }
-  .scope-freq.scope-title .freq-name { font-size:16px; letter-spacing:.12em; text-transform:uppercase; color:#fff; }
-  .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px minmax(0, 560px); justify-content:center; gap:0 40px; align-items:stretch; }   /* band + pieces travel together, centred as one block */
-  /* the pieces: just the image / video / phone, nothing around them */
-  .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:center; padding-top:160px; }   /* the title marker occupies the top of the trace */
-  .sig-item { display:block; width:min(560px, 100%); color:inherit; text-decoration:none; transition:transform .3s ease, filter .4s ease, opacity .4s ease; }
-  /* hovering one piece: the others go grey and dim, the hovered one keeps its colour */
-  .scope.hovering .sig-item:not(.on) { filter:grayscale(1); opacity:0.12; }
-  .scope.hovering .scope-freq:not(.on) { color:rgba(255,255,255,0.14); }
-  .sig-item img, .sig-item video { width:100%; height:auto; display:block; }
-  .sig-item.sig-phone { width:auto; }
-  a.sig-item:hover { transform:translateY(-3px); }
-  /* the band: a canvas draws the noise floor and the signal spikes; markers sit on it */
-  .scope-band { position:relative; }
-  .scope-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
-  .scope-freq {
-    position:absolute; right:34px; top:var(--y); transform:translateY(calc(-50% + 2px));   /* sits left of the vertical baseline, optically centred on the tick; the spike reaches out to the left */
-    display:flex; flex-direction:column; align-items:flex-end; gap:0; padding:6px 10px;
-    background:none; border:none; color:#9FE7BD; font-family:'Figtree',sans-serif; pointer-events:none;   /* labels only: nothing here reacts to the mouse */
-    transition:color .4s ease;
+  /* ── Experiment Log: a scrapbook. A gridded board with the pieces scattered
+        over it like pinned prints — a two-column waterfall, each print a
+        little askew. Hovering one greys the rest. ── */
+  #vibe { padding-top:160px; padding-bottom:40px; }
+  .scrap {
+    position:relative; max-width:1100px; margin:0 auto; padding:64px 56px 72px;
+    background-image:linear-gradient(rgba(140,225,170,0.07) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(140,225,170,0.07) 1px, transparent 1px);
+    background-size:48px 48px;
+    border:1px solid rgba(95,227,154,0.22);
   }
-  .scope-freq .freq-name { font-size:16px; font-weight:500; letter-spacing:.02em; white-space:nowrap; text-align:right; line-height:1; }
+  .scrap-title {
+    position:absolute; left:24px; top:-11px; margin:0; padding:2px 10px; background:var(--p-bg);
+    font-family:'Figtree',sans-serif; font-size:16px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#fff;
+  }
+  .scrap-flow { columns:2; column-gap:48px; }
+  .sig-item {
+    display:block; break-inside:avoid; width:var(--w, 100%); margin:0 0 56px var(--ml, 0);
+    color:inherit; text-decoration:none; transform:rotate(var(--r, 0deg));
+    padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.10);   /* a print's white border */
+    box-shadow:0 18px 40px rgba(0,0,0,0.45);
+    transition:transform .35s cubic-bezier(.22,1,.36,1), filter .4s ease, opacity .4s ease;
+  }
+  .sig-item img, .sig-item video { width:100%; height:auto; display:block; }
+  .sig-item.sig-phone { display:flex; justify-content:center; padding:28px 10px; }
+  a.sig-item:hover { transform:rotate(0deg) translateY(-4px); }
+  /* hovering one print: the rest go very grey */
+  .scrap.hovering .sig-item:not(.on) { filter:grayscale(1); opacity:0.12; }
+  @media (max-width:900px) { .scrap { padding:48px 28px 56px; } .scrap-flow { column-gap:28px; } .sig-item { margin-bottom:40px; } }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
-    .scope-grid { padding-top:112px; }
-    .scope-freq.scope-title { top:36px; right:auto; left:calc(100% + 8px); align-items:flex-start; }   /* on phones the title sits to the right of the trace */
-    .scope-freq.scope-title .freq-name { display:block; max-width:none; text-align:left; }
-    .scope { grid-template-columns:64px 1fr; gap:0 14px; }   /* room for the trace's spikes on phones */
-    .scope-freq { right:14px; padding:4px 6px; }
-    .scope-freq .freq-name { display:none; }   /* on phones the band keeps its ticks and spikes only */
-    .scope-grid { gap:40px; }
+    .scrap { padding:40px 16px 40px; background-size:36px 36px; }
+    .scrap-flow { columns:1; }
+    .sig-item { --w:100% !important; --ml:0 !important; --r:0deg !important; margin-bottom:28px; }
+    .sig-item.sig-phone { padding:20px 10px; }
   }
   /* phone mockup with the live Truthly app */
   .phone-mockup {
@@ -1658,17 +1657,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
-  <div class="scope" id="scope">
-    <div class="scope-band" id="scopeBand">
-      <canvas id="scopeWave" aria-hidden="true"></canvas>
-      <div class="scope-freq scope-title" id="scopeTitle"><span class="freq-name">Experiment Log</span></div>
-      <button class="scope-freq on" type="button" style="--y:12.5%" data-i="0"><span class="freq-name">Truthly</span></button>
-      <button class="scope-freq" type="button" style="--y:37.5%" data-i="1"><span class="freq-name">Christmas tree</span></button>
-      <button class="scope-freq" type="button" style="--y:62.5%" data-i="2"><span class="freq-name">Opera mask AR</span></button>
-      <button class="scope-freq" type="button" style="--y:87.5%" data-i="3"><span class="freq-name">Lion, scanned</span></button>
-    </div>
-    <div class="scope-grid">
-      <a class="sig-item sig-phone on" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
+  <div class="scrap" id="scope">
+    <p class="scrap-title">Experiment Log</p>
+    <div class="scrap-flow">
+      <a class="sig-item sig-phone" style="--r:-2.2deg; --w:78%; --ml:6%" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
         <div class="phone-mockup">
           <div class="phone-island"></div>
           <div class="phone-screen">
@@ -1676,15 +1668,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </a>
-      <a class="sig-item" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
+      <a class="sig-item" style="--r:1.6deg; --w:100%; --ml:0" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
         <video autoplay muted loop playsinline preload="metadata">
           <source src="playground/christmas memory.mp4" type="video/mp4">
         </video>
       </a>
-      <div class="sig-item" data-note="Try on Peking opera face paint in the browser: masks tracked to your face, with a note on what each colour stands for">
+      <div class="sig-item" style="--r:-1.2deg; --w:92%; --ml:8%" data-note="Try on Peking opera face paint in the browser: masks tracked to your face, with a note on what each colour stands for">
         <img src="playground/Screenshot 2026-07-10 at 11.59.40.png" alt="Peking opera mask AR try-on" loading="lazy">
       </div>
-      <div class="sig-item" data-note="A plush lion rebuilt as a textured 3D model from fifty phone photos, stitched together in Meshroom">
+      <div class="sig-item" style="--r:2deg; --w:86%; --ml:0" data-note="A plush lion rebuilt as a textured 3D model from fifty phone photos, stitched together in Meshroom">
         <img src="playground/3d.png" alt="Photogrammetry scan of a plush lion in Meshroom" loading="lazy">
       </div>
     </div>
@@ -4193,80 +4185,14 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (document.fonts?.ready) document.fonts.ready.then(layout);
   layout(); check();
 
-  // Signalscope: click a frequency to bring its piece up; the band's canvas
-  // draws a noise floor with a spike at each frequency (the tuned one strong)
+  // Experiment Log scrapbook: hovering a print greys the others and reads its note on the translator
   (function () {
-    const band = document.getElementById('scopeBand'), cv = document.getElementById('scopeWave');
-    const freqs = [...document.querySelectorAll('.scope-freq:not(.scope-title)')], panels = [...document.querySelectorAll('.sig-item')];
-    const titleEl = document.getElementById('scopeTitle');
-    if (!band || !cv || !freqs.length) return;
-    const ctx = cv.getContext('2d');
-    let active = 0, W = 0, H = 0, dpr = 1, inView = false;
-    const amp = freqs.map((f, i) => i === 0 ? 1 : 0);          // per-frequency spike strength, eased toward target
-    function tune(i) {
-      active = i;
-      freqs.forEach((f, k) => f.classList.toggle('on', k === i));
-      panels.forEach((p, k) => p.classList.toggle('on', k === i));
-    }
-    // sweeping the pointer down the band tunes to the nearest frequency (a needle follows it)
-    let needle = null;
-    const scope = document.getElementById('scope');
-    panels.forEach((p, i) => {
-      p.addEventListener('mouseenter', () => { tune(i); scope?.classList.add('hovering'); window.screenTranslate?.('', p.dataset.note || ''); });
-      p.addEventListener('mouseleave', () => { scope?.classList.remove('hovering'); window.screenReady?.(); });
+    const board = document.getElementById('scope'), items = [...document.querySelectorAll('.sig-item')];
+    if (!board || !items.length) return;
+    items.forEach(p => {
+      p.addEventListener('mouseenter', () => { items.forEach(x => x.classList.toggle('on', x === p)); board.classList.add('hovering'); window.screenTranslate?.('', p.dataset.note || ''); });
+      p.addEventListener('mouseleave', () => { board.classList.remove('hovering'); window.screenReady?.(); });
     });
-    function size() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = band.clientWidth; H = band.clientHeight;
-      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-      // each marker sits level with its card's centre
-      const br = band.getBoundingClientRect();
-      freqs.forEach((f, i) => {
-        const c = panels[i]; if (!c) return;
-        const cr = c.getBoundingClientRect();
-        f.style.setProperty('--y', ((cr.top + cr.height / 2 - br.top) / br.height * 100).toFixed(2) + '%');
-      });
-    }
-    function draw(t) {
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, W, H);
-      const base = W - 24, T = t * 0.001;                                             // the baseline runs down near the band's right edge
-      const ys = freqs.map(f => parseFloat(f.style.getPropertyValue('--y')) / 100 * H);
-      const hov = scope?.classList.contains('hovering');
-      freqs.forEach((f, i) => { amp[i] += ((hov ? (i === active ? 1.7 : 0.12) : 0.28) - amp[i]) * 0.1; });   // quiet at rest; the chosen signal spikes hard while a piece is hovered
-      // noise floor + spikes (reaching left, toward the labels)
-      const ty = titleEl ? titleEl.offsetTop + titleEl.offsetHeight / 2 : -999;   // the title: a standing signal at the top
-      ctx.beginPath();
-      for (let y = 0; y <= H; y += 2) {
-        let x = Math.sin(y * 0.05 + T * 2.1) * 1.2 + Math.sin(y * 0.013 - T * 1.3) * 1.6 + (Math.random() - 0.5) * 1.4;
-        ys.forEach((fy, i) => {
-          const d = (y - fy) / 26, g = Math.exp(-d * d);
-          x -= g * (18 + 10 * Math.sin(T * 6 + i)) * amp[i] * (0.75 + 0.25 * Math.sin(y * 0.9 + T * 14));
-        });
-        { const d = (y - ty) / 30, g = Math.exp(-d * d); x -= g * (24 + 8 * Math.sin(T * 5)) * (0.8 + 0.2 * Math.sin(y * 0.9 + T * 12)); }
-        ctx[y ? 'lineTo' : 'moveTo'](base + x, y);
-      }
-      ctx.strokeStyle = 'rgba(99,255,138,0.55)'; ctx.lineWidth = 1.2; ctx.stroke();
-      // baseline
-      ctx.beginPath(); ctx.moveTo(base, 0); ctx.lineTo(base, H); ctx.strokeStyle = 'rgba(95,227,154,0.18)'; ctx.lineWidth = 1; ctx.stroke();
-      // the tuning needle at the pointer
-      if (needle !== null) { ctx.beginPath(); ctx.moveTo(base - 34, needle); ctx.lineTo(base + 14, needle); ctx.strokeStyle = 'rgba(207,245,222,0.6)'; ctx.lineWidth = 1; ctx.stroke(); }
-      // ticks at each frequency
-      [...ys, ty].forEach((fy, i) => {
-        ctx.beginPath(); ctx.moveTo(base - 6, fy); ctx.lineTo(base + 6, fy);
-        ctx.strokeStyle = 'rgba(95,227,154,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
-      });
-    }
-    (function loop(t) { if (inView) draw(t); requestAnimationFrame(loop); })(0);
-    size(); draw(0);
-    window.addEventListener('resize', () => { size(); draw(performance.now()); });
-    window.addEventListener('load', () => { size(); draw(performance.now()); });
-    if (document.fonts?.ready) document.fonts.ready.then(() => { size(); draw(performance.now()); });
-    if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(band); else inView = true;
-    // media loads lazily and changes height: keep the markers level with the pieces
-    if ('ResizeObserver' in window) { const ro = new ResizeObserver(() => { size(); draw(performance.now()); }); panels.forEach(p => ro.observe(p)); ro.observe(band); }
-    document.querySelectorAll('.sig-item img, .sig-item video').forEach(m => m.addEventListener(m.tagName === 'VIDEO' ? 'loadedmetadata' : 'load', () => { size(); draw(performance.now()); }));
-    tune(0);
   })();
 
 })();
