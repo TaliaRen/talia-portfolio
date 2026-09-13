@@ -1156,20 +1156,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .project-card:hover .project-company-logo {
     opacity:1;
   }
-  #proj-cursor-tip {
-    position:fixed; pointer-events:none; z-index:9999;
-    display:none;
-    font-family:'Figtree',sans-serif; font-size:.85rem; font-weight:300;
-    color:#ffffff; letter-spacing:.04em;
-    background:#427B58;
-    backdrop-filter:blur(24px) saturate(180%);
-    -webkit-backdrop-filter:blur(24px) saturate(180%);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:999px; padding:4px 14px;
-    box-shadow:0 2px 12px rgba(0,0,0,0.15);
-    white-space:nowrap;
-    transform:translate(12px,-50%);
-  }
   .project-img-wrap img:not(.project-cover):not(.project-cover-center):not(.project-cover-bottom):not(.project-company-logo), .project-img-wrap svg {
     width:100%; height:100%; object-fit:cover; display:block;
   }
@@ -4081,28 +4067,6 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-})();
-
-// Project card cursor tooltip
-(function() {
-  const tip = document.createElement('div');
-  tip.id = 'proj-cursor-tip';
-  document.body.appendChild(tip);
-
-  document.querySelectorAll('.project-card').forEach(card => {
-    const wrap = card.querySelector('.project-img-wrap');
-    card.addEventListener('mouseenter', () => {
-      tip.textContent = wrap.dataset.tip || 'View project →';
-      tip.style.background = card.dataset.accent || '#427B58';
-      tip.style.display = 'block';
-    });
-    card.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
-  });
-
-  document.addEventListener('mousemove', e => {
-    tip.style.left = e.clientX + 'px';
-    tip.style.top  = e.clientY + 'px';
-  }, { passive: true });
 })();
 
 // Ship-log rumor map: arrows between consecutive entries (drawn from box edge to
