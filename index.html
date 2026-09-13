@@ -1263,7 +1263,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-section > :not(.strip) { position:relative; left:calc((var(--content-right, 0px) - var(--content-left, 0px)) / 2); }   /* centred on the screen, not on the content box */
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* ASCII silhouette: a field of terminal characters; the figure is where they thin out */
-  .ascii-silhouette { position:relative; width:400px; max-width:100%; aspect-ratio:5 / 6; margin:0 0 36px; }
+  .ascii-silhouette { position:relative; width:320px; max-width:100%; aspect-ratio:5 / 6; margin:0 0 36px; }
   .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; -webkit-mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); }   /* the field dissolves at its edges */
   /* one sentence about me, with the parts that matter written in unknown text — the same
      device as the hero line: hovering decodes a fragment and the translator reads the long version */
@@ -1313,7 +1313,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @media (max-width:640px) {
     .about-facts { margin-bottom:32px; }
-    .ascii-silhouette { width:300px; }
+    .ascii-silhouette { width:260px; }
     .print img { width:110px; height:146px; }
   }
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
@@ -4259,7 +4259,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     cellWidth: 8,           // grid cell size, px (8–11 / 11–15 read well)
     cellHeight: 11,
     outsideDensity: 0.88,   // chance of a character far outside the figure
-    insideDensity: 0.22,    // chance deep inside the figure (never zero: the figure stays embedded)
+    insideDensity: 0.28,    // chance deep inside the figure (never zero: the figure stays embedded)
     edgeSoftness: 0.14,     // feather width, as a fraction of the silhouette's height
     silhouetteScale: 0.48,  // silhouette height (crown to where the crop ends) as a fraction of the component
     silhouetteX: 0.52,      // horizontal centre of the figure (0–1); a touch right of centre, like the photo
