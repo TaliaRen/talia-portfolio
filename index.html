@@ -436,12 +436,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* emblem: Talia's mark (a dot and a rounded T) drawn in unknown text —
      two particle strands tracing the shapes, always animating */
-  .hero-emblem { position:relative; width:115px; height:100px; margin-top:32px; }   /* sits a little lower than the copy's gap alone */
+  .hero-emblem {
+    position:absolute; left:50%; transform:translateX(-50%); z-index:6;
+    bottom:var(--emblem-bottom, 326px);   /* set by script: 80px above the translator's top edge */
+    width:92px; height:80px;
+  }
   .hero-emblem .glyph { position:absolute; display:block; cursor:default; }
   .hero-emblem .glyph-probe { display:block; visibility:hidden; }
   .hero-emblem .glyph-text { display:none; }
-  .emblem-dot { left:0; top:3px; }   .emblem-dot .glyph-probe { width:35px; height:35px; }
-  .emblem-t   { left:45px; top:0; }  .emblem-t .glyph-probe   { width:70px; height:100px; }
+  .emblem-dot { left:0; top:2px; }   .emblem-dot .glyph-probe { width:28px; height:28px; }
+  .emblem-t   { left:36px; top:0; }  .emblem-t .glyph-probe   { width:56px; height:80px; }
   /* untranslated phrase: a glowing particle strand (canvas) sized to the
      hidden text's width; hovering decodes it into the words */
   /* inline-grid: the hidden measuring span and the decoded text share one
@@ -1482,12 +1486,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </svg>
   <div class="hero-copy">
     <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
-    <div class="hero-emblem" aria-hidden="true">
-      <span class="glyph glyph-emblem emblem-dot" data-text="" data-path="custom" data-pad="18" data-thickness="0.17" data-density="8"
-            data-points='[[0.5,-0.3],[0.71,-0.21],[0.8,0],[0.71,0.21],[0.5,0.3],[0.29,0.21],[0.2,0],[0.29,-0.21],[0.5,-0.3],[0.71,-0.21]]'></span>
-      <span class="glyph glyph-emblem emblem-t" data-text="" data-path="custom" data-pad="24" data-thickness="0.17" data-density="7"
-            data-points='[[0.5,0.46],[0.5,0.2],[0.5,-0.06],[0.5,-0.32],[0.75,-0.32],[1,-0.32]]'></span>
-    </div>
+  </div>
+  <!-- Talia's mark in unknown text, pinned 80px above the translator (see --emblem-bottom) -->
+  <div class="hero-emblem" id="heroEmblem" aria-hidden="true">
+    <span class="glyph glyph-emblem emblem-dot" data-text="" data-path="custom" data-pad="14" data-thickness="0.17" data-density="8"
+          data-points='[[0.5,-0.3],[0.71,-0.21],[0.8,0],[0.71,0.21],[0.5,0.3],[0.29,0.21],[0.2,0],[0.29,-0.21],[0.5,-0.3],[0.71,-0.21]]'></span>
+    <span class="glyph glyph-emblem emblem-t" data-text="" data-path="custom" data-pad="20" data-thickness="0.17" data-density="7"
+          data-points='[[0.5,0.46],[0.5,0.2],[0.5,-0.06],[0.5,-0.32],[0.75,-0.32],[1,-0.32]]'></span>
   </div>
 
   <!-- 5 & 6. Detector shell (perspective-tilted, with visible thickness)
@@ -2961,6 +2966,11 @@ document.addEventListener('mousemove', e => {
   }
   renderCam(camYaw, camPitch);
   window.addEventListener('resize', () => renderCam(camYaw, camPitch));
+  // the emblem sits 80px above the translator's top edge: board bottom (2vh) + board height + 80
+  const heroEmblem = document.getElementById('heroEmblem'), detectorEl = document.querySelector('.detector');
+  const placeEmblem = () => { if (heroEmblem && detectorEl) heroEmblem.style.setProperty('--emblem-bottom', (window.innerHeight * 0.02 + detectorEl.offsetHeight + 80) + 'px'); };
+  placeEmblem(); window.addEventListener('resize', placeEmblem); window.addEventListener('load', placeEmblem);
+  if (document.fonts?.ready) document.fonts.ready.then(placeEmblem);
 
   let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
 
