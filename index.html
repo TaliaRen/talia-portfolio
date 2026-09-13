@@ -4129,16 +4129,17 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   function layout() {
     const absolute = getComputedStyle(nodes[0]).position === 'absolute';
     const vh = window.innerHeight, projectsEl = document.getElementById('projects'), detectorEl = document.querySelector('.detector');
+    const lift = absolute ? 16 : 0;                                                 // desktop: the whole log sits 16px higher
     // First screen: the start box hides behind the translator (centred on the board),
     // and the first entry starts just below the fold — a small scroll reveals both.
     if (startEl && detectorEl && projectsEl) {
       const boardMid = vh - vh * 0.02 - detectorEl.offsetHeight / 2;              // the board sits 2vh above the viewport bottom
       projectsEl.style.marginTop = '0px';                                           // measure where the box lands with no pull-up (section padding etc.)
       const natural = startEl.getBoundingClientRect().top + window.scrollY;
-      projectsEl.style.marginTop = (boardMid - startEl.offsetHeight / 2 - natural) + 'px';
+      projectsEl.style.marginTop = (boardMid - startEl.offsetHeight / 2 - natural - lift) + 'px';
     }
     const mr = map.getBoundingClientRect(), mapTop = mr.top + window.scrollY;
-    const firstTop = Math.max(0, vh + 16 - mapTop);                                 // first entry: 16px below the fold, in map coords
+    const firstTop = Math.max(0, vh + 16 - lift - mapTop);                          // first entry: 16px below the fold (at the fold on desktop), in map coords
     // the start box sits on the translator's axis (the viewport centre), not the content area's
     if (startEl) startEl.style.left = (absolute ? window.innerWidth / 2 - mr.left : window.innerWidth / 2 - (mr.left + mr.width / 2)) + 'px';
     if (absolute) {                                     // snake down: the start box, then each entry below the previous one
