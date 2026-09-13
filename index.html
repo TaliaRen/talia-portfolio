@@ -1259,39 +1259,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── About section (merged from about.html) ── */
   /* ── About: crew record (hologram + facts in unknown text), service record
         (every project as a signal on the trace), and a film strip of prints ── */
-  .about-section { display:flex; flex-direction:column; align-items:stretch; gap:40px; padding:200px 220px 120px; }
-  .about-greeting { font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:left; margin:0 auto; max-width:1100px; width:100%; }
-  /* the personal file: pieces scattered on a gridded board, like the experiment log —
-        a holo ID photo, a form of fields (some in unknown text), notes, the service record, the resume */
-  .dossier {
-    position:relative; max-width:1100px; width:100%; box-sizing:border-box; margin:0 auto; padding:72px 56px 72px;
-    background-image:linear-gradient(rgba(140,225,170,0.07) 1px, transparent 1px),
-                     linear-gradient(90deg, rgba(140,225,170,0.07) 1px, transparent 1px);
-    background-size:48px 48px;
-    border:1px solid rgba(95,227,154,0.22);
-  }
-  .dossier-title {
-    position:absolute; left:24px; top:-14px; margin:0; padding:5px 12px; background:#5FE39A;
-    font-family:'Figtree',sans-serif; font-size:13px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#0A0D0C;
-  }
-  .dossier-flow { display:grid; grid-template-columns:300px 1fr; gap:44px 48px; align-items:start; }
-  .piece {
-    position:relative; box-sizing:border-box; width:var(--w, 100%); margin:0; padding:20px 24px;
-    border:1px solid rgba(95,227,154,0.4); background:rgba(10,13,12,0.85); box-shadow:0 18px 40px rgba(0,0,0,0.5);
-    transform:rotate(var(--r, 0deg)); transition:transform .35s cubic-bezier(.22,1,.36,1);
-  }
-  .piece .corner { position:absolute; width:14px; height:14px; border:2.5px solid #5FE39A; pointer-events:none; }
-  .piece .corner.tl { left:-1px; top:-1px; border-right:none; border-bottom:none; }
-  .piece .corner.tr { right:-1px; top:-1px; border-left:none; border-bottom:none; }
-  .piece .corner.bl { left:-1px; bottom:-1px; border-right:none; border-top:none; }
-  .piece .corner.br { right:-1px; bottom:-1px; border-left:none; border-top:none; }
-  /* where each piece lands on the board */
-  .pc-holo   { grid-column:1; grid-row:1; justify-self:center; width:max-content; padding:20px; }
-  .pc-fields { grid-column:2; grid-row:1; justify-self:end; --w:86%; padding:8px 24px; align-self:center; }
-  .pc-resume { grid-column:1; grid-row:2; justify-self:center; align-self:center; width:max-content; padding:0; }
-  .pc-notes  { grid-column:2; grid-row:2; justify-self:start; --w:90%; padding:24px 28px; }
-  .pc-record { grid-column:1 / 3; grid-row:3; justify-self:center; --w:94%; padding:8px 24px 8px 0; }
-  /* holo ID photo: a dotted green figure over a projector base, with a scan sweep */
+  .about-section { display:flex; flex-direction:column; align-items:center; gap:48px; padding:200px 220px 120px; }
+  .about-greeting { font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0; }
+  /* holo ID: a dotted green figure over a projector base, with a scan sweep */
   .crew-holo { position:relative; width:260px; height:340px; }
   .holo { position:absolute; left:10px; top:0; width:240px; height:320px; overflow:visible; animation:holoFlicker 6s steps(1, end) infinite; }
   .holo .hl { stroke-dasharray:2 3; animation:holoCrawl 6s linear infinite; }
@@ -1302,26 +1272,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @keyframes holoScan { 0% { transform:translateY(-10px); opacity:0; } 8% { opacity:1; } 88% { opacity:1; } 100% { transform:translateY(326px); opacity:0; } }
   @keyframes holoFlicker { 0%, 100% { opacity:1; } 41% { opacity:1; } 42% { opacity:0.72; } 43% { opacity:1; } 77% { opacity:1; } 78% { opacity:0.85; } 79% { opacity:1; } }
   @media (prefers-reduced-motion: reduce) { .holo, .holo .hl, .holo-scan { animation:none; } }
-  /* the form of fields: label | value rows; unknown-text values decode on hover */
-  .pfile-fields { margin:0; min-width:0; display:flex; flex-direction:column; }
-  .pf { display:grid; grid-template-columns:110px 1fr; align-items:center; border-bottom:1px solid rgba(95,227,154,0.18); }
-  .pfile-fields > .pf:last-child { border-bottom:none; }
-  .pf dt { margin:0; padding:18px 0; font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD; line-height:1.6; }
-  .pf dd { margin:0; min-width:0; padding:16px 0; font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; color:#fff; line-height:1.5; }
+  /* facts: a small label over a value in unknown text; hovering decodes it and the translator reads the long version */
+  .pfile-fields { margin:0; display:flex; flex-wrap:wrap; justify-content:center; gap:32px 64px; }
+  .pf { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .pf dt { margin:0; font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD; line-height:1.4; }
+  .pf dd { margin:0; font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; color:#fff; line-height:1.5; }
   .pf .glyph { cursor:default; }
   .pf .glyph-text { color:#fff; }
-  .about-body { font-family:'Figtree', sans-serif; font-weight:400; font-size:18px; line-height:1.7; color:rgba(255,255,255,0.80); text-align:left; margin:0; }
-  .pc-resume { font-family:'Figtree',sans-serif; font-size:13px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#9FE7BD; text-decoration:none; white-space:nowrap; transition:transform .35s cubic-bezier(.22,1,.36,1), background .25s ease, color .25s ease; }
-  .pc-resume span { display:block; padding:14px 22px; }
-  .pc-resume:hover { background:#5FE39A; color:#0A0D0C; transform:rotate(0deg) translateY(-4px); }
+  .about-body { font-family:'Figtree', sans-serif; font-weight:400; font-size:18px; line-height:1.7; color:rgba(255,255,255,0.80); text-align:center; max-width:640px; margin:0; }
   /* service record: every project as a signal on the trace, one marker per row */
-  .record { display:grid; grid-template-columns:150px 1fr; align-items:stretch; }
+  .record { display:grid; grid-template-columns:160px 1fr; align-items:stretch; width:100%; max-width:880px; margin:24px 0 0; }
   .record-band { position:relative; }
   .record-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
   .rec-marker { position:absolute; right:22px; top:var(--y); transform:translateY(calc(-50% + 2px)); pointer-events:none; font-family:'Figtree',sans-serif; font-size:16px; font-weight:500; letter-spacing:.02em; color:#9FE7BD; white-space:nowrap; transition:color .4s ease; }
   .record-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
-  .rec-row { display:grid; grid-template-columns:150px 1fr; grid-template-rows:auto auto; column-gap:24px; row-gap:4px; padding:20px 0; border-top:1px solid rgba(95,227,154,0.18); transition:opacity .35s ease; }
-  .rec-row:first-child { border-top:none; }
+  .rec-row { display:grid; grid-template-columns:150px 1fr; grid-template-rows:auto auto; column-gap:24px; row-gap:4px; padding:22px 0; border-top:1px solid rgba(95,227,154,0.18); transition:opacity .35s ease; }
+  .rec-row:last-child { border-bottom:1px solid rgba(95,227,154,0.18); }
   .rec-meta { grid-row:1 / 3; display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
   .rec-meta b { font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; color:#0A0D0C; background:#5FE39A; padding:3px 9px; }
   .rec-meta i { font-family:'Figtree',sans-serif; font-style:normal; font-size:14px; color:#8F9994; }
@@ -1329,8 +1295,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rec-line { font-family:'Figtree',sans-serif; font-size:14px; color:#8F9994; line-height:1.5; }
   .record.hovering .rec-row:not(.on) { opacity:0.35; }
   .record.hovering .rec-marker:not(.on) { color:rgba(255,255,255,0.22); }
+  .rec-resume { display:inline-block; padding:12px 22px; border:1px solid rgba(95,227,154,0.55); font-family:'Figtree',sans-serif; font-size:13px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#9FE7BD; text-decoration:none; white-space:nowrap; transition:background .25s ease, color .25s ease; }
+  .rec-resume:hover { background:#5FE39A; color:#0A0D0C; }
   /* film strip of prints, drifting slowly; pauses while hovered */
-  .strip { overflow:hidden; margin:56px calc(-1 * var(--content-right, 24px)) 0 calc(-1 * var(--content-left, 24px)); padding:24px 0; }
+  .strip { overflow:hidden; box-sizing:border-box; align-self:flex-start; width:calc(100% + var(--content-left, 24px) + var(--content-right, 24px)); margin:40px 0 0 calc(-1 * var(--content-left, 24px)); padding:24px 0; }
   .strip-track { display:flex; gap:28px; width:max-content; animation:stripDrift 80s linear infinite; }
   .strip:hover .strip-track { animation-play-state:paused; }
   @keyframes stripDrift { to { transform:translateX(-50%); } }
@@ -1345,34 +1313,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .strip:hover .print:not(:hover) { filter:grayscale(1); opacity:0.35; }
   .print:hover { transform:rotate(0deg) translateY(-4px); }
   @media (max-width:900px) {
-    .about-section { gap:28px; padding:120px 24px 80px; }
-    .dossier { padding:56px 28px 56px; }
-    .dossier-flow { grid-template-columns:1fr; gap:36px; }
-    .pc-holo, .pc-fields, .pc-resume, .pc-notes, .pc-record { grid-column:auto; grid-row:auto; }
-    .pc-holo { justify-self:start; }
-    .pc-fields { justify-self:end; --w:92%; }
-    .pc-notes { justify-self:start; --w:92%; }
-    .pc-record { --w:100%; }
-    .pc-resume { justify-self:start; }
+    .about-section { gap:36px; padding:120px 24px 80px; }
     .crew-holo { width:200px; height:262px; } .holo { width:184px; height:246px; left:8px; }
     .holo-base { width:170px; }
+    .pfile-fields { gap:24px 40px; }
     .record { grid-template-columns:100px 1fr; }
     .rec-marker { display:none; }
     .rec-row { grid-template-columns:1fr; padding:16px 0; }
     .rec-meta { grid-row:auto; flex-direction:row; align-items:center; }
-    .strip { margin-top:40px; }
   }
   @media (max-width:640px) {
-    .dossier { padding:40px 12px 40px; background-size:36px 36px; }
-    .dossier-title { left:auto; right:16px; }
-    .dossier-flow { gap:28px; }
-    .piece { --r:0deg !important; --w:100% !important; }
-    .pc-holo { justify-self:center; }
-    .pc-fields { padding:4px 14px; }
-    .pf { grid-template-columns:1fr; }
-    .pf dt { padding:12px 0 0; } .pf dd { padding:4px 0 14px; }
-    .pc-notes { padding:18px; }
-    .pc-record { padding:4px 16px; }
+    .pfile-fields { flex-direction:column; gap:20px; }
     .record { grid-template-columns:1fr; } .record-band { display:none; }
     .print img { width:120px; height:160px; }
   }
@@ -1945,17 +1896,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div class="about-section" id="about-section">
+  <!-- About, centred and plain: greeting, holo ID, three facts in unknown text (hover
+       decodes them while the translator reads the long version), notes, the service
+       record (every project as a signal on the trace) and the resume. -->
   <h1 class="about-greeting">Hey there, I'm Talia</h1>
-  <!-- Personal file: pieces scattered on a gridded board, like the experiment log. A holo ID
-       photo, a form of fields (some written in unknown text that decodes on hover while the
-       translator reads the long version), notes, the service record (every project as a
-       signal on the trace) and the resume. -->
-  <div class="dossier" id="dossier">
-    <p class="dossier-title">Personal file</p>
-    <div class="dossier-flow">
-      <div class="piece pc-holo" style="--r:-2.2deg" aria-hidden="true">
-        <div class="crew-holo">
-          <svg class="holo" viewBox="0 0 240 320">
+  <div class="crew-holo" aria-hidden="true">
+    <svg class="holo" viewBox="0 0 240 320">
         <defs>
           <linearGradient id="holoFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#63FF8A" stop-opacity="0.22"/><stop offset="1" stop-color="#63FF8A" stop-opacity="0.02"/></linearGradient>
           <pattern id="holoLines" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1.2" fill="rgba(99,255,138,0.35)"/></pattern>
@@ -1979,35 +1925,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </g>
         <rect class="holo-scan" x="30" y="0" width="180" height="6" fill="rgba(207,245,222,0.35)"/>
       </svg>
-          <div class="holo-base"></div>
-        </div>
-      </div>
-      <div class="piece pc-fields" style="--r:1.4deg">
-        <dl class="pfile-fields">
-        <div class="pf"><dt>Role</dt><dd><span class="glyph glyph-fact" data-text="Product designer, AI-first" data-note="I design AI-powered SaaS products and use AI to research, design, and build"></span></dd></div>
-        <div class="pf"><dt>Location</dt><dd><span class="glyph glyph-fact" data-text="New York · open to relocate" data-note="Based in New York City, happy to relocate for the right team"></span></dd></div>
-        <div class="pf"><dt>Off duty</dt><dd><span class="glyph glyph-fact" data-text="Puzzles, cafés, video games" data-note="If you've made it this far you've probably noticed: I love jigsaw puzzles, and not just the ones that come in a box"></span></dd></div>
-        </dl>
-      </div>
-      <a class="piece pc-resume" style="--r:2.4deg" href="https://drive.google.com/file/d/1fge9WIaqZYnXyYQyaybLyXMl0OJoLrvU/view?usp=sharing" target="_blank" rel="noopener noreferrer"><span>PDF Resume ↗</span></a>
-      <div class="piece pc-notes" style="--r:-1.1deg">
-        <p class="about-body">I became a product designer because I’ve always been curious about why some experiences feel more confusing or frustrating than they need to be. Design gives me a way to look beneath the surface, understand the people and systems behind a problem, and turn complexity into experiences that feel clear, thoughtful, and useful.<br><br>That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks, so I can spend more time solving the problems that truly matter.</p>
-      </div>
-      <div class="piece pc-record" style="--r:0.7deg">
-        <div class="record" id="record">
-          <div class="record-band" id="recordBand"><canvas id="recordWave" aria-hidden="true"></canvas></div>
-          <ul class="record-list">
-          <li class="rec-row" data-note="Building the end-to-end AI experience for RFP review at Jain, 2026"><span class="rec-meta"><b>Jain</b><i>2026</i></span><span class="rec-name">AI Co-pilot for Commercial Janitorial operators</span><span class="rec-line">Building the end-to-end AI experience for RFP review</span></li>
-          <li class="rec-row" data-note="Laying the design system and core screens for Fastflyrr's dispatch platform, 2025"><span class="rec-meta"><b>Fastflyrr</b><i>2025</i></span><span class="rec-name">Ground Operations &amp; Dispatch Platform</span><span class="rec-line">Laying the design system and core screens</span></li>
-          <li class="rec-row" data-note="Transforming traditional CRM workflows with an AI command bar at AgencyRoot, 2025"><span class="rec-meta"><b>AgencyRoot</b><i>2025</i></span><span class="rec-name">Crop Insurance CRM AI Command Bar</span><span class="rec-line">Transforming traditional workflows with AI</span></li>
-          <li class="rec-row" data-note="Integrating standalone merchant tools into one order platform at ByteDance, 2025"><span class="rec-meta"><b>ByteDance</b><i>2025</i></span><span class="rec-name">Merchant Order Management Platform</span><span class="rec-line">Integrating standalone tools into a unified platform</span></li>
-          <li class="rec-row" data-note="Bridging communication through AI-powered visualization at Salesforce, 2024"><span class="rec-meta"><b>Salesforce</b><i>2024</i></span><span class="rec-name">Automation Flow Builder</span><span class="rec-line">Bridging communication through AI-powered visualization</span></li>
-          <li class="rec-row" data-note="Personalizing premium mobility experiences at DiDi, 2023"><span class="rec-meta"><b>DiDi</b><i>2023</i></span><span class="rec-name">Customized Ride Booking</span><span class="rec-line">Personalizing premium mobility experiences</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <div class="holo-base"></div>
   </div>
+  <dl class="pfile-fields">
+  <div class="pf"><dt>Role</dt><dd><span class="glyph glyph-fact" data-text="Product designer, AI-first" data-note="I design AI-powered SaaS products and use AI to research, design, and build"></span></dd></div>
+  <div class="pf"><dt>Location</dt><dd><span class="glyph glyph-fact" data-text="New York · open to relocate" data-note="Based in New York City, happy to relocate for the right team"></span></dd></div>
+  <div class="pf"><dt>Off duty</dt><dd><span class="glyph glyph-fact" data-text="Puzzles, cafés, video games" data-note="If you've made it this far you've probably noticed: I love jigsaw puzzles, and not just the ones that come in a box"></span></dd></div>
+  </dl>
+  <p class="about-body">I became a product designer because I’ve always been curious about why some experiences feel more confusing or frustrating than they need to be. Design gives me a way to look beneath the surface, understand the people and systems behind a problem, and turn complexity into experiences that feel clear, thoughtful, and useful.<br><br>That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks, so I can spend more time solving the problems that truly matter.</p>
+  <div class="record" id="record">
+    <div class="record-band" id="recordBand"><canvas id="recordWave" aria-hidden="true"></canvas></div>
+    <ul class="record-list">
+    <li class="rec-row" data-note="Building the end-to-end AI experience for RFP review at Jain, 2026"><span class="rec-meta"><b>Jain</b><i>2026</i></span><span class="rec-name">AI Co-pilot for Commercial Janitorial operators</span><span class="rec-line">Building the end-to-end AI experience for RFP review</span></li>
+    <li class="rec-row" data-note="Laying the design system and core screens for Fastflyrr's dispatch platform, 2025"><span class="rec-meta"><b>Fastflyrr</b><i>2025</i></span><span class="rec-name">Ground Operations &amp; Dispatch Platform</span><span class="rec-line">Laying the design system and core screens</span></li>
+    <li class="rec-row" data-note="Transforming traditional CRM workflows with an AI command bar at AgencyRoot, 2025"><span class="rec-meta"><b>AgencyRoot</b><i>2025</i></span><span class="rec-name">Crop Insurance CRM AI Command Bar</span><span class="rec-line">Transforming traditional workflows with AI</span></li>
+    <li class="rec-row" data-note="Integrating standalone merchant tools into one order platform at ByteDance, 2025"><span class="rec-meta"><b>ByteDance</b><i>2025</i></span><span class="rec-name">Merchant Order Management Platform</span><span class="rec-line">Integrating standalone tools into a unified platform</span></li>
+    <li class="rec-row" data-note="Bridging communication through AI-powered visualization at Salesforce, 2024"><span class="rec-meta"><b>Salesforce</b><i>2024</i></span><span class="rec-name">Automation Flow Builder</span><span class="rec-line">Bridging communication through AI-powered visualization</span></li>
+    <li class="rec-row" data-note="Personalizing premium mobility experiences at DiDi, 2023"><span class="rec-meta"><b>DiDi</b><i>2023</i></span><span class="rec-name">Customized Ride Booking</span><span class="rec-line">Personalizing premium mobility experiences</span></li>
+    </ul>
+  </div>
+  <a class="rec-resume" href="https://drive.google.com/file/d/1fge9WIaqZYnXyYQyaybLyXMl0OJoLrvU/view?usp=sharing" target="_blank" rel="noopener noreferrer">PDF Resume ↗</a>
 
   <!-- Off-duty prints: a slow film strip; hovering one reads its caption -->
   <div class="strip" id="strip" aria-label="Photos">
@@ -4355,7 +4292,6 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
 // About — film strip: duplicate the prints for a seamless loop, give each a slight
 // tilt and corner brackets; hovering one reads its caption on the translator
 (function () {
-  document.querySelectorAll('.piece').forEach(pc => ['tl', 'tr', 'bl', 'br'].forEach(c => { const k = document.createElement('span'); k.className = 'corner ' + c; k.setAttribute('aria-hidden', 'true'); pc.appendChild(k); }));
   const track = document.getElementById('stripTrack');
   if (!track) return;
   const originals = [...track.children];
