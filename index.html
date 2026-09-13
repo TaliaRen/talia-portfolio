@@ -1264,7 +1264,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* ASCII silhouette: a field of terminal characters; the figure is where they thin out */
   .ascii-silhouette { position:relative; width:320px; max-width:100%; aspect-ratio:1 / 1; margin:0 0 36px; }
-  .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; -webkit-mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); }   /* the field dissolves at its edges */
+  .ascii-silhouette { -webkit-mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); cursor:help; }   /* the field dissolves at its edges */
+  .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; transition:opacity .6s ease; }
+  /* the photo itself, lined up with the silhouette by script; hovering decodes the field into it */
+  .ascii-photo { position:absolute; display:block; max-width:none; opacity:0; transition:opacity .6s ease; pointer-events:none; -webkit-mask-image:radial-gradient(ellipse 46% 62% at 50% 46%, #000 40%, transparent 100%); mask-image:radial-gradient(ellipse 46% 62% at 50% 46%, #000 40%, transparent 100%); }   /* soft-edged, like the field */
+  .ascii-silhouette.decoded canvas { opacity:0; }
+  .ascii-silhouette.decoded .ascii-photo { opacity:1; }
   /* one sentence about me, with the parts that matter written in unknown text — the same
      device as the hero line: hovering decodes a fragment and the translator reads the long version */
   .about-facts { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:2; color:rgba(255,255,255,0.88); text-align:center; max-width:640px; margin:0 0 40px; }
@@ -1891,7 +1896,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <h1 class="about-greeting">Hey there, I'm Talia</h1>
   <!-- ASCII silhouette: a generative field of terminal characters. The figure is never
        drawn; it appears where the characters thin out (density, not outline) -->
-  <div class="ascii-silhouette" aria-hidden="true"></div>
+  <div class="ascii-silhouette" data-note="That's me, on a hill above Florence at golden hour" aria-hidden="true"><img class="ascii-photo" src="about/about.jpg" alt=""></div>
   <p class="about-facts">Product designer, <span class="glyph glyph-fact" data-text="AI-first" data-note="I design AI-powered SaaS products and use AI to research, design, and build"></span>. Based in <span class="glyph glyph-fact" data-text="New York" data-note="Based in New York City, happy to relocate for the right team"></span>, <span class="glyph glyph-fact" data-text="open to relocate" data-note="Open to relocating for the right team, anywhere"></span>. Off duty, <span class="glyph glyph-fact" data-text="puzzles, cafés, video games" data-note="If you've made it this far you've probably noticed: I love jigsaw puzzles, and not just the ones that come in a box"></span>.</p>
   <p class="about-body">I became a product designer because I’ve always been curious about why some experiences feel more confusing or frustrating than they need to be. Design gives me a way to look beneath the surface, understand the people and systems behind a problem, and turn complexity into experiences that feel clear, thoughtful, and useful.<br><br>That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks, so I can spend more time solving the problems that truly matter.</p>
   <div class="record" id="record">
@@ -3314,11 +3319,15 @@ document.addEventListener('mousemove', e => {
       beamEls.push({ fan, jitter: (noise(i, 4.4) - 0.5), len: 10 + noise(i, 6.1) * 8 });
     }
   }
+  // the beams can be aimed at another element (the About portrait while it decodes)
+  let beamTarget = null;
+  window.beamAt = el => { beamTarget = el; beamsOn = !!el; camBeams?.classList.toggle('on', !!el); document.getElementById('detectorCamera')?.classList.toggle('lit', !!el); };
   function drawBeams() {
     if (!camBeams || !beamsOn || !beamEls.length) return;
     const [sx, sy] = camLensScreen;
     let k = 0;
-    strands.filter(S => !S.sample).forEach(S => {
+    const targets = beamTarget ? [{ el: beamTarget }] : strands.filter(S => !S.sample);
+    targets.forEach(S => {
       const r = S.el.getBoundingClientRect();
       for (let i = 0; i < BEAMS_PER_PHRASE; i++, k++) {
         const b = beamEls[k]; if (!b) return;
@@ -3330,6 +3339,7 @@ document.addEventListener('mousemove', e => {
         b.fan.setAttribute('points', `${sx.toFixed(1)},${sy.toFixed(1)} ${(tx + nx * half).toFixed(1)},${(ty + ny * half).toFixed(1)} ${(tx - nx * half).toFixed(1)},${(ty - ny * half).toFixed(1)}`);
       }
     });
+    for (; k < beamEls.length; k++) beamEls[k].fan.setAttribute('points', '');
   }
 
   window.addEventListener('mousemove', e => {
@@ -4389,8 +4399,22 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       else k.on = Math.random() < k.d;
     }
   }
-  build();
-  if ('ResizeObserver' in window) new ResizeObserver(build).observe(host); else window.addEventListener('resize', build);
+  // the photo the contour was traced from, scaled and placed so its head sits exactly on
+  // the silhouette's (photo crop: crown at y 195, body to 960, axis at x 1046 of 1706×960)
+  const photo = host.querySelector('.ascii-photo');
+  function placePhoto() {
+    if (!photo || !W || !H) return;
+    const k = (H * settings.silhouetteScale) / 765;
+    photo.style.width = (1706 * k).toFixed(1) + 'px'; photo.style.height = (960 * k).toFixed(1) + 'px';
+    photo.style.left = (W * settings.silhouetteX - 1046 * k).toFixed(1) + 'px'; photo.style.top = (H * settings.silhouetteTop - 195 * k).toFixed(1) + 'px';
+  }
+  const rebuild = () => { build(); placePhoto(); };
+  rebuild();
+  if ('ResizeObserver' in window) new ResizeObserver(rebuild).observe(host); else window.addEventListener('resize', rebuild);
+  // hovering decodes the field into the photo: the camera's beams land on it and the
+  // translator reads the caption, like the unknown text
+  host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
+  host.addEventListener('mouseleave', () => { host.classList.remove('decoded'); window.beamAt?.(null); window.screenReady?.(); });
   if (!reduce) {
     let visible = true, last = 0;
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
