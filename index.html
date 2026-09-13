@@ -201,7 +201,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #vibe { padding-top:160px; padding-bottom:40px; overflow-x:clip; }   /* the heading strand's canvas bleeds a little sideways */
   /* the section's title is the first signal on the trace: a bigger label with a standing spike */
   .scope-freq.scope-title { top:56px; }
-  .scope-freq.scope-title .freq-name { font-size:24px; letter-spacing:.01em; color:#fff; }
+  .scope-freq.scope-title .freq-name { font-size:16px; letter-spacing:.12em; text-transform:uppercase; color:#fff; }
   .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px minmax(0, 560px); justify-content:center; gap:0 40px; align-items:stretch; }   /* band + pieces travel together, centred as one block */
   /* the pieces: just the image / video / phone, nothing around them */
   .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:center; padding-top:160px; }   /* the title marker occupies the top of the trace */
@@ -216,18 +216,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-band { position:relative; }
   .scope-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
   .scope-freq {
-    position:absolute; right:34px; top:var(--y); transform:translateY(-50%);   /* sits left of the vertical baseline; the spike reaches out to the left */
+    position:absolute; right:34px; top:var(--y); transform:translateY(calc(-50% + 2px));   /* sits left of the vertical baseline, optically centred on the tick; the spike reaches out to the left */
     display:flex; flex-direction:column; align-items:flex-end; gap:0; padding:6px 10px;
     background:none; border:none; color:#63FF8A; font-family:'Figtree',sans-serif; pointer-events:none;   /* labels only: nothing here reacts to the mouse */
     transition:color .4s ease;
   }
-  .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.02em; white-space:nowrap; text-align:right; }
+  .scope-freq .freq-name { font-size:16px; font-weight:500; letter-spacing:.02em; white-space:nowrap; text-align:right; line-height:1; }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
     .scope-grid { padding-top:112px; }
-    .scope-freq.scope-title { top:36px; right:auto; left:44px; align-items:flex-start; }   /* on phones the title sits to the right of the trace */
-    .scope-freq.scope-title .freq-name { display:block; font-size:18px; max-width:none; text-align:left; }
-    .scope { grid-template-columns:36px 1fr; gap:0 14px; }
+    .scope-freq.scope-title { top:36px; right:auto; left:calc(100% + 8px); align-items:flex-start; }   /* on phones the title sits to the right of the trace */
+    .scope-freq.scope-title .freq-name { display:block; max-width:none; text-align:left; }
+    .scope { grid-template-columns:64px 1fr; gap:0 14px; }   /* room for the trace's spikes on phones */
     .scope-freq { right:14px; padding:4px 6px; }
     .scope-freq .freq-name { display:none; }   /* on phones the band keeps its ticks and spikes only */
     .scope-grid { gap:40px; }
