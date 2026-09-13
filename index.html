@@ -4364,8 +4364,8 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     for (let i = 0; i < cells.length; i++) {
       const k = cells[i]; if (!k.on) continue;
       const c = i % cols, r = (i - c) / cols;
-      const x = (c + 0.5) * cw + Math.sin(T * 0.8 + k.ph) * 2.6, y = (r + 0.5) * ch + Math.cos(T * 0.6 + k.ph * 1.7) * 2.2;
-      const rot = k.rot + T * k.spin * 1.6 + Math.sin(T * 0.4 + k.ph) * 1.4, sz = k.size * (1 + 0.25 * Math.sin(T * 1.1 + k.ph));
+      const x = (c + 0.5) * cw + Math.sin(T * 0.8 + k.ph) * 4.2, y = (r + 0.5) * ch + Math.cos(T * 0.6 + k.ph * 1.7) * 3.6;
+      const rot = k.rot + T * k.spin * 2.2 + Math.sin(T * 0.4 + k.ph) * 2.0, sz = k.size * (1 + 0.35 * Math.sin(T * 1.1 + k.ph));
       octx.strokeStyle = `rgba(${cr},${cg},${cb},${k.a.toFixed(2)})`;
       mark(octx, k.kind, x, y, rot, sz);
     }
