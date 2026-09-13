@@ -195,42 +195,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* ── Vibe coding: two playground pieces (Truthly, Christmas tree) on the homepage,
      between the works and the About section ── */
-  #vibe { padding-top:200px; padding-bottom:40px; }
-  .vibe-title {
-    font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:2.2rem;
-    color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 56px;
+  /* ── Scout snapshots: vibe-coding pieces as photos sent back by a little
+        probe — a framed shot with corner brackets and scanlines, a data strip
+        underneath, pinned at a slight tilt. (The project log is the ship's
+        formal record; these are quick probes into unknown territory.) ── */
+  #vibe { padding-top:160px; padding-bottom:40px; }
+  .scout-head { display:flex; flex-direction:column; align-items:center; gap:18px; margin:0 0 72px; text-align:center; }
+  .scout-label {
+    padding:10px 20px; background:rgba(95,227,154,0.10); border:1px solid rgba(95,227,154,0.55);
+    font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
   }
-  .vibe-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:1180px; margin:0 auto; align-items:start; }
-  .play-card {
-    background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.08); border-radius:24px;
-    display:flex; flex-direction:column; align-items:center; width:100%;
+  .scout-sub { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.6; color:#8F9994; max-width:560px; margin:0; }
+  .scout-board { display:flex; justify-content:center; align-items:flex-start; flex-wrap:wrap; gap:64px; max-width:1180px; margin:0 auto; }
+  .scout-shot { margin:0; width:var(--w, 460px); max-width:100%; transform:rotate(var(--tilt, 0deg)); transition:transform .5s cubic-bezier(.22,1,.36,1); }
+  .scout-shot:hover { transform:rotate(0deg) translateY(-4px); }
+  .scout-shot.shot-2 { margin-top:72px; }
+  .scout-frame { position:relative; background:#0B100E; border:1px solid rgba(95,227,154,0.45); padding:14px; }
+  .scout-img { position:relative; overflow:hidden; background:#07120D; display:flex; align-items:center; justify-content:center; }
+  .scout-img.tall { aspect-ratio:4 / 5; }
+  .scout-img video { width:100%; height:auto; display:block; }
+  /* the probe's photo look: scanlines over the shot, brackets in the corners */
+  .scout-img::after { content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px); }
+  .scout-corner { position:absolute; width:14px; height:14px; border:1.5px solid #5FE39A; pointer-events:none; z-index:2; }
+  .scout-corner.tl { left:6px; top:6px; border-right:none; border-bottom:none; }
+  .scout-corner.tr { right:6px; top:6px; border-left:none; border-bottom:none; }
+  .scout-corner.bl { left:6px; bottom:6px; border-right:none; border-top:none; }
+  .scout-corner.br { right:6px; bottom:6px; border-left:none; border-top:none; }
+  .scout-data { display:flex; flex-wrap:wrap; gap:6px 18px; padding:12px 2px 0; font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD; }
+  .scout-data .live { display:inline-flex; align-items:center; gap:7px; color:#63FF8A; }
+  .scout-data .live::before { content:''; width:6px; height:6px; border-radius:50%; background:#63FF8A; box-shadow:0 0 6px rgba(99,255,138,0.8); animation:scoutBlink 1.6s ease-in-out infinite; }
+  @keyframes scoutBlink { 0%, 100% { opacity:1; } 50% { opacity:0.25; } }
+  .scout-caption { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.55; color:rgba(255,255,255,0.88); margin:16px 0 0; }
+  .scout-link {
+    display:inline-flex; align-items:center; gap:8px; margin-top:12px;
+    font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; color:#fff; text-decoration:none;
+    border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:2px; transition:border-color .2s;
   }
-  .play-card-body { padding:32px 40px 40px; display:flex; flex-direction:column; gap:16px; width:100%; }
-  .play-card-video { width:100%; padding:40px 40px 0; }
-  .play-card-video video { width:100%; height:auto; display:block; border-radius:14px; }
-  .play-title-row { display:flex; align-items:center; gap:10px; }
-  .play-title { font-family:'Figtree', sans-serif; font-size:1.4rem; font-weight:400; color:#fff; line-height:1.2; margin:0; }
-  .play-tooltip {
-    position:relative; display:inline-flex; align-items:center; justify-content:center;
-    width:14px; height:14px; border-radius:50%; border:1px solid rgba(255,255,255,0.35);
-    color:rgba(255,255,255,0.55); font-family:'Figtree', sans-serif; font-size:.68rem; font-weight:400; cursor:default;
-  }
-  .play-tooltip-text {
-    position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); width:260px;
-    background:#1E2620; border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:14px 16px;
-    font-family:'Figtree', sans-serif; font-size:.85rem; font-weight:300; color:rgba(255,255,255,0.85); line-height:1.6;
-    opacity:0; visibility:hidden; transition:opacity .2s, visibility .2s; pointer-events:none; z-index:50;
-  }
-  .play-tooltip:hover .play-tooltip-text { opacity:1; visibility:visible; }
-  .play-desc { font-family:'Figtree', sans-serif; font-size:.95rem; font-weight:300; color:rgba(255,255,255,0.7); line-height:1.7; margin:0; }
-  .play-link {
-    display:inline-flex; align-self:flex-start; align-items:center; gap:8px;
-    font-family:'Figtree', sans-serif; font-size:.9rem; font-weight:400; color:#fff; text-decoration:none;
-    border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:2px; transition:border-color .2s, color .2s; margin-top:8px;
-  }
-  .play-link:hover { border-color:#fff; }
-  /* phone mockup with the live Truthly app, scaled to fit the card */
-  .play-phone-wrap { padding:48px 40px 0; width:100%; display:flex; align-items:center; justify-content:center; gap:20px; }
+  .scout-link:hover { border-color:#fff; }
+  /* phone mockup with the live Truthly app inside its snapshot */
   .phone-mockup {
     flex:0 0 auto; position:relative; width:220px; height:468px; background:#111; border-radius:42px;
     box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.12), 0 0 0 8px #1a1a1a, 0 0 0 9.5px rgba(255,255,255,0.07), 0 32px 80px rgba(0,0,0,0.6);
@@ -240,18 +242,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .phone-island { position:absolute; top:12px; left:50%; transform:translateX(-50%); width:72px; height:22px; background:#000; border-radius:20px; z-index:10; }
   .phone-screen { position:absolute; inset:0; border-radius:42px; overflow:hidden; }
   .phone-screen iframe { width:390px; height:844px; border:none; transform-origin:top left; transform:scale(0.5641); pointer-events:all; }
-  .play-click-hint { font-family:'Labrada', serif; font-style:italic; font-size:1rem; color:rgba(255,255,255,0.45); white-space:nowrap; margin:0; }
-  @media (max-width:1100px) { .vibe-grid { grid-template-columns:1fr; max-width:640px; } }
+  @media (max-width:1100px) { .scout-board { gap:48px; } .scout-shot.shot-2 { margin-top:0; } }
   @media (max-width:640px) {
-    #vibe { padding-top:80px; }
-    .vibe-title { font-size:1.6rem; margin-bottom:32px; }
-    .play-card-body { padding:24px 22px 28px; }
-    .play-card-video { padding:24px 22px 0; }
-    .play-phone-wrap { padding:32px 16px 0; gap:12px; }
+    #vibe { padding-top:96px; }
+    .scout-head { margin-bottom:48px; }
+    .scout-shot { --tilt:0deg !important; }
+    .scout-img.tall { aspect-ratio:auto; padding:32px 0; }
     .phone-mockup { width:190px; height:404px; border-radius:38px; }
     .phone-screen { border-radius:38px; }
     .phone-screen iframe { transform:scale(0.487); }
-    .play-click-hint { display:none; }
   }
   /* the embedded page is 82px narrower than the window (frame on both sides): its ≤860 rule hides
      the section nav when the window is ≤942, so show our Back from there */
@@ -1664,42 +1663,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
-  <p class="vibe-title">Vibe coding</p>
-  <div class="vibe-grid">
-    <div class="play-card">
-      <div class="play-phone-wrap">
-        <div style="width:40px;"></div>
-        <div class="phone-mockup">
-          <div class="phone-island"></div>
-          <div class="phone-screen">
-            <iframe src="https://truthordare-self.vercel.app/" scrolling="no" title="Truthly" loading="lazy"></iframe>
+  <div class="scout-head">
+    <span class="scout-label">Scout Snapshots</span>
+    <p class="scout-sub">Small things built fast with Claude Code, launched to see what's out there</p>
+  </div>
+  <div class="scout-board">
+    <figure class="scout-shot shot-1" style="--w:460px; --tilt:-1.6deg" data-note="Scout 01 · a Truth or Dare app, built in two evenings with Claude Code">
+      <div class="scout-frame">
+        <span class="scout-corner tl"></span><span class="scout-corner tr"></span><span class="scout-corner bl"></span><span class="scout-corner br"></span>
+        <div class="scout-img tall">
+          <div class="phone-mockup">
+            <div class="phone-island"></div>
+            <div class="phone-screen">
+              <iframe src="https://truthordare-self.vercel.app/" scrolling="no" title="Truthly" loading="lazy"></iframe>
+            </div>
           </div>
         </div>
-        <p class="play-click-hint">Click me</p>
       </div>
-      <div class="play-card-body">
-        <div class="play-title-row">
-          <h2 class="play-title">Truthly</h2>
-          <span class="play-tooltip">i
-            <span class="play-tooltip-text">Inspired by a friend who loves playing Truth or Dare but always spends too much time searching for good prompts</span>
-          </span>
+      <figcaption class="scout-data"><span>Scout 01</span><span>Truthly</span><span class="live">Live · try it</span></figcaption>
+      <p class="scout-caption">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages</p>
+      <a class="scout-link" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener">Open full screen ↗</a>
+    </figure>
+    <figure class="scout-shot shot-2" style="--w:560px; --tilt:1.4deg" data-note="Scout 02 · a gesture-controlled Christmas tree, built with Claude Code">
+      <div class="scout-frame">
+        <span class="scout-corner tl"></span><span class="scout-corner tr"></span><span class="scout-corner bl"></span><span class="scout-corner br"></span>
+        <div class="scout-img">
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src="playground/christmas memory.mp4" type="video/mp4">
+          </video>
         </div>
-        <p class="play-desc">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages, creating playful, flexible, and frictionless interactions</p>
-        <a class="play-link" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener">View it full screen ↗</a>
       </div>
-    </div>
-    <div class="play-card">
-      <div class="play-card-video">
-        <video autoplay muted loop playsinline preload="metadata">
-          <source src="playground/christmas memory.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="play-card-body">
-        <h2 class="play-title">Gesture-Controlled Christmas Tree</h2>
-        <p class="play-desc">Decorate a Christmas tree with your own photos — and control it all with just your hands</p>
-        <a class="play-link" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener">Try it yourself ↗</a>
-      </div>
-    </div>
+      <figcaption class="scout-data"><span>Scout 02</span><span>Christmas tree</span><span>Gesture control</span></figcaption>
+      <p class="scout-caption">Decorate a Christmas tree with your own photos and control it all with just your hands</p>
+      <a class="scout-link" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener">Try it yourself ↗</a>
+    </figure>
   </div>
 </section>
 
@@ -4006,7 +4003,7 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
 // Rail + phone menu: Playground / About scroll to their sections on the homepage
 document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => {
   e.preventDefault();
-  const target = a.dataset.scroll === 'vibe' ? document.querySelector('.vibe-title') : document.querySelector('.about-greeting');
+  const target = a.dataset.scroll === 'vibe' ? document.querySelector('.scout-head') : document.querySelector('.about-greeting');
   if (!target) return;
   if (document.body.classList.contains('project-open')) history.back();   // leave an open project first
   const go = () => { const y = target.getBoundingClientRect().top + window.scrollY - 120; window.scrollTo({ top: y, behavior: 'smooth' }); };
@@ -4191,6 +4188,12 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   window.addEventListener('resize', layout);
   if (document.fonts?.ready) document.fonts.ready.then(layout);
   layout(); check();
+
+  // scout snapshots: hovering one reads its note on the translator
+  document.querySelectorAll('.scout-shot').forEach(sh => {
+    sh.addEventListener('mouseenter', () => window.screenTranslate?.('', sh.dataset.note || ''));
+    sh.addEventListener('mouseleave', () => window.screenReady?.());
+  });
 
 })();
 
