@@ -209,12 +209,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:center; }
   .sig-item { display:block; width:min(560px, 100%); color:inherit; text-decoration:none; transition:transform .3s ease, filter .4s ease, opacity .4s ease; }
   /* hovering one piece: the others go grey and dim, the hovered one keeps its colour */
-  .scope-grid:hover .sig-item:not(:hover) { filter:grayscale(1); opacity:0.45; }
+  .scope-grid:hover .sig-item:not(:hover) { filter:grayscale(0.75); opacity:0.6; }
   .sig-item img, .sig-item video { width:100%; height:auto; display:block; }
   .sig-item.sig-phone { width:auto; }
   a.sig-item:hover { transform:translateY(-3px); }
   /* the band: a canvas draws the noise floor and the signal spikes; markers sit on it */
-  .scope-band { position:relative; cursor:none; }
+  .scope-band { position:relative; }
   .scope-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
   .scope-freq {
     position:absolute; right:34px; top:var(--y); transform:translateY(-50%);   /* sits left of the vertical baseline; the spike reaches out to the left */
@@ -223,8 +223,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:color .3s ease;
   }
   .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; text-align:right; }
-  .scope-freq:hover { color:#CFF5DE; }
-  .scope-freq.on { color:#63FF8A; }
   .scope-freq:focus-visible { outline:1px solid #63FF8A; outline-offset:4px; }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
@@ -4219,13 +4217,6 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     }
     // sweeping the pointer down the band tunes to the nearest frequency (a needle follows it)
     let needle = null;
-    band.addEventListener('pointermove', e => {
-      const r = band.getBoundingClientRect(); needle = e.clientY - r.top;
-      const ys = freqs.map(f => parseFloat(f.style.getPropertyValue('--y')) / 100 * r.height);
-      let best = 0; ys.forEach((y, i) => { if (Math.abs(y - needle) < Math.abs(ys[best] - needle)) best = i; });
-      if (best !== active) tune(best);
-    });
-    band.addEventListener('pointerleave', () => { needle = null; });
     freqs.forEach((f, i) => {
       f.addEventListener('click', () => tune(i));
       f.addEventListener('mouseenter', () => window.screenTranslate?.('', panels[i]?.dataset.note || ''));
@@ -4252,7 +4243,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       ctx.clearRect(0, 0, W, H);
       const base = W - 24, T = t * 0.001;                                             // the baseline runs down near the band's right edge
       const ys = freqs.map(f => parseFloat(f.style.getPropertyValue('--y')) / 100 * H);
-      freqs.forEach((f, i) => { amp[i] += ((i === active ? 1 : 0.28) - amp[i]) * 0.08; });
+      freqs.forEach((f, i) => { amp[i] = 0.55; });                                   // every signal at the same strength: the band does not react to hover
       // noise floor + spikes (reaching left, toward the labels)
       ctx.beginPath();
       for (let y = 0; y <= H; y += 2) {
@@ -4271,7 +4262,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       // ticks at each frequency
       ys.forEach((fy, i) => {
         ctx.beginPath(); ctx.moveTo(base - 6, fy); ctx.lineTo(base + 6, fy);
-        ctx.strokeStyle = i === active ? '#63FF8A' : 'rgba(95,227,154,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.strokeStyle = 'rgba(95,227,154,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
       });
     }
     (function loop(t) { if (inView) draw(t); requestAnimationFrame(loop); })(0);
