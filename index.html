@@ -1264,7 +1264,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* ASCII silhouette: a field of terminal characters; the figure is where they thin out */
   .ascii-silhouette { position:relative; width:400px; max-width:100%; aspect-ratio:5 / 6; margin:0 0 36px; }
-  .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; -webkit-mask-image:radial-gradient(ellipse 64% 60% at 50% 50%, #000 62%, transparent 100%); mask-image:radial-gradient(ellipse 64% 60% at 50% 50%, #000 62%, transparent 100%); }   /* the field dissolves at its edges */
+  .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; -webkit-mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); }   /* the field dissolves at its edges */
   /* one sentence about me, with the parts that matter written in unknown text — the same
      device as the hero line: hovering decodes a fragment and the translator reads the long version */
   .about-facts { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:2; color:rgba(255,255,255,0.88); text-align:center; max-width:640px; margin:0 0 40px; }
@@ -4244,29 +4244,41 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
 })();
 
 // About — ASCII silhouette. A canvas of monospace terminal characters on an invisible
-// grid. Each cell has a probability of holding a character; a signed-distance field of
-// a standing figure (head, neck, shoulders, torso, arms, legs) lowers that probability
-// inside the figure and eases it back up outside, so the person appears as negative
-// space with a soft edge. Nothing draws the silhouette itself. Value noise clumps the
-// characters and short horizontal runs repeat a character. Every tick a few cells
-// change, like interference; the figure itself stays put.
+// grid. Each cell has a probability of holding a character. DENSITY MASK: a signed
+// distance to the silhouette polygon is run through a smoothstep, so density is
+// outsideDensity far out, insideDensity deep in, and eases across a feather of
+// edgeSoftness × silhouette height — the person appears as negative space with a hazy
+// edge and is never drawn. Value noise clumps the field, short horizontal runs repeat
+// a character. Every updateInterval a few cells change (interference); the figure
+// stays put. Tweak: densities and edgeSoftness for how clearly the figure reads,
+// churn and updateInterval for how alive the field feels.
 (function () {
   const host = document.querySelector('.ascii-silhouette');
   if (!host) return;
   const settings = {
-    cellSize: 8,           // grid cell width, px (height is 1.3× this)
-    outsideDensity: 0.88,  // chance of a character deep outside the figure
-    insideDensity: 0.14,   // chance deep inside the figure
-    edgeSoftness: 0.12,    // feather width, as a fraction of the figure's height
-    figureHeight: 0.55,    // figure height as a fraction of the component height
+    cellWidth: 8,           // grid cell size, px (8–11 / 11–15 read well)
+    cellHeight: 11,
+    outsideDensity: 0.88,   // chance of a character far outside the figure
+    insideDensity: 0.12,    // chance deep inside the figure (never zero: the figure stays embedded)
+    edgeSoftness: 0.14,     // feather width, as a fraction of the silhouette's height
+    silhouetteScale: 0.48,  // silhouette height (crown to where the crop ends) as a fraction of the component
+    silhouetteX: 0.52,      // horizontal centre of the figure (0–1); a touch right of centre, like the photo
+    silhouetteTop: 0.2,     // where the crown sits (0–1 of the height)
     color: '#86D96A',
     minOpacity: 0.45,
     maxOpacity: 0.95,
-    animationSpeed: 160,   // ms between interference ticks
-    churn: 0.006,          // share of cells touched per tick
+    updateInterval: 160,    // ms between interference ticks
+    churn: 0.006,           // share of cells touched per tick
   };
   const CHARS = "<>[]{}()/\\_-^~:;.,'\"0137?+=%ilIrvzc";
-  const RUNS = ['<<<<777', ']]][[', '----^^', '{{{lll', '>>>???', '===<<', 'rrvv', '||__', '7711', '::;;', '~~^^', 'zzcc'];
+  const RUNS = ['<<<<777', ']]][[', '---^^', '{{{lll', '>>>???', '===<<', 'rrvv', '||__', '7711', '::;;', '~~^^', 'zzcc'];
+  // SILHOUETTE — the outer contour of the reference portrait, simplified to its masses:
+  // rounded head, straight hair falling either side, narrow shoulders, the upper torso and
+  // the arms gathered in front. Traced by hand from the photo as a closed polygon, in
+  // units of the silhouette's height (x about the head's axis, y 0 at the crown). The
+  // body runs off the bottom of the component like the photo's crop. No face, no detail:
+  // the polygon is only ever used to bias character density, never drawn.
+  const CONTOUR = [[-0.217,0.719],[-0.256,0.634],[-0.276,0.529],[-0.280,0.425],[-0.272,0.320],[-0.254,0.216],[-0.220,0.124],[-0.165,0.052],[-0.102,0.013],[-0.047,0.000],[0.018,0.013],[0.084,0.052],[0.142,0.111],[0.186,0.190],[0.212,0.281],[0.230,0.386],[0.247,0.490],[0.260,0.595],[0.254,0.686],[0.221,0.758],[0.293,0.719],[0.358,0.739],[0.410,0.804],[0.443,0.895],[0.460,1.000],[0.470,1.600],[-0.470,1.600],[-0.459,1.000],[-0.452,0.948],[-0.433,0.856],[-0.393,0.778],[-0.341,0.728],[-0.282,0.706]];
   const cv = document.createElement('canvas'); host.appendChild(cv);
   const ctx = cv.getContext('2d');
   const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -4274,38 +4286,28 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   const rnd = (a, b) => a + Math.random() * (b - a);
   const hash = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return v - Math.floor(v); };
   const smooth = t => t * t * (3 - 2 * t);
-  // 2D value noise in [0,1]
+  // 2D value noise in [0,1]: clusters and open patches in the field
   function vnoise(x, y) {
     const xi = Math.floor(x), yi = Math.floor(y), fx = smooth(x - xi), fy = smooth(y - yi);
     const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
     return (a + (b - a) * fx) + ((c + (d - c) * fx) - (a + (b - a) * fx)) * fy;
   }
-  // signed distance (px) to a standing figure, built from primitives; negative = inside
-  const sdCircle = (px, py, cx, cy, r) => Math.hypot(px - cx, py - cy) - r;
-  function sdCapsule(px, py, ax, ay, bx, by, r) {
-    const abx = bx - ax, aby = by - ay, t = Math.max(0, Math.min(1, ((px - ax) * abx + (py - ay) * aby) / (abx * abx + aby * aby)));
-    return Math.hypot(px - (ax + abx * t), py - (ay + aby * t)) - r;
-  }
-  function sdRoundRect(px, py, cx, cy, hw, hh, r) {
-    const dx = Math.abs(px - cx) - hw + r, dy = Math.abs(py - cy) - hh + r;
-    return Math.hypot(Math.max(dx, 0), Math.max(dy, 0)) + Math.min(Math.max(dx, dy), 0) - r;
-  }
+  // signed distance (px) from a point to the silhouette polygon: negative inside. The
+  // sign comes from an even-odd crossing test, the magnitude from the nearest edge.
   function figureDistance(px, py) {
-    const fh = H * settings.figureHeight, ox = W / 2, oy = (H - fh) / 2;   // figure box, centred
-    const X = x => ox + x * fh, Y = y => oy + y * fh;                       // figure units: x about the axis, y 0 (crown) → 1 (feet)
-    return Math.min(
-      sdCircle(px, py, X(0), Y(0.085), 0.082 * fh),                         // head
-      sdCapsule(px, py, X(0), Y(0.15), X(0), Y(0.21), 0.034 * fh),           // neck
-      sdRoundRect(px, py, X(0), Y(0.40), 0.135 * fh, 0.185 * fh, 0.075 * fh),// torso with rounded shoulders
-      sdCapsule(px, py, X(-0.15), Y(0.255), X(-0.205), Y(0.58), 0.042 * fh), // arms
-      sdCapsule(px, py, X(0.15), Y(0.255), X(0.205), Y(0.58), 0.042 * fh),
-      sdCapsule(px, py, X(-0.07), Y(0.56), X(-0.085), Y(0.975), 0.058 * fh), // legs
-      sdCapsule(px, py, X(0.07), Y(0.56), X(0.085), Y(0.975), 0.058 * fh)
-    );
+    const fh = H * settings.silhouetteScale, ox = W * settings.silhouetteX, oy = H * settings.silhouetteTop;
+    let best = Infinity, inside = false;
+    for (let i = 0, j = CONTOUR.length - 1; i < CONTOUR.length; j = i++) {
+      const ax = ox + CONTOUR[j][0] * fh, ay = oy + CONTOUR[j][1] * fh, bx = ox + CONTOUR[i][0] * fh, by = oy + CONTOUR[i][1] * fh;
+      const abx = bx - ax, aby = by - ay, t = Math.max(0, Math.min(1, ((px - ax) * abx + (py - ay) * aby) / (abx * abx + aby * aby || 1)));
+      best = Math.min(best, Math.hypot(px - (ax + abx * t), py - (ay + aby * t)));
+      if ((ay > py) !== (by > py) && px < ax + (py - ay) * abx / aby) inside = !inside;
+    }
+    return inside ? -best : best;
   }
   // density at a point: outside → inside across a feathered edge, with noise clumping
   function densityAt(px, py) {
-    const feather = settings.edgeSoftness * H * settings.figureHeight;
+    const feather = settings.edgeSoftness * H * settings.silhouetteScale;
     const t = smooth(Math.max(0, Math.min(1, figureDistance(px, py) / feather + 0.5)));   // 0 deep inside … 0.5 on the boundary … 1 outside
     const base = settings.insideDensity + (settings.outsideDensity - settings.insideDensity) * t;
     const n = vnoise(px / 46, py / 34) * 0.7 + vnoise(px / 13, py / 11) * 0.3;                             // clusters and open patches
@@ -4316,7 +4318,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     W = host.clientWidth; H = host.clientHeight; if (!W || !H) return;
     dpr = Math.min(window.devicePixelRatio || 1, 3);
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-    cw = settings.cellSize; ch = Math.round(settings.cellSize * 1.3);
+    cw = settings.cellWidth; ch = settings.cellHeight;
     cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
     cells = new Array(cols * rows);
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
@@ -4366,7 +4368,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (!reduce) {
     let visible = true;
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
-    timer = setInterval(() => { if (visible && !document.hidden) tick(); }, settings.animationSpeed);
+    timer = setInterval(() => { if (visible && !document.hidden) tick(); }, settings.updateInterval);
   }
 })();
 
