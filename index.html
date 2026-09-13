@@ -1277,9 +1277,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-roast { width:300px; height:200px; position:relative; overflow:visible; transform:scale(0.62); transform-origin:top left; }
   /* the campfire slot inside the translator screen (only at the bottom of the page):
      a fixed 186×124 box so the screen keeps its normal height, campfire scaled to fit */
-  .screen-roast { display:none; flex:0 0 186px; min-width:0; width:186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }   /* min-width:0: the 300px scene inside must not widen the slot (it's scaled to 186) */
+  .screen-roast { display:none; position:relative; flex:0 0 186px; min-width:0; width:186px; height:124px; overflow:visible; align-self:center; margin-left:auto; }   /* min-width:0: the 300px scene inside must not widen the slot (it's scaled to 186) */
   .screen-roast .campfire-svg-wrap { left:auto; right:0; top:30%; transform:translateY(-50%); }   /* fire hugs the slot's right edge, above the hint */
-  .screen-roast .roast-hint { font-family:'Figtree', sans-serif; font-style:normal; font-size:calc(14px / 0.62); top:auto; bottom:15.5px; color:#8F9994; opacity:1 !important; pointer-events:auto; }   /* scene is scaled 0.62 → renders at 14px; sits under the fire, ~16px below the credit line's baseline; stays visible and selectable like the rest of the screen text */
+  .screen-roast .roast-hint { font-family:'Figtree', sans-serif; font-style:normal; font-size:14px; letter-spacing:.01em; top:auto; bottom:10px; color:#8F9994; opacity:1 !important; pointer-events:auto; }   /* sits under the fire; stays visible and selectable like the rest of the screen text */
   .detector-screen.at-end .screen-roast { display:block; }
   .detector-screen.at-end .screen-text { flex:1 1 auto; width:auto; }
   .detector-screen.at-end .screen-text.done::after { display:none; }
@@ -1538,9 +1538,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <rect id="mallow-rect" x="4" y="4" width="26" height="32" rx="10" fill="#fff8f4" stroke="#e8ddd0" stroke-width="1.5"/>
           </svg>
         </div>
-        <div class="roast-hint" id="roast-hint">Relax and toast a marshmallow</div>
         <div class="roast-status" id="roast-status"></div>
       </div>
+        <!-- the hint lives outside the scaled scene so it is a plain 14px line -->
+        <div class="roast-hint" id="roast-hint">Relax and toast a marshmallow</div>
         </div>
       </div>
       <div class="detector-corner dc-bl" aria-hidden="true"></div>
