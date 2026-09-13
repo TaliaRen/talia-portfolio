@@ -199,26 +199,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         a frequency (click a marker) and the piece it carries comes up on the
         stage; the others sit as faint blips on the band. ── */
   #vibe { padding-top:160px; padding-bottom:40px; overflow-x:clip; }   /* the heading strand's canvas bleeds a little sideways */
-  /* ── Playground: a boxed label on the translator's axis (like the Project Log
-        node); a link drops from it and becomes the signal trace running down
-        the page, with the four pieces picked up along it ── */
-  #vibe { --axis:calc(50vw - var(--content-left)); }   /* the translator's centre, measured inside the content area */
-  .scope-head { position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:14px; margin:0; padding-bottom:88px; }
-  .scope-label, .scope-sub { position:relative; left:var(--axis); transform:translateX(-50%); width:max-content; max-width:100%; margin:0; }
-  .scope-label {
-    padding:10px 20px; background:rgba(95,227,154,0.10); border:1px solid rgba(95,227,154,0.55);
-    font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
-  }
-  .scope-sub { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.5; color:#8F9994; text-align:center; }
-  /* the link from the label down into the trace: faint line + drifting dashes, like the log's links */
-  .scope-head::before, .scope-head::after { content:''; position:absolute; left:var(--axis); bottom:0; width:1.5px; height:64px; transform:translateX(-50%); }
-  .scope-head::before { background:rgba(99,255,138,0.28); }
-  .scope-head::after { background:repeating-linear-gradient(to bottom, #63FF8A 0 7px, transparent 7px 18px); filter:drop-shadow(0 0 3px rgba(99,255,138,0.7)); animation:scopeDrop 1.2s linear infinite; }
-  @keyframes scopeDrop { to { background-position:0 18px; } }
-  @media (prefers-reduced-motion: reduce) { .scope-head::after { animation:none; } }
-  .scope { display:grid; grid-template-columns:var(--axis) minmax(0, 600px); gap:0 40px; align-items:stretch; }   /* the trace's baseline sits on the axis; pieces to its right, names to its left */
+  .scope-head { display:flex; justify-content:center; margin:0 0 96px; text-align:center; }
+  /* the line under the heading is unknown text; hovering it decodes it (and the translator reads it) */
+  .scope-sub { font-family:'Figtree',sans-serif; font-size:24px; font-weight:500; letter-spacing:.02em; line-height:1.5; color:#fff; margin:0; }
+  .scope-sub .glyph { cursor:default; }
+  .scope-sub .glyph-text { color:#fff; }
+  .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px minmax(0, 560px); justify-content:center; gap:0 40px; align-items:stretch; }   /* band + pieces travel together, centred as one block */
   /* the pieces: just the image / video / phone, nothing around them */
-  .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:flex-start; }
+  .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:center; }
   .sig-item { display:block; width:min(560px, 100%); color:inherit; text-decoration:none; transition:transform .3s ease, filter .4s ease, opacity .4s ease; }
   /* hovering one piece: the others go grey and dim, the hovered one keeps its colour */
   .scope.hovering .sig-item:not(.on) { filter:grayscale(1); opacity:0.12; }
@@ -230,7 +218,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-band { position:relative; }
   .scope-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
   .scope-freq {
-    position:absolute; right:22px; top:var(--y); transform:translateY(-50%);   /* sits left of the baseline (the column's right edge); the spike reaches out to the left */
+    position:absolute; right:34px; top:var(--y); transform:translateY(-50%);   /* sits left of the vertical baseline; the spike reaches out to the left */
     display:flex; flex-direction:column; align-items:flex-end; gap:0; padding:6px 10px;
     background:none; border:none; color:#63FF8A; font-family:'Figtree',sans-serif; pointer-events:none;   /* labels only: nothing here reacts to the mouse */
     transition:color .4s ease;
@@ -238,11 +226,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; text-align:right; }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
-    .scope-sub { font-size:16px; }
-    .scope { grid-template-columns:36px 1fr; gap:0 14px; }   /* on phones the trace hugs the left; the label above stays on the axis */
-    .scope-head { padding-bottom:40px; }
-    .scope-head::before, .scope-head::after { display:none; }   /* the trace sits at the left on phones, so no link drops from the label */
-    .scope-freq { right:6px; padding:4px 6px; }
+    .scope-head { margin-bottom:56px; }
+    .scope-sub { font-size:18px; }   /* the strand cannot wrap: keep the line inside a phone's width */
+    .scope { grid-template-columns:36px 1fr; gap:0 14px; }
+    .scope-freq { right:14px; padding:4px 6px; }
     .scope-freq .freq-name { display:none; }   /* on phones the band keeps its ticks and spikes only */
     .scope-grid { gap:40px; }
   }
@@ -1673,8 +1660,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
   <div class="scope-head">
-    <span class="scope-label">Playground</span>
-    <p class="scope-sub">Signals I chased on my own time</p>
+    <p class="scope-sub"><span class="glyph glyph-vibe" data-text="Signals I chased on my own time"></span></p>
   </div>
   <div class="scope" id="scope">
     <div class="scope-band" id="scopeBand">
@@ -3238,14 +3224,20 @@ document.addEventListener('mousemove', e => {
     };
     // sample: the little "what unknown text looks like" strand in the screen;
     // node: an unfound ship-log entry's label. Neither hovers nor draws beams.
-    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node');
+    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node') || el.classList.contains('glyph-vibe');
     if (S.sample) return S;
     // hovering either phrase decodes BOTH and fires the beams at both
     el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); document.getElementById('detectorCamera')?.classList.add('lit'); if (screenText) showIntro(); });
     el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); document.getElementById('detectorCamera')?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); });
     return S;
   }
-  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node)').forEach(initGlyph);
+  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node):not(.glyph-vibe)').forEach(initGlyph);
+  // the vibe-coding line: unknown text that decodes on hover (and the translator reads it)
+  document.querySelectorAll('.glyph-vibe').forEach((el, i) => {
+    const S = initGlyph(el, 80 + i);
+    el.addEventListener('mouseenter', () => { S.decode(); window.screenTranslate?.('', el.dataset.text || ''); });
+    el.addEventListener('mouseleave', () => { S.encode(); window.screenReady?.(); });
+  });
   window.initGlyph = initGlyph;
   (window.__pendingGlyphs || []).forEach(el => initGlyph(el, 99));
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
@@ -4246,7 +4238,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     function draw(t) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      const base = W - 1, T = t * 0.001;                                              // the baseline runs down the band's right edge (the axis)
+      const base = W - 24, T = t * 0.001;                                             // the baseline runs down near the band's right edge
       const ys = freqs.map(f => parseFloat(f.style.getPropertyValue('--y')) / 100 * H);
       const hov = scope?.classList.contains('hovering');
       freqs.forEach((f, i) => { amp[i] += ((hov ? (i === active ? 1.7 : 0.12) : 0.28) - amp[i]) * 0.1; });   // quiet at rest; the chosen signal spikes hard while a piece is hovered
@@ -4267,7 +4259,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       if (needle !== null) { ctx.beginPath(); ctx.moveTo(base - 34, needle); ctx.lineTo(base + 14, needle); ctx.strokeStyle = 'rgba(207,245,222,0.6)'; ctx.lineWidth = 1; ctx.stroke(); }
       // ticks at each frequency
       ys.forEach((fy, i) => {
-        ctx.beginPath(); ctx.moveTo(base - 10, fy); ctx.lineTo(base, fy);
+        ctx.beginPath(); ctx.moveTo(base - 6, fy); ctx.lineTo(base + 6, fy);
         ctx.strokeStyle = 'rgba(95,227,154,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
       });
     }
