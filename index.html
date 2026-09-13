@@ -535,8 +535,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* capsule label on the first line, then a gap before the two hint lines */
   .screen-text .screen-title {
-    display:inline-block; padding:.12em .8em; border-radius:2px; font-size:14px; letter-spacing:.04em;
-    border:1px solid rgba(95,227,154,0.55); background:rgba(95,227,154,0.10); color:#CFF5DE;
+    display:inline-block; padding:.12em .8em; border-radius:999px; font-size:14px;
+    border:1px solid rgba(255,255,255,0.45); background:rgba(255,255,255,0.06);
     margin-bottom:1.1em; line-height:1.5;
   }
   .screen-text::after {
@@ -1107,7 +1107,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-name .glyph { cursor:inherit; }
   .rumor-name .glyph-text { color:#fff; }
   .rumor-text .project-tags { margin:0; gap:6px; }
-  .rumor-text .project-tag { font-size:14px; }
+  .rumor-text .project-tag { font-size:14px; font-weight:300; padding:3px 10px; }
   /* right: the cover, as big as the entry allows */
   .rumor-map .project-img-wrap {
     flex:1 1 auto; min-width:0; aspect-ratio:570/380; border-radius:0; background:transparent;
@@ -1178,13 +1178,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display:flex; flex-direction:column; justify-content:center;
   }
   .project-tags { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px; }
-  /* tags: square-cornered log chips in the frame's green, like the ENTRY label but outlined */
   .project-tag {
-    font-family:'Figtree',sans-serif; font-size:.85rem; font-weight:400;
-    color:#9FE7BD; letter-spacing:.06em;
-    background:rgba(95,227,154,0.08);
-    border:1px solid rgba(95,227,154,0.45);
-    border-radius:2px; padding:3px 10px; line-height:1.35;
+    font-family:'Figtree',sans-serif; font-size:.85rem; font-weight:200;
+    color:rgba(255,255,255,0.7); letter-spacing:.03em;
+    background:rgba(255,255,255,0.07);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:999px; padding:4px 11px;
   }
   .project-title {
     font-family:'Libertinus Serif',serif; font-size:1.875rem; font-weight:400;
