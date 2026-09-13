@@ -450,7 +450,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph-text { color:#fff; opacity:0; transition:opacity 0.2s ease; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
-  @media (max-width:640px) { .hero-copy { top:20%; gap:28px; } .hero-line { line-height:1.4; } }   /* same 36px on phones; it wraps */
+  @media (max-width:640px) { .hero-copy { top:30%; gap:28px; } .hero-line { line-height:1.4; } }   /* same 36px on phones; it wraps */
 
   /* ── 5 & 6. Detector shell + camera ──
      The shell is tilted back with rotateX inside a perspective wrapper so
@@ -1060,7 +1060,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* PROJECTS */
-  #projects { padding:0 0 80px; margin-top:-152px; max-width:none; }   /* the log starts 152px up inside the hero's empty lower band */   /* the log starts right below the full-screen hero */
+  #projects { padding:0 0 80px; margin-top:-152px; max-width:none; }   /* margin-top is set by script: the start box hides behind the translator on the first screen */   /* the log starts right below the full-screen hero */
 
   /* ── Ship-log rumor map: the four projects as log entries on a faint grid,
         snaking down the map (left, right, left, right) and linked in order by
@@ -1131,7 +1131,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:1100px) { .rumor-map { --node-w:min(760px, 82%); } .rumor-text { flex-basis:220px; } }
   @media (max-width:820px) {    /* one column: text above the cover, links pointing down */
     .rumor-map { display:flex; flex-direction:column; align-items:stretch; gap:112px; }
-    .rumor-start { position:relative; left:auto !important; transform:none; align-self:center; }
+    .rumor-start { position:relative; transform:none; align-self:center; }   /* left is set by script (translator axis) */
     .rumor-map .project-card.rumor-node { position:relative; left:auto; top:auto !important; width:100%; }
     .rumor-body { flex-direction:column; }
     .rumor-head { padding:10px 20px; }
@@ -4128,11 +4128,24 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   };
   function layout() {
     const absolute = getComputedStyle(nodes[0]).position === 'absolute';
+    const vh = window.innerHeight, projectsEl = document.getElementById('projects'), detectorEl = document.querySelector('.detector');
+    // First screen: the start box hides behind the translator (centred on the board),
+    // and the first entry starts just below the fold — a small scroll reveals both.
+    if (startEl && detectorEl && projectsEl) {
+      const boardMid = vh - vh * 0.02 - detectorEl.offsetHeight / 2;              // the board sits 2vh above the viewport bottom
+      projectsEl.style.marginTop = '0px';                                           // measure where the box lands with no pull-up (section padding etc.)
+      const natural = startEl.getBoundingClientRect().top + window.scrollY;
+      projectsEl.style.marginTop = (boardMid - startEl.offsetHeight / 2 - natural) + 'px';
+    }
+    const mr = map.getBoundingClientRect(), mapTop = mr.top + window.scrollY;
+    const firstTop = Math.max(0, vh + 16 - mapTop);                                 // first entry: 16px below the fold, in map coords
+    // the start box sits on the translator's axis (the viewport centre), not the content area's
+    if (startEl) startEl.style.left = (absolute ? window.innerWidth / 2 - mr.left : window.innerWidth / 2 - (mr.left + mr.width / 2)) + 'px';
     if (absolute) {                                     // snake down: the start box, then each entry below the previous one
-      // the start box sits on the translator's axis (the viewport centre), not the content area's
-      if (startEl) startEl.style.left = (window.innerWidth / 2 - map.getBoundingClientRect().left) + 'px';
-      let y = (startEl ? startEl.offsetHeight : 0) + 110;
+      let y = Math.max((startEl ? startEl.offsetHeight : 0) + 110, firstTop);
       nodes.forEach(n => { n.style.top = y + 'px'; y += n.offsetHeight + 150; });
+    } else if (startEl) {                               // column layout (phones): push the first entry below the fold
+      nodes[0].style.marginTop = Math.max(0, firstTop - startEl.offsetHeight - 112) + 'px';
     }
     map.style.height = absolute ? Math.max(...nodes.map(n => n.offsetTop + n.offsetHeight)) + 'px' : '';
     svg.setAttribute('viewBox', `0 0 ${map.clientWidth} ${map.clientHeight}`);
