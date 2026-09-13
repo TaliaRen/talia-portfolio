@@ -204,7 +204,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scope-sub { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.6; color:#8F9994; margin:0; }
   .scope-sub .glyph { cursor:default; }
   .scope-sub .glyph-text { color:#8F9994; }
-  .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px 1fr; gap:0 40px; align-items:stretch; }   /* the band runs down the left, the pieces stack on the right */
+  .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px minmax(0, 560px); justify-content:center; gap:0 40px; align-items:stretch; }   /* band + pieces travel together, centred as one block */
   /* the pieces: just the image / video / phone, nothing around them */
   .scope-grid { display:flex; flex-direction:column; gap:56px; align-items:center; }
   .sig-item { display:block; width:min(560px, 100%); color:inherit; text-decoration:none; transition:transform .3s ease, opacity .3s ease; }
