@@ -1055,7 +1055,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* PROJECTS */
-  #projects { padding:40px 0 80px; margin-top:0; max-width:none; }   /* the log starts right below the full-screen hero (label sits in the 40px gap) */
+  #projects { padding:60px 0 80px; margin-top:0; max-width:none; }   /* the log starts right below the full-screen hero (label sits in the gap) */
 
   /* ── Ship-log rumor map: the four projects as log entries on a faint grid,
         snaking down the map (left, right, left, right) and linked in order by
@@ -1070,7 +1070,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     background-size:96px 96px; background-position:0 0;
   }
   .rumor-label {
-    position:absolute; left:0; top:-28px; margin:0;
+    position:absolute; left:0; top:-48px; margin:0;
     font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.16em; color:#8F9994;
   }
   .rumor-links { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:0; }
@@ -1093,7 +1093,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .rumor-node:nth-of-type(odd)  { --nx:0; }
   .rumor-node:nth-of-type(even) { --nx:1; }
-  .rumor-map .project-card.rumor-node.found:hover { transform:translateY(-3px); border-color:#5FE39A; }
+  .rumor-map .project-card.rumor-node.found:hover { border-color:#5FE39A; }   /* hover: border brightens only, no lift */
   .rumor-map .project-card:hover .project-img-wrap { transform:none; }   /* the whole entry lifts instead of the cover alone */
   /* left: the entry's text */
   .rumor-text {
