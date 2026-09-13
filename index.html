@@ -1094,17 +1094,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; left:calc(var(--nx) * (100% - var(--node-w))); top:0; width:var(--node-w);
     display:flex; flex-direction:column; align-items:stretch; gap:0; padding:0; z-index:1; box-sizing:border-box;   /* stretch: the base .project-card centres its children */
     border:1px solid rgba(95,227,154,0.28); background:rgba(10,13,12,0.85);   /* faint frame until the entry is found */
-    transition:transform .3s ease, border-color .45s ease;
+    transition:transform .3s ease, border-color .45s ease, box-shadow .35s ease;
   }
   .rumor-node.found { border-color:rgba(95,227,154,0.55); }
   .rumor-node:nth-of-type(odd)  { --nx:0; }
   .rumor-node:nth-of-type(even) { --nx:1; }
-  .rumor-map .project-card.rumor-node.found:hover { border-color:#5FE39A; }   /* hover: border brightens only, no lift */
+  /* hover (no lift): the frame brightens and glows, the record strip lights up,
+     the rule under the name extends, and the cover's backdrop zooms a touch */
+  .rumor-map .project-card.rumor-node.found:hover { border-color:#5FE39A; box-shadow:0 0 0 1px rgba(95,227,154,0.25), 0 0 32px rgba(95,227,154,0.16); }
+  .rumor-node.found:hover .rumor-head { background:rgba(95,227,154,0.22); }
+  .rumor-node.found:hover .rumor-name::after { width:72px; }
+  .rumor-map .project-img-wrap > img:first-child { transition:transform .6s cubic-bezier(.22,1,.36,1); }
+  .rumor-node.found:hover .project-img-wrap > img:first-child { transform:scale(1.05); }
   .rumor-map .project-card:hover .project-img-wrap { transform:none; }   /* the whole entry lifts instead of the cover alone */
   /* log header: a tinted strip across the top of the text column — who / when */
   .rumor-head {
     display:flex; align-items:center;
-    padding:10px 28px; background:rgba(95,227,154,0.10); border-bottom:1px solid rgba(95,227,154,0.45);
+    padding:10px 28px; background:rgba(95,227,154,0.10); border-bottom:1px solid rgba(95,227,154,0.45); transition:background .35s ease;
     font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
   }
   .rumor-body { display:flex; align-items:stretch; opacity:0; transform:translateY(12px); transition:opacity .45s cubic-bezier(.22,1,.36,1), transform .45s cubic-bezier(.22,1,.36,1); }
@@ -1117,7 +1123,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .rumor-text .project-title, .rumor-text .project-desc { display:none; }   /* title: the viewer's lookup; desc: typed on the translator */
   .rumor-name { font-family:'Libertinus Serif',serif; font-size:28px; font-weight:400; line-height:1.25; color:#fff; margin:28px 28px auto; }   /* auto bottom margin: tags sit at the bottom */
-  .rumor-name::after { content:''; display:block; width:36px; height:1px; background:#5FE39A; margin-top:8px; }   /* a short rule ties the name to the log */
+  .rumor-name::after { content:''; display:block; width:36px; height:1px; background:#5FE39A; margin-top:8px; transition:width .35s cubic-bezier(.22,1,.36,1); }   /* a short rule ties the name to the log */
   .rumor-text .project-tags { margin:24px 28px 28px; gap:8px; }
   /* project-log tags: solid green, square-cornered chips */
   .rumor-text .project-tag { font-size:14px; font-weight:500; letter-spacing:.02em; color:#0A0D0C; background:#5FE39A; border:none; border-radius:0; padding:3px 9px; line-height:1.4; }
