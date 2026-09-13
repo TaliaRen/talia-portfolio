@@ -210,29 +210,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      Hovering a card (or sweeping the band) tunes the band to it. */
   .scope-grid { display:flex; flex-direction:column; gap:24px; }
   .sig-card {
-    display:flex; flex-direction:row; align-items:stretch; border:1px solid rgba(95,227,154,0.28); background:rgba(10,13,12,0.85);
-    transition:border-color .35s ease, transform .3s ease;
+    display:flex; flex-direction:row; align-items:stretch; border:1px solid rgba(255,255,255,0.14); background:rgba(255,255,255,0.03);
+    color:inherit; text-decoration:none; transition:border-color .35s ease, transform .3s ease;
   }
-  .sig-card.on { border-color:rgba(95,227,154,0.55); }
-  .sig-card:hover { border-color:#5FE39A; transform:translateY(-3px); }
-  .sig-media { position:relative; flex:0 0 320px; aspect-ratio:4 / 3; overflow:hidden; background:#07120D; display:flex; align-items:center; justify-content:center; border-right:1px solid rgba(95,227,154,0.28); }
+  .sig-card.on { border-color:rgba(255,255,255,0.3); }
+  a.sig-card:hover { border-color:rgba(255,255,255,0.55); transform:translateY(-3px); }
+  .sig-media { position:relative; flex:0 0 320px; aspect-ratio:4 / 3; overflow:hidden; background:#101413; display:flex; align-items:center; justify-content:center; border-right:1px solid rgba(255,255,255,0.14); }
   .sig-media img, .sig-media video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
   .sig-phone .phone-mockup { transform:scale(0.46); transform-origin:center center; }
   .sig-text { padding:24px 28px; display:flex; flex-direction:column; justify-content:center; flex:1 1 auto; min-width:0; }
-  .sig-text .scope-data { margin-bottom:12px; }
   .sig-title { font-family:'Libertinus Serif',serif; font-size:22px; font-weight:400; line-height:1.25; color:#fff; margin:0 0 10px; }
-  .sig-caption { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.55; color:rgba(255,255,255,0.85); margin:0; }
-  .sig-text .scope-link { margin-top:14px; }
-  .scope-data { display:flex; flex-wrap:wrap; gap:6px 14px; font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD; }
-  .scope-data .live { display:inline-flex; align-items:center; gap:7px; color:#63FF8A; }
-  .scope-data .live::before { content:''; width:6px; height:6px; border-radius:50%; background:#63FF8A; box-shadow:0 0 6px rgba(99,255,138,0.8); animation:scopeBlink 1.6s ease-in-out infinite; }
-  @keyframes scopeBlink { 0%, 100% { opacity:1; } 50% { opacity:0.25; } }
-  .scope-link {
-    display:inline-flex; align-self:flex-start; align-items:center; gap:8px;
-    font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; color:#fff; text-decoration:none;
-    border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:2px; transition:border-color .2s;
-  }
-  .scope-link:hover { border-color:#fff; }
+  .sig-caption { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.55; color:#8F9994; margin:0; }
   /* the band: a canvas draws the noise floor and the signal spikes; markers sit on it */
   .scope-band { position:relative; cursor:none; }
   .scope-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
@@ -243,7 +231,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:color .3s ease;
   }
   .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; text-align:right; }
-  .scope-freq .freq-hz { font-size:12px; letter-spacing:.1em; text-transform:uppercase; margin-top:4px; opacity:.7; white-space:nowrap; }
   .scope-freq:hover { color:#CFF5DE; }
   .scope-freq.on { color:#63FF8A; }
   .scope-freq:focus-visible { outline:1px solid #63FF8A; outline-offset:4px; }
@@ -253,9 +240,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .scope-head { margin-bottom:40px; }
     .scope { grid-template-columns:36px 1fr; gap:0 14px; }
     .scope-freq { right:14px; padding:4px 6px; }
-    .scope-freq .freq-name, .scope-freq .freq-hz { display:none; }   /* on phones the band keeps its ticks and spikes only */
+    .scope-freq .freq-name { display:none; }   /* on phones the band keeps its ticks and spikes only */
     .sig-card { flex-direction:column; }
-    .sig-media { flex:none; width:100%; aspect-ratio:4 / 3; border-right:none; border-bottom:1px solid rgba(95,227,154,0.28); }
+    .sig-media { flex:none; width:100%; aspect-ratio:4 / 3; border-right:none; border-bottom:1px solid rgba(255,255,255,0.14); }
     .sig-phone .phone-mockup { transform:scale(0.46); }
     .sig-text { padding:18px 18px 22px; }
   }
@@ -1686,19 +1673,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Vibe coding: two playground pieces, live on the homepage -->
 <section id="vibe">
   <div class="scope-head">
-    <span class="scope-label">Signalscope</span>
-    <p class="scope-sub">Small things built fast with Claude Code, each on its own frequency</p>
+    <span class="scope-label">Vibe Coding</span>
+    <p class="scope-sub">Small things built fast with Claude Code</p>
   </div>
   <div class="scope" id="scope">
     <div class="scope-band" id="scopeBand">
       <canvas id="scopeWave" aria-hidden="true"></canvas>
-      <button class="scope-freq on" type="button" style="--y:12.5%" data-i="0"><span class="freq-name">Truthly</span><span class="freq-hz">01 · live</span></button>
-      <button class="scope-freq" type="button" style="--y:37.5%" data-i="1"><span class="freq-name">Christmas tree</span><span class="freq-hz">02 · gesture</span></button>
-      <button class="scope-freq" type="button" style="--y:62.5%" data-i="2"><span class="freq-name">Opera mask AR</span><span class="freq-hz">03 · face tracking</span></button>
-      <button class="scope-freq" type="button" style="--y:87.5%" data-i="3"><span class="freq-name">Lion, scanned</span><span class="freq-hz">04 · photogrammetry</span></button>
+      <button class="scope-freq on" type="button" style="--y:12.5%" data-i="0"><span class="freq-name">Truthly</span></button>
+      <button class="scope-freq" type="button" style="--y:37.5%" data-i="1"><span class="freq-name">Christmas tree</span></button>
+      <button class="scope-freq" type="button" style="--y:62.5%" data-i="2"><span class="freq-name">Opera mask AR</span></button>
+      <button class="scope-freq" type="button" style="--y:87.5%" data-i="3"><span class="freq-name">Lion, scanned</span></button>
     </div>
     <div class="scope-grid">
-      <article class="sig-card on" data-note="Signal 01 · a Truth or Dare app, built in two evenings with Claude Code">
+      <a class="sig-card on" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener">
         <div class="sig-media sig-phone">
           <div class="phone-mockup">
             <div class="phone-island"></div>
@@ -1708,45 +1695,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
         <div class="sig-text">
-          <div class="scope-data"><span>Signal 01</span><span class="live">Live · try it</span></div>
           <h3 class="sig-title">Truthly</h3>
           <p class="sig-caption">A Truth or Dare app that adapts prompts to different social scenarios and relationship stages</p>
-          <a class="scope-link" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener">Open full screen ↗</a>
         </div>
-      </article>
-      <article class="sig-card" data-note="Signal 02 · a gesture-controlled Christmas tree, built with Claude Code">
+      </a>
+      <a class="sig-card" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener">
         <div class="sig-media">
           <video autoplay muted loop playsinline preload="metadata">
             <source src="playground/christmas memory.mp4" type="video/mp4">
           </video>
         </div>
         <div class="sig-text">
-          <div class="scope-data"><span>Signal 02</span><span>Gesture control</span></div>
           <h3 class="sig-title">Gesture-Controlled Christmas Tree</h3>
           <p class="sig-caption">Decorate a Christmas tree with your own photos and control it all with just your hands</p>
-          <a class="scope-link" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener">Try it yourself ↗</a>
         </div>
-      </article>
-      <article class="sig-card" data-note="Signal 03 · Peking opera face paint, tracked onto your face in the browser">
+      </a>
+      <div class="sig-card">
         <div class="sig-media">
           <img src="playground/Screenshot 2026-07-10 at 11.59.40.png" alt="Peking opera mask AR try-on" loading="lazy">
         </div>
         <div class="sig-text">
-          <div class="scope-data"><span>Signal 03</span><span>Face tracking</span></div>
           <h3 class="sig-title">Opera Mask AR</h3>
           <p class="sig-caption">Try on Peking opera face paint in the browser: masks tracked to your face, with a note on what each colour stands for</p>
         </div>
-      </article>
-      <article class="sig-card" data-note="Signal 04 · a plush lion rebuilt in 3D from fifty phone photos">
+      </div>
+      <div class="sig-card">
         <div class="sig-media">
           <img src="playground/3d.png" alt="Photogrammetry scan of a plush lion in Meshroom" loading="lazy">
         </div>
         <div class="sig-text">
-          <div class="scope-data"><span>Signal 04</span><span>Photogrammetry</span></div>
           <h3 class="sig-title">Lion, Scanned</h3>
           <p class="sig-caption">A plush lion rebuilt as a textured 3D model from fifty phone photos, stitched together in Meshroom</p>
         </div>
-      </article>
+      </div>
     </div>
   </div>
 </section>
@@ -4278,11 +4259,11 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     band.addEventListener('pointerleave', () => { needle = null; });
     freqs.forEach((f, i) => {
       f.addEventListener('click', () => tune(i));
-      f.addEventListener('mouseenter', () => window.screenTranslate?.('', panels[i]?.dataset.note || ''));
+      f.addEventListener('mouseenter', () => window.screenTranslate?.('', panels[i]?.querySelector('.sig-caption')?.textContent.trim() || ''));
       f.addEventListener('mouseleave', () => window.screenReady?.());
     });
     panels.forEach((p, i) => {
-      p.addEventListener('mouseenter', () => { tune(i); window.screenTranslate?.('', p.dataset.note || ''); });
+      p.addEventListener('mouseenter', () => { tune(i); window.screenTranslate?.('', p.querySelector('.sig-caption')?.textContent.trim() || ''); });
       p.addEventListener('mouseleave', () => window.screenReady?.());
     });
     function size() {
