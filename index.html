@@ -220,16 +220,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .sig-item img, .sig-item video { width:100%; height:auto; display:block; }
   .sig-item.sig-phone { display:flex; justify-content:center; padding:20px 0; box-shadow:none; }
-  /* pinned with two strips of translucent tape across the top corners */
-  .sig-item::before, .sig-item::after {
-    content:''; position:absolute; top:-10px; width:72px; height:22px;
-    background:rgba(159,231,189,0.28); border:1px solid rgba(159,231,189,0.18); box-shadow:0 2px 6px rgba(0,0,0,0.25);
-    pointer-events:none;
-  }
-  .sig-item::before { left:-18px; transform:rotate(-38deg); }
-  .sig-item::after  { right:-18px; transform:rotate(38deg); }
-  .sig-item.sig-phone::before, .sig-item.sig-phone::after { display:none; }
-  .sig-item { position:relative; }
+  /* a thin stroke around each print, with heavier brackets on the corners */
+  .sig-item { position:relative; border:1px solid rgba(95,227,154,0.4) !important; }
+  .sig-item .corner { position:absolute; width:14px; height:14px; border:2.5px solid #5FE39A; pointer-events:none; }
+  .sig-item .corner.tl { left:-1px; top:-1px; border-right:none; border-bottom:none; }
+  .sig-item .corner.tr { right:-1px; top:-1px; border-left:none; border-bottom:none; }
+  .sig-item .corner.bl { left:-1px; bottom:-1px; border-right:none; border-top:none; }
+  .sig-item .corner.br { right:-1px; bottom:-1px; border-left:none; border-top:none; }
+  .sig-item.sig-phone { border:none !important; }
+  .sig-item.sig-phone .corner { display:none; }
   a.sig-item:hover { transform:rotate(0deg) translateY(-4px); }
   /* hovering one print: the rest go very grey */
   .scrap.hovering .sig-item:not(.on) { filter:grayscale(1); opacity:0.12; }
@@ -4202,6 +4201,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     const board = document.getElementById('scope'), items = [...document.querySelectorAll('.sig-item')];
     if (!board || !items.length) return;
     items.forEach(p => {
+      ['tl', 'tr', 'bl', 'br'].forEach(c => { const k = document.createElement('span'); k.className = 'corner ' + c; k.setAttribute('aria-hidden', 'true'); p.appendChild(k); });   // corner brackets on the stroke
       p.addEventListener('mouseenter', () => { items.forEach(x => x.classList.toggle('on', x === p)); board.classList.add('hovering'); window.screenTranslateTitled?.(p.dataset.title || '', p.dataset.note || ''); });
       p.addEventListener('mouseleave', () => { board.classList.remove('hovering'); window.screenReady?.(); });
     });
