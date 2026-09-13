@@ -4159,8 +4159,8 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
         const dx = bx - ax, dy = by - ay;
         const t0 = exitT(a, ax, ay, dx, dy), t1 = 1 - exitT(b, bx, by, -dx, -dy);
         x0 = ax + dx * t0; y0 = ay + dy * t0; x1 = ax + dx * t1; y1 = ay + dy * t1;
-      } else {                                          // start box to the first entry: straight down
-        x0 = x1 = a.x + a.w / 2; y0 = a.y + a.h; y1 = b.y;
+      } else {                                          // start box to the first entry: from the box's bottom centre to the entry's top centre
+        x0 = a.x + a.w / 2; y0 = a.y + a.h; x1 = b.x + b.w / 2; y1 = b.y;
       }
       const len = Math.hypot(x1 - x0, y1 - y0);
       const d = `M${x0.toFixed(1)},${y0.toFixed(1)} L${x1.toFixed(1)},${y1.toFixed(1)}`;
