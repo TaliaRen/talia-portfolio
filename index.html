@@ -1115,14 +1115,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-map .project-img-wrap > img { opacity:0; transition:opacity .6s ease .15s; }
   .rumor-node.found .project-img-wrap > img { opacity:1; }
   @media (max-width:1100px) { .rumor-map { --node-w:min(760px, 82%); } .rumor-text { flex-basis:220px; } }
-  @media (max-width:820px) {    /* one column: text above the cover, arrows pointing down */
-    .rumor-map { display:flex; flex-direction:column; gap:64px; }
+  @media (max-width:820px) {    /* one column: text above the cover, links pointing down */
+    .rumor-map { display:flex; flex-direction:column; gap:96px; }
     .rumor-map .project-card.rumor-node { position:relative; left:auto; top:auto !important; width:100%; flex-direction:column; }
     .rumor-text { flex:none; border-right:none; border-bottom:1px solid rgba(95,227,154,0.35); }
-  }
-  @media (max-width:700px) {    /* one column, arrows pointing down */
-    .rumor-map { display:flex; flex-direction:column; gap:64px; }
-    .rumor-map .project-card.rumor-node { position:relative; left:auto; top:auto; width:100%; }
   }
   .projects-carousel-viewport { overflow:hidden; width:100%; padding:40px 0; box-sizing:border-box; }
   .projects-list { display:flex; flex-direction:row; flex-wrap:nowrap; transition:transform 0.55s cubic-bezier(0.65,0,0.35,1); will-change:transform; }
@@ -4101,7 +4097,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     const absolute = getComputedStyle(nodes[0]).position === 'absolute';
     if (absolute) {                                     // snake down: each entry below the previous one
       let y = 0;
-      nodes.forEach(n => { n.style.top = y + 'px'; y += n.offsetHeight + 72; });
+      nodes.forEach(n => { n.style.top = y + 'px'; y += n.offsetHeight + 120; });
     }
     map.style.height = absolute ? Math.max(...nodes.map(n => n.offsetTop + n.offsetHeight)) + 'px' : '';
     svg.setAttribute('viewBox', `0 0 ${map.clientWidth} ${map.clientHeight}`);
