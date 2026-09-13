@@ -205,20 +205,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
   }
   .scope-sub { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.6; color:#8F9994; max-width:600px; margin:0; }
-  .scope { max-width:1100px; margin:0 auto; }
+  .scope { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:150px 1fr; gap:0 40px; align-items:stretch; }   /* the band runs down the left, the signals stack on the right */
   /* the signals, all at once: four cards, each under its frequency marker.
      Hovering a card (or sweeping the band) tunes the band to it. */
-  .scope-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:24px; margin-top:8px; }
+  .scope-grid { display:flex; flex-direction:column; gap:24px; }
   .sig-card {
-    display:flex; flex-direction:column; border:1px solid rgba(95,227,154,0.28); background:rgba(10,13,12,0.85);
+    display:flex; flex-direction:row; align-items:stretch; border:1px solid rgba(95,227,154,0.28); background:rgba(10,13,12,0.85);
     transition:border-color .35s ease, transform .3s ease;
   }
   .sig-card.on { border-color:rgba(95,227,154,0.55); }
   .sig-card:hover { border-color:#5FE39A; transform:translateY(-3px); }
-  .sig-media { position:relative; aspect-ratio:4 / 5; overflow:hidden; background:#07120D; display:flex; align-items:center; justify-content:center; border-bottom:1px solid rgba(95,227,154,0.28); }
+  .sig-media { position:relative; flex:0 0 320px; aspect-ratio:4 / 3; overflow:hidden; background:#07120D; display:flex; align-items:center; justify-content:center; border-right:1px solid rgba(95,227,154,0.28); }
   .sig-media img, .sig-media video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
-  .sig-phone .phone-mockup { transform:scale(0.62); transform-origin:center center; }
-  .sig-text { padding:20px 20px 24px; display:flex; flex-direction:column; }
+  .sig-phone .phone-mockup { transform:scale(0.46); transform-origin:center center; }
+  .sig-text { padding:24px 28px; display:flex; flex-direction:column; justify-content:center; flex:1 1 auto; min-width:0; }
   .sig-text .scope-data { margin-bottom:12px; }
   .sig-title { font-family:'Libertinus Serif',serif; font-size:22px; font-weight:400; line-height:1.25; color:#fff; margin:0 0 10px; }
   .sig-caption { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:1.55; color:rgba(255,255,255,0.85); margin:0; }
@@ -234,28 +234,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .scope-link:hover { border-color:#fff; }
   /* the band: a canvas draws the noise floor and the signal spikes; markers sit on it */
-  .scope-band { position:relative; height:120px; cursor:none; }
+  .scope-band { position:relative; cursor:none; }
   .scope-band canvas { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
   .scope-freq {
-    position:absolute; left:var(--x); top:50%; transform:translateX(-50%);   /* hangs below the baseline; the spike rises above it */
-    display:flex; flex-direction:column; align-items:center; gap:0; padding:14px 18px 6px;
+    position:absolute; right:34px; top:var(--y); transform:translateY(-50%);   /* sits left of the vertical baseline; the spike reaches out to the left */
+    display:flex; flex-direction:column; align-items:flex-end; gap:0; padding:6px 10px;
     background:none; border:none; color:#8F9994; font-family:'Figtree',sans-serif; cursor:pointer;
     transition:color .3s ease;
   }
-  .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; }
+  .scope-freq .freq-name { font-size:14px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; text-align:right; }
   .scope-freq .freq-hz { font-size:12px; letter-spacing:.1em; text-transform:uppercase; margin-top:4px; opacity:.7; white-space:nowrap; }
   .scope-freq:hover { color:#CFF5DE; }
   .scope-freq.on { color:#63FF8A; }
   .scope-freq:focus-visible { outline:1px solid #63FF8A; outline-offset:4px; }
-  @media (max-width:1100px) { .scope-grid { grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:900px) { .sig-media { flex-basis:240px; } .sig-phone .phone-mockup { transform:scale(0.36); } }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
     .scope-head { margin-bottom:40px; }
-    .scope-grid { grid-template-columns:1fr; }
-    .sig-phone .phone-mockup { transform:scale(0.72); }
-    .scope-freq { padding:14px 2px 6px; }
-    .scope-freq .freq-name { font-size:11px; letter-spacing:.06em; white-space:normal; max-width:62px; text-align:center; line-height:1.3; }
-    .scope-freq .freq-hz { display:none; }
+    .scope { grid-template-columns:36px 1fr; gap:0 14px; }
+    .scope-freq { right:14px; padding:4px 6px; }
+    .scope-freq .freq-name, .scope-freq .freq-hz { display:none; }   /* on phones the band keeps its ticks and spikes only */
+    .sig-card { flex-direction:column; }
+    .sig-media { flex:none; width:100%; aspect-ratio:4 / 3; border-right:none; border-bottom:1px solid rgba(95,227,154,0.28); }
+    .sig-phone .phone-mockup { transform:scale(0.46); }
+    .sig-text { padding:18px 18px 22px; }
   }
   /* phone mockup with the live Truthly app */
   .phone-mockup {
@@ -1690,10 +1692,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="scope" id="scope">
     <div class="scope-band" id="scopeBand">
       <canvas id="scopeWave" aria-hidden="true"></canvas>
-      <button class="scope-freq on" type="button" style="--x:12.5%" data-i="0"><span class="freq-name">Truthly</span><span class="freq-hz">01 · live</span></button>
-      <button class="scope-freq" type="button" style="--x:37.5%" data-i="1"><span class="freq-name">Christmas tree</span><span class="freq-hz">02 · gesture</span></button>
-      <button class="scope-freq" type="button" style="--x:62.5%" data-i="2"><span class="freq-name">Opera mask AR</span><span class="freq-hz">03 · face tracking</span></button>
-      <button class="scope-freq" type="button" style="--x:87.5%" data-i="3"><span class="freq-name">Lion, scanned</span><span class="freq-hz">04 · photogrammetry</span></button>
+      <button class="scope-freq on" type="button" style="--y:12.5%" data-i="0"><span class="freq-name">Truthly</span><span class="freq-hz">01 · live</span></button>
+      <button class="scope-freq" type="button" style="--y:37.5%" data-i="1"><span class="freq-name">Christmas tree</span><span class="freq-hz">02 · gesture</span></button>
+      <button class="scope-freq" type="button" style="--y:62.5%" data-i="2"><span class="freq-name">Opera mask AR</span><span class="freq-hz">03 · face tracking</span></button>
+      <button class="scope-freq" type="button" style="--y:87.5%" data-i="3"><span class="freq-name">Lion, scanned</span><span class="freq-hz">04 · photogrammetry</span></button>
     </div>
     <div class="scope-grid">
       <article class="sig-card on" data-note="Signal 01 · a Truth or Dare app, built in two evenings with Claude Code">
@@ -4265,12 +4267,12 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       freqs.forEach((f, k) => f.classList.toggle('on', k === i));
       panels.forEach((p, k) => p.classList.toggle('on', k === i));
     }
-    // sweeping the pointer across the band tunes to the nearest frequency (a needle follows it)
+    // sweeping the pointer down the band tunes to the nearest frequency (a needle follows it)
     let needle = null;
     band.addEventListener('pointermove', e => {
-      const r = band.getBoundingClientRect(); needle = e.clientX - r.left;
-      const xs = freqs.map(f => parseFloat(f.style.getPropertyValue('--x')) / 100 * r.width);
-      let best = 0; xs.forEach((x, i) => { if (Math.abs(x - needle) < Math.abs(xs[best] - needle)) best = i; });
+      const r = band.getBoundingClientRect(); needle = e.clientY - r.top;
+      const ys = freqs.map(f => parseFloat(f.style.getPropertyValue('--y')) / 100 * r.height);
+      let best = 0; ys.forEach((y, i) => { if (Math.abs(y - needle) < Math.abs(ys[best] - needle)) best = i; });
       if (best !== active) tune(best);
     });
     band.addEventListener('pointerleave', () => { needle = null; });
@@ -4287,44 +4289,46 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       W = band.clientWidth; H = band.clientHeight;
       cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-      // each marker sits exactly above its card (when the cards are in one row)
-      const br = band.getBoundingClientRect(), oneRow = panels.length > 1 && Math.abs(panels[0].getBoundingClientRect().top - panels[panels.length - 1].getBoundingClientRect().top) < 2;
+      // each marker sits level with its card's centre
+      const br = band.getBoundingClientRect();
       freqs.forEach((f, i) => {
         const c = panels[i]; if (!c) return;
         const cr = c.getBoundingClientRect();
-        f.style.setProperty('--x', oneRow ? ((cr.left + cr.width / 2 - br.left) / br.width * 100).toFixed(2) + '%' : ((i + 0.5) / freqs.length * 100) + '%');
+        f.style.setProperty('--y', ((cr.top + cr.height / 2 - br.top) / br.height * 100).toFixed(2) + '%');
       });
     }
     function draw(t) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      const mid = H * 0.5, T = t * 0.001;
-      const xs = freqs.map(f => parseFloat(f.style.getPropertyValue('--x')) / 100 * W);
+      const base = W - 24, T = t * 0.001;                                             // the baseline runs down near the band's right edge
+      const ys = freqs.map(f => parseFloat(f.style.getPropertyValue('--y')) / 100 * H);
       freqs.forEach((f, i) => { amp[i] += ((i === active ? 1 : 0.28) - amp[i]) * 0.08; });
-      // noise floor + spikes
+      // noise floor + spikes (reaching left, toward the labels)
       ctx.beginPath();
-      for (let x = 0; x <= W; x += 2) {
-        let y = Math.sin(x * 0.05 + T * 2.1) * 1.2 + Math.sin(x * 0.013 - T * 1.3) * 1.6 + (Math.random() - 0.5) * 1.4;
-        xs.forEach((fx, i) => {
-          const d = (x - fx) / 26, g = Math.exp(-d * d);
-          y -= g * (18 + 10 * Math.sin(T * 6 + i)) * amp[i] * (0.75 + 0.25 * Math.sin(x * 0.9 + T * 14));
+      for (let y = 0; y <= H; y += 2) {
+        let x = Math.sin(y * 0.05 + T * 2.1) * 1.2 + Math.sin(y * 0.013 - T * 1.3) * 1.6 + (Math.random() - 0.5) * 1.4;
+        ys.forEach((fy, i) => {
+          const d = (y - fy) / 26, g = Math.exp(-d * d);
+          x -= g * (18 + 10 * Math.sin(T * 6 + i)) * amp[i] * (0.75 + 0.25 * Math.sin(y * 0.9 + T * 14));
         });
-        ctx[x ? 'lineTo' : 'moveTo'](x, mid + y);
+        ctx[y ? 'lineTo' : 'moveTo'](base + x, y);
       }
       ctx.strokeStyle = 'rgba(99,255,138,0.55)'; ctx.lineWidth = 1.2; ctx.stroke();
       // baseline
-      ctx.beginPath(); ctx.moveTo(0, mid); ctx.lineTo(W, mid); ctx.strokeStyle = 'rgba(95,227,154,0.18)'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(base, 0); ctx.lineTo(base, H); ctx.strokeStyle = 'rgba(95,227,154,0.18)'; ctx.lineWidth = 1; ctx.stroke();
       // the tuning needle at the pointer
-      if (needle !== null) { ctx.beginPath(); ctx.moveTo(needle, mid - 34); ctx.lineTo(needle, mid + 14); ctx.strokeStyle = 'rgba(207,245,222,0.6)'; ctx.lineWidth = 1; ctx.stroke(); }
+      if (needle !== null) { ctx.beginPath(); ctx.moveTo(base - 34, needle); ctx.lineTo(base + 14, needle); ctx.strokeStyle = 'rgba(207,245,222,0.6)'; ctx.lineWidth = 1; ctx.stroke(); }
       // ticks at each frequency
-      xs.forEach((fx, i) => {
-        ctx.beginPath(); ctx.moveTo(fx, mid - 6); ctx.lineTo(fx, mid + 6);
+      ys.forEach((fy, i) => {
+        ctx.beginPath(); ctx.moveTo(base - 6, fy); ctx.lineTo(base + 6, fy);
         ctx.strokeStyle = i === active ? '#63FF8A' : 'rgba(95,227,154,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
       });
     }
     (function loop(t) { if (inView) draw(t); requestAnimationFrame(loop); })(0);
     size(); draw(0);
     window.addEventListener('resize', () => { size(); draw(performance.now()); });
+    window.addEventListener('load', () => { size(); draw(performance.now()); });
+    if (document.fonts?.ready) document.fonts.ready.then(() => { size(); draw(performance.now()); });
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(band); else inView = true;
     tune(0);
   })();
