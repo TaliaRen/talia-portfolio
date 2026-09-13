@@ -1894,7 +1894,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
        cell gets one of the code marks (polygons, zigzags, ticks, arcs…) at the cell's
        brightness, so the face reads through the glyphs; the field around it stays dim -->
   <div class="crew-holo" aria-hidden="true">
-    <canvas id="portraitGlyphs" data-src="about/about.jpg"></canvas>
+    <canvas id="portraitGlyphs" data-cols="58" data-rows="65" data-cells="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j46Lj5KUmYuSl4+Ik358d3JtZVlHLxoLAwAGDh0ySmBveHybmJGUlo6Xk5yZmZSWm6yxra2xs7GsoYyGjJaYmZuLkJGKkX9/lX17eXVtXEMpFAcCEBsvSF9veJ6ZlJORlpmXnZSSkY6Lh42osa6usLKxrZ6Hg5Cbmpuai4mOk5h8mpSTlZeOd2tVOiEPBh8tQ1pteJeOkJiUkI+Tk6GFiZGUkYSAm7Csr7Gvsa2choWampqamYuGlJebmpSSlZqWlIx0ZEwxHBA1QlVodZyTlZGOlJSPkI6XkI6QioSDgJmzra6ysrCsnYWGnJqZmpeIhJWZm5eTlJOQkJKVeG5bQy0fTldmcpSUkI+KhYeLkJSSlJeGhYSHg4uhs6yxsa+xrKCGi5yamZmWho+Zl5iVlJOVk5KRlIx1aFZCNWRqc3mXkomOioODg4SMjpagkYuEg4KQo7GusLSwsaufh4+ZmZiYk4aVlZaVk5KTlJORj42GhHJmV050d3uhkpSOjYyGhIODgYKFnpqUioODkKOwr7GxsLKsn4eQkpeXl5CHlZmWlJORkpGQioyQiYd5c2pkfH1+lZGPj4yIiISDg4KDgJWlnJCEg5Kisa2ysbCzrp+Gj5GRl5WOi5qYk5OWk5aYk4mGiIiIiXt3dH9/m5aSk5aNh4aDg4OCgoCMq6CWioKRqLOwsbKyr6yhhoyUjJSVjI6UjY+SlpeVm5mVi4uKiIh+fXx/f5aTkYyKioyLhYSDg4KCgJ2km46Ckaezsq+wsLGro4eImIeOlIuGjY6Sl5mXlZaZmpKOkoeIf39/f3+VlJCNiYuIh4aFhIOCgoGMp5+UhIups7CwsrCwraWKhJaIiZSKioyUm5iXl5eVlpWRjZGKhod/f3+dlI+QkI2OiYaGhISEg4GFjJ+ml4mCprKusa+urqykjoKVi4mSh42YlJOYmZiWlZWTj42KioaGf39/npOQkZCPkJGMhoaEg4OCgoOHl5aLgaGysK+vrq6tppGDl46JkoaMm5iSkpaZmJeVkpCNioeGh39/qp2UlJSQj4ilpo6FhISDgoOFhIeQjIKgsq+ur6+vraaUgpaOhZGIlpqYmJSPkZWWmJeQjYuIh4eHf6WblZWVj46MiIuMh4KEg4KEhYaGiI+DoLGvra6trqymlYSWjYSNkJuYmJmclY+Pj5OTko+KiIeHhn+impSWkZaRiIqNiIeKhoODhYaHh4aKiaOvra6srq2rp5eNl4uEiZSQlpiYm5uTl46RkpWXjYiGhoZ/oZmVkpCVlYmFjIqMj4qHhIWGhoeHh4ear6ysrayrq6idjpWNhYWKkZeXl5mZk5yRio2Qk5KJhoaGf6GZlJOTlZKNioaMkZCNjYiGhYWGh4eGjZ+pq62qq6uoooyQj4eDhZCamJmalpWYmJCMiI2MkIaGhYU="></canvas>
     <div class="holo-base"></div>
   </div>
   <p class="about-facts">Product designer, <span class="glyph glyph-fact" data-text="AI-first" data-note="I design AI-powered SaaS products and use AI to research, design, and build"></span>. Based in <span class="glyph glyph-fact" data-text="New York" data-note="Based in New York City, happy to relocate for the right team"></span>, <span class="glyph glyph-fact" data-text="open to relocate" data-note="Open to relocating for the right team, anywhere"></span>. Off duty, <span class="glyph glyph-fact" data-text="puzzles, cafés, video games" data-note="If you've made it this far you've probably noticed: I love jigsaw puzzles, and not just the ones that come in a box"></span>.</p>
@@ -4256,10 +4256,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (!cv) return;
   const ctx = cv.getContext('2d');
   const off = document.createElement('canvas'), octx = off.getContext('2d');
-  const CELL = 6, GREEN = [99, 255, 138];
-  // crop of the photo (px) and the silhouette traced on it: hair over the head, then the shoulders
-  const crop = { x0: 690, y0: 150, x1: 1410, y1: 960 };
-  const outline = [[880,745],[850,680],[835,600],[832,520],[838,440],[852,360],[878,290],[920,235],[968,205],[1010,195],[1060,205],[1110,235],[1155,280],[1188,340],[1208,410],[1222,490],[1235,570],[1245,650],[1240,720],[1215,775],[1270,745],[1320,760],[1360,810],[1385,880],[1398,960],[695,960],[700,920],[715,850],[745,790],[785,752],[830,735]];
+  const GREEN = [99, 255, 138];
   const kinds = ['poly3','poly4','poly5','poly6','poly8','zig','zig','tick','cross','arc','bar','line','line','wave','bracket','dot','dot'];
   let W = 0, H = 0, dpr = 1, cols = 0, rows = 0, cells = [], inView = false, ready = false, last = 0;
   const hash = (i, k) => { const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x); };
@@ -4277,31 +4274,19 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     else { g.moveTo(-sz, -sz * 0.35); g.lineTo(sz, -sz * 0.35); g.moveTo(-sz * 0.7, sz * 0.35); g.lineTo(sz * 0.7, sz * 0.35); }
     g.stroke(); g.restore();
   }
-  function sample(img) {
+  // the portrait grid is precomputed from about/about.jpg (one byte per cell: bit 7 =
+  // inside the silhouette, low bits = brightness inside / halo strength outside)
+  const GC = +cv.dataset.cols, GR = +cv.dataset.rows, grid = Uint8Array.from(atob(cv.dataset.cells), ch => ch.charCodeAt(0));
+  function sample() {
     W = cv.clientWidth; H = cv.clientHeight; dpr = Math.min(window.devicePixelRatio || 1, 2);
     cv.width = off.width = Math.round(W * dpr); cv.height = off.height = Math.round(H * dpr);
-    cols = Math.floor(W / CELL); rows = Math.floor(H / CELL);
-    // average the crop down to one pixel per cell
-    const sc = document.createElement('canvas'); sc.width = cols; sc.height = rows;
-    const g = sc.getContext('2d'); g.drawImage(img, crop.x0, crop.y0, crop.x1 - crop.x0, crop.y1 - crop.y0, 0, 0, cols, rows);
-    const px = g.getImageData(0, 0, cols, rows).data;
-    // silhouette mask in cell space
-    const mc = document.createElement('canvas'); mc.width = cols; mc.height = rows;
-    const mg = mc.getContext('2d'); mg.beginPath();
-    outline.forEach(([x, y], i) => mg[i ? 'lineTo' : 'moveTo']((x - crop.x0) / (crop.x1 - crop.x0) * cols, (y - crop.y0) / (crop.y1 - crop.y0) * rows));
-    mg.closePath(); mg.fillStyle = '#fff'; mg.fill();
-    const mk = mg.getImageData(0, 0, cols, rows).data;
-    // a soft halo just outside the silhouette, so its edge reads against the field
-    mg.clearRect(0, 0, cols, rows); mg.lineWidth = 7; mg.strokeStyle = '#fff'; mg.filter = 'blur(1.5px)'; mg.stroke(); mg.filter = 'none';
-    const hl = mg.getImageData(0, 0, cols, rows).data;
+    cols = GC; rows = GR; const cw = W / cols, chh = H / rows;
     cells = [];
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-      const i = (r * cols + c) * 4, L = (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]) / 255;
-      const inside = mk[i + 3] > 64;
-      // inside: the photo's tones, stretched; outside: a dim field
+      const v = grid[r * cols + c], inside = v & 128, L = (v & 127) / 127;
       const lit = inside ? Math.min(1, Math.max(0, (L - 0.08) / 0.72)) : 0;
-      const a = inside ? 0.05 + Math.pow(lit, 1.5) * 0.95 : 0.10 + (hl[i + 3] / 255) * 0.22;
-      cells.push({ x: (c + 0.5) * CELL, y: (r + 0.5) * CELL, a, k: r * cols + c, kind: kinds[Math.floor(hash(r * cols + c, 1) * kinds.length) % kinds.length], rot: hash(r * cols + c, 2) < 0.25 ? Math.PI / 2 : 0, ph: hash(r * cols + c, 3) * Math.PI * 2, inside });
+      const a = inside ? 0.05 + Math.pow(lit, 1.5) * 0.95 : 0.10 + L * 0.22;
+      cells.push({ x: (c + 0.5) * cw, y: (r + 0.5) * chh, a, k: r * cols + c, kind: kinds[Math.floor(hash(r * cols + c, 1) * kinds.length) % kinds.length], rot: hash(r * cols + c, 2) < 0.25 ? Math.PI / 2 : 0, ph: hash(r * cols + c, 3) * Math.PI * 2 });
     }
     ready = true;
   }
@@ -4325,14 +4310,12 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     }
     ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
   }
-  const img = new Image(); img.src = cv.dataset.src;
   const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  img.onload = () => {
-    sample(img); draw(0);
-    if (reduce) return;
+  sample(); draw(0);
+  if (!reduce) {
     (function loop(t) { if (inView && t - last > 40) { last = t; draw(t); } requestAnimationFrame(loop); })(0);
-    window.addEventListener('resize', () => { sample(img); draw(performance.now()); });
-  };
+    window.addEventListener('resize', () => { sample(); draw(performance.now()); });
+  }
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; }).observe(cv); else inView = true;
 })();
 
