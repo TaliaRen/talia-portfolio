@@ -125,7 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .nav-link:hover, .nav-link:active { color:#41E981; }
 
   #hero {
-    height:100vh; position:relative;
+    height:80vh; position:relative;   /* shorter than the viewport so the project log starts closer to the headline */
     display:flex; align-items:center; justify-content:center;
     padding: 80px 48px 0;
     overflow:visible;
@@ -1075,15 +1075,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .rumor-links { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:0; }
   /* links: a thin faint green line draws in, then a stream of glowing dashes
-     flows along it toward the next entry, ending in a small chevron */
+     flows along it toward the next entry */
   .rumor-links .rl-line { fill:none; stroke:rgba(99,255,138,0.28); stroke-width:1.5; stroke-linecap:round; transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1); }
   .rumor-links .rl-flow {
     fill:none; stroke:#63FF8A; stroke-width:1.5; stroke-linecap:round; stroke-dasharray:7 11;
     filter:drop-shadow(0 0 3px rgba(99,255,138,0.7));
     opacity:0; transition:opacity .4s ease; animation:rlFlow 1.2s linear infinite;
   }
-  .rumor-links .rl-head { fill:none; stroke:#63FF8A; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; opacity:0; transition:opacity .25s ease; filter:drop-shadow(0 0 3px rgba(99,255,138,0.7)); }
-  .rumor-links .on .rl-flow, .rumor-links .on .rl-head { opacity:1; transition-delay:.55s; }
+  .rumor-links .on .rl-flow { opacity:1; transition-delay:.55s; }
   @keyframes rlFlow { to { stroke-dashoffset:-18; } }
   @media (prefers-reduced-motion: reduce) { .rumor-links .rl-flow { animation:none; } }
   .rumor-map .project-card.rumor-node {
@@ -4136,10 +4135,8 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     const g = document.createElementNS(NS, 'g');
     const line = document.createElementNS(NS, 'path'); line.setAttribute('class', 'rl-line');
     const flow = document.createElementNS(NS, 'path'); flow.setAttribute('class', 'rl-flow');
-    const head = document.createElementNS(NS, 'path'); head.setAttribute('class', 'rl-head');
-    head.setAttribute('d', 'M-7,-5 L0,0 L-7,5');                       // small open chevron, points along +x
-    g.appendChild(line); g.appendChild(flow); g.appendChild(head); svg.appendChild(g);
-    return { g, line, flow, head };
+    g.appendChild(line); g.appendChild(flow); svg.appendChild(g);
+    return { g, line, flow };
   });
   const rectOf = n => { const m = map.getBoundingClientRect(), r = n.getBoundingClientRect(); return { x: r.left - m.left, y: r.top - m.top, w: r.width, h: r.height }; };
   // parameter t at which a ray from the box centre along (dx,dy) leaves the box
@@ -4168,8 +4165,6 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       L.line.setAttribute('d', d); L.flow.setAttribute('d', d);
       L.line.style.strokeDasharray = len.toFixed(1);
       L.line.style.strokeDashoffset = L.g.classList.contains('on') ? '0' : len.toFixed(1);
-      const ang = Math.atan2(dy, dx) * 180 / Math.PI;
-      L.head.setAttribute('transform', `translate(${x1.toFixed(1)},${y1.toFixed(1)}) rotate(${ang.toFixed(1)})`);   // tip where the link meets the next entry
     });
   }
   let found = 0, nextAt = 0;
