@@ -1099,17 +1099,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-node.found { border-color:rgba(95,227,154,0.55); }
   .rumor-node:nth-of-type(odd)  { --nx:0; }
   .rumor-node:nth-of-type(even) { --nx:1; }
-  /* hover: a slight lift, the frame brightens, the record strip fills solid
-     green like a selected log entry, and the cover's backdrop zooms a touch */
+  /* hover: a slight lift and the outer frame brightens — nothing else moves */
   .rumor-map .project-card.rumor-node.found:hover { border-color:#5FE39A; transform:translateY(-3px); }
-  .rumor-node.found:hover .rumor-head { background:#5FE39A; color:#0A0D0C; border-bottom-color:#5FE39A; }
-  .rumor-map .project-img-wrap > img:first-child { transition:transform .6s cubic-bezier(.22,1,.36,1); }
-  .rumor-node.found:hover .project-img-wrap > img:first-child { transform:scale(1.05); }
   .rumor-map .project-card:hover .project-img-wrap { transform:none; }   /* the whole entry lifts instead of the cover alone */
   /* log header: a tinted strip across the top of the text column — who / when */
   .rumor-head {
     display:flex; align-items:center;
-    padding:10px 28px; background:rgba(95,227,154,0.10); border-bottom:1px solid rgba(95,227,154,0.45); transition:background .3s ease, color .3s ease, border-color .3s ease;
+    padding:10px 28px; background:rgba(95,227,154,0.10); border-bottom:1px solid rgba(95,227,154,0.45);
     font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
   }
   .rumor-body { display:flex; align-items:stretch; opacity:0; transform:translateY(12px); transition:opacity .45s cubic-bezier(.22,1,.36,1), transform .45s cubic-bezier(.22,1,.36,1); }
