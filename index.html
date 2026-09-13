@@ -214,7 +214,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sig-item {
     display:block; break-inside:avoid; width:var(--w, 100%); margin:0 0 56px var(--ml, 0);
     color:inherit; text-decoration:none; transform:rotate(var(--r, 0deg));
-    padding:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.10);   /* a print's white border */
+    padding:10px; background:#0F1A15; border:1px solid rgba(95,227,154,0.22);   /* a print's mat, in the board's own green */
     box-shadow:0 18px 40px rgba(0,0,0,0.45);
     transition:transform .35s cubic-bezier(.22,1,.36,1), filter .4s ease, opacity .4s ease;
   }
@@ -1660,7 +1660,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="scrap" id="scope">
     <p class="scrap-title">Experiment Log</p>
     <div class="scrap-flow">
-      <a class="sig-item sig-phone" style="--r:-2.2deg; --w:78%; --ml:6%" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
+      <a class="sig-item sig-phone" style="--r:-2.2deg; --w:78%; --ml:6%" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
         <div class="phone-mockup">
           <div class="phone-island"></div>
           <div class="phone-screen">
@@ -1668,15 +1668,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </a>
-      <a class="sig-item" style="--r:1.6deg; --w:100%; --ml:0" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
+      <a class="sig-item" style="--r:1.6deg; --w:100%; --ml:0" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Christmas Tree" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
         <video autoplay muted loop playsinline preload="metadata">
           <source src="playground/christmas memory.mp4" type="video/mp4">
         </video>
       </a>
-      <div class="sig-item" style="--r:-1.2deg; --w:92%; --ml:8%" data-note="Try on Peking opera face paint in the browser: masks tracked to your face, with a note on what each colour stands for">
+      <div class="sig-item" style="--r:-1.2deg; --w:92%; --ml:8%" data-title="Opera Mask AR" data-note="Try on Peking opera face paint in the browser: masks tracked to your face, with a note on what each colour stands for">
         <img src="playground/Screenshot 2026-07-10 at 11.59.40.png" alt="Peking opera mask AR try-on" loading="lazy">
       </div>
-      <div class="sig-item" style="--r:2deg; --w:86%; --ml:0" data-note="A plush lion rebuilt as a textured 3D model from fifty phone photos, stitched together in Meshroom">
+      <div class="sig-item" style="--r:2deg; --w:86%; --ml:0" data-title="Lion, Scanned" data-note="A plush lion rebuilt as a textured 3D model from fifty phone photos, stitched together in Meshroom">
         <img src="playground/3d.png" alt="Photogrammetry scan of a plush lion in Meshroom" loading="lazy">
       </div>
     </div>
@@ -2744,6 +2744,8 @@ document.addEventListener('mousemove', e => {
   const showIntro = () => typeScreen(INTRO, { speed: 14 });
   // project log: hovering an entry translates it — just its subtitle, plain text (no capsule)
   window.screenTranslate = (title, subtitle) => { if (screenText && !atEnd) typeScreen(subtitle, { speed: 14 }); };
+  // experiment log: the print's title in the capsule, its note below
+  window.screenTranslateTitled = (title, subtitle) => { if (screenText && !atEnd) typeScreen((title ? title + '\n' : '') + subtitle, { capsule: !!title, speed: 14 }); };
   window.screenReady = () => { if (screenText && !atEnd) showReady(true); };
   // bottom of the page: the screen shows the closing line + the campfire
   const QUOTE = "The universe is, and we are.\nInspired by Outer Wilds, built with Claude Code";
@@ -4190,7 +4192,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     const board = document.getElementById('scope'), items = [...document.querySelectorAll('.sig-item')];
     if (!board || !items.length) return;
     items.forEach(p => {
-      p.addEventListener('mouseenter', () => { items.forEach(x => x.classList.toggle('on', x === p)); board.classList.add('hovering'); window.screenTranslate?.('', p.dataset.note || ''); });
+      p.addEventListener('mouseenter', () => { items.forEach(x => x.classList.toggle('on', x === p)); board.classList.add('hovering'); window.screenTranslateTitled?.(p.dataset.title || '', p.dataset.note || ''); });
       p.addEventListener('mouseleave', () => { board.classList.remove('hovering'); window.screenReady?.(); });
     });
   })();
