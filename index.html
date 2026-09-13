@@ -210,9 +210,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; left:24px; top:-11px; margin:0; padding:2px 10px; background:var(--p-bg);
     font-family:'Figtree',sans-serif; font-size:16px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#fff;
   }
-  .scrap-flow { columns:2; column-gap:48px; }
+  .scrap-flow { display:grid; grid-template-columns:36% 1fr; grid-template-rows:auto auto; gap:44px 48px; align-items:center; }
+  .scrap-flow > .sig-phone { grid-row:1 / 3; justify-self:center; }
+  .scrap-flow > .sig-item:nth-child(2) { grid-column:2; justify-self:end; }
+  .scrap-flow > .sig-item:nth-child(3) { grid-column:2; justify-self:start; }
   .sig-item {
-    display:block; break-inside:avoid; width:var(--w, 100%); margin:0 0 56px var(--ml, 0);
+    display:block; width:var(--w, 100%); margin:0;
     color:inherit; text-decoration:none; transform:rotate(var(--r, 0deg));
     padding:0; background:none; border:none;   /* bare print: no mat */
     box-shadow:0 18px 40px rgba(0,0,0,0.5);
@@ -228,7 +231,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sig-item .corner.bl { left:-1px; bottom:-1px; border-right:none; border-top:none; }
   .sig-item .corner.br { right:-1px; bottom:-1px; border-left:none; border-top:none; }
   /* a smaller phone with the Truthly recording playing on its screen */
-  .sig-phone .phone-mockup { width:184px; height:345px; border-radius:30px; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.12), 0 0 0 6px #1a1a1a, 0 0 0 7px rgba(255,255,255,0.07), 0 24px 60px rgba(0,0,0,0.6); }
+  .sig-phone .phone-mockup { width:184px; height:345px; border-radius:30px; background:#1E2321; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.22), 0 0 0 6px #2C3230, 0 0 0 7px rgba(255,255,255,0.18), 0 24px 60px rgba(0,0,0,0.6); }
+  .sig-phone .phone-mockup::before, .sig-phone .phone-mockup::after { background:#2C3230; }
+  .sig-phone .phone-screen::after { content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(118deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.04) 28%, transparent 46%); }   /* a soft gloss across the glass */
   .sig-phone .phone-mockup::before { right:-8px; top:82px; height:44px; box-shadow:0 54px 0 #1a1a1a; }
   .sig-phone .phone-mockup::after  { left:-8px; top:68px; height:24px; box-shadow:0 38px 0 #1a1a1a, 0 72px 0 #1a1a1a; }
   .sig-phone .phone-island { top:10px; width:56px; height:16px; }
@@ -242,12 +247,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   a.sig-item:hover { transform:rotate(0deg) translateY(-4px); }
   /* hovering one print: the rest go very grey */
   .scrap.hovering .sig-item:not(.on) { filter:grayscale(1); opacity:0.12; }
-  @media (max-width:900px) { .scrap { padding:48px 28px 56px; } .scrap-flow { column-gap:28px; } .sig-item { margin-bottom:40px; } }
+  @media (max-width:900px) { .scrap { padding:48px 28px 56px; } .scrap-flow { gap:32px 28px; } }
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
     .scrap { padding:40px 16px 40px; background-size:36px 36px; }
-    .scrap-flow { columns:1; }
-    .sig-item { --w:100% !important; --ml:0 !important; --r:0deg !important; margin-bottom:28px; }
+    .scrap-flow { grid-template-columns:1fr; grid-template-rows:none; gap:28px; }
+    .scrap-flow > .sig-phone, .scrap-flow > .sig-item:nth-child(2), .scrap-flow > .sig-item:nth-child(3) { grid-column:auto; grid-row:auto; justify-self:center; }
+    .sig-item { --w:100% !important; --r:0deg !important; }
     .scrap-title { left:auto; right:16px; }                 /* clear of the hamburger at the frame's top-left */
     .sig-item.sig-phone { margin-left:auto !important; margin-right:auto !important; }   /* the tall phone print sits centred on phones */
     .sig-item.sig-pair { grid-template-columns:1fr; justify-items:center; }   /* before / after stack on phones */
@@ -1681,7 +1687,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="scrap" id="scope">
     <p class="scrap-title">Experiment Log</p>
     <div class="scrap-flow">
-      <a class="sig-item sig-phone" style="--r:-2.2deg; --w:78%; --ml:6%" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
+      <a class="sig-item sig-phone" style="--r:-2.2deg" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
         <div class="phone-mockup">
           <div class="phone-island"></div>
           <div class="phone-screen">
@@ -1691,12 +1697,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </a>
-      <a class="sig-item" style="--r:1.6deg; --w:100%; --ml:0" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Christmas Tree" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
+      <a class="sig-item" style="--r:1.6deg; --w:88%" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Christmas Tree" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
         <video autoplay muted loop playsinline preload="metadata">
           <source src="playground/christmas memory.mp4" type="video/mp4">
         </video>
       </a>
-      <a class="sig-item sig-pair" style="--r:-1.4deg; --w:100%; --ml:0" href="https://github.com/TaliaRen/geometric-illustration-skill" target="_blank" rel="noopener" data-title="Geometric Illustration Skill" data-note="A Codex skill that rebuilds a photo from primitive shapes">
+      <a class="sig-item sig-pair" style="--r:-1.4deg; --w:84%" href="https://github.com/TaliaRen/geometric-illustration-skill" target="_blank" rel="noopener" data-title="Geometric Illustration Skill" data-note="A Codex skill that rebuilds a photo from primitive shapes">
         <img src="playground/true tiger.jpg" alt="Source photo of a tiger" loading="lazy">
         <img src="playground/tiger.png" alt="The same tiger rebuilt from geometric shapes" loading="lazy">
       </a>
