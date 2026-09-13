@@ -1103,9 +1103,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:#0A0D0C; background:#5FE39A; padding:3px 9px;
   }
   .rumor-text .project-title, .rumor-text .project-desc { display:none; }   /* title: the viewer's lookup; desc: typed on the translator */
-  .rumor-name { font-family:'Figtree',sans-serif; font-size:18px; font-weight:500; line-height:1.4; color:#fff; }
-  .rumor-name .glyph { cursor:inherit; }
-  .rumor-name .glyph-text { color:#fff; }
+  .rumor-name { font-family:'Libertinus Serif',serif; font-size:18px; font-weight:400; line-height:1.4; color:#fff; }
   .rumor-text .project-tags { margin:0; gap:6px; }
   .rumor-text .project-tag { font-size:14px; }
   /* right: the cover, as big as the entry allows */
@@ -1564,7 +1562,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="rumor-text">
       <span class="rumor-idx">Entry 01</span>
       <span class="project-title">Jain Bid X-Ray</span>
-      <div class="rumor-name"><span class="glyph glyph-node" data-text="Jain Bid X-Ray"></span></div>
+      <div class="rumor-name">Jain Bid X-Ray</div>
       <div class="project-tags">
         <span class="project-tag">AI</span>
         <span class="project-tag">Incubation</span>
@@ -1582,7 +1580,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="rumor-text">
       <span class="rumor-idx">Entry 02</span>
       <span class="project-title">Doudian Order Tools</span>
-      <div class="rumor-name"><span class="glyph glyph-node" data-text="Doudian Order Tools"></span></div>
+      <div class="rumor-name">Doudian Order Tools</div>
       <div class="project-tags">
         <span class="project-tag">E-commerce</span>
         <span class="project-tag">SaaS</span>
@@ -1600,7 +1598,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="rumor-text">
       <span class="rumor-idx">Entry 03</span>
       <span class="project-title">AgencyRoot AI Command Bar</span>
-      <div class="rumor-name"><span class="glyph glyph-node" data-text="AgencyRoot AI Command Bar"></span></div>
+      <div class="rumor-name">AgencyRoot AI Command Bar</div>
       <div class="project-tags">
         <span class="project-tag">AI</span>
         <span class="project-tag">End-to-end</span>
@@ -1618,7 +1616,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="rumor-text">
       <span class="rumor-idx">Entry 04</span>
       <span class="project-title">DiDi First-Ride Experience</span>
-      <div class="rumor-name"><span class="glyph glyph-node" data-text="DiDi First-Ride Experience"></span></div>
+      <div class="rumor-name">DiDi First-Ride Experience</div>
       <div class="project-tags">
         <span class="project-tag">Mobile</span>
         <span class="project-tag">B2C</span>
@@ -4076,8 +4074,6 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   const nodes = [...map.querySelectorAll('.rumor-node')];
   if (!nodes.length) return;
   const NS = 'http://www.w3.org/2000/svg';
-  // unknown-text labels: the same particle strands as the headline, decoded when found
-  const labels = nodes.map((n, i) => { const g = n.querySelector('.glyph-node'); return (g && window.initGlyph) ? window.initGlyph(g, 40 + i) : null; });
   const links = nodes.slice(1).map(() => {
     const g = document.createElementNS(NS, 'g');
     const line = document.createElementNS(NS, 'path'); line.setAttribute('class', 'rl-line');
@@ -4117,16 +4113,14 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   let found = 0, nextAt = 0;
   function reveal(i) {
     if (i) { links[i - 1].g.classList.add('on'); links[i - 1].line.style.strokeDashoffset = '0'; }
-    // no hover on touch screens: a found entry's name decodes by itself there
-    setTimeout(() => { nodes[i].classList.add('found'); if (!canHover) labels[i]?.decode(); }, i ? 600 : 0);
+    setTimeout(() => nodes[i].classList.add('found'), i ? 600 : 0);
   }
-  const canHover = window.matchMedia('(hover:hover)').matches;
-  // hovering a found entry decodes its name and puts its translation on the screen
+  // hovering a found entry puts its translation (name + subtitle) on the translator screen
   nodes.forEach((n, i) => {
     const title = n.querySelector('.project-title')?.textContent.trim() || '';
     const subtitle = n.querySelector('.project-desc')?.textContent.trim() || '';
-    n.addEventListener('mouseenter', () => { if (!n.classList.contains('found')) return; labels[i]?.decode(); window.screenTranslate?.(title, subtitle); });
-    n.addEventListener('mouseleave', () => { labels[i]?.encode(); window.screenReady?.(); });
+    n.addEventListener('mouseenter', () => { if (n.classList.contains('found')) window.screenTranslate?.(title, subtitle); });
+    n.addEventListener('mouseleave', () => window.screenReady?.());
   });
   function check() {
     const limit = window.innerHeight * 0.86;
