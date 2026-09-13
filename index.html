@@ -423,7 +423,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* headline: Labrada Regular, hero size 2.125rem, centred a little above the middle */
   /* headline + signal index, placed together a little below the frame's top */
   .hero-copy {
-    position:absolute; left:50%; top:38%; transform:translateX(-50%); z-index:6;
+    position:absolute; left:50%; top:32%; transform:translateX(-50%); z-index:6;
     width:max-content; max-width:min(92vw, 1000px); box-sizing:border-box;
     display:flex; flex-direction:column; align-items:center; gap:48px;
   }
@@ -434,19 +434,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Labrada', serif; font-weight:400; font-size:36px;   /* same size at every viewport; it wraps instead */
     line-height:1.35; color:#fff; margin:0;
   }
-  /* signal index: the four projects as detected signals — a little frequency
-     mark + their names as unknown text; hover decodes (and the translator reads
-     the subtitle), click jumps to the entry in the project log */
-  .signal-index { display:flex; flex-wrap:wrap; justify-content:center; gap:14px 36px; margin:0; padding:0; list-style:none; }
-  .signal { display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:#fff; font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; }
-  .signal-bars { width:16px; height:12px; flex:none; display:flex; align-items:flex-end; gap:2px; }
-  .signal-bars i { display:block; width:2px; background:rgba(99,255,138,0.55); border-radius:1px; transition:background .2s ease; }
-  .signal-bars i:nth-child(1) { height:4px; } .signal-bars i:nth-child(2) { height:8px; } .signal-bars i:nth-child(3) { height:12px; } .signal-bars i:nth-child(4) { height:7px; }
-  .signal:hover .signal-bars i { background:#63FF8A; animation:signalPulse .9s ease-in-out infinite; }
-  .signal:hover .signal-bars i:nth-child(2) { animation-delay:.15s; } .signal:hover .signal-bars i:nth-child(3) { animation-delay:.3s; } .signal:hover .signal-bars i:nth-child(4) { animation-delay:.45s; }
-  @keyframes signalPulse { 0%, 100% { transform:scaleY(1); } 50% { transform:scaleY(0.45); } }
-  .signal .glyph { cursor:inherit; }
-  .signal .glyph-text { color:#fff; }
+  /* mini map: the project log in miniature — four entries on the same zig-zag
+     path, linked in order. They light up as the real entries are found while
+     you scroll; hover reads an entry on the translator, click jumps to it */
+  .hero-map { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .hero-map svg { width:220px; height:88px; overflow:visible; display:block; }
+  .hero-map .mm-link { fill:none; stroke:rgba(99,255,138,0.22); stroke-width:1.2; transition:stroke .4s ease; }
+  .hero-map .mm-link.on { stroke:#63FF8A; stroke-dasharray:4 7; animation:rlFlow 1.2s linear infinite; filter:drop-shadow(0 0 2px rgba(99,255,138,0.6)); }
+  .hero-map .mm-node { cursor:pointer; }
+  .hero-map .mm-node rect { fill:#0A0D0C; stroke:rgba(95,227,154,0.5); stroke-width:1.2; transition:fill .35s ease, stroke .35s ease; }
+  .hero-map .mm-node.found rect { fill:rgba(95,227,154,0.28); stroke:#5FE39A; }
+  .hero-map .mm-node:hover rect { fill:#5FE39A; stroke:#5FE39A; }
+  .hero-map .mm-node .mm-hit { fill:transparent; stroke:none; }   /* bigger hover target */
+  .hero-map-name { font-family:'Figtree',sans-serif; font-size:14px; color:#8F9994; min-height:1.4em; line-height:1.4; margin:0; }
   /* untranslated phrase: a glowing particle strand (canvas) sized to the
      hidden text's width; hovering decodes it into the words */
   /* inline-grid: the hidden measuring span and the decoded text share one
@@ -463,7 +463,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .glyph-text { color:#fff; opacity:0; transition:opacity 0.2s ease; }
   .glyph.decoded .glyph-canvas { opacity:0; }
   .glyph.decoded .glyph-text { opacity:1; }
-  @media (max-width:640px) { .hero-copy { top:20%; gap:28px; } .hero-line { line-height:1.4; } .signal-index { gap:10px 22px; } }   /* same 36px on phones; it wraps */
+  @media (max-width:640px) { .hero-copy { top:20%; gap:28px; } .hero-line { line-height:1.4; } }   /* same 36px on phones; it wraps */
 
   /* ── 5 & 6. Detector shell + camera ──
      The shell is tilted back with rotateX inside a perspective wrapper so
@@ -1487,11 +1487,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </svg>
   <div class="hero-copy">
     <h1 class="hero-line" id="heroLine">I translate <span class="glyph" data-text="messy beginnings"></span> into products that <span class="glyph" data-text="make sense"></span></h1>
-    <div class="signal-index" id="signalIndex" role="navigation" aria-label="Projects">   <!-- a div: the legacy nav:not(.log-rail) rule hides <nav>s -->
-      <a class="signal" href="25madison.html"><span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="glyph glyph-signal" data-text="Jain Bid X-Ray"></span></a>
-      <a class="signal" href="bytedance.html"><span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="glyph glyph-signal" data-text="Doudian Order Tools"></span></a>
-      <a class="signal" href="agencyroot.html"><span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="glyph glyph-signal" data-text="AgencyRoot AI Command Bar"></span></a>
-      <a class="signal" href="didi.html"><span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="glyph glyph-signal" data-text="DiDi First-Ride Experience"></span></a>
+    <div class="hero-map" id="heroMap" aria-label="Project log overview">
+      <svg viewBox="0 0 220 88" aria-hidden="true">
+        <line class="mm-link" data-i="0" x1="12" y1="8"  x2="208" y2="32"/>
+        <line class="mm-link" data-i="1" x1="208" y1="32" x2="12" y2="56"/>
+        <line class="mm-link" data-i="2" x1="12" y1="56" x2="208" y2="80"/>
+        <g class="mm-node" data-i="0"><rect class="mm-hit" x="-8" y="-8" width="40" height="32"/><rect x="0"   y="0"  width="24" height="16" rx="1"/></g>
+        <g class="mm-node" data-i="1"><rect class="mm-hit" x="188" y="16" width="40" height="32"/><rect x="196" y="24" width="24" height="16" rx="1"/></g>
+        <g class="mm-node" data-i="2"><rect class="mm-hit" x="-8" y="40" width="40" height="32"/><rect x="0"   y="48" width="24" height="16" rx="1"/></g>
+        <g class="mm-node" data-i="3"><rect class="mm-hit" x="188" y="64" width="40" height="32"/><rect x="196" y="72" width="24" height="16" rx="1"/></g>
+      </svg>
+      <p class="hero-map-name" id="heroMapName"></p>
     </div>
   </div>
 
@@ -3205,14 +3211,14 @@ document.addEventListener('mousemove', e => {
     };
     // sample: the little "what unknown text looks like" strand in the screen;
     // node: an unfound ship-log entry's label. Neither hovers nor draws beams.
-    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node') || el.classList.contains('glyph-signal');
+    S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node');
     if (S.sample) return S;
     // hovering either phrase decodes BOTH and fires the beams at both
     el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); document.getElementById('detectorCamera')?.classList.add('lit'); if (screenText) showIntro(); });
     el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); document.getElementById('detectorCamera')?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); });
     return S;
   }
-  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node):not(.glyph-signal)').forEach(initGlyph);   // signal labels are set up by the signal-index script
+  document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node)').forEach(initGlyph);
   window.initGlyph = initGlyph;
   (window.__pendingGlyphs || []).forEach(el => initGlyph(el, 99));
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
@@ -4132,7 +4138,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   let found = 0, nextAt = 0;
   function reveal(i) {
     if (i) { links[i - 1].g.classList.add('on'); links[i - 1].line.style.strokeDashoffset = '0'; }
-    setTimeout(() => nodes[i].classList.add('found'), i ? 600 : 0);
+    setTimeout(() => { nodes[i].classList.add('found'); window.__logFound?.(i); }, i ? 600 : 0);
   }
   // hovering a found entry puts its translation (name + subtitle) on the translator screen
   nodes.forEach((n, i) => {
@@ -4157,21 +4163,19 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (document.fonts?.ready) document.fonts.ready.then(layout);
   layout(); check();
 
-  // signal index under the headline: each signal is one entry — hover decodes its
-  // name and the translator reads the subtitle; click scrolls to the entry
-  document.querySelectorAll('#signalIndex .signal').forEach((sig, i) => {
-    const g = sig.querySelector('.glyph-signal');
-    const S = (g && window.initGlyph) ? window.initGlyph(g, 60 + i) : null;
-    const node = nodes.find(n => n.getAttribute('href') === sig.getAttribute('href')) || nodes[i];
-    const title = node?.querySelector('.project-title')?.textContent.trim() || g?.dataset.text || '';
-    const subtitle = node?.querySelector('.project-desc')?.textContent.trim() || '';
-    sig.addEventListener('mouseenter', () => { S?.decode(); window.screenTranslate?.(title, subtitle); });
-    sig.addEventListener('mouseleave', () => { S?.encode(); window.screenReady?.(); });
-    sig.addEventListener('click', e => {
-      if (!node || e.metaKey || e.ctrlKey || e.shiftKey) return;
-      e.preventDefault();
-      window.scrollTo({ top: node.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
-    });
+  // mini map under the headline: mirrors the log — a node lights up when its
+  // entry is found; hover reads the entry on the translator, click jumps to it
+  const mmNodes = [...document.querySelectorAll('#heroMap .mm-node')];
+  const mmLinks = [...document.querySelectorAll('#heroMap .mm-link')];
+  const mmName = document.getElementById('heroMapName');
+  window.__logFound = i => { mmNodes[i]?.classList.add('found'); if (i) mmLinks[i - 1]?.classList.add('on'); };
+  mmNodes.forEach((m, i) => {
+    const node = nodes[i]; if (!node) return;
+    const title = node.querySelector('.project-title')?.textContent.trim() || '';
+    const subtitle = node.querySelector('.project-desc')?.textContent.trim() || '';
+    m.addEventListener('mouseenter', () => { if (mmName) mmName.textContent = title; window.screenTranslate?.(title, subtitle); });
+    m.addEventListener('mouseleave', () => { if (mmName) mmName.textContent = ''; window.screenReady?.(); });
+    m.addEventListener('click', () => window.scrollTo({ top: node.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' }));
   });
 })();
 
