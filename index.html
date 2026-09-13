@@ -1081,13 +1081,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   /* links: a thin faint green line draws in, then a stream of glowing dashes
      flows along it toward the next entry */
-  .rumor-links .rl-line { fill:none; stroke:rgba(99,255,138,0.28); stroke-width:1.5; stroke-linecap:round; transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }   /* the link draws in over 1.2s */
+  .rumor-links .rl-line { fill:none; stroke:rgba(99,255,138,0.28); stroke-width:1.5; stroke-linecap:round; transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1); }
   .rumor-links .rl-flow {
     fill:none; stroke:#63FF8A; stroke-width:1.5; stroke-linecap:round; stroke-dasharray:7 11;
     filter:drop-shadow(0 0 3px rgba(99,255,138,0.7));
     opacity:0; transition:opacity .4s ease; animation:rlFlow 1.2s linear infinite;
   }
-  .rumor-links .on .rl-flow { opacity:1; transition-delay:1s; }
+  .rumor-links .on .rl-flow { opacity:1; transition-delay:.55s; }
   @keyframes rlFlow { to { stroke-dashoffset:-18; } }
   @media (prefers-reduced-motion: reduce) { .rumor-links .rl-flow { animation:none; } }
   .rumor-map .project-card.rumor-node {
