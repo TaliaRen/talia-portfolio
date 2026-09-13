@@ -1263,7 +1263,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-section > :not(.strip) { position:relative; left:calc((var(--content-right, 0px) - var(--content-left, 0px)) / 2); }   /* centred on the screen, not on the content box */
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:italic; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* ASCII silhouette: a field of terminal characters; the figure is where they thin out */
-  .ascii-silhouette { position:relative; width:320px; max-width:100%; aspect-ratio:5 / 6; margin:0 0 36px; }
+  .ascii-silhouette { position:relative; width:320px; max-width:100%; aspect-ratio:1 / 1; margin:0 0 36px; }
   .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; -webkit-mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); mask-image:radial-gradient(ellipse 70% 66% at 50% 50%, #000 60%, transparent 100%); }   /* the field dissolves at its edges */
   /* one sentence about me, with the parts that matter written in unknown text — the same
      device as the hero line: hovering decodes a fragment and the translator reads the long version */
@@ -4261,9 +4261,9 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     outsideDensity: 0.88,   // chance of a character far outside the figure
     insideDensity: 0.28,    // chance deep inside the figure (never zero: the figure stays embedded)
     edgeSoftness: 0.14,     // feather width, as a fraction of the silhouette's height
-    silhouetteScale: 0.48,  // silhouette height (crown to where the crop ends) as a fraction of the component
+    silhouetteScale: 0.58,  // silhouette height (crown to where the crop ends) as a fraction of the component
     silhouetteX: 0.52,      // horizontal centre of the figure (0–1); a touch right of centre, like the photo
-    silhouetteTop: 0.2,     // where the crown sits (0–1 of the height)
+    silhouetteTop: 0.16,    // where the crown sits (0–1 of the height)
     color: '#63FF8A',        // the unknown text's green
     minOpacity: 0.45,
     maxOpacity: 0.95,
