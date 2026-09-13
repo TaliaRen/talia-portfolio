@@ -1096,9 +1096,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-node:nth-of-type(even) { --nx:1; }
   .rumor-map .project-card.rumor-node.found:hover { border-color:#5FE39A; }   /* hover: border brightens only, no lift */
   .rumor-map .project-card:hover .project-img-wrap { transform:none; }   /* the whole entry lifts instead of the cover alone */
-  /* log header: a tinted strip across the entry — who / when on the left, what on the right */
+  /* log header: a tinted strip across the top of the text column — who / when */
   .rumor-head {
-    display:flex; justify-content:space-between; align-items:center; gap:16px;
+    display:flex; align-items:center;
     padding:10px 28px; background:rgba(95,227,154,0.10); border-bottom:1px solid rgba(95,227,154,0.45);
     font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
     opacity:0; transition:opacity .5s ease .3s;
@@ -1107,15 +1107,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-body { display:flex; align-items:stretch; }
   /* left: the entry's text */
   .rumor-text {
-    flex:0 0 250px; display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:14px;   /* name at the top, tags at the bottom */
-    padding:28px; box-sizing:border-box; border-right:1px solid rgba(95,227,154,0.35);
+    flex:0 0 250px; display:flex; flex-direction:column; align-items:stretch; gap:0;
+    padding:0; box-sizing:border-box; border-right:1px solid rgba(95,227,154,0.35);
     opacity:0; transition:opacity .5s ease .3s;
   }
   .rumor-node.found .rumor-text { opacity:1; }
   .rumor-text .project-title, .rumor-text .project-desc { display:none; }   /* title: the viewer's lookup; desc: typed on the translator */
-  .rumor-name { font-family:'Libertinus Serif',serif; font-size:28px; font-weight:400; line-height:1.25; color:#fff; }
+  .rumor-name { font-family:'Libertinus Serif',serif; font-size:28px; font-weight:400; line-height:1.25; color:#fff; margin:28px 28px auto; }   /* auto bottom margin: tags sit at the bottom */
   .rumor-name::after { content:''; display:block; width:36px; height:1px; background:#5FE39A; margin-top:16px; }   /* a short rule ties the name to the log */
-  .rumor-text .project-tags { margin:0; gap:8px; }
+  .rumor-text .project-tags { margin:24px 28px 28px; gap:8px; }
   /* project-log tags: solid green, square-cornered chips */
   .rumor-text .project-tag { font-size:14px; font-weight:500; letter-spacing:.02em; color:#0A0D0C; background:#5FE39A; border:none; border-radius:0; padding:3px 9px; line-height:1.4; }
   /* right: the cover, as big as the entry allows */
@@ -1130,7 +1130,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .rumor-map .project-card.rumor-node { position:relative; left:auto; top:auto !important; width:100%; }
     .rumor-body { flex-direction:column; }
     .rumor-head { padding:10px 20px; }
-    .rumor-text { flex:none; padding:20px; border-right:none; border-bottom:1px solid rgba(95,227,154,0.35); }
+    .rumor-text { flex:none; border-right:none; border-bottom:1px solid rgba(95,227,154,0.35); }
+    .rumor-name { margin:20px 20px 0; }
+    .rumor-text .project-tags { margin:20px; }
   }
   .projects-carousel-viewport { overflow:hidden; width:100%; padding:40px 0; box-sizing:border-box; }
   .projects-list { display:flex; flex-direction:row; flex-wrap:nowrap; transition:transform 0.55s cubic-bezier(0.65,0,0.35,1); will-change:transform; }
@@ -1576,9 +1578,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <svg class="rumor-links" id="rumorLinks" aria-hidden="true"></svg>
 
   <a class="project-card rumor-node" href="25madison.html" data-accent="#01534D">
-    <div class="rumor-head"><span class="rumor-meta">Jain · 2026</span><span class="rumor-kind">Case study</span></div>
     <div class="rumor-body">
     <div class="rumor-text">
+      <div class="rumor-head"><span class="rumor-meta">Jain · 2026</span></div>
       <span class="project-title">Jain Bid X-Ray</span>
       <div class="rumor-name">Jain Bid X-Ray</div>
       <div class="project-tags">
@@ -1596,9 +1598,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
 
   <a class="project-card rumor-node" href="bytedance.html" data-accent="#456f90">
-    <div class="rumor-head"><span class="rumor-meta">ByteDance · 2025</span><span class="rumor-kind">Case study</span></div>
     <div class="rumor-body">
     <div class="rumor-text">
+      <div class="rumor-head"><span class="rumor-meta">ByteDance · 2025</span></div>
       <span class="project-title">Doudian Order Tools</span>
       <div class="rumor-name">Doudian Order Tools</div>
       <div class="project-tags">
@@ -1616,9 +1618,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
 
   <a class="project-card rumor-node" href="agencyroot.html" data-accent="#8C7B23">
-    <div class="rumor-head"><span class="rumor-meta">AgencyRoot · 2025</span><span class="rumor-kind">Case study</span></div>
     <div class="rumor-body">
     <div class="rumor-text">
+      <div class="rumor-head"><span class="rumor-meta">AgencyRoot · 2025</span></div>
       <span class="project-title">AgencyRoot AI Command Bar</span>
       <div class="rumor-name">AgencyRoot AI Command Bar</div>
       <div class="project-tags">
@@ -1636,9 +1638,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
 
   <a class="project-card rumor-node" href="didi.html" data-accent="#70618b">
-    <div class="rumor-head"><span class="rumor-meta">DiDi · 2023</span><span class="rumor-kind">Case study</span></div>
     <div class="rumor-body">
     <div class="rumor-text">
+      <div class="rumor-head"><span class="rumor-meta">DiDi · 2023</span></div>
       <span class="project-title">DiDi First-Ride Experience</span>
       <div class="rumor-name">DiDi First-Ride Experience</div>
       <div class="project-tags">
