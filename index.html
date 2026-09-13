@@ -229,6 +229,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sig-item .corner.br { right:-1px; bottom:-1px; border-left:none; border-top:none; }
   .sig-item.sig-phone { border:none !important; }
   .sig-item.sig-phone .corner { display:none; }
+  /* a smaller phone with the Truthly recording playing on its screen */
+  .sig-phone .phone-mockup { width:168px; height:358px; border-radius:32px; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.12), 0 0 0 6px #1a1a1a, 0 0 0 7px rgba(255,255,255,0.07), 0 24px 60px rgba(0,0,0,0.6); }
+  .sig-phone .phone-mockup::before { right:-8px; top:84px; height:44px; box-shadow:0 52px 0 #1a1a1a; }
+  .sig-phone .phone-mockup::after  { left:-8px; top:70px; height:26px; box-shadow:0 38px 0 #1a1a1a, 0 72px 0 #1a1a1a; }
+  .sig-phone .phone-island { top:10px; width:56px; height:17px; }
+  .sig-phone .phone-screen { border-radius:32px; background:#000; }
+  .sig-phone .phone-screen video { width:100%; height:100%; object-fit:cover; display:block; }
   /* a before → after pair: source photo, arrow, geometric result */
   .sig-item.sig-pair { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:12px; }
   /* every print gets the same inset between stroke and picture */
@@ -1676,10 +1683,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="scrap" id="scope">
     <p class="scrap-title">Experiment Log</p>
     <div class="scrap-flow">
-      <a class="sig-item" style="--r:-2.2deg; --w:78%; --ml:6%" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
-        <video autoplay muted loop playsinline preload="metadata">
-          <source src="playground/truthly.mp4" type="video/mp4">
-        </video>
+      <a class="sig-item sig-phone" style="--r:-2.2deg; --w:78%; --ml:6%" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
+        <div class="phone-mockup">
+          <div class="phone-island"></div>
+          <div class="phone-screen">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="playground/truthly.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
       </a>
       <a class="sig-item" style="--r:1.6deg; --w:100%; --ml:0" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Christmas Tree" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
         <video autoplay muted loop playsinline preload="metadata">
