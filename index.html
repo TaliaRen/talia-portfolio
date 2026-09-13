@@ -229,6 +229,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sig-item .corner.br { right:-1px; bottom:-1px; border-left:none; border-top:none; }
   .sig-item.sig-phone { border:none !important; }
   .sig-item.sig-phone .corner { display:none; }
+  /* a before → after pair: source photo, arrow, geometric result */
+  .sig-item.sig-pair { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px; padding:12px; background:rgba(10,13,12,0.85); }
+  .sig-pair .pair-arrow { font-family:'Figtree',sans-serif; font-size:18px; color:#9FE7BD; line-height:1; }
   a.sig-item:hover { transform:rotate(0deg) translateY(-4px); }
   /* hovering one print: the rest go very grey */
   .scrap.hovering .sig-item:not(.on) { filter:grayscale(1); opacity:0.12; }
@@ -239,6 +242,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .scrap-flow { columns:1; }
     .sig-item { --w:100% !important; --ml:0 !important; --r:0deg !important; margin-bottom:28px; }
     .sig-item.sig-phone { padding:20px 10px; }
+    .scrap-title { left:auto; right:16px; }                 /* clear of the hamburger at the frame's top-left */
+    .sig-item.sig-pair { grid-template-columns:1fr; justify-items:center; }   /* before / after stack on phones */
+    .sig-pair .pair-arrow { transform:rotate(90deg); }
   }
   /* phone mockup with the live Truthly app */
   .phone-mockup {
@@ -1682,12 +1688,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <source src="playground/christmas memory.mp4" type="video/mp4">
         </video>
       </a>
-      <div class="sig-item" style="--r:-1.2deg; --w:92%; --ml:8%" data-title="Opera Mask AR" data-note="Try on Peking opera face paint in the browser: masks tracked to your face, with a note on what each colour stands for">
-        <img src="playground/Screenshot 2026-07-10 at 11.59.40.png" alt="Peking opera mask AR try-on" loading="lazy">
-      </div>
-      <div class="sig-item" style="--r:2deg; --w:86%; --ml:0" data-title="Lion, Scanned" data-note="A plush lion rebuilt as a textured 3D model from fifty phone photos, stitched together in Meshroom">
-        <img src="playground/3d.png" alt="Photogrammetry scan of a plush lion in Meshroom" loading="lazy">
-      </div>
+      <a class="sig-item sig-pair" style="--r:-1.4deg; --w:100%; --ml:0" href="https://github.com/TaliaRen/geometric-illustration-skill" target="_blank" rel="noopener" data-title="Geometric Illustration Skill" data-note="A Codex skill that rebuilds a photo from primitive shapes: find what makes the subject recognizable, then redraw it with circles, rectangles and triangles only">
+        <img src="playground/true tiger.jpg" alt="Source photo of a tiger" loading="lazy">
+        <span class="pair-arrow" aria-hidden="true">→</span>
+        <img src="playground/tiger.png" alt="The same tiger rebuilt from geometric shapes" loading="lazy">
+      </a>
     </div>
   </div>
 </section>
