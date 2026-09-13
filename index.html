@@ -1099,15 +1099,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* left: the entry's text */
   .rumor-text {
     flex:0 0 250px; display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:14px;   /* name at the top, tags at the bottom */
-    padding:20px 18px 20px 20px; box-sizing:border-box; border-right:1px solid rgba(95,227,154,0.35);
+    padding:28px; box-sizing:border-box; border-right:1px solid rgba(95,227,154,0.35);
     opacity:0; transition:opacity .5s ease .3s;
   }
   .rumor-node.found .rumor-text { opacity:1; }
   .rumor-text .project-title, .rumor-text .project-desc { display:none; }   /* title: the viewer's lookup; desc: typed on the translator */
   .rumor-name { font-family:'Libertinus Serif',serif; font-size:28px; font-weight:400; line-height:1.25; color:#fff; }
-  .rumor-text .project-tags { margin:0; gap:6px; }
+  .rumor-text .project-tags { margin:0; gap:8px; }
   /* project-log tags: solid green, square-cornered chips */
-  .rumor-text .project-tag { font-size:12px; font-weight:500; letter-spacing:.02em; color:#fff; background:#27865A; border:none; border-radius:0; padding:3px 9px; line-height:1.4; }   /* deeper green: white text reads at ~4.6:1 */
+  .rumor-text .project-tag { font-size:12px; font-weight:500; letter-spacing:.02em; color:#0A0D0C; background:#5FE39A; border:none; border-radius:0; padding:3px 9px; line-height:1.4; }
   /* right: the cover, as big as the entry allows */
   .rumor-map .project-img-wrap {
     flex:1 1 auto; min-width:0; aspect-ratio:570/380; border-radius:0; background:transparent;
