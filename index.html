@@ -4240,7 +4240,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (!rec || !band || !cv || !rows.length) return;
   const ctx = cv.getContext('2d');
   let active = -1, W = 0, H = 0, dpr = 1, inView = false, ys = [];
-  const amp = rows.map(() => 0.28);
+  const amp = rows.map(() => 0.2);
   rows.forEach((r, i) => {
     r.addEventListener('mouseenter', () => { active = i; rows.forEach((x, k) => x.classList.toggle('on', k === i)); rec.classList.add('hovering'); window.screenTranslate?.('', r.dataset.note || ''); });
     r.addEventListener('mouseleave', () => { active = -1; rec.classList.remove('hovering'); window.screenReady?.(); });
@@ -4256,7 +4256,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
     const base = W - 24, T = t * 0.001;
     const hov = rec.classList.contains('hovering');
-    rows.forEach((r, i) => { amp[i] += ((hov ? (i === active ? 1.5 : 0.1) : 0.28) - amp[i]) * 0.08; });
+    rows.forEach((r, i) => { amp[i] += ((hov ? (i === active ? 1.0 : 0.08) : 0.2) - amp[i]) * 0.08; });
     ctx.beginPath();
     for (let y = 0; y <= H; y += 2) {
       let x = Math.sin(y * 0.05 + T * 2.1) * 1.2 + Math.sin(y * 0.013 - T * 1.3) * 1.6 + (Math.random() - 0.5) * 1.4;
@@ -4264,8 +4264,6 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
       ctx[y ? 'lineTo' : 'moveTo'](base + x, y);
     }
     ctx.strokeStyle = 'rgba(99,255,138,0.55)'; ctx.lineWidth = 1.2; ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(base, 0); ctx.lineTo(base, H); ctx.strokeStyle = 'rgba(95,227,154,0.18)'; ctx.lineWidth = 1; ctx.stroke();
-    ys.forEach(fy => { ctx.beginPath(); ctx.moveTo(base - 10, fy); ctx.lineTo(base, fy); ctx.strokeStyle = 'rgba(95,227,154,0.45)'; ctx.lineWidth = 1.5; ctx.stroke(); });
   }
   (function loop(t) { if (inView) draw(t); requestAnimationFrame(loop); })(0);
   size(); draw(0);
