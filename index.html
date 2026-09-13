@@ -1093,9 +1093,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-map .project-card.rumor-node {
     position:absolute; left:calc(var(--nx) * (100% - var(--node-w))); top:0; width:var(--node-w);
     display:flex; flex-direction:column; align-items:stretch; gap:0; padding:0; z-index:1; box-sizing:border-box;   /* stretch: the base .project-card centres its children */
-    border:1px solid rgba(95,227,154,0.55); background:rgba(10,13,12,0.85);
-    transition:transform .3s ease, border-color .3s ease;
+    border:1px solid rgba(95,227,154,0.28); background:rgba(10,13,12,0.85);   /* faint frame until the entry is found */
+    transition:transform .3s ease, border-color .9s ease;
   }
+  .rumor-node.found { border-color:rgba(95,227,154,0.55); }
   .rumor-node:nth-of-type(odd)  { --nx:0; }
   .rumor-node:nth-of-type(even) { --nx:1; }
   .rumor-map .project-card.rumor-node.found:hover { border-color:#5FE39A; }   /* hover: border brightens only, no lift */
@@ -1105,17 +1106,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display:flex; align-items:center;
     padding:10px 28px; background:rgba(95,227,154,0.10); border-bottom:1px solid rgba(95,227,154,0.45);
     font-family:'Figtree',sans-serif; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#9FE7BD;
-    opacity:0; transition:opacity .5s ease .15s;   /* same timing as the cover: the whole entry appears at once */
   }
-  .rumor-node.found .rumor-head { opacity:1; }
-  .rumor-body { display:flex; align-items:stretch; }
+  .rumor-body { display:flex; align-items:stretch; opacity:0; transform:translateY(14px); transition:opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1); }
+  .rumor-node.found .rumor-body { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce) { .rumor-body { transform:none; transition:opacity .4s ease; } }
   /* left: the entry's text */
   .rumor-text {
     flex:0 0 250px; display:flex; flex-direction:column; align-items:stretch; gap:0;
     padding:0; box-sizing:border-box; border-right:1px solid rgba(95,227,154,0.35);
-    opacity:0; transition:opacity .5s ease .15s;   /* same timing as the cover: the whole entry appears at once */
   }
-  .rumor-node.found .rumor-text { opacity:1; }
   .rumor-text .project-title, .rumor-text .project-desc { display:none; }   /* title: the viewer's lookup; desc: typed on the translator */
   .rumor-name { font-family:'Libertinus Serif',serif; font-size:28px; font-weight:400; line-height:1.25; color:#fff; margin:28px 28px auto; }   /* auto bottom margin: tags sit at the bottom */
   .rumor-name::after { content:''; display:block; width:36px; height:1px; background:#5FE39A; margin-top:8px; }   /* a short rule ties the name to the log */
@@ -1126,8 +1125,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-map .project-img-wrap {
     flex:1 1 auto; min-width:0; aspect-ratio:570/380; border-radius:0; background:transparent;
   }
-  .rumor-map .project-img-wrap > img { opacity:0; transition:opacity .5s ease .15s; }
-  .rumor-node.found .project-img-wrap > img { opacity:1; }
   @media (max-width:1100px) { .rumor-map { --node-w:min(760px, 82%); } .rumor-text { flex-basis:220px; } }
   @media (max-width:820px) {    /* one column: text above the cover, links pointing down */
     .rumor-map { display:flex; flex-direction:column; align-items:stretch; gap:112px; }
@@ -4173,7 +4170,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   let found = 0, nextAt = 0;
   function reveal(i, quick) {
     links[i].g.classList.add('on'); links[i].line.style.strokeDashoffset = '0';
-    setTimeout(() => nodes[i].classList.add('found'), quick ? 250 : 600);   // the link draws in, then the entry appears
+    setTimeout(() => nodes[i].classList.add('found'), quick ? 120 : 500);   // the link draws in, then the entry appears
   }
   // hovering a found entry puts its translation (name + subtitle) on the translator screen
   nodes.forEach((n, i) => {
@@ -4188,10 +4185,12 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     // revealed at a leisurely pace; several (a fast scroll) come in quick succession
     let pending = 0;
     for (let j = found; j < nodes.length && nodes[j].getBoundingClientRect().top < limit; j++) pending++;
-    const quick = pending > 1, step = quick ? 220 : 950;
+    const quick = pending > 1, step = quick ? 120 : 950;
     nextAt = Math.max(nextAt, now);
     while (found < nodes.length && nodes[found].getBoundingClientRect().top < limit) {
       const i = found++;
+      const passed = nodes[i].getBoundingClientRect().bottom < window.innerHeight * 0.5;   // already scrolled past: no waiting at all
+      if (passed) { nextAt = now; reveal(i, true); continue; }
       setTimeout(() => reveal(i, quick), nextAt - now);
       nextAt += step;
     }
