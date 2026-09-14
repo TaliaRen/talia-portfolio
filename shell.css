@@ -118,9 +118,12 @@ body { background-color:transparent; }   /* <html> keeps the page colour; the fr
   .m-menu .m-contact { display:flex; justify-content:space-between; }
   .m-menu .m-contact a { padding:12px 10px; }
 }
+@media (max-width:640px) {
+  html.embed .m-burger, html.embed .m-menu { display:none; }   /* project pages show a Back button instead of the full site menu */
+}
 
 /* ── Reserve room for the frame + rail around whatever a page's own <main>
    contains, so its content doesn't sit under either. A full-bleed hero
    background can cancel this out locally (see each page's own CSS). ── */
-main { padding-left:calc(var(--frame-inset) + 7px + 34px); box-sizing:border-box; }   /* clear of the frame line, no rail to reserve for anymore */
+main { padding-left:calc(var(--frame-inset) + 1px); box-sizing:border-box; }   /* touches the inner frame stroke, no rail to clear anymore */
 @media (max-width:640px) { main { padding-left:0; } }

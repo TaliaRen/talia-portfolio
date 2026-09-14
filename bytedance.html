@@ -132,6 +132,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:860px) {
     html.embed .case-sidebar { display:none; }   /* content pads in at 860: the homepage shows its own fixed Back instead */
   }
+  @media(max-width:640px) {
+    /* phones: no hamburger menu on project pages, just a Back button where it was */
+    html.embed .case-sidebar { display:flex; top:calc(var(--frame-inset) + 14px); left:calc(var(--frame-inset) + 14px); bottom:auto; }
+    html.embed .case-sidebar a:not(.case-back) { display:none; }
+    html.embed .case-back { margin-bottom:0; }
+  }
 
   /* ── Anchor scroll offset ── */
   #overview, #background, #problem, #research, #solution, #iteration, #takeaways { scroll-margin-top: 140px; }
@@ -636,7 +642,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <aside class="case-sidebar">
-  <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-7 6 7 6"/></svg>Back</a>
+  <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></svg>Back</a>
   <a href="#overview" class="active">Overview</a>
   <a href="#background">Background</a>
   <a href="#problem">Problem</a>
