@@ -122,8 +122,8 @@ body { background-color:transparent; }   /* <html> keeps the page colour; the fr
   html.embed .m-burger, html.embed .m-menu { display:none; }   /* project pages show a Back button instead of the full site menu */
 }
 
-/* ── Reserve room for the frame + rail around whatever a page's own <main>
-   contains, so its content doesn't sit under either. A full-bleed hero
-   background can cancel this out locally (see each page's own CSS). ── */
-main { padding-left:calc(var(--frame-inset) + 1px); box-sizing:border-box; }   /* touches the inner frame stroke, no rail to clear anymore */
-@media (max-width:640px) { main { padding-left:0; } }
+/* ── No rail left to clear, so <main> carries no reserved padding — its
+   content sizes and centers against the full frame width. The frame
+   mask already paints over the outer margin, so nothing needs to
+   dodge the border by hand. ── */
+main { padding-left:0; box-sizing:border-box; }
