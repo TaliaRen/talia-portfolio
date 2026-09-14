@@ -165,8 +165,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .footer-icon-btn:hover { color:#e0e0e0; }
   .footer-quote { font-family:'Labrada',serif; font-weight:300; font-style:italic; font-size:2.2rem; letter-spacing:0.02em; color:#e0e0e0; }
   .footer-credit { font-family:'Figtree',sans-serif; font-weight:300; font-size:0.85rem; color:#777; }
-  /* the page's own nav/footer are hidden: navigation lives in the shared rail instead */
+  /* embedded inside the homepage frame (?embed=1): hide the top nav and
+     the footer, pin the section nav to the top-left with a Back button above it */
   html.embed footer, html.embed nav:not(.log-rail):not(.m-menu) { display:none !important; }
+  html.embed .case-sidebar { top:48px; left:calc(var(--frame-inset) + 7px + var(--rail-w) + 32px); transform:none; gap:14px; }
+  html.embed .case-back {
+    display:inline-flex; align-items:center; gap:6px; margin-bottom:28px; padding:0;
+    border:0; background:transparent; cursor:pointer;
+    font-family:'Figtree',sans-serif; font-size:.78rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#fff;
+    transition:color 0.2s ease, transform 0.2s ease;
+  }
+  html.embed .case-back:hover { color:#63FF8A; transform:translateX(-2px); }
+  html.embed .case-back svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .case-back { display:none; }   /* only shown when embedded */
 </style>
 <link rel="stylesheet" href="shell.css">
 <link rel="stylesheet" href="aim-cursor.css">
@@ -244,10 +255,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <style>
+  /* ── Sidebar ── */
+  .case-sidebar {
+    position:fixed; left:40px; top:50%; transform:translateY(-50%);
+    z-index:100;
+    display:flex; flex-direction:column; gap:20px;
+  }
+  .case-sidebar a {
+    font-family:'Figtree',sans-serif; font-size:.78rem; font-weight:300;
+    color:#979797; letter-spacing:.06em; text-transform:uppercase;
+    text-decoration:none;
+    transition:color 0.2s;
+    position:relative; padding-left:16px;
+  }
+  .case-sidebar a::before {
+    content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+    width:6px; height:1px; background:currentColor;
+    transition:width 0.2s, color 0.2s;
+  }
+  .case-sidebar a.active,
+  .case-sidebar a:hover {
+    color:#fff;
+  }
+  .case-sidebar a.active::before { width:12px; }
   @media(max-width:1100px) {
+    .case-sidebar { display:none; }
+    /* embedded on tablets: keep the nav, narrower, long labels wrap */
+    html.embed .case-sidebar { display:flex; width:118px; gap:12px; }
+    html.embed .case-sidebar a { white-space:normal; line-height:1.35; }
     /* tablet: hero meta wraps into two columns instead of squeezing four */
     html.embed .didi-meta { gap:24px; }
     html.embed .didi-meta-col { flex:1 1 0; min-width:0; }
+  }
+  @media(max-width:860px) {
+    html.embed .case-sidebar { display:none; }   /* content pads in at 860: the homepage shows its own fixed Back instead */
   }
 
   .didi-hero-section {
@@ -557,6 +598,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .didi-moreworks-grid { grid-template-columns:1fr; }
   }
 </style>
+
+<aside class="case-sidebar">
+  <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</a>
+  <a href="#overview" class="active">Overview</a>
+  <a href="#problem">Problem</a>
+  <a href="#understanding-users">Understanding Users</a>
+  <a href="#solution-1">Solution 1</a>
+  <a href="#solution-2">Solution 2</a>
+  <a href="#solution-3">Solution 3</a>
+  <a href="#takeaways">Takeaways</a>
+</aside>
 
 <main>
   <div class="didi-hero-section" id="overview">
@@ -1070,6 +1122,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   requestAnimationFrame(()=>{ init(); requestAnimationFrame(loop); });
   window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
+})();
+
+// ── Sidebar scroll highlight ──
+(function() {
+  const links = document.querySelectorAll('.case-sidebar a');
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  links.forEach((a, i) => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      sections[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  function update() {
+    let current = 0;
+    sections.forEach((sec, i) => {
+      if (sec && window.scrollY >= sec.offsetTop - window.innerHeight / 2) current = i;
+    });
+    links.forEach((a, i) => a.classList.toggle('active', i === current));
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 })();
 
 </script>
