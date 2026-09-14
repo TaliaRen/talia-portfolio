@@ -1289,16 +1289,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rec-resume { display:inline-flex; align-items:center; gap:10px; padding:12px 28px 12px 24px; border:1px solid #5FE39A; font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.06em; color:#5FE39A; text-decoration:none; white-space:nowrap; transition:background .25s ease, color .25s ease, border-color .25s ease; margin:0 0 96px; }
   .rec-resume svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
   .rec-resume:hover { background:#5FE39A; border-color:#5FE39A; color:#0A0D0C; }
-  /* off duty: bare prints drifting by, colour comes back to the one you hover */
-  .strip { overflow:hidden; box-sizing:border-box; align-self:flex-start; --gutter:56px; width:calc(100% + var(--gutter) + var(--content-right, 24px)); margin:0 0 0 calc(-1 * var(--gutter)); padding:12px 0; }   /* starts exactly at the rail's line (the 56px gutter is the content's inset from it), runs off the right */
+  /* off duty: an archive tape. Prints drift along a ruled track with fine ticks, each
+     tagged with a record number; the hovered one comes forward, larger and in colour */
+  .strip { position:relative; overflow:hidden; box-sizing:border-box; align-self:flex-start; --gutter:56px; width:calc(100% + var(--gutter) + var(--content-right, 24px)); margin:0 0 0 calc(-1 * var(--gutter)); padding:0 0 16px; }   /* starts exactly at the rail's line (the 56px gutter is the content's inset from it), runs off the right */
+  .strip::before { content:''; position:absolute; left:0; right:0; top:26px; height:1px; background:rgba(95,227,154,0.22); }                                   /* the track */
+  .strip::after  { content:''; position:absolute; left:0; right:0; top:22px; height:4px; background:repeating-linear-gradient(90deg, rgba(95,227,154,0.3) 0 1px, transparent 1px 18px); }   /* its ticks */
   .strip-track { display:flex; gap:16px; width:max-content; animation:stripDrift 90s linear infinite; }
   .strip:hover .strip-track { animation-play-state:paused; }
   @keyframes stripDrift { to { transform:translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .strip-track { animation:none; } }
-  .print { position:relative; flex:none; margin:0; padding:0; border:0; background:none; filter:grayscale(0.7) brightness(0.8); transition:transform .35s cubic-bezier(.22,1,.36,1), filter .35s ease, opacity .35s ease; }
-  .print img { width:132px; height:176px; object-fit:cover; display:block; border-radius:3px; }
-  .strip:hover .print:not(:hover) { filter:grayscale(1) brightness(0.45); }
-  .print:hover { filter:none; transform:translateY(-6px); }
+  .print { position:relative; flex:none; margin:0; padding:40px 0 0; border:0; background:none; transition:transform .35s cubic-bezier(.22,1,.36,1); }
+  .print::before { content:''; position:absolute; left:0; top:22px; width:1px; height:9px; background:#5FE39A; opacity:0.7; }                                   /* a taller tick where the print sits on the track */
+  .print .rec { position:absolute; left:0; top:0; font-family:'Figtree',sans-serif; font-size:11px; font-weight:500; letter-spacing:.16em; color:#5FE39A; opacity:0.6; white-space:nowrap; transition:opacity .3s ease; }
+  .print .rec i { font-style:normal; opacity:0; transition:opacity .3s ease; }
+  .print img { width:132px; height:176px; object-fit:cover; display:block; border-radius:2px; filter:grayscale(0.7) brightness(0.8); transform-origin:top left; transition:transform .35s cubic-bezier(.22,1,.36,1), filter .35s ease; }
+  .strip:hover .print:not(:hover) img { filter:grayscale(1) brightness(0.45); }
+  .print:hover { z-index:2; }
+  .print:hover img { filter:none; transform:scale(1.14); }
+  .print:hover .rec { opacity:1; }
+  .print:hover .rec i { opacity:1; }
   @media (max-width:900px) {
     .about-section { padding:120px 24px 80px; }
     .about-body { margin-bottom:72px; }
@@ -4418,7 +4427,10 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if (!track) return;
   const originals = [...track.children];
   originals.forEach(f => track.appendChild(f.cloneNode(true)));
-  [...track.children].forEach(f => {
+  [...track.children].forEach((f, i) => {
+    const rec = document.createElement('figcaption'); rec.className = 'rec';
+    rec.innerHTML = 'REC_' + String((i % originals.length) + 1).padStart(2, '0') + '<i> · ACTIVE</i>';   // the clone carries its original's number
+    f.prepend(rec);
     f.addEventListener('mouseenter', () => window.screenTranslate?.('', f.dataset.note || ''));
     f.addEventListener('mouseleave', () => window.screenReady?.());
   });
