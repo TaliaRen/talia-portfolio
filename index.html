@@ -1259,7 +1259,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── About section (merged from about.html) ── */
   /* ── About: crew record (hologram + facts in unknown text), service record
         (every project as a signal on the trace), and a film strip of prints ── */
-  .about-section { display:flex; flex-direction:column; align-items:center; gap:0; padding:200px 220px 160px; }
+  .about-section { display:flex; flex-direction:column; align-items:center; gap:0; padding:200px 220px 180px; }
   .about-section > :not(.strip) { position:relative; left:calc((var(--content-right, 0px) - var(--content-left, 0px)) / 2); }   /* centred on the screen, not on the content box */
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:normal; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* ASCII silhouette: a field of terminal characters; the figure is where they thin out */
@@ -1289,7 +1289,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rec-resume { display:inline-block; padding:12px 28px; border:1px solid #5FE39A; font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.06em; color:#5FE39A; text-decoration:none; white-space:nowrap; transition:background .25s ease, color .25s ease, border-color .25s ease; margin:0 0 96px; }
   .rec-resume:hover { background:#5FE39A; border-color:#5FE39A; color:#0A0D0C; }
   /* off duty: bare prints drifting by, colour comes back to the one you hover */
-  .strip { overflow:hidden; box-sizing:border-box; align-self:flex-start; width:calc(100% + var(--content-right, 24px)); margin:0; padding:12px 0; }   /* starts at the content's left edge (clear of the rail), runs off the right */
+  .strip { overflow:hidden; box-sizing:border-box; align-self:flex-start; --gutter:56px; width:calc(100% + var(--gutter) + var(--content-right, 24px)); margin:0 0 0 calc(-1 * var(--gutter)); padding:12px 0; }   /* starts exactly at the rail's line (the 56px gutter is the content's inset from it), runs off the right */
   .strip-track { display:flex; gap:16px; width:max-content; animation:stripDrift 90s linear infinite; }
   .strip:hover .strip-track { animation-play-state:paused; }
   @keyframes stripDrift { to { transform:translateX(-50%); } }
@@ -1300,6 +1300,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .print:hover { filter:none; transform:translateY(-6px); }
   @media (max-width:900px) {
     .about-section { padding:120px 24px 80px; }
+    .strip { --gutter:20px; }
     .about-body { margin-bottom:72px; }
     .record { width:100%; }
     .record-list { grid-template-columns:48px minmax(0, 1fr); column-gap:20px; }
