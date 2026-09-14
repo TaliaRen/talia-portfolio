@@ -3381,7 +3381,14 @@ document.addEventListener('mousemove', e => {
   };
   // Back from a project page restores the homepage from bfcache (no script re-runs),
   // so the load-in wouldn't play — replay it, same as a fresh visit
-  window.addEventListener('pageshow', e => { if (e.persisted) window.replayHeroIntro(); });
+  window.addEventListener('pageshow', e => {
+    if (!e.persisted) return;
+    const det = document.getElementById('detector');            // rise only — the screen keeps what it was showing
+    if (det) det.style.transition = 'none';
+    scene.classList.remove('loaded'); void scene.offsetWidth;
+    if (det) det.style.transition = '';
+    requestAnimationFrame(() => requestAnimationFrame(() => scene.classList.add('loaded')));
+  });
 })();
 
 
