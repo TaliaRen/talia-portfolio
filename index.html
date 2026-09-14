@@ -1263,18 +1263,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .about-section > :not(.strip) { position:relative; left:calc((var(--content-right, 0px) - var(--content-left, 0px)) / 2); }   /* centred on the screen, not on the content box */
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:normal; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* ASCII silhouette: a field of terminal characters; the figure is where they thin out */
-  .ascii-silhouette { position:relative; width:220px; max-width:100%; aspect-ratio:1 / 1; margin:0 0 36px; }
+  .ascii-silhouette { position:relative; width:220px; max-width:100%; aspect-ratio:1 / 1; margin:0 0 48px; }
   .ascii-silhouette { cursor:help; }
   .ascii-silhouette canvas { position:absolute; inset:0; width:100%; height:100%; display:block; transition:opacity .6s ease; }
   /* the photo itself, lined up with the silhouette by script; hovering decodes the field into it */
   .ascii-photo { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; opacity:0; transition:opacity .6s ease; pointer-events:none; }
   .ascii-silhouette.decoded canvas { opacity:0; }
   .ascii-silhouette.decoded .ascii-photo { opacity:1; }
-  /* one sentence about me, with the parts that matter written in unknown text — the same
-     device as the hero line: hovering decodes a fragment and the translator reads the long version */
-  .about-facts { font-family:'Figtree',sans-serif; font-size:18px; font-weight:400; line-height:2; color:rgba(255,255,255,0.88); text-align:center; max-width:640px; margin:0 0 40px; }
-  .about-facts .glyph { cursor:default; margin:0 .12em; }
-  .about-facts .glyph-text { color:#fff; }
   .about-body { font-family:'Figtree', sans-serif; font-weight:400; font-size:18px; line-height:1.7; color:rgba(255,255,255,0.62); text-align:left; max-width:600px; margin:0 0 96px; }
   /* service record: a living trace down the middle; every project is a burst on it,
      company and year on the left, the project on the right — nothing boxed */
@@ -1317,7 +1312,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .rec-resume { margin-bottom:72px; }
   }
   @media (max-width:640px) {
-    .about-facts { margin-bottom:32px; }
     .ascii-silhouette { width:190px; }
     .print img { width:110px; height:146px; }
   }
@@ -1897,7 +1891,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- ASCII silhouette: a generative field of terminal characters. The figure is never
        drawn; it appears where the characters thin out (density, not outline) -->
   <div class="ascii-silhouette" data-note="That's me, on a hill above Florence at golden hour" aria-hidden="true"><img class="ascii-photo" src="about/about.jpg?v=2" alt=""></div>
-  <p class="about-facts">Product designer, <span class="glyph glyph-fact" data-text="AI-first" data-note="I design AI-powered SaaS products and use AI to research, design, and build"></span>. Based in <span class="glyph glyph-fact" data-text="New York" data-note="Based in New York City, happy to relocate for the right team"></span>, <span class="glyph glyph-fact" data-text="open to relocate" data-note="Open to relocating for the right team, anywhere"></span>. Off duty, <span class="glyph glyph-fact" data-text="puzzles, cafés, video games" data-note="If you've made it this far you've probably noticed: I love jigsaw puzzles, and not just the ones that come in a box"></span>.</p>
   <p class="about-body">I became a product designer because I’ve always been curious about why some experiences feel more confusing or frustrating than they need to be. Design gives me a way to look beneath the surface, understand the people and systems behind a problem, and turn complexity into experiences that feel clear, thoughtful, and useful.<br><br>That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks, so I can spend more time solving the problems that truly matter.</p>
   <div class="record" id="record">
     <ul class="record-list">
@@ -4374,8 +4367,8 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     for (let i = 0; i < cells.length; i++) {
       const k = cells[i]; if (!k.on) continue;
       const c = i % cols, r = (i - c) / cols;
-      const x = (c + 0.5) * cw + Math.sin(T * 0.8 + k.ph) * 4.2, y = (r + 0.5) * ch + Math.cos(T * 0.6 + k.ph * 1.7) * 3.6;
-      const rot = k.rot + T * k.spin * 2.2 + Math.sin(T * 0.4 + k.ph) * 2.0, sz = k.size * (1 + 0.35 * Math.sin(T * 1.1 + k.ph));
+      const x = (c + 0.5) * cw + Math.sin(T * 0.8 + k.ph) * 6.5, y = (r + 0.5) * ch + Math.cos(T * 0.6 + k.ph * 1.7) * 5.5;
+      const rot = k.rot + T * k.spin * 2.8 + Math.sin(T * 0.4 + k.ph) * 2.6, sz = k.size * (1 + 0.45 * Math.sin(T * 1.1 + k.ph));
       octx.strokeStyle = `rgba(${cr},${cg},${cb},${k.a.toFixed(2)})`;
       mark(octx, k.kind, x, y, rot, sz);
     }
