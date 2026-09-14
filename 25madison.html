@@ -301,10 +301,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:860px) {
     .jbx-hero-section { padding:120px 32px 80px; gap:48px; }
     .jbx-headline { font-size:1.4rem; }
-    .jbx-meta { flex-wrap:wrap; gap:32px; }
+    .jbx-meta { gap:20px; }   /* stays one row of 4, just tighter */
+    .jbx-meta-col { flex:1 1 0; min-width:0; }
   }
   @media(max-width:480px) {
     .jbx-hero-section { padding:100px 24px 60px; }
+    .jbx-meta { gap:10px; }
+    .jbx-meta-col label { font-size:.62rem; margin-bottom:8px; }
+    .jbx-meta-col p { font-size:.78rem; line-height:1.5; }
   }
 
   /* ── Overview content ── */

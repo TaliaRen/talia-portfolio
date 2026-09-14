@@ -310,6 +310,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:700px) {
     .bt-problem-row { flex-direction:column; }
     .bt-problem-row-img { width:100%; flex:none; align-self:stretch; }
+    .ar-callout-row { flex-direction:column; gap:16px !important; }
+    .ar-callout-label { flex:none !important; }
   }
 
   /* ── Background section ── */
@@ -432,10 +434,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:860px) {
     .bt-hero-section { padding:120px 32px 80px; gap:48px; }
     .bt-headline { font-size:1.4rem; }
-    .bt-meta { flex-wrap:wrap; gap:32px; }
+    .bt-meta { gap:20px; }   /* stays one row of 4, just tighter */
+    .bt-meta-col { flex:1 1 0; min-width:0; }
   }
   @media(max-width:480px) {
     .bt-hero-section { padding:100px 24px 60px; }
+    .bt-meta { gap:10px; }
+    .bt-meta-col label { font-size:.62rem; margin-bottom:8px; }
+    .bt-meta-col p { font-size:.78rem; line-height:1.5; }
   }
 
   /* ── Footer ── */
@@ -655,8 +661,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <source src="agencyroot/ai action hub.mp4" type="video/mp4">
       </video>
       <div style="display:flex; flex-direction:column; gap:32px; margin-top:32px; padding:32px; background:#242424; border:1px solid rgba(255,255,255,0.12); border-radius:16px;">
-        <div style="display:flex; gap:48px; align-items:flex-start;">
-          <h3 style="font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:500; color:#E6FB99; flex:0 0 260px; margin:0;">Why AI Command Bar?</h3>
+        <div class="ar-callout-row" style="display:flex; gap:48px; align-items:flex-start;">
+          <h3 class="ar-callout-label" style="font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:500; color:#E6FB99; flex:0 0 260px; margin:0;">Why AI Command Bar?</h3>
           <p class="bt-problem-body" style="flex:1;">Agents relied on familiar workflows and had varying levels of confidence with new technology. We needed an AI experience that was easy to discover, simple to use, while keeping users in control of every action and decision.</p>
         </div>
         <div style="display:flex; gap:32px;">
