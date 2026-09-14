@@ -2809,6 +2809,9 @@ document.addEventListener('mousemove', e => {
   window.addEventListener('scroll', checkEnd, { passive: true });
   window.addEventListener('resize', checkEnd);
   if (screenText) showReady(false);
+  // Back from a project page usually restores the homepage from bfcache, so no script
+  // re-runs — type the translator's ready message again so the screen wakes up as on a fresh load
+  window.addEventListener('pageshow', e => { if (e.persisted && screenText && !atEnd) showReady(false); });
 
   // ── Music toggle (rail button) ──
   const railMusic = document.getElementById('railMusic');
