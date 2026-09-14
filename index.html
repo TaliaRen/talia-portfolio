@@ -3398,13 +3398,26 @@ document.addEventListener('mousemove', e => {
 (function () {
   const view = document.getElementById('projectView');
   if (!view) return;
-  let frame = null, current = null;
+  let frame = null, current = null, heightRO = null;
   const nameOf = href => href.replace(/^.*\//, '').replace(/\.html.*$/, '');
+  // the outer view is the scroller (so touch-scrolling works reliably on mobile,
+  // where a nested iframe's own internal scroll is unreliable); that only works if
+  // the iframe itself is stretched to its full content height. Same-origin, so we
+  // can read the embedded document directly — a ResizeObserver on it re-measures
+  // whenever the content's height changes (images/fonts loading, layout shifts).
+  function syncHeight() {
+    if (!frame) return;
+    let doc; try { doc = frame.contentDocument; } catch (e) { return; }
+    if (!doc || !doc.documentElement) return;
+    const h = Math.max(doc.documentElement.scrollHeight, doc.body ? doc.body.scrollHeight : 0);
+    if (h > 0) frame.style.height = h + 'px';
+  }
   function open(href, title, push) {
     const name = nameOf(href);
     if (current === name) return;
     current = name;
     if (frame) frame.remove();
+    if (heightRO) { heightRO.disconnect(); heightRO = null; }
     frame = document.createElement('iframe');
     frame.src = name + '.html?embed=1'; frame.title = title || name; frame.loading = 'eager'; frame.setAttribute('scrolling', 'yes');
     view.appendChild(frame);
@@ -3417,7 +3430,17 @@ document.addEventListener('mousemove', e => {
       // booted straight into this project: drop the flag once the viewer has painted (timeout, not rAF — rAF pauses in hidden tabs)
       if (document.documentElement.classList.contains('boot-project')) setTimeout(() => document.documentElement.classList.remove('boot-project'), 80);
     };
-    frame.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(show)));
+    frame.addEventListener('load', () => {
+      requestAnimationFrame(() => requestAnimationFrame(show));
+      syncHeight();
+      try {
+        const doc = frame.contentDocument;
+        heightRO = new ResizeObserver(syncHeight);
+        heightRO.observe(doc.documentElement);
+        doc.fonts?.ready?.then(syncHeight);
+        frame.contentWindow.addEventListener('resize', syncHeight);
+      } catch (e) {}
+    });
     setTimeout(show, 700);
     if (push) history.pushState({ project: name }, '', '?project=' + encodeURIComponent(name));
   }
@@ -3428,6 +3451,7 @@ document.addEventListener('mousemove', e => {
     view.classList.add('closing');                                       // exit is instant (no fade-out)
     view.classList.remove('open'); view.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('project-open');
+    if (heightRO) { heightRO.disconnect(); heightRO = null; }
     if (frame) { frame.remove(); frame = null; }
     window.replayHeroIntro?.();               // translator rises in + types again, like first load
     if (push) history.pushState({}, '', location.pathname + location.hash);
