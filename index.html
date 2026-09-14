@@ -1301,13 +1301,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .print { position:relative; flex:none; margin:0; padding:40px 0 0; border:0; background:none; transition:transform .35s cubic-bezier(.22,1,.36,1); }
   .print::before { content:''; position:absolute; left:0; top:22px; width:1px; height:9px; background:#5FE39A; opacity:0.7; }                                   /* a taller tick where the print sits on the track */
   .print .rec { position:absolute; left:0; top:0; font-family:'Figtree',sans-serif; font-size:11px; font-weight:500; letter-spacing:.16em; color:#5FE39A; opacity:0.6; white-space:nowrap; transition:opacity .3s ease; }
-  .print .rec i { font-style:normal; opacity:0; transition:opacity .3s ease; }
   .print img { width:132px; height:176px; object-fit:cover; display:block; border-radius:2px; filter:grayscale(0.7) brightness(0.8); transition:filter .35s ease; }
   .strip:hover .print:not(:hover) img { filter:grayscale(1) brightness(0.45); }
   .print:hover { z-index:2; }
   .print:hover img { filter:none; }
   .print:hover .rec { opacity:1; }
-  .print:hover .rec i { opacity:1; }
   @media (max-width:900px) {
     .about-section { padding:120px 24px 80px; }
     .about-body { margin-bottom:72px; }
@@ -4429,7 +4427,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   originals.forEach(f => track.appendChild(f.cloneNode(true)));
   [...track.children].forEach((f, i) => {
     const rec = document.createElement('figcaption'); rec.className = 'rec';
-    rec.innerHTML = 'REC_' + String((i % originals.length) + 1).padStart(2, '0') + '<i> · ACTIVE</i>';   // the clone carries its original's number
+    rec.textContent = 'REC_' + String((i % originals.length) + 1).padStart(2, '0');   // the clone carries its original's number
     f.prepend(rec);
     f.addEventListener('mouseenter', () => window.screenTranslate?.('', f.dataset.note || ''));
     f.addEventListener('mouseleave', () => window.screenReady?.());
