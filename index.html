@@ -2808,7 +2808,10 @@ document.addEventListener('mousemove', e => {
   }
   window.addEventListener('scroll', checkEnd, { passive: true });
   window.addEventListener('resize', checkEnd);
-  if (screenText) showReady(false);
+  // Coming Back from a project page without bfcache means a full reload: the board still
+  // rises, but the ready text appears instantly instead of typing out again
+  const cameBack = ((performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {}).type === 'back_forward';
+  if (screenText) showReady(cameBack);
 
   // ── Music toggle (rail button) ──
   const railMusic = document.getElementById('railMusic');
