@@ -1268,14 +1268,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ascii-photo { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; opacity:0; transition:opacity .6s ease; pointer-events:none; }
   .ascii-silhouette.decoded canvas { opacity:0; }
   .ascii-silhouette.decoded .ascii-photo { opacity:1; }
-  .about-copy { max-width:600px; margin:0 0 96px; }
-  .about-body { font-family:'Figtree', sans-serif; font-weight:400; font-size:18px; line-height:1.7; color:rgba(255,255,255,0.82); text-align:left; margin:0; }
-  /* the two paragraphs arrive one after the other as they scroll into view */
-  .about-body { opacity:0; transform:translateY(12px); transition:opacity .7s ease, transform .7s ease; }
-  .about-body + .about-body { margin-top:1.7em; transition-delay:.35s; }
-  .about-body.in { opacity:1; transform:none; }
-  html.restoring .about-body { transition:none !important; }
-  @media (prefers-reduced-motion:reduce) { .about-body { opacity:1; transform:none; transition:none; } }
   /* service record: a living trace down the middle; every project is a burst on it,
      company and year on the left, the project on the right — nothing boxed */
   .record { width:max-content; max-width:100%; margin:0 0 128px; }   /* the block hugs its text, so what you see is what gets centred */
@@ -1311,7 +1303,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:900px) {
     .about-section { padding:120px 24px 80px; }
     .strip { padding-bottom:72px; }   /* tablets */
-    .about-copy { margin-bottom:72px; }
     .record { width:100%; margin-bottom:96px; }
     .record-list { grid-template-columns:48px minmax(0, 1fr); column-gap:20px; }
     .record-band { grid-column:1; }
@@ -1902,10 +1893,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- ASCII silhouette: a generative field of terminal characters. The figure is never
        drawn; it appears where the characters thin out (density, not outline) -->
   <div class="ascii-silhouette" data-note="Product designer by practice, curious builder by nature&#10;Currently in New York🗽, open to relocating" aria-hidden="true"><img class="ascii-photo" src="about/about.jpg?v=2" alt=""></div>
-  <div class="about-copy">
-    <p class="about-body">Long before I designed products, I was already learning through Lego, DIY projects, and jigsaw puzzles. Each gave me a different way to experiment, work through uncertainty, and gradually bring something into shape—instincts I now bring to designing products.</p>
-    <p class="about-body">That same curiosity now shapes how I explore AI. I use it to quickly understand unfamiliar domains, bring ideas to life through interactive demos, and automate repetitive design tasks. It helps me make possibilities tangible sooner—and leaves more room for the judgment, empathy, and care I want to bring to the design.</p>
-  </div>
   <div class="record" id="record">
     <ul class="record-list">
     <li class="rec-row" data-note="Product Designer"><span class="rec-meta"><b>25madison</b><i>2026</i></span><span class="rec-body"><span class="rec-name">Building the end-to-end edit experience for RFP review</span></span></li>
@@ -4448,24 +4435,6 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   });
 
   document.body.insertBefore(svg, document.body.firstChild);
-})();
-
-// About copy: each paragraph fades up once it scrolls into view (the second
-// trails the first via its CSS transition-delay)
-(function() {
-  const ps = Array.from(document.querySelectorAll('.about-body'));
-  if (!ps.length) return;
-  let pending = ps.slice();
-  function check() {
-    const limit = window.innerHeight * 0.85;
-    pending = pending.filter(p => {
-      if (p.getBoundingClientRect().top < limit) { p.classList.add('in'); return false; }
-      return true;
-    });
-  }
-  window.addEventListener('scroll', check, { passive: true });   // two elements: cheap enough to run unthrottled
-  window.addEventListener('resize', check);
-  check();
 })();
 
 // Starfield overlay: fades in as you scroll down, fades back out scrolling up
