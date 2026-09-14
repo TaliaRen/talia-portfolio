@@ -122,5 +122,5 @@ body { background-color:transparent; }   /* <html> keeps the page colour; the fr
 /* ── Reserve room for the frame + rail around whatever a page's own <main>
    contains, so its content doesn't sit under either. A full-bleed hero
    background can cancel this out locally (see each page's own CSS). ── */
-main { padding-left:calc(var(--frame-inset) + 6px + var(--rail-w) + 34px); box-sizing:border-box; }
-@media (max-width:640px) { main { padding-left:0; } }   /* no rail on phones; the hamburger floats over the top corner instead */
+main { padding-left:calc(var(--frame-inset) + 7px + 34px); box-sizing:border-box; }   /* clear of the frame line, no rail to reserve for anymore */
+@media (max-width:640px) { main { padding-left:0; } }

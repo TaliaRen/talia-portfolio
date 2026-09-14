@@ -580,7 +580,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* embedded inside the homepage frame (?embed=1): hide the top nav and
      the footer, pin the section nav to the top-left with a Back button above it */
   html.embed footer, html.embed nav:not(.log-rail):not(.m-menu) { display:none !important; }
-  html.embed .case-sidebar { top:48px; left:calc(var(--frame-inset) + 7px + var(--rail-w) + 32px); transform:none; gap:14px; }
+  html.embed .case-sidebar { top:48px; left:calc(var(--frame-inset) + 7px + 32px); transform:none; gap:14px; }
   html.embed .case-back {
     display:inline-flex; align-items:center; gap:6px; margin-bottom:28px; padding:0;
     border:0; background:transparent; cursor:pointer;
@@ -612,37 +612,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <a href="https://x.com/Talia479055" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
   </div>
 </nav>
-<nav class="log-rail" aria-label="Site">
-  <a class="rail-logo" href="index.html" data-label="Home" aria-label="Home"><img src="logo.png" alt=""></a>
-  <a href="index.html#vibe" data-label="Playground" aria-label="Playground">
-    <svg viewBox="0 0 24 24"><path d="M6 8h12a4 4 0 0 1 4 4v3a3 3 0 0 1-5.4 1.8L15 15H9l-1.6 1.8A3 3 0 0 1 2 15v-3a4 4 0 0 1 4-4z"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="12" r=".6"/><circle cx="18" cy="13.5" r=".6"/></svg>
-  </a>
-  <a href="index.html#about-section" data-label="About" aria-label="About">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-  </a>
-  <button type="button" class="rail-music" id="railMusic" data-label="Music off" aria-label="Toggle music" aria-pressed="false">
-    <svg class="ic-off" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></svg>
-    <svg class="ic-on" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
-  </button>
-  <div class="rail-contact">
-    <a href="https://drive.google.com/file/d/1fge9WIaqZYnXyYQyaybLyXMl0OJoLrvU/view?usp=sharing" target="_blank" rel="noopener noreferrer" data-label="Resume" aria-label="Resume">
-      <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
-    </a>
-    <a href="mailto:taliaren0826@gmail.com" id="railEmail" data-label="Email" aria-label="Copy email address">
-      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-    </a>
-    <a href="https://www.linkedin.com/in/taliaren" target="_blank" rel="noopener" data-label="LinkedIn" aria-label="LinkedIn">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
-    </a>
-    <a href="https://github.com/TaliaRen" target="_blank" rel="noopener" data-label="GitHub" aria-label="GitHub">
-      <svg viewBox="0 0 24 24"><path d="M9 19c-4.5 1.4-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-    </a>
-    <a class="rail-x" href="https://x.com/Talia479055" target="_blank" rel="noopener" data-label="X" aria-label="X">
-      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-    </a>
-  </div>
-</nav>
-
 <!-- Frame mask: clips everything to the frame (paints over the outside margin) -->
 <div class="frame-mask" aria-hidden="true">
   <span class="fm fm-t"></span><span class="fm fm-b"></span><span class="fm fm-l"></span><span class="fm fm-r"></span>
