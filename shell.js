@@ -40,8 +40,7 @@
   const back = document.querySelector('.case-back');
   if (!back) return;
   back.addEventListener('click', e => {
-    const cameFromSite = document.referrer && document.referrer.indexOf(location.origin) === 0;
-    if (cameFromSite && history.length > 1) {
+    if (history.length > 1) {
       e.preventDefault();
       history.back();
     }

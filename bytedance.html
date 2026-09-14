@@ -132,9 +132,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @media(max-width:860px) {
     /* no room for the section nav below 860: show just a pill Back button where the nav was */
-    html.embed .case-sidebar { display:flex; top:calc(var(--frame-inset) + 14px); left:calc(var(--frame-inset) + 14px); bottom:auto; }
+    html.embed .case-sidebar { display:flex; top:calc(var(--frame-inset) + 2px); left:calc(var(--frame-inset) + 10px); bottom:auto; }
     html.embed .case-sidebar a:not(.case-back) { display:none; }
-    html.embed .case-back { margin-bottom:0 !important; background:rgba(10,13,12,0.6) !important; padding:10px 16px 10px 12px !important; border-radius:10px; }
+    html.embed .case-back { margin-bottom:0 !important; background:rgba(10,13,12,0.6) !important; padding:10px 14px !important; border-radius:12px !important; }
   }
 
   /* ── Anchor scroll offset ── */
@@ -584,7 +584,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* embedded inside the homepage frame (?embed=1): hide the top nav and
      the footer, pin the section nav to the top-left with a Back button above it */
   html.embed footer, html.embed nav:not(.log-rail):not(.m-menu) { display:none !important; }
-  html.embed .case-sidebar { top:100px; left:calc(var(--frame-inset) + 7px + 32px); transform:none; gap:14px; }
+  html.embed .case-sidebar { top:80px; left:calc(var(--frame-inset) + 7px + 32px); transform:none; gap:14px; }
   html.embed .case-back {
     display:inline-flex; align-items:center; gap:6px; margin-bottom:28px; padding:0;
     border:0; background:transparent; cursor:pointer;
