@@ -47,6 +47,29 @@
   });
 })();
 
+// ── Hero meta grid: four columns while every line fits on one line,
+// otherwise two per row, otherwise one. Measured, not breakpoint-based,
+// because the longest entry differs from project to project ──
+(function () {
+  const metas = document.querySelectorAll('.case-meta');
+  if (!metas.length) return;
+  const overflows = m => m.scrollWidth > m.clientWidth + 1 ||
+    Array.from(m.children).some(c => c.scrollWidth > c.clientWidth + 1);
+  function fit() {
+    metas.forEach(m => {
+      m.removeAttribute('data-cols');
+      if (!overflows(m)) return;
+      m.dataset.cols = '2';
+      if (overflows(m)) m.dataset.cols = '1';
+    });
+  }
+  fit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  window.addEventListener('load', fit);
+  let t = 0;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(fit, 60); });
+})();
+
 // ── Rail: the email icon copies the address to the clipboard ──
 (function () {
   const el = document.getElementById('railEmail');

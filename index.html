@@ -22,6 +22,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="logo.png">
 <title>Talia Ren</title>
+<script>
+// Scroll rules for the homepage:
+//  - a refresh always restarts from the top, whatever section was on screen
+//  - Back from a project page returns to where the page was left
+// The browser's own restoration is switched off only for the reloaded entry;
+// the Back case is covered by remembering the scroll offset on the way out
+// (bfcache restores it anyway; this is for browsers that reload instead).
+(function () {
+  var entry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  var legacy = performance.navigation ? performance.navigation.type : -1;
+  var type = entry ? entry.type : (legacy === 1 ? 'reload' : legacy === 2 ? 'back_forward' : 'navigate');
+  var KEY = 'homeScrollY';
+  window.addEventListener('pagehide', function () { try { sessionStorage.setItem(KEY, String(window.scrollY)); } catch (e) {} });
+  if (type === 'reload') {
+    history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    window.addEventListener('load', function () { window.scrollTo(0, 0); });
+  } else if (type === 'back_forward') {
+    var y = 0;
+    try { y = parseFloat(sessionStorage.getItem(KEY)) || 0; } catch (e) {}
+    if (y > 0) {
+      var restore = function () { window.scrollTo(0, y); };
+      restore();
+      window.addEventListener('load', restore);
+    }
+  }
+})();
+</script>
 <link rel="preload" href="project cover/agencyroot cover.png" as="image">
 <link rel="preload" href="fonts/Figtree/Figtree-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/Labrada/Labrada-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>

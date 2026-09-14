@@ -255,13 +255,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     html.embed .case-sidebar a { white-space:normal; line-height:1.35; }
     /* tablet: hero meta wraps into two columns instead of squeezing four */
     html.embed .didi-meta { gap:24px; }
-    html.embed .didi-meta-col { flex:1 1 0; min-width:0; }
+    html.embed .didi-meta-col { flex:0 0 auto; }
   }
   @media(max-width:860px) {
     /* no room for the section nav below 860: show just a pill Back button where the nav was */
-    html.embed .case-sidebar { display:flex; top:calc(var(--frame-inset) + 2px); left:calc(var(--frame-inset) + 10px); bottom:auto; }
+    /* pill Back button: flush with the content gutter, chevron at the desktop Back's height;
+       align-items keeps the pill hugging its own content instead of stretching to the sidebar's width */
+    html.embed .case-sidebar { display:flex; align-items:flex-start; width:auto !important; top:70px !important; left:calc(var(--frame-inset) + 7px + 16px) !important; bottom:auto; }   /* !important: the desktop position rule sits later in the page and would win otherwise */
     html.embed .case-sidebar a:not(.case-back) { display:none; }
-    html.embed .case-back { margin-bottom:0 !important; background:rgba(10,13,12,0.6) !important; padding:10px 14px !important; border-radius:12px !important; }
+    html.embed .case-back { margin-bottom:0 !important; background:rgba(10,13,12,0.6) !important; padding:10px 14px !important; border-radius:0 !important; }
   }
 
   .didi-hero-section {
@@ -315,13 +317,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     color:#fff; line-height:1.9; margin:0;
   }
   @media(max-width:860px) {
-    .didi-hero-section { padding:120px 32px 80px; gap:48px; }
+    .didi-hero-section { padding:150px 32px 80px; gap:48px; }   /* top clears the pill Back button that sits over the hero below 860 */
     .didi-headline { font-size:1.4rem; }
     .didi-meta { gap:20px; }   /* stays one row of 4, just tighter */
-    .didi-meta-col { flex:1 1 0; min-width:0; }
+    .didi-meta-col { flex:0 0 auto; }
   }
   @media(max-width:480px) {
-    .didi-hero-section { padding:100px 24px 60px; }
+    .didi-hero-section { padding:150px 24px 60px; }
     .didi-meta { gap:10px; }
     .didi-meta-col label { font-size:.62rem; margin-bottom:8px; }
     .didi-meta-col p { font-size:.78rem; line-height:1.5; }
@@ -592,20 +594,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <h1 class="didi-headline">Optimizing the first-ride experience across both digital and physical touch points</h1>
     </div>
-    <div class="didi-meta">
-      <div class="didi-meta-col">
+    <div class="didi-meta case-meta">
+      <div class="didi-meta-col case-meta-col">
         <label>Timeline</label>
         <p>Summer 2023</p>
       </div>
-      <div class="didi-meta-col">
+      <div class="didi-meta-col case-meta-col">
         <label>Team</label>
         <p>2 UX Designers<br>1 Product Manager<br>1 Marketing Manager</p>
       </div>
-      <div class="didi-meta-col">
+      <div class="didi-meta-col case-meta-col">
         <label>Role</label>
         <p>UX Design<br>UX Research<br>Go-to-Market Design</p>
       </div>
-      <div class="didi-meta-col">
+      <div class="didi-meta-col case-meta-col">
         <label>Tools</label>
         <p>Figma<br>Photoshop<br>Illustrator<br>Pen & Paper</p>
       </div>
