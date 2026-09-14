@@ -1259,7 +1259,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── About section (merged from about.html) ── */
   /* ── About: crew record (hologram + facts in unknown text), service record
         (every project as a signal on the trace), and a film strip of prints ── */
-  .about-section { display:flex; flex-direction:column; align-items:center; gap:0; padding:200px 220px 280px; }   /* room below the snapshots so they can be read before the translator's end state */
+  .about-section { display:flex; flex-direction:column; align-items:center; gap:0; padding:200px 220px 120px; }
   .about-section > :not(.strip) { position:relative; left:calc((var(--content-right, 0px) - var(--content-left, 0px)) / 2); }   /* centred on the screen, not on the content box */
   .about-greeting { font-family:'Labrada', Georgia, serif; font-style:normal; font-weight:400; font-size:36px; color:rgba(255,255,255,0.95); line-height:1.15; text-align:center; margin:0 0 36px; }
   /* ASCII silhouette: a field of terminal characters; the figure is where they thin out */
@@ -1288,16 +1288,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .record.hovering .rec-row:not(.on) { opacity:0.3; }
   .rec-resume { display:inline-block; padding:12px 28px; border:1px solid #5FE39A; font-family:'Figtree',sans-serif; font-size:14px; font-weight:500; letter-spacing:.06em; color:#5FE39A; text-decoration:none; white-space:nowrap; transition:background .25s ease, color .25s ease, border-color .25s ease; margin:0 0 96px; }
   .rec-resume:hover { background:#5FE39A; border-color:#5FE39A; color:#0A0D0C; }
-  /* off duty: snapshots. Each print is a small field of unknown text that decodes into
-     the photo when hovered; the translator reads its caption */
-  .snaps { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; width:100%; max-width:880px; margin:0; }
-  .snap { position:relative; width:128px; aspect-ratio:1 / 1; margin:0; overflow:hidden; cursor:help; }
-  .snap canvas { position:absolute; inset:0; width:100%; height:100%; display:block; transition:opacity .5s ease; }
-  .snap img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity .5s ease; pointer-events:none; }
-  .snap.decoded canvas { opacity:0; }
-  .snap.decoded img { opacity:1; }
+  /* off duty: bare prints drifting by, colour comes back to the one you hover */
+  .strip { overflow:hidden; box-sizing:border-box; align-self:flex-start; width:calc(100% + var(--content-left, 24px) + var(--content-right, 24px)); margin:0 0 0 calc(-1 * var(--content-left, 24px)); padding:12px 0; }
+  .strip-track { display:flex; gap:16px; width:max-content; animation:stripDrift 90s linear infinite; }
+  .strip:hover .strip-track { animation-play-state:paused; }
+  @keyframes stripDrift { to { transform:translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .strip-track { animation:none; } }
+  .print { position:relative; flex:none; margin:0; padding:0; border:0; background:none; filter:grayscale(0.7) brightness(0.8); transition:transform .35s cubic-bezier(.22,1,.36,1), filter .35s ease, opacity .35s ease; }
+  .print img { width:132px; height:176px; object-fit:cover; display:block; border-radius:3px; }
+  .strip:hover .print:not(:hover) { filter:grayscale(1) brightness(0.45); }
+  .print:hover { filter:none; transform:translateY(-6px); }
   @media (max-width:900px) {
-    .about-section { padding:120px 24px 240px; }
+    .about-section { padding:120px 24px 80px; }
     .about-body { margin-bottom:72px; }
     .record { width:100%; }
     .record-list { grid-template-columns:48px minmax(0, 1fr); column-gap:20px; }
@@ -1311,8 +1313,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @media (max-width:640px) {
     .ascii-silhouette { width:190px; }
-    .snaps { gap:10px; }
-    .snap { width:calc((100% - 20px) / 3); }
+    .print img { width:110px; height:146px; }
   }
   footer { border-top:1px solid rgba(28,25,23,.08); display:flex; flex-direction:column; padding:0 120px; }
   .footer-top { display:none; }   /* quote + campfire now live in the translator when scrolled to the bottom */
@@ -1904,19 +1905,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <a class="rec-resume" href="https://drive.google.com/file/d/1fge9WIaqZYnXyYQyaybLyXMl0OJoLrvU/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a>
 
-  <!-- Off-duty snapshots: each print is unknown text until hovered -->
-  <div class="snaps" id="snaps" aria-label="Photos">
-    <figure class="snap" data-note="Can't stop travelling"><img src="about/can't%20stop%20travelling.jpg" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="Capture every moment"><img src="about/capture%20every%20moment.JPG" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="Flowers make me feel alive"><img src="about/flowers%20make%20me%20feel%20alive.JPG" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="My favorite musical"><img src="about/my%20favorite%20musical.jpg" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="Trying new things"><img src="about/trying%20new%20things.jpg" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="Café days"><img src="about/cafe.jpg" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="DIY enthusiast"><img src="about/diy%20enthusiast.JPG" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="My first 1000-piece puzzle"><img src="about/my%20first%201000-piece%20Puzzle.jpg" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="Obsessed with good video games"><img src="about/obsessed%20with%20good%20video%20games.jpg" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="One day, I'll visit every Disney park"><img src="about/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy"></figure>
-    <figure class="snap" data-note="The best time of the year"><img src="about/the%20best%20time%20of%20the%20year.jpg" alt="" loading="lazy"></figure>
+  <!-- Off-duty prints: a slow film strip; hovering one reads its caption -->
+  <div class="strip" id="strip" aria-label="Photos">
+    <div class="strip-track" id="stripTrack">
+      <figure class="print" data-note="Can't stop travelling"><img src="about/can't%20stop%20travelling.jpg" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="Capture every moment"><img src="about/capture%20every%20moment.JPG" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="Flowers make me feel alive"><img src="about/flowers%20make%20me%20feel%20alive.JPG" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="My favorite musical"><img src="about/my%20favorite%20musical.jpg" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="Trying new things"><img src="about/trying%20new%20things.jpg" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="Café days"><img src="about/cafe.jpg" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="DIY enthusiast"><img src="about/diy%20enthusiast.JPG" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="My first 1000-piece puzzle"><img src="about/my%20first%201000-piece%20Puzzle.jpg" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="Obsessed with good video games"><img src="about/obsessed%20with%20good%20video%20games.jpg" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="One day, I'll visit every Disney park"><img src="about/one%20day%2C%20I%E2%80%99ll%20visit%20every%20disney%20park.jpg" alt="" loading="lazy"></figure>
+      <figure class="print" data-note="The best time of the year"><img src="about/the%20best%20time%20of%20the%20year.jpg" alt="Talia Ren" loading="lazy"></figure>
+    </div>
   </div>
 </div>
 
@@ -4243,16 +4246,18 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if ('ResizeObserver' in window) { const ro = new ResizeObserver(() => { size(); draw(performance.now()); }); rows.forEach(r => ro.observe(r)); ro.observe(band); }
 })();
 
-// About — fields of unknown text. A canvas of the strands' own marks on an invisible
-// grid; each cell has a probability of holding a mark. For the portrait, DENSITY MASK:
-// a signed distance to the silhouette polygon is run through a smoothstep, so density
-// is outsideDensity far out, insideDensity deep in, and eases across a feather of
+// About — ASCII silhouette. A canvas of monospace terminal characters on an invisible
+// grid. Each cell has a probability of holding a character. DENSITY MASK: a signed
+// distance to the silhouette polygon is run through a smoothstep, so density is
+// outsideDensity far out, insideDensity deep in, and eases across a feather of
 // edgeSoftness × silhouette height — the person appears as negative space with a hazy
-// edge and is never drawn. The off-duty snapshots are the same field without a figure.
-// Value noise clumps the field, short horizontal runs repeat a mark. Every
-// updateInterval a few cells change (interference). Hovering a field decodes it into
-// its photo: the camera's beams land on it and the translator reads its caption.
+// edge and is never drawn. Value noise clumps the field, short horizontal runs repeat
+// a character. Every updateInterval a few cells change (interference); the figure
+// stays put. Tweak: densities and edgeSoftness for how clearly the figure reads,
+// churn and updateInterval for how alive the field feels.
 (function () {
+  const host = document.querySelector('.ascii-silhouette');
+  if (!host) return;
   const settings = {
     cellWidth: 7,           // grid cell size, px
     cellHeight: 9,
@@ -4262,7 +4267,7 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     silhouetteScale: 0.797, // silhouette height (crown to where the crop ends) as a fraction of the component
     silhouetteX: 0.548,     // horizontal centre of the figure (0–1); a touch right of centre, like the photo
     silhouetteTop: 0.203,   // where the crown sits (0–1 of the height)
-    color: '#63FF8A',       // the unknown text's green
+    color: '#63FF8A',        // the unknown text's green
     minOpacity: 0.45,
     maxOpacity: 0.95,
     updateInterval: 160,    // ms between interference ticks
@@ -4272,21 +4277,49 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   // rounded head, straight hair falling either side, narrow shoulders, the upper torso and
   // the arms gathered in front. Traced by hand from the photo as a closed polygon, in
   // units of the silhouette's height (x about the head's axis, y 0 at the crown). The
-  // body runs off the bottom of the component like the photo's crop. The polygon is only
-  // ever used to bias density, never drawn.
+  // body runs off the bottom of the component like the photo's crop. No face, no detail:
+  // the polygon is only ever used to bias character density, never drawn.
   const CONTOUR = [[-0.217,0.719],[-0.256,0.634],[-0.276,0.529],[-0.280,0.425],[-0.272,0.320],[-0.254,0.216],[-0.220,0.124],[-0.165,0.052],[-0.102,0.013],[-0.047,0.000],[0.018,0.013],[0.084,0.052],[0.142,0.111],[0.186,0.190],[0.212,0.281],[0.230,0.386],[0.247,0.490],[0.260,0.595],[0.254,0.686],[0.221,0.758],[0.293,0.719],[0.358,0.739],[0.410,0.804],[0.443,0.895],[0.460,1.000],[0.470,1.600],[-0.470,1.600],[-0.459,1.000],[-0.452,0.948],[-0.433,0.856],[-0.393,0.778],[-0.341,0.728],[-0.282,0.706]];
+  const cv = document.createElement('canvas'); host.appendChild(cv);
+  const ctx = cv.getContext('2d');
   const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, dpr = 1, cols = 0, rows = 0, cw = 0, ch = 0, cells = [], timer = 0;
   const rnd = (a, b) => a + Math.random() * (b - a);
   const hash = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return v - Math.floor(v); };
   const smooth = t => t * t * (3 - 2 * t);
-  function vnoise(x, y) {   // 2D value noise in [0,1]: clusters and open patches
+  // 2D value noise in [0,1]: clusters and open patches in the field
+  function vnoise(x, y) {
     const xi = Math.floor(x), yi = Math.floor(y), fx = smooth(x - xi), fy = smooth(y - yi);
     const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
     return (a + (b - a) * fx) + ((c + (d - c) * fx) - (a + (b - a) * fx)) * fy;
   }
+  // signed distance (px) from a point to the silhouette polygon: negative inside. The
+  // sign comes from an even-odd crossing test, the magnitude from the nearest edge.
+  function figureDistance(px, py) {
+    const fh = H * settings.silhouetteScale, ox = W * settings.silhouetteX, oy = H * settings.silhouetteTop;
+    let best = Infinity, inside = false;
+    for (let i = 0, j = CONTOUR.length - 1; i < CONTOUR.length; j = i++) {
+      const ax = ox + CONTOUR[j][0] * fh, ay = oy + CONTOUR[j][1] * fh, bx = ox + CONTOUR[i][0] * fh, by = oy + CONTOUR[i][1] * fh;
+      const abx = bx - ax, aby = by - ay, t = Math.max(0, Math.min(1, ((px - ax) * abx + (py - ay) * aby) / (abx * abx + aby * aby || 1)));
+      best = Math.min(best, Math.hypot(px - (ax + abx * t), py - (ay + aby * t)));
+      if ((ay > py) !== (by > py) && px < ax + (py - ay) * abx / aby) inside = !inside;
+    }
+    return inside ? -best : best;
+  }
+  // density at a point: outside → inside across a feathered edge, with noise clumping
+  function densityAt(px, py) {
+    const feather = settings.edgeSoftness * H * settings.silhouetteScale;
+    const t = smooth(Math.max(0, Math.min(1, figureDistance(px, py) / feather + 0.5)));   // 0 deep inside … 0.5 on the boundary … 1 outside
+    const base = settings.insideDensity + (settings.outsideDensity - settings.insideDensity) * t;
+    const n = vnoise(px / 46, py / 34) * 0.7 + vnoise(px / 13, py / 11) * 0.3;                             // clusters and open patches
+    return Math.max(0, Math.min(1, base * (0.88 + n * 0.24)));
+  }
+  // the cells hold the unknown text's own marks, not typed characters: the same little
+  // polygons, zigzags, ticks, crosses, arcs, brackets and strokes the scrambled words are
+  // made of, drawn with the same drift, spin and bloom as the strands
   const KINDS = ['poly3', 'poly4', 'poly5', 'poly6', 'poly8', 'zig', 'zig', 'tick', 'cross', 'arc', 'bar', 'line', 'line', 'line', 'wave', 'bracket'];
   const pick = () => KINDS[Math.floor(Math.random() * KINDS.length)];
-  const [cr, cg, cb] = (h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)])(settings.color);
+  const off = document.createElement('canvas'), octx = off.getContext('2d');
   function mark(g, kind, x, y, rot, sz) {
     g.save(); g.translate(x, y); g.rotate(rot); g.beginPath();
     if (kind.startsWith('poly')) { const n = +kind.slice(4); for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2; g[i ? 'lineTo' : 'moveTo'](Math.cos(a) * sz, Math.sin(a) * sz); } g.closePath(); }
@@ -4300,103 +4333,93 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
     else { g.moveTo(-sz, -sz * 0.35); g.lineTo(sz, -sz * 0.35); g.moveTo(-sz * 0.7, sz * 0.35); g.lineTo(sz * 0.7, sz * 0.35); }
     g.stroke(); g.restore();
   }
-
-  // one field on one host; figure:true carves the portrait silhouette out of it
-  function makeField(host, { figure = false, seed = 0 } = {}) {
-    const cv = document.createElement('canvas'); host.appendChild(cv);
-    const ctx = cv.getContext('2d');
-    const off = document.createElement('canvas'), octx = off.getContext('2d');
-    let W = 0, H = 0, dpr = 1, cols = 0, rows = 0, cw = 0, ch = 0, cells = [], visible = true, last = 0;
-    // signed distance (px) to the silhouette polygon: negative inside (even-odd crossing test + nearest edge)
-    function figureDistance(px, py) {
-      const fh = H * settings.silhouetteScale, ox = W * settings.silhouetteX, oy = H * settings.silhouetteTop;
-      let best = Infinity, inside = false;
-      for (let i = 0, j = CONTOUR.length - 1; i < CONTOUR.length; j = i++) {
-        const ax = ox + CONTOUR[j][0] * fh, ay = oy + CONTOUR[j][1] * fh, bx = ox + CONTOUR[i][0] * fh, by = oy + CONTOUR[i][1] * fh;
-        const abx = bx - ax, aby = by - ay, t = Math.max(0, Math.min(1, ((px - ax) * abx + (py - ay) * aby) / (abx * abx + aby * aby || 1)));
-        best = Math.min(best, Math.hypot(px - (ax + abx * t), py - (ay + aby * t)));
-        if ((ay > py) !== (by > py) && px < ax + (py - ay) * abx / aby) inside = !inside;
-      }
-      return inside ? -best : best;
+  function build() {
+    W = host.clientWidth; H = host.clientHeight; if (!W || !H) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 3);
+    cv.width = off.width = Math.round(W * dpr); cv.height = off.height = Math.round(H * dpr);
+    cw = settings.cellWidth; ch = settings.cellHeight;
+    cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
+    cells = new Array(cols * rows);
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const d = densityAt((c + 0.5) * cw, (r + 0.5) * ch);
+      cells[r * cols + c] = { d, on: Math.random() < d, kind: pick(), a: rnd(settings.minOpacity, settings.maxOpacity),
+        size: 1.6 + Math.random() * 2.2, rot: Math.random() * Math.PI * 2, ph: Math.random() * Math.PI * 2,
+        spin: (Math.random() > 0.5 ? 1 : -1) * (0.25 + Math.random() * 0.6) };
     }
-    function densityAt(px, py) {
-      let base = settings.outsideDensity;
-      if (figure) {
-        const feather = settings.edgeSoftness * H * settings.silhouetteScale;
-        const t = smooth(Math.max(0, Math.min(1, figureDistance(px, py) / feather + 0.5)));   // 0 deep inside … 1 outside
-        base = settings.insideDensity + (settings.outsideDensity - settings.insideDensity) * t;
-      }
-      const n = vnoise(px / 46 + seed, py / 34) * 0.7 + vnoise(px / 13, py / 11 + seed) * 0.3;
-      return Math.max(0, Math.min(1, base * (0.88 + n * 0.24)));
-    }
-    function build() {
-      W = host.clientWidth; H = host.clientHeight; if (!W || !H) return;
-      dpr = Math.min(window.devicePixelRatio || 1, 3);
-      cv.width = off.width = Math.round(W * dpr); cv.height = off.height = Math.round(H * dpr);
-      cw = settings.cellWidth; ch = settings.cellHeight;
-      cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
-      cells = new Array(cols * rows);
-      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-        const d = densityAt((c + 0.5) * cw, (r + 0.5) * ch);
-        cells[r * cols + c] = { d, on: Math.random() < d, kind: pick(), a: rnd(settings.minOpacity, settings.maxOpacity),
-          size: 1.6 + Math.random() * 2.2, rot: Math.random() * Math.PI * 2, ph: Math.random() * Math.PI * 2,
-          spin: (Math.random() > 0.5 ? 1 : -1) * (0.25 + Math.random() * 0.6) };
-      }
-      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {   // short runs of one mark where the field is dense
-        const k = cells[r * cols + c];
-        if (k.d > 0.6 && Math.random() < 0.035) {
-          const kind = pick(), len = 3 + Math.floor(Math.random() * 4);
-          for (let i = 0; i < len && c + i < cols; i++) { const q = cells[r * cols + c + i]; if (q.d > 0.5) { q.on = true; q.kind = kind; q.rot = 0; } }
-          c += len;
-        }
-      }
-      draw(performance.now());
-    }
-    // every frame the marks drift, wobble and breathe like the strands; a soft bloom sits under them
-    function draw(t) {
-      const T = t * 0.001 * 1.4;
-      octx.setTransform(dpr, 0, 0, dpr, 0, 0); octx.clearRect(0, 0, W, H);
-      octx.lineWidth = 0.7; octx.lineJoin = 'round'; octx.lineCap = 'round';
-      for (let i = 0; i < cells.length; i++) {
-        const k = cells[i]; if (!k.on) continue;
-        const c = i % cols, r = (i - c) / cols;
-        const x = (c + 0.5) * cw + Math.sin(T * 0.8 + k.ph) * 9.5, y = (r + 0.5) * ch + Math.cos(T * 0.6 + k.ph * 1.7) * 8;
-        const rot = k.rot + T * k.spin * 3.4 + Math.sin(T * 0.4 + k.ph) * 3.2, sz = k.size * (1 + 0.55 * Math.sin(T * 1.1 + k.ph));
-        octx.strokeStyle = `rgba(${cr},${cg},${cb},${k.a.toFixed(2)})`;
-        mark(octx, k.kind, x, y, rot, sz);
-      }
-      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
-      ctx.globalCompositeOperation = 'lighter';
-      if ('filter' in ctx) {
-        ctx.filter = `blur(${(1.5 * dpr).toFixed(1)}px)`; ctx.globalAlpha = 0.28; ctx.drawImage(off, 0, 0);
-        ctx.filter = `blur(${(6 * dpr).toFixed(1)}px)`; ctx.globalAlpha = 0.12; ctx.drawImage(off, 0, 0);
-        ctx.filter = 'none';
-      }
-      ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
-    }
-    function tick() {   // interference: a few cells change per tick
-      if (!cells.length) return;
-      const n = Math.max(1, Math.round(cells.length * settings.churn));
-      for (let j = 0; j < n; j++) {
-        const i = Math.floor(Math.random() * cells.length), k = cells[i], u = Math.random();
-        if (u < 0.5) k.kind = pick();
-        else if (u < 0.8) k.a = rnd(settings.minOpacity, settings.maxOpacity);
-        else k.on = Math.random() < k.d;
+    // short horizontal fragments: a run of the same mark, only where the field is dense
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const k = cells[r * cols + c];
+      if (k.d > 0.6 && Math.random() < 0.035) {
+        const kind = pick(), len = 3 + Math.floor(Math.random() * 4);
+        for (let i = 0; i < len && c + i < cols; i++) { const q = cells[r * cols + c + i]; if (q.d > 0.5) { q.on = true; q.kind = kind; q.rot = 0; } }
+        c += len;
       }
     }
-    build();
-    if ('ResizeObserver' in window) new ResizeObserver(build).observe(host); else window.addEventListener('resize', build);
-    host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
-    host.addEventListener('mouseleave', () => { host.classList.remove('decoded'); window.beamAt?.(null); window.screenReady?.(); });
-    if (!reduce) {
-      if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
-      setInterval(() => { if (visible && !document.hidden) tick(); }, settings.updateInterval);
-      (function loop(t) { if (visible && !document.hidden && t - last > 33) { last = t; draw(t); } requestAnimationFrame(loop); })(0);
+    draw(performance.now());
+  }
+  const [cr, cg, cb] = (h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)])(settings.color);
+  // every frame: the marks drift a little, wobble in rotation and breathe in size — the
+  // same motion as the strands — then a soft bloom is laid under the crisp marks
+  function draw(t) {
+    const T = t * 0.001 * 1.4;
+    octx.setTransform(dpr, 0, 0, dpr, 0, 0); octx.clearRect(0, 0, W, H);
+    octx.lineWidth = 0.7; octx.lineJoin = 'round'; octx.lineCap = 'round';
+    for (let i = 0; i < cells.length; i++) {
+      const k = cells[i]; if (!k.on) continue;
+      const c = i % cols, r = (i - c) / cols;
+      const x = (c + 0.5) * cw + Math.sin(T * 0.8 + k.ph) * 9.5, y = (r + 0.5) * ch + Math.cos(T * 0.6 + k.ph * 1.7) * 8;
+      const rot = k.rot + T * k.spin * 3.4 + Math.sin(T * 0.4 + k.ph) * 3.2, sz = k.size * (1 + 0.55 * Math.sin(T * 1.1 + k.ph));
+      octx.strokeStyle = `rgba(${cr},${cg},${cb},${k.a.toFixed(2)})`;
+      mark(octx, k.kind, x, y, rot, sz);
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.globalCompositeOperation = 'lighter';
+    if ('filter' in ctx) {
+      ctx.filter = `blur(${(1.5 * dpr).toFixed(1)}px)`; ctx.globalAlpha = 0.28; ctx.drawImage(off, 0, 0);
+      ctx.filter = `blur(${(6 * dpr).toFixed(1)}px)`; ctx.globalAlpha = 0.12; ctx.drawImage(off, 0, 0);
+      ctx.filter = 'none';
+    }
+    ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
+  }
+  // interference: a few cells change per tick (a mark swaps, one changes brightness, one appears or goes)
+  function tick() {
+    if (!cells.length) return;
+    const n = Math.max(1, Math.round(cells.length * settings.churn));
+    for (let j = 0; j < n; j++) {
+      const i = Math.floor(Math.random() * cells.length), k = cells[i], u = Math.random();
+      if (u < 0.5) k.kind = pick();
+      else if (u < 0.8) k.a = rnd(settings.minOpacity, settings.maxOpacity);
+      else k.on = Math.random() < k.d;
     }
   }
-  const portrait = document.querySelector('.ascii-silhouette');
-  if (portrait) makeField(portrait, { figure: true });
-  document.querySelectorAll('.snap').forEach((el, i) => makeField(el, { seed: (i + 1) * 3.7 }));
+  // the square photo the contour was traced from fills the box; silhouetteScale/X/Top are
+  // set from it (crown at y 195 of 960, body to the bottom, axis at x 526) so that on hover
+  // the photo's head lands exactly on the silhouette's
+  build();
+  if ('ResizeObserver' in window) new ResizeObserver(build).observe(host); else window.addEventListener('resize', build);
+  // hovering decodes the field into the photo: the camera's beams land on it and the
+  // translator reads the caption, like the unknown text
+  host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
+  host.addEventListener('mouseleave', () => { host.classList.remove('decoded'); window.beamAt?.(null); window.screenReady?.(); });
+  if (!reduce) {
+    let visible = true, last = 0;
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
+    timer = setInterval(() => { if (visible && !document.hidden) tick(); }, settings.updateInterval);
+    (function loop(t) { if (visible && !document.hidden && t - last > 33) { last = t; draw(t); } requestAnimationFrame(loop); })(0);
+  }
+})();
+
+// About — off-duty prints: duplicate them for a seamless loop; hovering one reads
+// its caption on the translator
+(function () {
+  const track = document.getElementById('stripTrack');
+  if (!track) return;
+  const originals = [...track.children];
+  originals.forEach(f => track.appendChild(f.cloneNode(true)));
+  [...track.children].forEach(f => {
+    f.addEventListener('mouseenter', () => window.screenTranslate?.('', f.dataset.note || ''));
+    f.addEventListener('mouseleave', () => window.screenReady?.());
+  });
 })();
 
 // Circuit-glow overlay: scattered glowing cyan "Nomai beam" clusters (scribble
