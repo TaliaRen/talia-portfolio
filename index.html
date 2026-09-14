@@ -4047,7 +4047,7 @@ document.getElementById('nav-works')?.addEventListener('click', e => {
 // Rail + phone menu: Playground / About scroll to their sections on the homepage
 document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => {
   e.preventDefault();
-  const target = a.dataset.scroll === 'vibe' ? document.getElementById('vibe') : document.querySelector('.about-greeting');
+  const target = a.dataset.scroll === 'vibe' ? (document.querySelector('#vibe .scrap') || document.getElementById('vibe')) : document.querySelector('.about-greeting');   // land on the log's board, not the section's top padding
   if (!target) return;
   if (document.body.classList.contains('project-open')) history.back();   // leave an open project first
   const go = () => { const y = target.getBoundingClientRect().top + window.scrollY - 120; window.scrollTo({ top: y, behavior: 'smooth' }); };
