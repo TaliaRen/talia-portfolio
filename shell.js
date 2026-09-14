@@ -32,6 +32,22 @@
   document.addEventListener('click', e => { if (document.body.classList.contains('menu-open') && !menu.contains(e.target) && !burger.contains(e.target)) set(false); });
 })();
 
+// ── Case-study Back link: use real browser back navigation so the
+// homepage is restored exactly where it was left (via bfcache), with
+// no scroll animation, instead of jumping straight to the #projects
+// anchor from a fresh navigation ──
+(function () {
+  const back = document.querySelector('.case-back');
+  if (!back) return;
+  back.addEventListener('click', e => {
+    const cameFromSite = document.referrer && document.referrer.indexOf(location.origin) === 0;
+    if (cameFromSite && history.length > 1) {
+      e.preventDefault();
+      history.back();
+    }
+  });
+})();
+
 // ── Rail: the email icon copies the address to the clipboard ──
 (function () {
   const el = document.getElementById('railEmail');
