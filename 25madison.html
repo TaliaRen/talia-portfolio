@@ -179,24 +179,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   html.embed .case-back svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
   .case-back { display:none; }   /* only shown when embedded */
 </style>
-<script>
-  if (/[?&]embed=1/.test(location.search)) {
-    document.documentElement.classList.add('embed');
-    // nav links navigate the main window, not the embedded panel
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('nav a[href]').forEach(a => { if (!a.getAttribute('href').startsWith('#')) a.target = '_top'; });
-      // Back button above the section nav: tells the homepage to close the viewer
-      const sb = document.querySelector('.case-sidebar');
-      if (sb) {
-        const b = document.createElement('button');
-        b.type = 'button'; b.className = 'case-back';
-        b.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back';
-        b.addEventListener('click', () => { if (window.parent !== window) window.parent.postMessage('project:back', '*'); else location.href = 'index.html#projects'; });
-        sb.prepend(b);
-      }
-    });
-  }
-</script>
 <link rel="stylesheet" href="shell.css">
 <link rel="stylesheet" href="aim-cursor.css">
 </head>
@@ -404,6 +386,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </style>
 
 <aside class="case-sidebar">
+  <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</a>
   <a href="#overview" class="active">Overview</a>
 </aside>
 
