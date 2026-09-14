@@ -89,7 +89,7 @@ Exceptions — left at their existing (smaller) sizes, not bumped to 18px:
 
 ### Accent color — one per project
 Used for every "Tag" and "mini-heading inside body" instance on that project's page. Pick a color that complements the project's brand:
-- 25Madison → `#82E39A` (green)
+- 25Madison → `#A5E6A2` (green)
 - AgencyRoot → `#E0F77A` (lime)
 - Bytedance → `#82CDF5` (sky blue)
 - DiDi → `#FF9A66` (orange)
