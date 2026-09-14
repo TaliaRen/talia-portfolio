@@ -509,7 +509,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* embedded inside the homepage frame (?embed=1): hide the top nav and
      the footer, pin the section nav to the top-left with a Back button above it */
   html.embed footer, html.embed nav:not(.log-rail):not(.m-menu) { display:none !important; }
-  html.embed .case-sidebar { top:48px; left:calc(var(--frame-inset) + 7px + 32px); transform:none; gap:14px; }
+  html.embed .case-sidebar { top:100px; left:calc(var(--frame-inset) + 7px + 32px); transform:none; gap:14px; }
   html.embed .case-back {
     display:inline-flex; align-items:center; gap:6px; margin-bottom:28px; padding:0;
     border:0; background:transparent; cursor:pointer;
@@ -517,7 +517,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:color 0.2s ease, transform 0.2s ease;
   }
   html.embed .case-back:hover { color:#63FF8A; transform:translateX(-2px); }
-  html.embed .case-back svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  html.embed .case-back svg { width:16px; height:16px; }
   .case-back { display:none; }   /* only shown when embedded */
 </style>
 <link rel="stylesheet" href="shell.css">
@@ -565,7 +565,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <aside class="case-sidebar">
-  <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Back</a>
+  <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-7 6 7 6"/></svg>Back</a>
   <a href="#overview" class="active">Overview</a>
   <a href="#problem">Problem</a>
   <a href="#solution">Solution</a>
@@ -817,7 +817,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 
 (function() {
-  const links = document.querySelectorAll('.case-sidebar a');
+  const links = document.querySelectorAll('.case-sidebar a:not(.case-back)');
   const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
   links.forEach((a, i) => {
     a.addEventListener('click', e => {
