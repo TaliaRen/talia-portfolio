@@ -33,7 +33,7 @@ The sidebar's links must exactly match the section `id`s in the page, in the sam
 ## 2. File setup
 
 ### Fonts (paste into `<head>`, identical on every page)
-Preload + `@font-face` for: **Figtree** (weight 300–900, UI/body/section titles), **Source Serif 4** (weight 200–900, hero headline only), **Crimson Text** (footer quote), **Cormorant Infant** (metric numbers, "More Works" italic titles). Copy this block verbatim from any existing case-study page — don't hand-roll it.
+Preload + `@font-face` for: **Figtree** (variable, weights 200–900 — UI/body/section titles) and **Libertinus Serif** (hero headline + big stat numbers). Copy this block verbatim from any existing case-study page — don't hand-roll it.
 
 ### Nav / footer
 The `<nav>` and `<footer>` markup (logo, links, footer campfire game, social icons, email-copy button, and their JS) is shared site chrome, not part of the case-study content. Copy it byte-for-byte from an existing page. The only thing that ever changes is the `<title>` tag and the page background color set inline on `<html style="background:...">` (each project can use its own near-black tint, e.g. `#0F1511`).
@@ -55,42 +55,50 @@ Every piece of text on the page is one of four types. Which type it is determine
 |---|---|---|
 | **Tag** | project accent color | "CONTEXT", "IMPACT", "DESIGN SNAPSHOT", "PROBLEM", "SOLUTION", "TAKEAWAYS" section labels; "TIMELINE"/"TEAM"/"ROLE"/"TOOLS" hero meta labels |
 | **Title** | `#fff` | the hero headline; section titles like "Repetitive workflows made simple tasks inefficient at scale" |
-| **Body (正文)** | `#E2E2E2` | paragraph copy under Context/Design Snapshot/Problem/Solution/Takeaways |
+| **Body (正文)** | `#E0E0E0` | paragraph copy under Context/Design Snapshot/Problem/Solution/Takeaways, takeaway bullets, captions |
 | **Mini-heading inside body** | tag color (project accent) | a bolded lead-in inside a body paragraph, e.g. **"Early concept 1: Smart filter"** before its description, or a standalone small heading like "Why AI Command Bar?" — anything that functions as a label for the prose that follows it, even if it isn't in the sidebar/section-label position |
 
 Two deliberate exceptions to the above:
-- **Hero meta values** (the answers under Timeline/Team/Role/Tools — "Fall 2025", "IU HCI/d Team", etc.) are `#fff`, not `#E2E2E2`, even though they read like body content. The meta block is tag+white, not tag+body.
-- **Impact metric** stat is its own two-part pattern, not tag+body: the big number (`.xx-metric-num`) is `#fff`, and its caption underneath (`.xx-metric-sub`) is `#979797` — a third gray reserved only for this stat-caption role, distinct from `#E2E2E2` body copy.
+- **Hero meta values** (the answers under Timeline/Team/Role/Tools — "Fall 2025", "IU HCI/d Team", etc.) are `#fff`, not `#E0E0E0`, even though they read like body content. The meta block is tag+white, not tag+body.
+- **Impact metric** stat is its own two-part pattern, not tag+body: the big number (`.xx-metric-num`) is `#fff`, and its caption underneath (`.xx-metric-sub`) is `#979797` — a third gray reserved only for this stat-caption role, distinct from `#E0E0E0` body copy.
 
-Page background is near-black, project-specific tint (`#0F1511`, `#0A190F`, etc.) set on `<html style="background:...">`.
+Page background is `#0A0D0C` on every project page (set on `<html style="background:...">`, same as the homepage — the pages sit inside the shared frame).
 
 ### Sizes — only 3 buckets, simpler than the color model
 For font-size (not color), everything collapses to **Title / Tag / Body** — anything that isn't literally a Title or a Tag counts as Body, even content types that get their own *color* above (mini-headings, hero meta values, impact metric captions). Size and color are independent axes; a mini-heading is tag-*colored* but body-*sized*.
 
 | Bucket | Size | Includes |
 |---|---|---|
-| **Title** | 28px (`1.75rem`), weight 400 | the five `.xx-*-title` classes (research/solution/problem/background/users). *Not* the hero headline (`.xx-headline` stays 2.125rem/Source Serif 4 — a separate, established element) and *not* card-level titles like `.xx-decision-title` (see exceptions below). |
-| **Tag** | unchanged, own small sizes (0.7rem–0.8rem depending on role) | section labels, hero meta labels — not part of this resize, only Title and Body moved |
-| **Body** | 18px (`1.125rem`) | everything else with visible text: all body paragraph classes, hero meta *values*, impact metric captions, and every mini-heading (Early concept labels, Why AI Command Bar, DiDi mindset names, decision-card titles/hints, compare-column headings, tradeoff cards, iteration label/critique, sf-solution-tagline) |
+| **Title** | 28px (`1.75rem`), weight 400 | the five `.xx-*-title` classes (research/solution/problem/background/users). *Not* the hero headline (`.xx-headline` stays 34px / Libertinus Serif — a separate, established element) and *not* card-level titles like `.xx-decision-title` (see exceptions below). |
+| **Tag** | 12px, weight 300 | section labels, hero meta labels, sidebar links, hint text. Exactly 12px — not `.75rem`/`.78rem`/`.8rem` (those rounded to 12.0/12.48/12.8 and were unified). |
+| **Body** | 18px (`1.125rem`) | everything else with visible text: all body paragraph classes, hero meta *values*, impact metric captions, and every mini-heading (Early concept labels, Why AI Command Bar, DiDi mindset names, decision-card titles/hints, compare-column headings, tradeoff cards, iteration label/critique) |
+
+### Weights — three values only
+| Weight | Used for |
+|---|---|
+| **200** | body copy, hero meta values, metric captions, modal body text — anything prose-like |
+| **300** | every 12px element: tags, hero meta labels, sidebar links, hints |
+| **400** | titles (28px), the hero headline, big stat numbers, and every mini-heading (Early concept labels, Why AI Command Bar, compare headings, DiDi mindset names / decision-card titles, inline emphasis like "Jain"). Mini-headings are *not* 500/600 — emphasis comes from the accent color, not from weight. |
+
+The only 500 on a page is the Back link (12px).
 
 Exceptions — left at their existing (smaller) sizes, not bumped to 18px:
 - Small pill/badge UI: `.bt-compare-pill` (the "Before"/"After" rounded tags), `.didi-users-tag`. These are compact decorative badges, not prose — sizing them like body text would break their padding/shape.
-- **Hint** — a new named exception, not "body": interaction hint text like DiDi's "Hover each card to see related designs" above the Key Design Decisions accordion (`.didi-decision-hint`). Sized and weighted identically to Tag (12px/weight 300 in DiDi's case — matches whatever the page's own tag size is), even though it keeps the accent color rather than being a literal section-label tag. Only DiDi has this pattern currently; apply the same Tag-matched sizing if another project page adds hint text.
+- **Hint** — a new named exception, not "body": interaction hint text like DiDi's "Hover each card to see related designs" above the Key Design Decisions accordion (`.didi-decision-hint`). Sized and weighted identically to Tag (12px / weight 300), even though it keeps the accent color rather than being a literal section-label tag. ByteDance's "Click to see how I framed the problem" pill (`.bt-problem-hint`) is the same pattern: 12px / 300 / accent, on a 10%-alpha accent background.
 - Any dead/unused CSS (journey-map persona/pain-card classes in salesforce, `.didi-users-quote`, `.didi-work-*`, `.didi-moreworks-title`, etc. — not rendered in any page body, see §5 note on `bt-` prefix reuse for the pattern of leftover CSS from copy-pasted templates).
 
 ### Accent color — one per project
 Used for every "Tag" and "mini-heading inside body" instance on that project's page. Pick a color that complements the project's brand:
-- AgencyRoot → `#E6FB99` (lime)
-- Bytedance → `#63BDEE` (sky blue)
-- Salesforce → `#63EED7` (teal)
-- DiDi → `#FF9C6E` (orange)
-- New project → pick an unused hue in the same tonal register (pastel, moderately saturated).
+- 25Madison → `#82E39A` (green)
+- AgencyRoot → `#E0F77A` (lime)
+- Bytedance → `#82CDF5` (sky blue)
+- DiDi → `#FF9A66` (orange)
+- New project → pick an unused hue in the same register: clearly saturated (so 12px tags read as colour, not tinted grey) but light enough not to glare on the dark ground — every current accent sits around 80–90% lightness. Any `rgba()` tints on the page (card borders, note backgrounds, hint pills) use the same accent's RGB.
 
 ### Fonts
-- **Source Serif 4**, weight 200, italic off — page headline only (`.xx-headline`, 2.125rem, line-height 1.3). Tried extending this to every section/problem/solution title too; reverted — those stay Figtree.
-- **Figtree** — everything else: nav, sidebar, tags, mini-headings, body text, metric sub-labels, section/problem/solution/background/research/iteration/decision titles. Sizes: see the Title/Tag/Body table above — titles 28px/weight 400, body (incl. mini-headings, meta values, metric captions) 18px.
-- **Cormorant Infant** — big stat numbers (`.xx-metric-num`, 3.2rem, weight 400) and the italic "More Works" section title, if used.
-- **Crimson Text** — footer quote only (shared chrome, not page-specific).
+- **Libertinus Serif**, weight 400 — page headline only (`.xx-headline`, 34px, line-height 1.3) and the big stat numbers (`.xx-metric-num`, 52px). Tried extending the serif to every section/problem/solution title too; reverted — those stay Figtree.
+- **Figtree** — everything else: sidebar, tags, mini-headings, body text, metric captions, section/problem/solution/background/research/iteration/decision titles. Sizes and weights: see the tables above — titles 28px/400, body 18px/200, tags 12px/300, mini-headings 18px/400.
+- One known one-off: 25Madison's confidential note (`.jbx-confidential-note`) is Libertinus Serif 18px / 400 in the accent color on a 5%-alpha accent background.
 
 ---
 
@@ -102,16 +110,16 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
   min-height:100vh; padding:120px 196px 80px; gap:64px; }
 ```
 - `.xx-top` (max-width:860px): company logo lockup (image, ~44px tall) + `<h1 class="xx-headline">` (the one-line project tagline).
-- `.xx-meta`: `display:flex; gap:80px;` — a row of label/value columns, always in this order: **Timeline, Team, Role, Tools**. Label = tag (accent color), uppercase, 0.8rem; value = `#fff` (the hero-meta exception, not `#E2E2E2`), 1.045rem, line-height 1.9, `<br>`-separated for multiple lines.
+- `.xx-meta`: `display:flex; gap:80px;` — a row of label/value columns, always in this order: **Timeline, Team, Role, Tools**. Label = tag (accent color), uppercase, 12px / 300; value = `#fff` (the hero-meta exception, not `#E0E0E0`), 18px / 200, line-height 1.9, `<br>`-separated for multiple lines. Every container gets the shared `case-meta` class and every column `case-meta-col`: lines never wrap (`white-space:nowrap`), and `shell.js` measures the row and drops it to a 2×2 grid, then a single column, when a line wouldn't fit — content-based, not a breakpoint.
 
 ### Overview
 ```
 .xx-overview-section { padding:0 196px 180px; display:flex; align-items:center; gap:64px; }
 ```
 Two children side by side (text column + cover image/video, `max-width:860px` each):
-1. **Context** block — tag + body (`#E2E2E2`), 1–2 short paragraphs of project background.
-2. **Impact** block — tag + 1 to 3 stat metrics (`.xx-metric`: big Cormorant Infant number in `#fff` + Figtree sub-label caption in `#979797` underneath), laid out in a row with `gap:64px` (the metrics-row gap — a different relationship from the block-to-block gap below, they just happen to share the same value).
-3. **Design Snapshot** — tag + body (`#E2E2E2`), one-sentence summary of the shipped solution, sitting above the hero cover image or looping video. Snapshot text → video gap is **34px**, independent of the block-to-block gap below — implemented by wrapping the Design Snapshot block + `.xx-cover-frame`/`.xx-cover-img` together in their own `gap:34px` container (a second, nested container, not the same one as the 64px gap).
+1. **Context** block — tag + body (`#E0E0E0`), 1–2 short paragraphs of project background.
+2. **Impact** block — tag + 1 to 3 stat metrics (`.xx-metric`: big Libertinus Serif number in `#fff` + Figtree sub-label caption in `#979797` underneath), laid out in a row with `gap:64px` (the metrics-row gap — a different relationship from the block-to-block gap below, they just happen to share the same value).
+3. **Design Snapshot** — tag + body (`#E0E0E0`), one-sentence summary of the shipped solution, sitting above the hero cover image or looping video. Snapshot text → video gap is **34px**, independent of the block-to-block gap below — implemented by wrapping the Design Snapshot block + `.xx-cover-frame`/`.xx-cover-img` together in their own `gap:34px` container (a second, nested container, not the same one as the 64px gap).
 
 **Gap between each of these three tag-blocks (Context↔Impact, Impact↔Design Snapshot) is 64px** — `.xx-overview-text { gap:64px }` (Context↔Impact) and `.xx-overview-section`'s own `gap:64px` above (Impact-column ↔ Design-Snapshot-column). Was 48px; widened on all four project pages.
 
@@ -120,10 +128,10 @@ Two children side by side (text column + cover image/video, `max-width:860px` ea
 .xx-problem-section { padding:0 196px 180px; }
 .xx-problem-inner { max-width:860px; display:flex; flex-direction:column; gap:120px; }
 ```
-One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.75rem/400) + body paragraph (`.xx-problem-body`, `#E2E2E2`, 1.125rem, line-height 1.8). Gap between items when there's more than one: 120px (see §6).
+One or more `.xx-problem-item` blocks, each: tag + title (`.xx-problem-title`, `#fff`, 1.75rem/400) + body paragraph (`.xx-problem-body`, `#E0E0E0`, 1.125rem, line-height 1.8). Gap between items when there's more than one: 120px (see §6).
 
 ### Takeaways (always last, `id="takeaways"`)
-Reuses the solution-section shell (see §5). Tag "Takeaways" + title "What I've learned" (`#fff`) + a `<ul>` of 2–3 bullet points (`#E2E2E2`), each a full sentence reflecting on the work.
+Reuses the solution-section shell (see §5). Tag "Takeaways" + title "What I've learned" (`#fff`) + a `<ul>` of 2–3 bullet points (`#E0E0E0`), each a full sentence reflecting on the work.
 
 ---
 
@@ -148,7 +156,7 @@ All of these sections share the outer shell:
 ```
 with the section label using the `calc(16px - 72px)` negative-margin trick so it sits 16px from the title despite the 72px container gap.
 
-Any bolded lead-in or small heading inside these patterns (a decision-card title, a compare-column heading, an iteration version label, a captioned concept like "Early concept 1: Smart filter") is a **mini-heading** — tag color, not `#fff` and not `#E2E2E2` — per §3.
+Any bolded lead-in or small heading inside these patterns (a decision-card title, a compare-column heading, an iteration version label, a captioned concept like "Early concept 1: Smart filter") is a **mini-heading** — tag color, not `#fff` and not `#E0E0E0` — per §3.
 
 ---
 
@@ -173,9 +181,11 @@ Any bolded lead-in or small heading inside these patterns (a decision-card title
 | Section horizontal padding | **196px** | Desktop. |
 
 ## 7. Responsive breakpoints
-- `max-width:1100px` → hide `.case-sidebar`
-- `max-width:860px` → section padding drops to `0 32px 80px`; hero padding `120px 32px 80px`; multi-column rows (meta, mindsets) collapse to 1 column
-- `max-width:480px` → hero padding `100px 24px 60px`
+- `max-width:1100px` → sidebar narrows (118px, labels wrap)
+- `max-width:860px` → the section-jump sidebar is gone; only a pill Back button remains (dark square-cornered pill, 12px/500, at `top:54px`, flush with the content gutter; accent-tinted on hover). Hero top padding becomes 150px so the pill clears the logo. Section side padding is **not** a fixed 32px any more: `shell.css` sets every `main > *` to `frame-mask edge + 16px` (57px on tablet, 39px on phone) so nothing sits under the frame line. Multi-column rows (mindsets etc.) collapse to 1 column.
+- `max-width:640px` → the frame inset drops to 16px; no hamburger menu on project pages (the Back pill is the only navigation)
+- Hero meta row is not breakpoint-driven at all — see §4 Hero: `shell.js` picks 4 / 2 / 1 columns by measuring whether any line would wrap.
+- Nothing may cross the inner frame line at any width. The pages were audited at 16 widths from 320 to 1440; keep it that way (no fixed `min-width` above ~250px on phones, modals stack rather than scroll sideways — ByteDance's problem modal stacks its cards below 1200px).
 - **Body text + image side-by-side row** (`.xx-problem-row` and similar): don't use a fixed-viewport media query to force `flex-direction:column`. Use `flex-wrap:wrap` on the row plus a `min-width` on both children (e.g. `min-width:280px` on the text, `min-width:280px; max-width:460px` on the image) — this makes the row wrap to full-width-text-above-image the moment either side would be squeezed below its minimum, at whatever container width that happens to be (it isn't a single fixed breakpoint, since the section's own horizontal padding — 196px desktop — already shrinks the row's *available* width well before the viewport itself gets narrow). Never give a flex child in this pattern an inline `style="flex:1"` — its `flex-basis:0%` overrides any CSS-class `flex-basis`, and since inline styles beat stylesheet rules regardless of specificity, that silently defeats the min-width wrap entirely: the browser sees a 0% basis, allocates space to the other (fixed-basis) child first, and the text-with-inline-flex:1 collapses to a garbled sliver instead of wrapping. Bytedance's Problem-section image+body row hit exactly this bug once.
 
 ---
