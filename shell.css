@@ -1,0 +1,128 @@
+/* ── Shared site chrome for every page: the design-log frame (double line +
+   scanlines), the frame mask that clips content to it, and the left rail /
+   phone hamburger menu. Verbatim from the homepage, so every page — home
+   and every project — sits inside the same frame. ── */
+:root {
+  --frame-inset:34px; --rail-w:56px;
+}
+@media (max-width:640px) {
+  :root { --frame-inset:16px; }
+}
+body { background-color:transparent; }   /* <html> keeps the page colour; the frame (z-index:-1) shows through */
+.log-frame {
+  --lf-line:rgba(130, 215, 160, 0.62);
+  --lf-line-soft:rgba(130, 215, 160, 0.34);
+  position:fixed; inset:41px; z-index:-1; pointer-events:none;   /* inside the inner line */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 18%, rgba(120,200,150,0.06) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0.18) 100%);
+}
+.log-frame::after {                        /* CRT scanlines + vignette */
+  content:''; position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse 85% 80% at 50% 50%, transparent 55%, rgba(0,0,0,0.28) 100%);
+}
+.log-tick {                                 /* corner ticks on the inner line (drawn on the mask, above everything) */
+  position:absolute; width:10px; height:10px; border-color:rgba(130, 215, 160, 0.62); border-style:solid; border-width:0; z-index:1;
+}
+.lt-tl { left:calc(var(--m) - 1px); top:calc(var(--m) - 1px); border-left-width:2px; border-top-width:2px; }
+.lt-tr { right:calc(var(--m) - 1px); top:calc(var(--m) - 1px); border-right-width:2px; border-top-width:2px; }
+.lt-bl { left:calc(var(--m) - 1px); bottom:calc(var(--m) - 1px); border-left-width:2px; border-bottom-width:2px; }
+.lt-br { right:calc(var(--m) - 1px); bottom:calc(var(--m) - 1px); border-right-width:2px; border-bottom-width:2px; }
+@media (max-width:640px) { .log-frame { inset:23px; } }
+
+/* ── Frame mask: everything scrolls INSIDE the frame. A fixed element paints
+   the page colour over the margin outside the frame and draws the frame
+   line on top, so content and the rail are clipped at the frame edge. ── */
+.frame-mask {
+  --m:41px;   /* inset 34 + 6 gap + the 1px inner line: content is clipped INSIDE the line */
+  position:fixed; inset:0; z-index:900; pointer-events:none;
+}
+.frame-mask .fm { position:absolute; background:#0A0D0C; pointer-events:auto; cursor:none; }   /* margin: paints + swallows pointer events */
+.frame-mask .fm-t { top:0; left:0; right:0; height:var(--m); }
+.frame-mask .fm-b { bottom:0; left:0; right:0; height:var(--m); }
+.frame-mask .fm-l { top:0; bottom:0; left:0; width:var(--m); }
+.frame-mask .fm-r { top:0; bottom:0; right:0; width:var(--m); }
+.frame-mask::before { content:''; position:absolute; inset:calc(var(--m) - 7px); border:1px solid rgba(130, 215, 160, 0.62); pointer-events:none; }
+.frame-mask .fm-outer { position:absolute; inset:calc(var(--m) - 10px); border:1px solid rgba(140, 225, 170, 0.78); pointer-events:none; }
+.frame-mask::after  { content:''; position:absolute; inset:calc(var(--m) - 1px); border:1px solid rgba(130, 215, 160, 0.34); pointer-events:none; }
+@media (max-width:640px) { .frame-mask { --m:23px; } }
+
+/* ── Left rail: vertical strip inside the frame — logo, Play, About, music,
+   then contact icons ── */
+.log-rail {
+  position:fixed; left:calc(var(--frame-inset) + 6px); top:calc(var(--frame-inset) + 6px); bottom:calc(var(--frame-inset) + 6px); z-index:950;
+  width:56px; padding:18px 0 14px; box-sizing:border-box;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  border-right:1px solid rgba(130, 215, 160, 0.34);
+  background:none; border-radius:0;
+}
+.log-rail .rail-contact { margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.log-rail a, .log-rail button { position:relative; }
+.log-rail [data-label]::after {
+  content:attr(data-label); position:absolute; left:calc(100% + 12px); top:50%; transform:translate(-4px, -50%);
+  white-space:nowrap; padding:4px 9px; border-radius:6px;
+  font-family:'Figtree', sans-serif; font-size:12px; font-weight:400; letter-spacing:.02em;
+  color:#fff; background:rgba(15, 30, 24, 0.92); border:1px solid rgba(130, 215, 160, 0.34);
+  opacity:0; pointer-events:none; transition:opacity 0.18s ease, transform 0.18s ease;
+}
+.log-rail [data-label]:hover::after { opacity:1; transform:translate(0, -50%); }
+.log-rail .rail-x svg { fill:currentColor; stroke:none; width:16px; height:16px; }
+.log-rail .rail-music .ic-on { display:none; }
+.log-rail .rail-music.on .ic-off { display:none; }
+.log-rail .rail-music.on .ic-on { display:block; animation:railBeat 1.2s ease-in-out infinite; }
+.log-rail .rail-music.on { color:#63FF8A; }
+@keyframes railBeat { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
+.log-rail .copied { color:#63FF8A !important; }
+.log-rail .copied::after { opacity:1 !important; transform:translate(0, -50%) !important; }
+.log-rail a, .log-rail button {
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:10px; border:0; background:transparent; padding:0;
+  color:rgba(150, 225, 175, 0.72); text-decoration:none; cursor:pointer;
+  transition:color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+.log-rail a:hover, .log-rail button:hover { color:#fff; background:rgba(130, 215, 160, 0.12); transform:translateY(-1px); }
+.log-rail svg { width:19px; height:19px; display:block; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.log-rail .rail-logo img { width:24px; height:24px; display:block; transition:transform .2s ease-out; }
+.log-rail .rail-logo:hover img { transform:rotate(15deg) scale(1.07); }
+@media (max-width:640px) { .log-rail { display:none; } }   /* no side rail on phones: hamburger menu instead */
+
+/* ── Phone menu: hamburger at the frame's top-left opens a full-frame list ── */
+.m-burger, .m-menu { display:none; }
+@media (max-width:640px) {
+  .m-burger {
+    display:flex; flex-direction:column; justify-content:center; gap:5px;
+    position:fixed; left:calc(var(--frame-inset) + 14px); top:calc(var(--frame-inset) + 14px); z-index:970;
+    width:44px; height:44px; padding:0 11px; border:0; border-radius:10px; background:rgba(10,13,12,0.6); cursor:pointer;
+  }
+  .m-burger span { display:block; height:2px; width:100%; background:rgba(150,225,175,0.9); border-radius:2px; transition:transform 0.25s ease, opacity 0.2s ease; }
+  body.menu-open .m-burger span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+  body.menu-open .m-burger span:nth-child(2) { opacity:0; }
+  body.menu-open .m-burger span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+  .m-menu {
+    display:flex; flex-direction:column; gap:2px;
+    position:fixed; left:calc(var(--frame-inset) + 14px); top:calc(var(--frame-inset) + 68px); z-index:960;
+    width:max-content; padding:12px; border-radius:14px;
+    background:rgba(10,13,12,0.96); border:1px solid rgba(130,215,160,0.34);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+  body.menu-open .m-menu { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+  .m-menu a {
+    display:flex; align-items:center; gap:14px; padding:13px 16px; border-radius:10px; text-align:left;
+    font-family:'Figtree',sans-serif; font-size:16px; font-weight:400; color:#fff; text-decoration:none; cursor:pointer;
+    transition:background-color 0.2s ease, color 0.2s ease;
+  }
+  .m-menu a:hover, .m-menu a:active { background:rgba(130, 215, 160, 0.12); }
+  .m-menu svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; color:rgba(150,225,175,0.85); }
+  .m-menu .m-sep { height:1px; background:rgba(130,215,160,0.3); margin:10px 6px; }
+  .m-menu .m-contact { display:flex; justify-content:space-between; }
+  .m-menu .m-contact a { padding:12px 10px; }
+}
+
+/* ── Reserve room for the frame + rail around whatever a page's own <main>
+   contains, so its content doesn't sit under either. A full-bleed hero
+   background can cancel this out locally (see each page's own CSS). ── */
+main { padding-left:calc(var(--frame-inset) + 6px + var(--rail-w) + 34px); box-sizing:border-box; }
+@media (max-width:640px) { main { padding-left:0; } }   /* no rail on phones; the hamburger floats over the top corner instead */
