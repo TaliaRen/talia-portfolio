@@ -35,6 +35,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   var type = entry ? entry.type : (legacy === 1 ? 'reload' : legacy === 2 ? 'back_forward' : 'navigate');
   var KEY = 'homeScrollY';
   window.addEventListener('pagehide', function () { try { sessionStorage.setItem(KEY, String(window.scrollY)); } catch (e) {} });
+  // While the page is being put back on screen, hold every transition in the
+  // project log still (see html.restoring) — otherwise the card that was clicked
+  // visibly settles out of its hover lift, and on a non-bfcache return the
+  // entries light up again as if being discovered for the first time.
+  var restoringTimer = 0;
+  function holdStill() {
+    document.documentElement.classList.add('restoring');
+    clearTimeout(restoringTimer);
+    restoringTimer = setTimeout(function () { document.documentElement.classList.remove('restoring'); }, 700);
+  }
+  window.addEventListener('pageshow', function (e) { if (e.persisted || type === 'back_forward') holdStill(); });
+  if (type === 'back_forward') holdStill();
   if (type === 'reload') {
     history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
@@ -1104,6 +1116,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .rumor-node:nth-of-type(even) { --nx:1; }
   /* hover: a slight lift and the outer frame brightens — nothing else moves */
   .rumor-map .project-card.rumor-node.found:hover { border-color:#5FE39A; transform:translateY(-3px); }
+  /* coming Back from a project page: the log is restored in place, so nothing in it
+     may animate (no hover lift settling, no entries lighting up again) */
+  html.restoring .rumor-map, html.restoring .rumor-map * { transition:none !important; animation:none !important; }
   .rumor-map .project-card:hover .project-img-wrap { transform:none; }   /* the whole entry lifts instead of the cover alone */
   /* log header: a tinted strip across the top of the text column — who / when */
   .rumor-head {
