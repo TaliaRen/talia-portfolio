@@ -3234,7 +3234,7 @@ document.addEventListener('mousemove', e => {
       }
       ctx.globalAlpha = 1; ctx.drawImage(off, 0, 0);
     }
-    S.build = build; S.draw = draw;
+    S.build = build; S.draw = draw; S.len = text.length;
     function showText() { txt.textContent = text.slice(0, S.fixed) + '\u00a0'.repeat(text.length - S.fixed); }
     build(); draw(0); showText();
     if (document.fonts?.ready) document.fonts.ready.then(() => { build(); draw(0); });
@@ -3255,16 +3255,74 @@ document.addEventListener('mousemove', e => {
     S.sample = el.classList.contains('glyph-sample') || el.classList.contains('glyph-node') || el.classList.contains('glyph-fact');
     if (S.sample) return S;
     // hovering either phrase decodes BOTH and fires the beams at both
-    el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); document.getElementById('detectorCamera')?.classList.add('lit'); if (screenText) showIntro(); });
-    el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); document.getElementById('detectorCamera')?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); });
+    el.addEventListener('mouseenter', () => { strands.filter(o => !o.sample).forEach(o => o.decode()); sfx.decode(Math.max(0, ...strands.filter(o => !o.sample).map(o => o.len))); beamsOn = true; camBeams?.classList.add('on'); document.getElementById('detectorCamera')?.classList.add('lit'); if (screenText) showIntro(); });
+    el.addEventListener('mouseleave', () => { strands.filter(o => !o.sample).forEach(o => o.encode()); sfx.encode(); beamsOn = false; camBeams?.classList.remove('on'); document.getElementById('detectorCamera')?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); });
     return S;
   }
+  // ── Decode sound: synthesized to match the visual — the strand's particles
+  //    snap into letters left to right (28ms a character), so a soft data-readout
+  //    tick runs at that pace and climbs in pitch as the line fills, over a faint
+  //    band of "scanner" hiss; a two-note chime lands when the last letter fixes.
+  //    Leaving plays a single short falling blip as the text scrambles back. ──
+  const sfx = (() => {
+    let ctx = null, current = null;
+    const get = () => {
+      if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+      if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+      return ctx.state === 'running' ? ctx : null;
+    };
+    // browsers only let audio start after a real gesture; the first click/tap/key anywhere unlocks it
+    ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, get, { passive: true }));
+    function tone(c, out, freq, at, dur, peak, type = 'sine') {
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = type; o.frequency.setValueAtTime(freq, at);
+      g.gain.setValueAtTime(0, at);
+      g.gain.linearRampToValueAtTime(peak, at + 0.004);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+      o.connect(g); g.connect(out); o.start(at); o.stop(at + dur + 0.02);
+    }
+    function decode(len) {
+      const c = get(); if (!c || !len) return;
+      encode(true);                                        // cut any readout still running
+      const out = c.createGain(); out.gain.value = 1; out.connect(c.destination);
+      current = out;
+      const t0 = c.currentTime + 0.01, step = 0.028, total = len * step;
+      // scanner hiss: narrow band of noise that rises with the reveal
+      const n = c.createBufferSource(), buf = c.createBuffer(1, c.sampleRate * (total + 0.2), c.sampleRate);
+      const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      n.buffer = buf;
+      const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 6;
+      bp.frequency.setValueAtTime(2200, t0); bp.frequency.exponentialRampToValueAtTime(5200, t0 + total);
+      const ng = c.createGain(); ng.gain.setValueAtTime(0, t0);
+      ng.gain.linearRampToValueAtTime(0.018, t0 + 0.05); ng.gain.setValueAtTime(0.018, t0 + total); ng.gain.linearRampToValueAtTime(0, t0 + total + 0.12);
+      n.connect(bp); bp.connect(ng); ng.connect(out); n.start(t0); n.stop(t0 + total + 0.2);
+      // readout ticks: one per two characters, pitch climbing 1.4k → 2.6k with a little scatter
+      for (let i = 0; i < len; i += 2) {
+        const p = i / len;
+        tone(c, out, 1400 + 1200 * p + (Math.random() - 0.5) * 160, t0 + i * step, 0.035, 0.045, 'triangle');
+      }
+      // the last letter fixes: a small rising two-note chime
+      tone(c, out, 880, t0 + total, 0.14, 0.05);
+      tone(c, out, 1318.5, t0 + total + 0.07, 0.22, 0.045);
+    }
+    function encode(silent) {
+      const c = get(); if (!c) return;
+      if (current) { const g = current; current = null; g.gain.setTargetAtTime(0, c.currentTime, 0.02); setTimeout(() => g.disconnect(), 200); }
+      if (silent) return;
+      const t = c.currentTime + 0.005;
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = 'triangle'; o.frequency.setValueAtTime(1300, t); o.frequency.exponentialRampToValueAtTime(520, t + 0.09);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.04, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + 0.12);
+    }
+    return { decode, encode };
+  })();
   document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node):not(.glyph-fact)').forEach(initGlyph);
   // crew facts: unknown text that decodes on hover; the translator reads the long version
   document.querySelectorAll('.glyph-fact').forEach((el, i) => {
     const S = initGlyph(el, 120 + i);
-    el.addEventListener('mouseenter', () => { S.decode(); window.screenTranslate?.('', el.dataset.note || el.dataset.text || ''); });
-    el.addEventListener('mouseleave', () => { S.encode(); window.screenReady?.(); });
+    el.addEventListener('mouseenter', () => { S.decode(); sfx.decode(S.len); window.screenTranslate?.('', el.dataset.note || el.dataset.text || ''); });
+    el.addEventListener('mouseleave', () => { S.encode(); sfx.encode(); window.screenReady?.(); });
   });
   window.initGlyph = initGlyph;
   (window.__pendingGlyphs || []).forEach(el => initGlyph(el, 99));
