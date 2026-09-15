@@ -3315,51 +3315,7 @@ document.addEventListener('mousemove', e => {
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.04, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
       o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + 0.12);
     }
-    // silhouette: the particle field settles and the photo comes into focus (0.6s crossfade).
-    // Deliberately low and round, nothing like the text's bright ticks: a deep breath of
-    // low-passed noise sinking in pitch (the scatter settling), a sub-bass note that drops
-    // and blooms underneath (the picture resolving), and a soft low "thump" as it lands.
-    function reveal(dur = 0.6) {
-      const c = get(); if (!c) return;
-      dissolve(true);
-      const out = c.createGain(); out.gain.value = 1; out.connect(c.destination);
-      current = out;
-      const t0 = c.currentTime + 0.01;
-      // breath: noise through a low-pass that closes from 900Hz down to 150Hz
-      const n = c.createBufferSource(), buf = c.createBuffer(1, c.sampleRate * (dur + 0.5), c.sampleRate);
-      const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-      n.buffer = buf;
-      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 0.9;
-      lp.frequency.setValueAtTime(900, t0); lp.frequency.exponentialRampToValueAtTime(150, t0 + dur);
-      const ng = c.createGain(); ng.gain.setValueAtTime(0, t0);
-      ng.gain.linearRampToValueAtTime(0.16, t0 + 0.12); ng.gain.exponentialRampToValueAtTime(0.0005, t0 + dur + 0.45);
-      n.connect(lp); lp.connect(ng); ng.connect(out); n.start(t0); n.stop(t0 + dur + 0.5);
-      // sub-bass: drops from 110Hz to 55Hz and blooms as the photo comes through
-      const o = c.createOscillator(), g = c.createGain();
-      o.type = 'sine'; o.frequency.setValueAtTime(110, t0); o.frequency.exponentialRampToValueAtTime(55, t0 + dur);
-      g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.22, t0 + dur * 0.7); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur + 0.8);
-      o.connect(g); g.connect(out); o.start(t0); o.stop(t0 + dur + 0.85);
-      // landing thump: a very short, soft low knock when the crossfade completes
-      const k = c.createOscillator(), kg = c.createGain();
-      k.type = 'sine'; k.frequency.setValueAtTime(140, t0 + dur); k.frequency.exponentialRampToValueAtTime(45, t0 + dur + 0.12);
-      kg.gain.setValueAtTime(0, t0 + dur); kg.gain.linearRampToValueAtTime(0.18, t0 + dur + 0.008); kg.gain.exponentialRampToValueAtTime(0.0001, t0 + dur + 0.16);
-      k.connect(kg); kg.connect(out); k.start(t0 + dur); k.stop(t0 + dur + 0.2);
-    }
-    function dissolve(silent) {
-      const c = get(); if (!c) return;
-      if (current) { const g = current; current = null; g.gain.setTargetAtTime(0, c.currentTime, 0.03); setTimeout(() => g.disconnect(), 300); }
-      if (silent) return;
-      // leaving: a short low puff as the particles come back
-      const t = c.currentTime + 0.005;
-      const n = c.createBufferSource(), buf = c.createBuffer(1, c.sampleRate * 0.35, c.sampleRate);
-      const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-      n.buffer = buf;
-      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 0.9;
-      lp.frequency.setValueAtTime(200, t); lp.frequency.exponentialRampToValueAtTime(700, t + 0.25);
-      const g = c.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.12, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0005, t + 0.32);
-      n.connect(lp); lp.connect(g); g.connect(c.destination); n.start(t); n.stop(t + 0.35);
-    }
-    return { decode, encode, reveal, dissolve };
+    return { decode, encode };
   })();
   document.querySelectorAll('.glyph:not(.glyph-sample):not(.glyph-node):not(.glyph-fact)').forEach(initGlyph);
   // crew facts: unknown text that decodes on hover; the translator reads the long version
@@ -4446,8 +4402,8 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if ('ResizeObserver' in window) new ResizeObserver(build).observe(host); else window.addEventListener('resize', build);
   // hovering decodes the field into the photo: the camera's beams land on it and the
   // translator reads the caption, like the unknown text
-  host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.sfx?.reveal(0.6); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
-  host.addEventListener('mouseleave', () => { host.classList.remove('decoded'); window.sfx?.dissolve(); window.beamAt?.(null); window.screenReady?.(); });
+  host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.sfx?.decode(21); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
+  host.addEventListener('mouseleave', () => { host.classList.remove('decoded'); window.sfx?.encode(); window.beamAt?.(null); window.screenReady?.(); });
   if (!reduce) {
     let visible = true, last = 0;
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
