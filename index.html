@@ -3324,7 +3324,7 @@ document.addEventListener('mousemove', e => {
     el.addEventListener('mouseenter', () => { S.decode(); sfx.decode(S.len); window.screenTranslate?.('', el.dataset.note || el.dataset.text || ''); });
     el.addEventListener('mouseleave', () => { S.encode(); sfx.encode(); window.screenReady?.(); });
   });
-  window.initGlyph = initGlyph;
+  window.initGlyph = initGlyph; window.sfx = sfx;
   (window.__pendingGlyphs || []).forEach(el => initGlyph(el, 99));
   window.addEventListener('resize', () => strands.forEach(S => { S.build(); S.draw(performance.now()); }));
   // rebuild a strand whenever its hidden text changes size (font load,
@@ -4402,8 +4402,8 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   if ('ResizeObserver' in window) new ResizeObserver(build).observe(host); else window.addEventListener('resize', build);
   // hovering decodes the field into the photo: the camera's beams land on it and the
   // translator reads the caption, like the unknown text
-  host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
-  host.addEventListener('mouseleave', () => { host.classList.remove('decoded'); window.beamAt?.(null); window.screenReady?.(); });
+  host.addEventListener('mouseenter', () => { host.classList.add('decoded'); window.sfx?.decode(21); window.beamAt?.(host); window.screenTranslate?.('', host.dataset.note || ''); });
+  host.addEventListener('mouseleave', () => { host.classList.remove('decoded'); window.sfx?.encode(); window.beamAt?.(null); window.screenReady?.(); });
   if (!reduce) {
     let visible = true, last = 0;
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(host);
