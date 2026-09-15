@@ -3330,13 +3330,13 @@ document.addEventListener('mousemove', e => {
       const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1.4;
       bp.frequency.setValueAtTime(6000, t0); bp.frequency.exponentialRampToValueAtTime(700, t0 + dur);
       const ng = c.createGain(); ng.gain.setValueAtTime(0, t0);
-      ng.gain.linearRampToValueAtTime(0.03, t0 + 0.08); ng.gain.exponentialRampToValueAtTime(0.0005, t0 + dur + 0.25);
+      ng.gain.linearRampToValueAtTime(0.07, t0 + 0.08); ng.gain.exponentialRampToValueAtTime(0.0005, t0 + dur + 0.35);
       n.connect(bp); bp.connect(ng); ng.connect(out); n.start(t0); n.stop(t0 + dur + 0.3);
       const o = c.createOscillator(), g = c.createGain();
       o.type = 'sine'; o.frequency.setValueAtTime(160, t0); o.frequency.exponentialRampToValueAtTime(220, t0 + dur);
-      g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.05, t0 + dur * 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur + 0.5);
+      g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.1, t0 + dur * 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur + 0.6);
       o.connect(g); g.connect(out); o.start(t0); o.stop(t0 + dur + 0.55);
-      for (let i = 0; i < 5; i++) tone(c, out, 2600 + Math.random() * 2400, t0 + 0.1 + Math.random() * dur * 0.8, 0.09, 0.018);
+      for (let i = 0; i < 7; i++) tone(c, out, 2600 + Math.random() * 2400, t0 + 0.1 + Math.random() * dur * 0.8, 0.09, 0.028);
     }
     function dissolve(silent) {
       const c = get(); if (!c) return;
@@ -3348,7 +3348,7 @@ document.addEventListener('mousemove', e => {
       n.buffer = buf;
       const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1.4;
       bp.frequency.setValueAtTime(900, t); bp.frequency.exponentialRampToValueAtTime(5000, t + 0.22);
-      const g = c.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.022, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0005, t + 0.28);
+      const g = c.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.05, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0005, t + 0.28);
       n.connect(bp); bp.connect(g); g.connect(c.destination); n.start(t); n.stop(t + 0.3);
     }
     return { decode, encode, reveal, dissolve };
