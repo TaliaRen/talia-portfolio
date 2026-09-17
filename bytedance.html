@@ -338,66 +338,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: 'Figtree', sans-serif; font-size: 1.125rem; font-weight:200;
     color: #E0E0E0; line-height: 1.8; margin: 0;
   }
-  .bt-problem-hint {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'Figtree', sans-serif; font-size: .75rem; font-weight: 300;
-    color: #82CDF5; letter-spacing: .04em;
-    padding: 9px 18px; border-radius: 999px;
-    background: rgba(130,205,245,0.1);
-    cursor: pointer; width: fit-content; border: none;
-  }
-  /* Problem framing modal — matches index.html's modal style */
-  #bt-problem-modal {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    z-index: 1000; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.25s ease;
-  }
-  #bt-problem-modal.open { display: flex; }
-  #bt-problem-modal.visible { opacity: 1; }
-  #bt-problem-modal-box {
-    background: #fff; border-radius: 20px; padding: 44px 32px 32px;
-    width: 1200px; max-width: calc(100vw - 64px); position: relative;
-    max-height: calc(100vh - 64px);
-    box-shadow: 0 24px 64px rgba(0,0,0,0.13);
-    transform: scale(0.93) translateY(16px);
-    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.25s ease;
-    opacity: 0;
-    display: flex; flex-direction: column;
-  }
-  .bt-problem-modal-scroll { overflow: auto; }
-  #bt-problem-modal.visible #bt-problem-modal-box { transform: scale(1) translateY(0); opacity: 1; }
-  .bt-problem-modal-cards { display: flex; flex-direction: row; align-items: stretch; gap: 16px; }
-  .bt-problem-modal-card {
-    flex: 1 1 340px; min-width: 340px; background: #F5F5F4; border-radius: 16px; padding: 24px;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-  .bt-problem-modal-card h3 {
-    font-family: 'Figtree', sans-serif; font-weight: 400;
-    font-size: 18px; color: #1a1a1a; margin: 0; line-height: 1.35;
-  }
-  .bt-problem-modal-card p {
-    font-family: 'Figtree', sans-serif; font-weight: 200;
-    font-size: 1.125rem; color: #444; line-height: 1.7; margin: 0;
-  }
-  .bt-problem-modal-arrow { display: flex; align-items: center; flex-shrink: 0; padding: 0 2px; color: #ccc; }
-  #bt-problem-modal-close {
-    position: absolute; top: 14px; right: 18px;
-    background: none; border: none; font-size: 0.95rem;
-    color: #bbb; cursor: pointer; transition: color 0.2s; line-height: 1;
-  }
-  #bt-problem-modal-close svg { display:block; }
-  #bt-problem-modal-close:hover { color: #555; }
   @media(max-width:860px) {
     .bt-problem-section { padding: 0 32px 80px; }
-  }
-  @media(max-width:1200px) {
-    /* below 1200 the three 340px cards can't sit side by side without a sideways scroll: stack them, arrows point down */
-    .bt-problem-modal-cards { flex-direction:column; }
-    .bt-problem-modal-card { min-width:0; flex-basis:auto; }
-    .bt-problem-modal-arrow { justify-content:center; padding:2px 0; }
-    .bt-problem-modal-arrow svg { transform:rotate(90deg); }
   }
   @media(max-width:480px) {
     /* narrow phones: these flex children carry 260-280px minimums that are wider than the frame's content area */
@@ -772,15 +714,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="bt-problem-inner">
       <span class="bt-problem-header">Problem</span>
       <div class="bt-problem-item">
-        <h2 class="bt-problem-title">Exception requests were invisible in merchants' primary workflow</h2>
+        <h2 class="bt-problem-title">Exception handling sat outside merchants' daily workflow</h2>
         <div class="bt-problem-row">
           <div class="bt-problem-row-text">
-            <p class="bt-problem-body">Exception requests were less frequent, but missing one could be costly. Because they surfaced only in Order Tools, merchants could easily miss that required action, leading to customer complaints and costly reshipments.</p>
-            <button type="button" id="bt-problem-hint-trigger" class="bt-problem-hint">
-              <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1v10.5l3-2.5 1.5 4 1.5-.5-1.5-4H9L1 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-              Click to see how I framed the problem
-            </button>
-          </div>
+            <p class="bt-problem-body">Merchants couldn’t tell which exception requests needed attention without checking Order Tools separately. Many learned about a request only when customer support called — too late to avoid a refund or a reshipment.</p>          </div>
           <img src="bytedance/problem.png" alt="Order Tools buried in a separate module from Order Management">
         </div>
       </div>
@@ -954,67 +891,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
-<div id="bt-problem-modal">
-  <div id="bt-problem-modal-box">
-    <button id="bt-problem-modal-close" aria-label="Close"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="bt-problem-modal-scroll">
-      <div class="bt-problem-modal-cards">
-        <div class="bt-problem-modal-card">
-          <h3>1: PM identified low UV for Order Tools</h3>
-          <p>The product team considered four possible causes for low UV: low demand, poor discoverability, unclear positioning, or usability friction.</p>
-        </div>
-        <div class="bt-problem-modal-arrow">
-          <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8h16M17 8l-6-6M17 8l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="bt-problem-modal-card">
-          <h3>2: User feedback and ticket analysis revealed the gap</h3>
-          <p>Since merchants worked mainly in Order Management, they rarely checked Order Tools and often discovered exceptions only through customer support.</p>
-        </div>
-        <div class="bt-problem-modal-arrow">
-          <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8h16M17 8l-6-6M17 8l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="bt-problem-modal-card">
-          <h3>3: We framed adoption as a visibility problem</h3>
-          <p>Combining the PM's adoption data with user feedback and ticket analysis, we framed the issue from low tool usage to low exception visibility in merchants' primary workflow.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<script>
-  (function() {
-    const modal = document.getElementById('bt-problem-modal');
-    const trigger = document.getElementById('bt-problem-hint-trigger');
-    const closeBtn = document.getElementById('bt-problem-modal-close');
-    let lockScrollY = 0;
-    function open() {
-      lockScrollY = window.scrollY;
-      const sw = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.paddingRight = sw + 'px';
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${lockScrollY}px`;
-      document.body.style.width = '100%';
-      modal.classList.add('open');
-      requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('visible')));
-    }
-    function close() {
-      modal.classList.remove('visible');
-      setTimeout(() => {
-        modal.classList.remove('open');
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        document.body.style.paddingRight = '';
-        window.scrollTo(0, lockScrollY);
-      }, 260);
-    }
-    trigger.addEventListener('click', open);
-    closeBtn.addEventListener('click', close);
-    modal.addEventListener('click', e => { if (e.target === modal) close(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
-  })();
-</script>
 
 <script>
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
