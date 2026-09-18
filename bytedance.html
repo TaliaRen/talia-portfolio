@@ -307,6 +307,92 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:860px) {
     .bt-iteration-section { padding: 0 32px 80px; }
   }
+  /* ── Exploration (rebuilt): four decisions, each a tag + title + lead + evidence ── */
+  .bt-x-section { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
+  .bt-x-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:120px; }   /* one tag per decision: titled items 120 apart */
+  .bt-x-block { display:flex; flex-direction:column; gap:36px; }
+  .bt-x-head { display:flex; flex-direction:column; gap:16px; }
+  .bt-x-lead { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  .bt-x-conclusion { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.7; margin:0; }
+  .bt-x-note { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  .bt-x-conclusion + .bt-x-note { margin-top:-12px; }   /* judgment and its reason read as one unit: 24px apart */
+
+  /* 01 — three directions, identical structure */
+  .bt-x-cards { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; }
+  .bt-x-card {
+    display:flex; flex-direction:column; gap:14px; padding:18px 18px 20px;
+    border:1px solid rgba(255,255,255,0.10); border-radius:14px; background:rgba(255,255,255,0.04);
+    position:relative;
+  }
+  .bt-x-card.is-selected { border-color:#82CDF5; }
+  .bt-x-card-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.1em; display:flex; justify-content:space-between; align-items:center; }
+  .bt-x-card-num .bt-x-selected { color:#82CDF5; letter-spacing:.06em; text-transform:uppercase; }
+  .bt-x-card-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.4; margin:0; min-height:2.8em; }
+  .bt-x-diagram { width:100%; aspect-ratio:16/9; }
+  .bt-x-diagram svg { width:100%; height:100%; display:block; }
+  /* diagram palette: workspace vs tools are two fixed colours across all three; the exception task is the one accent */
+  .bt-x-diagram .ws { fill:rgba(255,255,255,0.06); stroke:rgba(255,255,255,0.35); stroke-width:1.2; }
+  .bt-x-diagram .tl { fill:rgba(130,205,245,0.10); stroke:rgba(130,205,245,0.85); stroke-width:1.2; }
+  .bt-x-diagram .row { fill:rgba(255,255,255,0.10); stroke:none; }
+  .bt-x-diagram .task { fill:#FFB86B; stroke:none; }
+  .bt-x-diagram .task-ring { fill:none; stroke:#FFB86B; stroke-width:1.4; }
+  .bt-x-diagram .lbl { font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; fill:#E0E0E0; }
+  .bt-x-diagram .lbl-tl { fill:#82CDF5; }
+  .bt-x-diagram .lbl-task { fill:#FFB86B; font-weight:400; }
+  .bt-x-diagram .arrow { fill:none; stroke:rgba(255,255,255,0.55); stroke-width:1.3; marker-end:url(#bt-x-arrowhead); }
+  .bt-x-card-tradeoff { display:flex; flex-direction:column; gap:8px; margin:0; padding:0; list-style:none; }
+  .bt-x-card-tradeoff li { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.6; }
+  .bt-x-card-tradeoff b { font-weight:400; color:#fff; }
+
+  /* framed crop of a screenshot / video frame: --z zoom, --fx/--fy = the source point that sits at the box's top-left */
+  .bt-x-shot { position:relative; overflow:hidden; border-radius:8px; background:#0d1013; border:1px solid rgba(255,255,255,0.08); }
+  .bt-x-shot > img, .bt-x-shot > video {
+    position:absolute; left:0; top:0; width:100%; height:auto; display:block;
+    transform-origin:0 0;
+    transform:translate(calc(var(--fx, 0) * var(--z, 1) * -100%), calc(var(--fy, 0) * var(--z, 1) * -100%)) scale(var(--z, 1));
+  }
+  .bt-x-shot-cap { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; margin:0; }
+
+  /* 02 — two smaller explorations on the left, the selected one larger on the right */
+  .bt-x-info { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:24px; align-items:start; }
+  .bt-x-info-col { display:flex; flex-direction:column; gap:24px; }
+  .bt-x-info-card { display:flex; flex-direction:column; gap:12px; }
+  .bt-x-info-card h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; margin:0; line-height:1.4; }
+  .bt-x-info-card.is-selected h4 { color:#fff; }
+  .bt-x-focus { display:inline-flex; align-items:center; gap:8px; width:fit-content; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.04em; padding:5px 10px; border-radius:6px; background:rgba(130,205,245,0.1); }
+  .bt-x-focus::before { content:''; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .bt-x-info-card p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
+
+  /* 03 — before / after at the same viewport size */
+  .bt-x-fold { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; }
+  .bt-x-fold-col { display:flex; flex-direction:column; gap:12px; }
+  .bt-x-fold-col h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; margin:0; }
+  .bt-x-fold-col.is-selected h4 { color:#fff; }
+  .bt-x-vp { position:relative; aspect-ratio:16/10; overflow:hidden; border-radius:8px; border:1px solid rgba(255,255,255,0.10); background:#0d1013; }
+  .bt-x-vp img { position:absolute; left:0; width:100%; height:auto; display:block; }
+  .bt-x-vp-band { position:absolute; left:0; right:0; background:rgba(130,205,245,0.16); border-top:1px solid rgba(130,205,245,0.6); border-bottom:1px solid rgba(130,205,245,0.6); pointer-events:none; }
+  .bt-x-vp-band span { position:absolute; right:8px; top:6px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#82CDF5; letter-spacing:.04em; background:rgba(10,13,12,0.75); padding:2px 6px; border-radius:4px; }
+  .bt-x-vp-list { position:absolute; left:4%; right:4%; border:1px dashed rgba(255,255,255,0.45); border-radius:6px; background:repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 12px, transparent 12px 20px); display:flex; align-items:center; justify-content:center; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#E0E0E0; letter-spacing:.06em; }
+  .bt-x-vp-line { position:absolute; left:0; right:0; top:78%; border-top:2px dashed #FFB86B; pointer-events:none; }
+  .bt-x-vp-line span { position:absolute; left:8px; top:4px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:400; color:#FFB86B; letter-spacing:.06em; text-transform:uppercase; }
+  .bt-x-vp-tag { position:absolute; right:8px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#fff; background:rgba(10,13,12,0.85); border:1px solid rgba(255,255,255,0.25); padding:3px 7px; border-radius:4px; letter-spacing:.02em; max-width:60%; text-align:right; }
+
+  /* 04 — the path through the final design */
+  .bt-x-path { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; margin:0; letter-spacing:.01em; }
+  .bt-x-steps { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; }
+  .bt-x-step { display:flex; flex-direction:column; gap:12px; }
+  .bt-x-step-label { display:flex; align-items:baseline; gap:10px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; margin:0; }
+  .bt-x-step-label i { font-style:normal; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.1em; }
+  .bt-x-step p { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.6; margin:0; }
+  .bt-x-video { width:100%; max-width:600px; margin:12px auto 0; display:block; border-radius:12px; }
+
+  @media(max-width:860px) {
+    .bt-x-section { padding:0 32px 80px; }
+    .bt-x-inner { gap:80px; }
+    .bt-x-cards, .bt-x-info, .bt-x-fold, .bt-x-steps { grid-template-columns:minmax(0,1fr); }
+    .bt-x-vp-line { top:78%; }
+  }
+
   @media(max-width:860px) {
     .bt-research-section { padding: 0 32px 80px; }
     .bt-compare-grid { flex-direction: column; }
@@ -724,96 +810,213 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <section class="bt-research-section" id="research">
-    <div class="bt-research-inner">
-      <div style="display:flex; flex-direction:column; gap:16px;">
-        <span class="bt-research-header">Exploration</span>
-        <h2 class="bt-research-title">How should we make exception work visible?</h2>
+  <section class="bt-x-section" id="research">
+    <div class="bt-x-inner">
+
+      <!-- 01 · where exceptions get discovered and handled -->
+      <div class="bt-x-block">
+        <div class="bt-x-head">
+          <span class="bt-research-header">Exploration · Workflow</span>
+          <h2 class="bt-research-title">Where should merchants discover and handle exceptions?</h2>
+        </div>
+        <p class="bt-x-lead">I explored how exception tasks could fit into everyday order processing, from directing merchants to existing tools to bringing actions into the order list.</p>
+        <div class="bt-x-cards">
+          <div class="bt-x-card">
+            <div class="bt-x-card-num"><span>01</span></div>
+            <p class="bt-x-card-name">Direct merchants to Order Tools</p>
+            <div class="bt-x-diagram" aria-label="Order Management leads through a general entry to Order Tools, where the exception tasks live">
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <defs><marker id="bt-x-arrowhead" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.5L7.5 4 0 7.5z" fill="rgba(255,255,255,0.55)"/></marker></defs>
+                <rect class="ws" x="12" y="34" width="124" height="112" rx="8"/>
+                <text class="lbl" x="22" y="52">Order Management</text>
+                <rect class="row" x="22" y="64" width="104" height="9" rx="2"/>
+                <rect class="row" x="22" y="80" width="104" height="9" rx="2"/>
+                <rect class="row" x="22" y="96" width="104" height="9" rx="2"/>
+                <rect class="row" x="22" y="112" width="104" height="9" rx="2"/>
+                <rect x="22" y="128" width="48" height="11" rx="5.5" fill="rgba(130,205,245,0.18)" stroke="rgba(130,205,245,0.7)" stroke-width="1"/>
+                <text class="lbl lbl-tl" x="46" y="136.5" text-anchor="middle" font-size="8">entry</text>
+                <path class="arrow" d="M70 133.5 H160 V90 H182"/>
+                <rect class="tl" x="188" y="34" width="120" height="112" rx="8"/>
+                <text class="lbl lbl-tl" x="198" y="52">Order Tools</text>
+                <circle class="task" cx="206" cy="76" r="4"/><rect class="row" x="216" y="72" width="80" height="8" rx="2"/>
+                <circle class="task" cx="206" cy="98" r="4"/><rect class="row" x="216" y="94" width="80" height="8" rx="2"/>
+                <circle class="task" cx="206" cy="120" r="4"/><rect class="row" x="216" y="116" width="80" height="8" rx="2"/>
+                <text class="lbl lbl-task" x="248" y="162" text-anchor="middle">exception tasks</text>
+              </svg>
+            </div>
+            <div class="bt-x-shot" style="aspect-ratio:16/6; --z:2; --fx:.02; --fy:.02;"><img src="bytedance/banner.png" alt="Banner directing merchants to Order Tools" loading="lazy"></div>
+            <ul class="bt-x-card-tradeoff">
+              <li><b>Benefit</b> Keeps handling in existing tools.</li>
+              <li><b>Tradeoff</b> The entry alone does not show what needs attention.</li>
+            </ul>
+          </div>
+
+          <div class="bt-x-card">
+            <div class="bt-x-card-num"><span>02</span></div>
+            <p class="bt-x-card-name">Bring actions into each order</p>
+            <div class="bt-x-diagram" aria-label="Inside the order list, a request and its action appear on the order's own row">
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <rect class="ws" x="12" y="34" width="296" height="112" rx="8"/>
+                <text class="lbl" x="22" y="52">Order Management</text>
+                <rect class="row" x="22" y="64" width="276" height="10" rx="2"/>
+                <rect x="22" y="82" width="276" height="20" rx="3" fill="rgba(255,184,107,0.10)"/>
+                <rect class="row" x="28" y="87" width="90" height="10" rx="2"/>
+                <circle class="task" cx="140" cy="92" r="4"/>
+                <text class="lbl lbl-task" x="148" y="95.5" font-size="9.5">address change requested</text>
+                <rect x="254" y="85" width="38" height="14" rx="3" fill="#FFB86B"/>
+                <text x="273" y="95" text-anchor="middle" font-size="8" font-weight="500" fill="#1a1a1a" font-family="Figtree, sans-serif">approve</text>
+                <rect class="row" x="22" y="110" width="276" height="10" rx="2"/>
+                <rect class="row" x="22" y="126" width="276" height="10" rx="2"/>
+                <text class="lbl lbl-task" x="160" y="162" text-anchor="middle">task and action on the order itself</text>
+              </svg>
+            </div>
+            <div class="bt-x-shot" style="aspect-ratio:16/6; --z:1.82; --fx:.45; --fy:.10;"><img src="bytedance/inline action.png" alt="Approve and reject actions inline on an order row" loading="lazy"></div>
+            <ul class="bt-x-card-tradeoff">
+              <li><b>Benefit</b> Keeps the request beside its order.</li>
+              <li><b>Tradeoff</b> Exception tasks remain distributed across the list.</li>
+            </ul>
+          </div>
+
+          <div class="bt-x-card is-selected">
+            <div class="bt-x-card-num"><span>03</span><span class="bt-x-selected">Selected direction</span></div>
+            <p class="bt-x-card-name">Surface tasks and link to tools</p>
+            <div class="bt-x-diagram" aria-label="A task summary inside Order Management links to the tool that handles each type">
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <rect class="ws" x="12" y="34" width="156" height="112" rx="8"/>
+                <text class="lbl" x="22" y="52">Order Management</text>
+                <rect x="22" y="60" width="136" height="30" rx="4" fill="rgba(255,184,107,0.10)" stroke="rgba(255,184,107,0.6)" stroke-width="1"/>
+                <circle class="task" cx="34" cy="70" r="3.5"/><rect class="row" x="42" y="66.5" width="40" height="7" rx="2"/>
+                <circle class="task" cx="34" cy="82" r="3.5"/><rect class="row" x="42" y="78.5" width="56" height="7" rx="2"/>
+                <text class="lbl lbl-task" x="150" y="79" text-anchor="end" font-size="9.5">12 pending</text>
+                <rect class="row" x="22" y="100" width="136" height="9" rx="2"/>
+                <rect class="row" x="22" y="116" width="136" height="9" rx="2"/>
+                <rect class="row" x="22" y="132" width="136" height="9" rx="2"/>
+                <path class="arrow" d="M158 75 H186"/>
+                <rect class="tl" x="194" y="34" width="114" height="112" rx="8"/>
+                <text class="lbl lbl-tl" x="204" y="52">Order Tools</text>
+                <rect class="row" x="204" y="66" width="94" height="10" rx="2"/>
+                <rect class="row" x="204" y="84" width="94" height="10" rx="2"/>
+                <rect x="204" y="102" width="46" height="14" rx="3" fill="rgba(130,205,245,0.85)"/>
+                <text x="227" y="112" text-anchor="middle" font-size="8" font-weight="500" fill="#0A0D0C" font-family="Figtree, sans-serif">handle</text>
+                <text class="lbl lbl-task" x="90" y="162" text-anchor="middle">tasks visible in the daily workspace</text>
+              </svg>
+            </div>
+            <div class="bt-x-shot" style="aspect-ratio:16/6; --z:2; --fx:0; --fy:0;"><img src="bytedance/integration.png" alt="Tool summaries surfaced above Order Management" loading="lazy"></div>
+            <ul class="bt-x-card-tradeoff">
+              <li><b>Benefit</b> Makes task information available before entering a tool.</li>
+              <li><b>Tradeoff</b> Handling still requires a workspace switch.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="bt-x-conclusion">Surface exception tasks in the daily workspace, while keeping specialized handling in Order Tools.</p>
+        <p class="bt-x-note">Different exception types required their own handling flows. I brought task discovery into Order Management while retaining those flows in Order Tools.</p>
       </div>
-      <div class="bt-explore-grid">
-        <div class="bt-explore-col">
-          <div class="bt-explore-text">
-            <h3 class="bt-compare-heading">01: Banner</h3>
-            <div class="bt-explore-verdict">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M6 6l6 6M12 6l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              <p class="bt-compare-body">It increased the visibility of the entry point, but did not clearly surface merchants' current exception requests.</p>
+
+      <!-- 02 · how much to show before entering a tool -->
+      <div class="bt-x-block">
+        <div class="bt-x-head">
+          <span class="bt-research-header">Exploration · Task information</span>
+          <h2 class="bt-research-title">What should merchants know before opening a tool?</h2>
+        </div>
+        <p class="bt-x-lead">Once I chose to surface tasks in Order Management, I explored how much information to show before merchants entered a tool.</p>
+        <div class="bt-x-info">
+          <div class="bt-x-info-col">
+            <div class="bt-x-info-card">
+              <h4>A shortcut to the tools</h4>
+              <div class="bt-x-shot" style="aspect-ratio:16/10; --z:4; --fx:.75; --fy:.38;">
+                <video autoplay loop muted playsinline preload="metadata"><source src="bytedance/v1.mp4" type="video/mp4"></video>
+              </div>
+              <span class="bt-x-focus">Tool access, without pending-task context</span>
+              <p>The shortcut reduced navigation, but merchants still had to open it to see what needed attention.</p>
+            </div>
+            <div class="bt-x-info-card">
+              <h4>One overview for routine and exception tasks</h4>
+              <div class="bt-x-shot" style="aspect-ratio:16/10; --z:2.86; --fx:.15; --fy:.12;">
+                <video autoplay loop muted playsinline preload="metadata"><source src="bytedance/v2.mp4" type="video/mp4"></video>
+              </div>
+              <span class="bt-x-focus">More task information competing for attention</span>
+              <p>The overview brought tasks together, but became harder to scan as more categories were added.</p>
             </div>
           </div>
-          <img class="bt-compare-img" src="bytedance/banner.png" alt="Banner">
-        </div>
-        <div class="bt-explore-col">
-          <div class="bt-explore-text">
-            <h3 class="bt-compare-heading">02: Inline Action</h3>
-            <div class="bt-explore-verdict">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M6 6l6 6M12 6l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              <p class="bt-compare-body">It worked for individual orders, but scattered exception tasks across the list and added more complexity to an already dense workspace.</p>
-            </div>
+          <div class="bt-x-info-card is-selected">
+            <h4>Focused summaries by tool</h4>
+            <div class="bt-x-shot" style="aspect-ratio:3/2; --z:3.33; --fx:.455; --fy:.12;"><img src="bytedance/solution1.png" alt="Tool cards with request type, pending count and an action" loading="lazy"></div>
+            <span class="bt-x-focus">Request type · Pending count · Action</span>
+            <p>The selected design paired tool-specific information with an action, giving merchants context before they entered the tool.</p>
           </div>
-          <img class="bt-compare-img" src="bytedance/inline action.png" alt="Inline Action">
         </div>
-        <div class="bt-explore-col">
-          <div class="bt-explore-text">
-            <h3 class="bt-compare-heading bt-compare-heading--positive">03: Integration</h3>
-            <div class="bt-explore-verdict bt-explore-verdict--positive">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 9.5l2.2 2.2L13 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <p class="bt-compare-body">It made exceptions visible, organized, and actionable in merchants' primary workflow.</p>
-            </div>
-          </div>
-          <img class="bt-compare-img" src="bytedance/integration.png" alt="Integration">
-        </div>
+        <p class="bt-x-conclusion">The entry needed to communicate the task, not just the destination.</p>
       </div>
+
+      <!-- 03 · the cost to the primary task -->
+      <div class="bt-x-block">
+        <div class="bt-x-head">
+          <span class="bt-research-header">Design tradeoff · Workspace</span>
+          <h2 class="bt-research-title">Adding exception tasks pushed the order list below the fold.</h2>
+        </div>
+        <p class="bt-x-lead">The new module took space from the page’s primary task: processing orders. I reorganized status navigation and filters to reduce their vertical footprint and make room for exception tasks.</p>
+        <div class="bt-x-fold">
+          <div class="bt-x-fold-col">
+            <h4>Initial integration</h4>
+            <div class="bt-x-vp">
+              <img src="bytedance/integration.png" alt="Tool module added above the unchanged status navigation and filters" loading="lazy" style="top:0;">
+              <div class="bt-x-vp-band" style="top:26%; height:47%;"><span>status nav + filters</span></div>
+              <div class="bt-x-vp-list" style="top:82%; height:30%;">Order list</div>
+              <div class="bt-x-vp-line"><span>Viewport boundary</span></div>
+              <span class="bt-x-vp-tag" style="top:83%;">Order list pushed below the fold</span>
+            </div>
+          </div>
+          <div class="bt-x-fold-col is-selected">
+            <h4>Revised layout</h4>
+            <div class="bt-x-vp">
+              <div class="bt-x-shot" style="position:absolute; left:0; top:0; width:100%; height:12.5%; border:0; border-radius:0; --z:1; --fx:0; --fy:0;"><img src="bytedance/integration.png" alt="" loading="lazy"></div>
+              <div class="bt-x-shot" style="position:absolute; left:0; top:12.5%; width:100%; height:40.3%; border:0; border-radius:0; --z:1.429; --fx:.30; --fy:.66;"><img src="bytedance/beforeafter.png" alt="Consolidated status navigation and filters" loading="lazy"></div>
+              <div class="bt-x-vp-band" style="top:12.5%; height:40%;"><span>status nav + filters</span></div>
+              <div class="bt-x-vp-list" style="top:56%; height:19%;">Order list</div>
+              <div class="bt-x-vp-line"><span>Viewport boundary</span></div>
+              <span class="bt-x-vp-tag" style="top:15%;">Consolidated date and status navigation</span>
+              <span class="bt-x-vp-tag" style="top:36%;">Reorganized filters to reduce vertical space</span>
+            </div>
+          </div>
+        </div>
+        <p class="bt-x-conclusion">Exception visibility had to fit alongside everyday order processing.</p>
+      </div>
+
     </div>
   </section>
 
-  <section class="bt-solution-section" id="solution" style="padding-bottom:120px;">
-    <div class="bt-solution-inner">
-      <div style="display:flex; flex-direction:column; gap:36px;">
-        <div style="display:flex; flex-direction:column; gap:16px;">
-          <span class="bt-solution-header">Solution</span>
-          <h2 class="bt-solution-title">How did I integrate order tools into the workflow?</h2>
+  <!-- 04 · the final design, read as a path -->
+  <section class="bt-x-section" id="solution">
+    <div class="bt-x-inner">
+      <div class="bt-x-block">
+        <div class="bt-x-head">
+          <span class="bt-research-header">Solution</span>
+          <h2 class="bt-research-title">Discover exceptions in Order Management. Handle them in the relevant tool.</h2>
         </div>
-        <p class="bt-compare-body">I surfaced exception tasks in Order Management and linked each one to the tool built to handle it, with a clear way back.</p>
+        <p class="bt-x-lead">Merchants can see exception-task information in their daily workspace and enter the relevant tool to take action.</p>
+        <p class="bt-x-path">Notice a request &rarr; Open the relevant tool &rarr; Take action</p>
+        <div class="bt-x-steps">
+          <div class="bt-x-step">
+            <p class="bt-x-step-label"><i>01</i>Notice a request</p>
+            <div class="bt-x-shot" style="aspect-ratio:2/1; --z:3.7; --fx:.455; --fy:.17;"><img src="bytedance/solution1.png" alt="A tool card on the order page showing the request type and count" loading="lazy"></div>
+            <p>A tool card on the order page shows the request type and how many are waiting.</p>
+          </div>
+          <div class="bt-x-step">
+            <p class="bt-x-step-label"><i>02</i>Open the relevant tool</p>
+            <div class="bt-x-shot" style="aspect-ratio:2/1; --z:2.5; --fx:.33; --fy:.05;"><video muted playsinline preload="metadata"><source src="bytedance/v1.mp4#t=7.5" type="video/mp4"></video></div>
+            <p>The card leads straight into the review tool for that request type.</p>
+          </div>
+          <div class="bt-x-step">
+            <p class="bt-x-step-label"><i>03</i>Take action</p>
+            <div class="bt-x-shot" style="aspect-ratio:2/1; --z:1.06; --fx:.03; --fy:.05;"><img src="bytedance/order-tool.png" alt="Reviewing and approving requests inside the tool" loading="lazy"></div>
+            <p>Each request is reviewed and approved or rejected inside the tool built for it.</p>
+          </div>
+        </div>
+        <video class="bt-x-video" autoplay loop muted playsinline>
+          <source src="bytedance/final version.mp4" type="video/mp4">
+        </video>
+        <img class="bt-solution-img" src="bytedance/highlight.png" alt="Design highlights: value-led cues and a scalable tool carousel">
       </div>
-      <video class="bt-iteration-video" style="max-width:600px; margin:0 auto;" autoplay loop muted playsinline>
-        <source src="bytedance/final version.mp4" type="video/mp4">
-      </video>
-      <img class="bt-solution-img" src="bytedance/highlight.png" alt="Design highlights">
-      <p style="font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#ffffff; margin:52px 0 -12px;">Earlier versions we didn't move forward with</p>
-      <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-start;" id="iteration">
-        <div class="bt-iteration-block">
-          <p class="bt-iteration-label"><strong>V1:</strong> Button-Triggered Side Panel</p>
-          <video class="bt-iteration-video" autoplay loop muted playsinline>
-            <source src="bytedance/v1.mp4" type="video/mp4">
-          </video>
-          <p class="bt-iteration-critique">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M6 6l6 6M12 6l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <span>It shortened the path to Order Tools, but did not improve merchants' awareness of exception requests. The entry point became more visible, but the pending tasks did not.</span>
-          </p>
-        </div>
-        <div class="bt-iteration-block">
-          <p class="bt-iteration-label"><strong>V2:</strong> An overview showing all pending actions</p>
-          <video class="bt-iteration-video" autoplay loop muted playsinline>
-            <source src="bytedance/v2.mp4" type="video/mp4">
-          </video>
-          <p class="bt-iteration-critique">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M6 6l6 6M12 6l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <span>It combined routine orders and exception tasks in one overview, but as more tools were added, the growing information became difficult to scan and scale.</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bt-solution-section">
-    <div class="bt-solution-inner" style="gap:36px;">
-      <h2 class="bt-solution-title">How did I make room for integration?</h2>
-      <div class="bt-solution-row">
-        <p class="bt-compare-body bt-solution-row-text">Integrating Common Tools pushed the order list below the initial viewport. I restructured the status navigation and filters to reduce vertical density while preserving the existing order-management workflow.</p>
-        <div class="bt-solution-row-images">
-          <img class="bt-solution-img bt-solution-img--before" src="bytedance/no space.png" alt="">
-        </div>
-      </div>
-      <img class="bt-solution-img" src="bytedance/beforeafter.png" alt="Before and after">
     </div>
   </section>
 
