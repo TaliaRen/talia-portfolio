@@ -3265,14 +3265,17 @@ document.addEventListener('mousemove', e => {
   //    band of "scanner" hiss; a two-note chime lands when the last letter fixes.
   //    Leaving plays a single short falling blip as the text scrambles back. ──
   const sfx = (() => {
-    let ctx = null, current = null;
+    let ctx = null, current = null, unlocked = false;
     const get = () => {
       if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
-      if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-      return ctx.state === 'running' ? ctx : null;
+      if (ctx.state !== 'running' && unlocked) ctx.resume().catch(() => {});
+      // once a gesture has happened, sounds may be scheduled even while resume() is still
+      // in flight — they start the moment the context runs. Before any gesture: stay silent.
+      return (ctx.state === 'running' || unlocked) ? ctx : null;
     };
     // browsers only let audio start after a real gesture; the first click/tap/key anywhere unlocks it
-    ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, get, { passive: true }));
+    const unlock = () => { unlocked = true; get(); };
+    ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, unlock, { passive: true }));
     function tone(c, out, freq, at, dur, peak, type = 'sine') {
       const o = c.createOscillator(), g = c.createGain();
       o.type = type; o.frequency.setValueAtTime(freq, at);
