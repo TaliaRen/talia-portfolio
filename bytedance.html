@@ -317,15 +317,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* overview of the three questions; sticks to the top while the three lenses scroll by and
      reads like a progress nav — the current one lit, an accent bar creeping left to right */
-  .bt-x-nav { position:sticky; top:48px; z-index:20; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:-24px; }
-  .bt-x-nav.is-stuck { background:rgba(10,13,12,0.55); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); }   /* only while pinned: frosted, so the text stays legible over what scrolls beneath */
+  .bt-x-nav { position:sticky; top:calc(var(--frame-inset) + 7px); z-index:20; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:-24px; }
+  .bt-x-nav.is-stuck { background:#0A0D0C; padding-top:18px; }   /* only while pinned: solid page colour */
   .bt-x-nav-item { display:flex; flex-direction:column; gap:10px; text-decoration:none; color:inherit; min-width:0; }
   .bt-x-nav-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; transition:color .25s ease; }
-  .bt-x-nav-q { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#979797; line-height:1.4; transition:color .25s ease; }
+  .bt-x-nav-q { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#979797; line-height:1.4; transition:color .25s ease; text-wrap:balance; }
   .bt-x-nav-item.is-active .bt-x-nav-num { color:#82CDF5; }
   .bt-x-nav-item.is-active .bt-x-nav-q { color:#fff; font-weight:400; }
   .bt-x-nav-item.is-done .bt-x-nav-q { color:#E0E0E0; }
-  .bt-x-nav-bar { position:absolute; left:0; bottom:-1px; height:2px; width:0; background:#82CDF5; transition:width .15s linear; }
+  .bt-x-nav-bar { position:absolute; left:0; bottom:-1px; height:2px; width:0; background:#82CDF5; transition:left .35s cubic-bezier(.4,0,.2,1), width .35s cubic-bezier(.4,0,.2,1); }
   @media(max-width:860px) {
     .bt-x-nav { top:96px; gap:12px; }   /* below the pill Back button */
     .bt-x-nav-q { font-size:14px; }
@@ -838,16 +838,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="bt-x-lead">Merchants were expected to check for exceptions themselves. I explored how the order workspace could help them stay on top of this work without disrupting routine fulfillment.</p>
       </div>
       <div class="bt-x-nav" id="bt-x-nav" aria-label="The three questions this exploration answers">
-        <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">Where should exceptions surface?</span></a>
-        <a class="bt-x-nav-item" href="#x-handling"><span class="bt-x-nav-num">02 · Handling</span><span class="bt-x-nav-q">How much handling belongs here?</span></a>
-        <a class="bt-x-nav-item" href="#x-attention"><span class="bt-x-nav-num">03 · Attention</span><span class="bt-x-nav-q">How should exceptions stand out?</span></a>
+        <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">Where should exceptions&nbsp;surface?</span></a>
+        <a class="bt-x-nav-item" href="#x-handling"><span class="bt-x-nav-num">02 · Handling</span><span class="bt-x-nav-q">How much handling belongs&nbsp;here?</span></a>
+        <a class="bt-x-nav-item" href="#x-attention"><span class="bt-x-nav-num">03 · Attention</span><span class="bt-x-nav-q">How should exceptions stand&nbsp;out?</span></a>
         <span class="bt-x-nav-bar" aria-hidden="true"></span>
       </div>
 
       <!-- 01 · who has to go looking -->
       <div class="bt-x-block" id="x-discovery">
         <div class="bt-x-head">
-          <span class="bt-research-header bt-x-pill">Task discovery</span>
+          <span class="bt-research-header bt-x-pill">Discovery</span>
           <h2 class="bt-research-title">Should merchants have to look for exception work?</h2>
         </div>
         <div class="bt-x-copy">
@@ -910,7 +910,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- 03 · where handling lives -->
       <div class="bt-x-block" id="x-handling">
         <div class="bt-x-head">
-          <span class="bt-research-header bt-x-pill">Handling boundaries</span>
+          <span class="bt-research-header bt-x-pill">Handling</span>
           <h2 class="bt-research-title">What should the main workspace handle?</h2>
         </div>
         <div class="bt-x-copy">
@@ -1214,15 +1214,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const navRect = nav.getBoundingClientRect();
     nav.classList.toggle('is-stuck', navRect.top <= parseFloat(getComputedStyle(nav).top) + 1 && window.scrollY > 0);
     const navBottom = navRect.bottom;
-    const start = blocks[0].getBoundingClientRect().top;
-    const last = blocks[blocks.length - 1].getBoundingClientRect();
-    const total = last.bottom - start;                       // first lens top → last lens bottom
-    const p = Math.max(0, Math.min(1, (navBottom - start + 24) / total));
-    bar.style.width = (p * 100) + '%';
     let active = 0;
     const reach = navBottom + window.innerHeight * 0.25;               // a lens counts as current once its top enters the upper part of the screen
     blocks.forEach((b, i) => { if (b.getBoundingClientRect().top <= reach) active = i; });
     items.forEach((a, i) => { a.classList.toggle('is-active', i === active); a.classList.toggle('is-done', i < active); });
+    const col = items[active].getBoundingClientRect();
+    bar.style.left = (col.left - navRect.left) + 'px'; bar.style.width = col.width + 'px';
   }
   items.forEach((a, i) => a.addEventListener('click', e => { e.preventDefault(); blocks[i].scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
   let ticking = false;
