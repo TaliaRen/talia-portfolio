@@ -311,9 +311,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         one question, two or three sentences, one figure with a stated conclusion ── */
   .bt-x-section { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
   .bt-x-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:120px; }
-  .bt-x-block { display:flex; flex-direction:column; gap:36px; }
+  .bt-x-block { display:flex; flex-direction:column; gap:36px; scroll-margin-top:140px; }
   .bt-x-head { display:flex; flex-direction:column; gap:16px; }
   .bt-x-copy { display:flex; flex-direction:column; gap:24px; }
+
+  /* overview of the three questions; sticks to the top while the three lenses scroll by and
+     reads like a progress nav — the current one lit, an accent bar creeping left to right */
+  .bt-x-nav { position:sticky; top:48px; z-index:20; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:#0A0D0C; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:-24px; }
+  .bt-x-nav-item { display:flex; flex-direction:column; gap:10px; text-decoration:none; color:inherit; min-width:0; }
+  .bt-x-nav-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; transition:color .25s ease; }
+  .bt-x-nav-q { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#979797; line-height:1.4; transition:color .25s ease; }
+  .bt-x-nav-item.is-active .bt-x-nav-num { color:#82CDF5; }
+  .bt-x-nav-item.is-active .bt-x-nav-q { color:#fff; font-weight:400; }
+  .bt-x-nav-item.is-done .bt-x-nav-q { color:#E0E0E0; }
+  .bt-x-nav-bar { position:absolute; left:0; bottom:-1px; height:2px; width:0; background:#82CDF5; transition:width .15s linear; }
+  @media(max-width:860px) {
+    .bt-x-nav { top:96px; gap:12px; }   /* below the pill Back button */
+    .bt-x-nav-q { font-size:14px; }
+  }
+  @media(max-width:640px) {
+    .bt-x-nav-q { display:none; }
+  }
   .bt-x-pill { display:inline-flex; align-items:center; width:fit-content; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.08); color:#E0E0E0; line-height:1; text-transform:none; letter-spacing:.04em; }
   .bt-x-lead { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   .bt-x-conclusion { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.7; margin:0; }
@@ -818,9 +836,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <p class="bt-x-lead">Merchants were expected to check for exceptions themselves. I explored how the order workspace could help them stay on top of this work without disrupting routine fulfillment.</p>
       </div>
+      <div class="bt-x-nav" id="bt-x-nav" aria-label="The three questions this exploration answers">
+        <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">Where should exceptions surface?</span></a>
+        <a class="bt-x-nav-item" href="#x-handling"><span class="bt-x-nav-num">02 · Handling</span><span class="bt-x-nav-q">How much handling belongs here?</span></a>
+        <a class="bt-x-nav-item" href="#x-attention"><span class="bt-x-nav-num">03 · Attention</span><span class="bt-x-nav-q">How should exceptions stand out?</span></a>
+        <span class="bt-x-nav-bar" aria-hidden="true"></span>
+      </div>
 
       <!-- 01 · who has to go looking -->
-      <div class="bt-x-block">
+      <div class="bt-x-block" id="x-discovery">
         <div class="bt-x-head">
           <span class="bt-research-header bt-x-pill">Task discovery</span>
           <h2 class="bt-research-title">Should merchants have to look for exception work?</h2>
@@ -882,8 +906,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
 
+      <!-- 03 · where handling lives -->
+      <div class="bt-x-block" id="x-handling">
+        <div class="bt-x-head">
+          <span class="bt-research-header bt-x-pill">Handling boundaries</span>
+          <h2 class="bt-research-title">What should the main workspace handle?</h2>
+        </div>
+        <div class="bt-x-copy">
+          <p class="bt-x-lead">Bringing exception tasks into Order Management did not necessarily mean bringing every handling flow with them.</p>
+          <p class="bt-x-lead">The selected approach surfaced task information and access points in the main workspace, while keeping exception-specific actions in Order Tools. This retained the existing handling flows for different exception types while making their tasks easier to access.</p>
+        </div>
+        <div class="bt-x-figure" style="gap:20px;">
+          <div class="bt-x-split">
+            <div class="bt-x-zone bt-x-zone--ws">
+              <h5>Order Management</h5>
+              <ul>
+                <li>Discover requests</li>
+                <li>See task information</li>
+                <li>Enter the relevant tool</li>
+              </ul>
+            </div>
+            <div class="bt-x-link" aria-label="Continue handling in Order Tools">
+              <svg viewBox="0 0 56 16" xmlns="http://www.w3.org/2000/svg"><path d="M2 8 H46" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none"/><path d="M44 2.5 L52 8 L44 13.5" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Continue handling</span>
+            </div>
+            <div class="bt-x-zone bt-x-zone--tl">
+              <h5>Order Tools</h5>
+              <ul>
+                <li>Review request details</li>
+                <li>Complete exception-specific actions</li>
+              </ul>
+            </div>
+          </div>
+          <p class="bt-x-tradeoff"><b>Tradeoff:</b> merchants still switch workspaces to complete the task.</p>
+        </div>
+      </div>
+
       <!-- 02 · how much attention -->
-      <div class="bt-x-block">
+      <div class="bt-x-block" id="x-attention">
         <div class="bt-x-head">
           <span class="bt-research-header bt-x-pill">Attention</span>
           <h2 class="bt-research-title">How much attention should exception work receive?</h2>
@@ -953,42 +1013,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- 03 · where handling lives -->
-      <div class="bt-x-block">
-        <div class="bt-x-head">
-          <span class="bt-research-header bt-x-pill">Handling boundaries</span>
-          <h2 class="bt-research-title">What should the main workspace handle?</h2>
-        </div>
-        <div class="bt-x-copy">
-          <p class="bt-x-lead">Bringing exception tasks into Order Management did not necessarily mean bringing every handling flow with them.</p>
-          <p class="bt-x-lead">The selected approach surfaced task information and access points in the main workspace, while keeping exception-specific actions in Order Tools. This retained the existing handling flows for different exception types while making their tasks easier to access.</p>
-        </div>
-        <div class="bt-x-figure" style="gap:20px;">
-          <div class="bt-x-split">
-            <div class="bt-x-zone bt-x-zone--ws">
-              <h5>Order Management</h5>
-              <ul>
-                <li>Discover requests</li>
-                <li>See task information</li>
-                <li>Enter the relevant tool</li>
-              </ul>
-            </div>
-            <div class="bt-x-link" aria-label="Continue handling in Order Tools">
-              <svg viewBox="0 0 56 16" xmlns="http://www.w3.org/2000/svg"><path d="M2 8 H46" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none"/><path d="M44 2.5 L52 8 L44 13.5" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>Continue handling</span>
-            </div>
-            <div class="bt-x-zone bt-x-zone--tl">
-              <h5>Order Tools</h5>
-              <ul>
-                <li>Review request details</li>
-                <li>Complete exception-specific actions</li>
-              </ul>
-            </div>
-          </div>
-          <p class="bt-x-tradeoff"><b>Tradeoff:</b> merchants still switch workspaces to complete the task.</p>
         </div>
       </div>
 
@@ -1176,6 +1200,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.addEventListener('scroll', update, { passive: true });
   update();
 })();
+
+// ── Exploration nav: which of the three questions is on screen, plus a bar that fills left → right ──
+(function () {
+  const nav = document.getElementById('bt-x-nav');
+  if (!nav) return;
+  const items = Array.from(nav.querySelectorAll('.bt-x-nav-item'));
+  const blocks = items.map(a => document.querySelector(a.getAttribute('href')));
+  const bar = nav.querySelector('.bt-x-nav-bar');
+  if (blocks.some(b => !b)) return;
+  function update() {
+    const navBottom = nav.getBoundingClientRect().bottom;
+    const start = blocks[0].getBoundingClientRect().top;
+    const last = blocks[blocks.length - 1].getBoundingClientRect();
+    const total = last.bottom - start;                       // first lens top → last lens bottom
+    const p = Math.max(0, Math.min(1, (navBottom - start + 24) / total));
+    bar.style.width = (p * 100) + '%';
+    let active = 0;
+    const reach = navBottom + window.innerHeight * 0.25;               // a lens counts as current once its top enters the upper part of the screen
+    blocks.forEach((b, i) => { if (b.getBoundingClientRect().top <= reach) active = i; });
+    items.forEach((a, i) => { a.classList.toggle('is-active', i === active); a.classList.toggle('is-done', i < active); });
+  }
+  items.forEach((a, i) => a.addEventListener('click', e => { e.preventDefault(); blocks[i].scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+  let ticking = false;
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+
 
 (function() {
   const btn = document.getElementById('footer-email-btn');
