@@ -310,14 +310,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── Exploration: three lenses (discovery → attention → handling boundaries), each
         one question, two or three sentences, one figure with a stated conclusion ── */
   .bt-x-section { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
-  .bt-x-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:120px; }
+  .bt-x-inner { --x-gap:120px; width:100%; max-width:860px; display:flex; flex-direction:column; gap:var(--x-gap); }
   .bt-x-block { display:flex; flex-direction:column; gap:36px; scroll-margin-top:140px; }
+  #x-discovery { margin-top:calc(48px - var(--x-gap)); }   /* first lens sits 48px under the strip */
   .bt-x-head { display:flex; flex-direction:column; gap:16px; }
   .bt-x-copy { display:flex; flex-direction:column; gap:24px; }
 
   /* overview of the three questions; sticks to the top while the three lenses scroll by and
      reads like a progress nav — the current one lit, an accent bar creeping left to right */
-  .bt-x-nav { position:sticky; top:calc(var(--frame-inset) + 7px); z-index:20; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:-24px; }
+  .bt-x-nav { position:sticky; top:calc(var(--frame-inset) + 7px); z-index:20; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:calc(36px - var(--x-gap)); }   /* 36px under the intro, whatever the section gap is */
   .bt-x-nav.is-stuck { background:#0A0D0C; padding-top:18px; }   /* only while pinned: solid page colour */
   .bt-x-nav-item { display:flex; flex-direction:column; gap:10px; text-decoration:none; color:inherit; min-width:0; }
   .bt-x-nav-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; transition:color .25s ease; }
@@ -339,7 +340,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* phones: in place, the overview is a plain stacked list of all three questions (not sticky).
        Once it has scrolled away, a compact header takes over: three progress segments, then the
        current label and its question. Separate fixed element, so nothing in the flow changes size. */
-    .bt-x-nav { position:static; grid-template-columns:minmax(0,1fr); gap:0; padding:0; border-bottom:0; margin-top:-12px; }
+    .bt-x-nav { position:static; grid-template-columns:minmax(0,1fr); gap:0; padding:0; border-bottom:0; margin-top:calc(32px - var(--x-gap)); }
     .bt-x-nav-item { gap:6px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.12); }
     .bt-x-nav-item:first-child { border-top:1px solid rgba(255,255,255,0.12); }
     .bt-x-nav-item .bt-x-nav-num, .bt-x-nav-item.is-active .bt-x-nav-num { color:#82CDF5; }
@@ -444,7 +445,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   @media(max-width:860px) {
     .bt-x-section { padding:0 32px 80px; }
-    .bt-x-inner { gap:80px; }
+    .bt-x-inner { --x-gap:80px; }
     .bt-x-pair, .bt-x-trio, .bt-x-strats { grid-template-columns:minmax(0,1fr); }
     .bt-x-strat-name, .bt-x-strat-desc { min-height:0; }
     .bt-x-diagram.bt-x-diagram--bare { max-width:320px; }
@@ -893,10 +894,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- 01 · who has to go looking -->
       <div class="bt-x-block" id="x-discovery">
-        <div class="bt-x-head">
-          <span class="bt-research-header bt-x-pill">Discovery</span>
-          <h2 class="bt-research-title">Should merchants have to look for exception work?</h2>
-        </div>
         <p class="bt-x-lead">Relying on merchants to check Order Tools left requests overlooked. I considered how discovery could become more reliable: by introducing a dedicated review step, prompting merchants when requests arrived, or surfacing tasks within their existing workflow.</p>
         <div class="bt-x-strats">
           <div class="bt-x-strat">
@@ -971,10 +968,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- 03 · where handling lives -->
       <div class="bt-x-block" id="x-handling">
-        <div class="bt-x-head">
-          <span class="bt-research-header bt-x-pill">Handling</span>
-          <h2 class="bt-research-title">What should the main workspace handle?</h2>
-        </div>
         <div class="bt-x-copy">
           <p class="bt-x-lead">Bringing exception tasks into Order Management did not necessarily mean bringing every handling flow with them.</p>
           <p class="bt-x-lead">The selected approach surfaced task information and access points in the main workspace, while keeping exception-specific actions in Order Tools. This retained the existing handling flows for different exception types while making their tasks easier to access.</p>
@@ -1007,10 +1000,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- 02 · how much attention -->
       <div class="bt-x-block" id="x-attention">
-        <div class="bt-x-head">
-          <span class="bt-research-header bt-x-pill">Attention</span>
-          <h2 class="bt-research-title">How much attention should exception work receive?</h2>
-        </div>
         <div class="bt-x-copy">
           <p class="bt-x-lead">Bringing exceptions into Order Management created a tradeoff: they needed to be noticeable without overwhelming routine order processing.</p>
           <p class="bt-x-lead">I compared how different approaches communicated pending work and how much space and attention they demanded.</p>
