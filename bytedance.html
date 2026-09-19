@@ -369,21 +369,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-figure { display:flex; flex-direction:column; gap:48px; }
 
-  /* discovery: a comparison table with no outer frame — one direction per column (scene, then name + what it is),
-     and the row labels (Direction / Depends on / What to weigh) written once. It stays a three-column table at
-     every width: below 780px the labels move above their row so the columns get the full width, and on phones
-     the type steps down so three columns still fit without sideways scrolling. */
+  /* discovery: a comparison table with no outer frame — one direction per row (scene · name, what it is and what it
+     depends on · what to weigh), column labels written once across the top, and the chosen direction framed.
+     Cells carry their direction (c1–c3) and part (r1 scene, r2 direction, r3 weigh) as classes so the scene can
+     move above the direction text below 780px; it stays a table at every width, with smaller type on phones. */
   .bt-x-strats { container-type:inline-size; }
-  .bt-x-mx { display:grid; grid-template-columns:max-content repeat(3, minmax(0,1fr)); border-bottom:1px solid rgba(255,255,255,0.10); }
-  .bt-x-mx .r1 { --r:1; } .bt-x-mx .r2 { --r:2; } .bt-x-mx .r3 { --r:3; } .bt-x-mx .r4 { --r:4; }
+  .bt-x-mx { display:grid; grid-template-columns:200px minmax(0,1.2fr) minmax(0,1fr); }
+  .bt-x-mx .r1 { --r:1; } .bt-x-mx .r2 { --r:2; } .bt-x-mx .r3 { --r:3; }
   .bt-x-mx .c1 { --c:1; } .bt-x-mx .c2 { --c:2; } .bt-x-mx .c3 { --c:3; }
-  .bt-x-mx-label { grid-column:1; grid-row:var(--r); padding:24px 0; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
-  .bt-x-mx-cell { grid-column:calc(var(--c) + 1); grid-row:var(--r); padding:24px 0 24px 28px; min-width:0; }
-  .bt-x-mx .r1 { padding-top:0; padding-bottom:0; }
-  .bt-x-mx .r2 { padding-top:16px; }
-  .bt-x-mx .r3, .bt-x-mx .r4 { border-top:1px solid rgba(255,255,255,0.10); }
+  .bt-x-mx-label { grid-row:1; grid-column:var(--r); padding:0 0 14px 28px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; }
+  .bt-x-mx-label.r2 { grid-column:1 / 3; padding-left:20px; }
+  .bt-x-mx-cell { position:relative; grid-row:calc(var(--c) + 1); grid-column:var(--r); padding:28px 0 28px 28px; min-width:0; border-top:1px solid rgba(255,255,255,0.10); }
+  .bt-x-mx-cell.r1 { padding-left:20px; padding-top:34px; }
+  .bt-x-mx-cell.r3 { padding-right:20px; }
   .bt-x-mx-cell.r2 { display:flex; flex-direction:column; gap:8px; }
-  .bt-x-mx-label.r2 { line-height:1.5; }
+  .bt-x-mx-cell.c3 { border-top:0; }
+  /* the frame around the chosen direction: its own grid item laid over that row */
+  .bt-x-mx-pick { grid-row:4; grid-column:1 / -1; position:relative; border:1px solid rgba(130,205,245,0.75); border-radius:16px; background:rgba(130,205,245,0.05); pointer-events:none; }
+  .bt-x-mx-pick em { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
+  /* what the direction depends on: a quieter boxed note under the description */
+  .bt-x-dep { margin:8px 0 0; padding:10px 14px 11px; border:1px solid rgba(255,255,255,0.14); border-radius:12px; background:rgba(255,255,255,0.04); font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.55; }
+  .bt-x-dep span { display:block; font-size:12px; font-weight:300; color:#979797; letter-spacing:.02em; margin-bottom:2px; }
   .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-diagram.bt-x-scene { border:0; background:transparent; border-radius:0; aspect-ratio:240/160; }   /* doubled class so it beats the base rule that follows */
   .bt-x-scene .hair { fill:none; stroke:rgba(255,255,255,0.14); stroke-width:1; }
@@ -392,23 +398,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-scene .lbl { font-size:10px; }
   .bt-x-scene .num { font-family:'Figtree',sans-serif; font-size:17px; font-weight:400; fill:#FFB86B; }
   @container (max-width:780px) {
-    /* labels become a heading above their row; the scene, name and text of a direction stay together */
-    .bt-x-mx { grid-template-columns:repeat(3, minmax(0,1fr)); column-gap:24px; }
-    .bt-x-mx-label { grid-column:1 / -1; grid-row:calc(var(--r) * 2 - 1); padding:20px 0 0; }
-    .bt-x-mx-label.r1, .bt-x-mx-label.r2 { display:none; }
-    .bt-x-mx-cell { grid-column:var(--c); grid-row:calc(var(--r) * 2); padding:6px 0 22px; }
-    .bt-x-mx-cell.r1 { padding:0; }
-    .bt-x-mx-cell.r2 { padding-top:16px; }
-    .bt-x-mx-cell.r3, .bt-x-mx-cell.r4 { border-top:0; }
+    /* two columns: the scene sits above its direction text */
+    .bt-x-mx { grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); }
+    .bt-x-mx-label, .bt-x-mx-label.r2 { grid-column:calc(var(--r) - 1); }
+    .bt-x-mx-label.r3 { padding-left:24px; }
+    .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc(var(--c) * 2); padding:28px 0 0 20px; }
+    .bt-x-mx-cell.r1 .bt-x-scene { max-width:220px; }
+    .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 28px 20px; border-top:0; }
+    .bt-x-mx-cell.r3 { grid-column:2; grid-row:calc(var(--c) * 2) / span 2; padding:28px 20px 28px 24px; }
+    .bt-x-mx-pick { grid-row:6 / span 2; }
   }
   @container (max-width:520px) {
-    /* phones: same table, smaller type so three columns still read */
-    .bt-x-mx { column-gap:12px; }
-    .bt-x-mx-label { font-size:1rem; padding-top:16px; }
-    .bt-x-mx-cell, .bt-x-mx-cell .bt-x-lead, .bt-x-mx-cell .bt-x-strat-name { font-size:14px; line-height:1.55; }
-    .bt-x-mx-cell { padding:4px 0 18px; overflow-wrap:break-word; }
-    .bt-x-mx-cell.r2 { padding-top:12px; gap:6px; }
-    .bt-x-scene .lbl { display:none; }      /* mock labels would be ~4px here */
+    /* phones: same table, smaller type */
+    .bt-x-mx-label, .bt-x-mx-label.r2 { font-size:1rem; padding-left:12px; padding-bottom:10px; }
+    .bt-x-mx-label.r3 { padding-left:12px; }
+    .bt-x-mx-cell, .bt-x-mx-cell .bt-x-lead, .bt-x-mx-cell .bt-x-strat-name { font-size:14px; line-height:1.55; overflow-wrap:break-word; }
+    .bt-x-mx-cell.r1 { padding:22px 0 0 12px; }
+    .bt-x-mx-cell.r2 { padding:12px 0 22px 12px; gap:6px; }
+    .bt-x-mx-cell.r3 { padding:22px 12px 22px 12px; }
+    .bt-x-dep { padding:8px 10px 9px; font-size:13px; }
+    .bt-x-mx-pick { border-radius:12px; }
+    .bt-x-mx-pick em { left:12px; }
+    .bt-x-scene .lbl { display:none; }      /* mock labels would be ~5px here */
   }
 
   /* figure with two panels side by side */
@@ -921,11 +932,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="bt-x-mini-q"></span>
       </div>
 
-      <!-- 01 · how exceptions get noticed: one direction per column, row labels written once -->
+      <!-- 01 · how exceptions get noticed: one direction per row, the chosen one framed -->
       <div class="bt-x-block" id="x-discovery">
         <p class="bt-x-lead">I started by thinking about when and where merchants could notice exception requests. Could checking become a regular step in their routine? Should a notification prompt them to act? Or could requests appear alongside the orders they were already processing? I explored these three approaches to understand how each would fit into merchants’ day.</p>
         <div class="bt-x-strats"><div class="bt-x-mx">
-          <span class="bt-x-mx-label r1" aria-hidden="true"></span>
+          <span class="bt-x-mx-label r2">Direction</span>
+          <span class="bt-x-mx-label r3">What to weigh</span>
+          <span class="bt-x-mx-pick" aria-hidden="true"><em>Selected direction</em></span>
           <div class="bt-x-mx-cell r1 c1">
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="Order processing stops at a dedicated review step, a checklist of pending requests, before shipping">
               <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
@@ -949,6 +962,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg>
             </div>
           </div>
+          <div class="bt-x-mx-cell r2 c1">
+            <h4 class="bt-x-strat-name">01 · Establish a review step</h4>
+            <p class="bt-x-lead">Add exception review to the workflow, for example checking related requests together before batch shipping.</p>
+            <p class="bt-x-dep"><span>Depends on</span>Merchants accepting and following a new review step.</p>
+          </div>
+          <p class="bt-x-mx-cell bt-x-lead r3 c1">Is the added step worth it? Is a batched check timely enough?</p>
           <div class="bt-x-mx-cell r1 c2">
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="A notification about a new request appears over the order workspace while orders are being processed">
               <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
@@ -971,6 +990,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg>
             </div>
           </div>
+          <div class="bt-x-mx-cell r2 c2">
+            <h4 class="bt-x-strat-name">02 · Trigger a notification</h4>
+            <p class="bt-x-lead">Proactively notify merchants when a request arrives or needs attention.</p>
+            <p class="bt-x-dep"><span>Depends on</span>Merchants noticing and responding to the alert.</p>
+          </div>
+          <p class="bt-x-mx-cell bt-x-lead r3 c2">Will alerts be ignored? Will they interrupt the work in progress?</p>
           <div class="bt-x-mx-cell r1 c3">
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="Pending-request counts sit as metrics at the top of the order workspace, above the order list">
               <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
@@ -991,27 +1016,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg>
             </div>
           </div>
-          <span class="bt-x-mx-label r2">Direction</span>
-          <div class="bt-x-mx-cell r2 c1">
-            <h4 class="bt-x-strat-name">01 · Establish a review step</h4>
-            <p class="bt-x-lead">Add exception review to the workflow, for example checking related requests together before batch shipping.</p>
-          </div>
-          <div class="bt-x-mx-cell r2 c2">
-            <h4 class="bt-x-strat-name">02 · Trigger a notification</h4>
-            <p class="bt-x-lead">Proactively notify merchants when a request arrives or needs attention.</p>
-          </div>
           <div class="bt-x-mx-cell r2 c3">
             <h4 class="bt-x-strat-name">03 · Embed discovery in daily work</h4>
             <p class="bt-x-lead">Show exception-task information in the order workspace merchants already use.</p>
+            <p class="bt-x-dep"><span>Depends on</span>Merchants using that workspace, and noticing the tasks there.</p>
           </div>
-          <span class="bt-x-mx-label r3">Depends on</span>
-          <p class="bt-x-mx-cell bt-x-lead r3 c1">Merchants accepting and following a new review step.</p>
-          <p class="bt-x-mx-cell bt-x-lead r3 c2">Merchants noticing and responding to the alert.</p>
-          <p class="bt-x-mx-cell bt-x-lead r3 c3">Merchants using that workspace, and noticing the tasks there.</p>
-          <span class="bt-x-mx-label r4">What to weigh</span>
-          <p class="bt-x-mx-cell bt-x-lead r4 c1">Is the added step worth it? Is a batched check timely enough?</p>
-          <p class="bt-x-mx-cell bt-x-lead r4 c2">Will alerts be ignored? Will they interrupt the work in progress?</p>
-          <p class="bt-x-mx-cell bt-x-lead r4 c3">How can tasks earn attention without disrupting routine work? What happens when merchants leave the workspace?</p>
+          <p class="bt-x-mx-cell bt-x-lead r3 c3">How can tasks earn attention without disrupting routine work? What happens when merchants leave the workspace?</p>
         </div></div>
       </div>
 
