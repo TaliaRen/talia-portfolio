@@ -388,8 +388,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-mx-cell.r3 span { display:block; }   /* one question per line */
   .bt-x-mx-cell.r3 span + span { margin-top:8px; }
   /* the outline around the chosen direction: its own grid item laid over that row, 20px wider on each side */
-  .bt-x-mx-pick { grid-row:4; grid-column:1 / -1; position:relative; margin:0 -20px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
+  .bt-x-mx-pick { grid-row:4 / span 2; grid-column:1 / -1; position:relative; margin:0 -20px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
   .bt-x-mx-pick em { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
+  /* the reason for the choice: a footer row inside the same outline, label in the scene column, text across the rest */
+  .bt-x-mx-why { grid-row:5; grid-column:1 / -1; display:grid; grid-template-columns:260px minmax(0,1fr); padding:24px 0 30px; border-top:1px solid rgba(130,205,245,0.28); }
+  .bt-x-mx-why .bt-x-lead { padding-left:28px; }
   .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-diagram.bt-x-scene { border:0; background:transparent; border-radius:0; aspect-ratio:232/160; }   /* doubled class so it beats the base rule that follows */
   .bt-x-scene .hair { fill:none; stroke:rgba(255,255,255,0.14); stroke-width:1; }
@@ -406,7 +409,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-mx-cell.r1 .bt-x-scene { max-width:300px; }
     .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 28px; border-top:0; }
     .bt-x-mx-cell.r3 { grid-column:2; grid-row:calc(var(--c) * 2) / span 2; padding:31px 0 28px 24px; }   /* starts level with the scene */
-    .bt-x-mx-pick { grid-row:6 / span 2; }
+    .bt-x-mx-pick { grid-row:6 / span 3; }
+    .bt-x-mx-why { grid-row:8; grid-template-columns:minmax(0,1fr); row-gap:8px; }
+    .bt-x-mx-why .bt-x-lead { padding-left:0; }
   }
   @container (max-width:520px) {
     /* phones: same table, smaller type */
@@ -418,6 +423,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-mx-cell.r3 { padding:22px 0 22px 14px; }
     .bt-x-mx-cell.r1 .bt-x-scene { max-width:140px; }
     .bt-x-mx-pick { margin:0 -12px; border-radius:12px; }
+    .bt-x-mx-why { padding:18px 0 22px; row-gap:6px; }
+    .bt-x-mx-why .bt-x-lead, .bt-x-mx-why .bt-x-strat-name { font-size:14px; line-height:1.55; }
     .bt-x-mx-pick em { left:12px; }
     .bt-x-scene .lbl { font-size:12px; }   /* the scene is ~160px wide here; keep its labels legible */
   }
@@ -1019,6 +1026,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="bt-x-lead">Surface exceptions as merchants carry out their existing order-processing tasks.</p>
           </div>
           <p class="bt-x-mx-cell bt-x-lead r3 c3"><span>How can tasks earn attention without disrupting routine work?</span></p>
+          <div class="bt-x-mx-why">
+            <h4 class="bt-x-strat-name">Why this direction</h4>
+            <p class="bt-x-lead">I chose to surface exception requests in Order Management because merchants already used it to process their daily orders. This brought requests into an existing routine, rather than relying on merchants to adopt a separate checking habit or respond to individual alerts.</p>
+          </div>
         </div></div>
       </div>
 
