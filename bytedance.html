@@ -369,8 +369,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-figure { display:flex; flex-direction:column; gap:48px; }
 
-  /* discovery: a comparison table with no outer frame — one direction per row (scene · name, what it is, and a boxed
-     note of what it depends on · what to weigh), column labels written once across the top. Text and scenes run
+  /* discovery: a comparison table with no outer frame — one direction per row (scene · name and what it is ·
+     what to weigh), column labels written once across the top. Text and scenes run
      flush with the ends of the rules; the chosen direction's outline bleeds past them instead.
      Cells carry their direction (c1–c3) and part (r1 scene, r2 direction, r3 weigh) as classes so the scene can
      move to its own full-width band below 780px; it stays a table at every width, smaller type on phones. */
@@ -383,12 +383,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-mx-cell { position:relative; grid-row:calc(var(--c) + 1); grid-column:var(--r); padding:28px 0 28px 28px; min-width:0; border-top:1px solid rgba(255,255,255,0.10); }
   .bt-x-mx-cell.r1 { padding-left:0; }
   .bt-x-mx-cell.r2 { display:flex; flex-direction:column; gap:8px; }
+  .bt-x-mx-cell.r2, .bt-x-mx-cell.r3 { padding-top:31px; }   /* first text line level with the top of the monitor, which sits a little down inside its drawing */
   .bt-x-mx-cell.c3 { border-top:0; }
   /* the outline around the chosen direction: its own grid item laid over that row, 20px wider on each side */
   .bt-x-mx-pick { grid-row:4; grid-column:1 / -1; position:relative; margin:0 -20px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
   .bt-x-mx-pick em { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
-  /* what the direction depends on: a blue-tinted note under the description, no outline */
-  .bt-x-dep { margin:8px 0 0; padding:10px 14px 11px; border:0; border-radius:12px; background:rgba(130,205,245,0.12); font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.55; }
   .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-diagram.bt-x-scene { border:0; background:transparent; border-radius:0; aspect-ratio:232/160; }   /* doubled class so it beats the base rule that follows */
   .bt-x-scene .hair { fill:none; stroke:rgba(255,255,255,0.14); stroke-width:1; }
@@ -402,10 +401,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-mx-label, .bt-x-mx-label.r2 { grid-column:calc(var(--r) - 1); }
     .bt-x-mx-label.r3 { padding-left:24px; }
     .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc(var(--c) * 2); padding:28px 0 0; }
-    .bt-x-mx::before, .bt-x-mx::after { content:''; grid-column:2; border-top:1px solid rgba(255,255,255,0.10); }   /* carry the row rules across the empty cell beside each scene */
-    .bt-x-mx::before { grid-row:2; } .bt-x-mx::after { grid-row:4; }
     .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 28px; border-top:0; }
-    .bt-x-mx-cell.r3 { grid-column:2; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 28px 24px; border-top:0; }
+    .bt-x-mx-cell.r3 { grid-column:2; grid-row:calc(var(--c) * 2) / span 2; padding:34px 0 28px 24px; }   /* starts level with the scene */
     .bt-x-mx-pick { grid-row:6 / span 2; }
   }
   @container (max-width:520px) {
@@ -415,8 +412,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-mx-cell, .bt-x-mx-cell .bt-x-lead, .bt-x-mx-cell .bt-x-strat-name { font-size:14px; line-height:1.55; overflow-wrap:break-word; }
     .bt-x-mx-cell.r1 { padding:22px 0 0; }
     .bt-x-mx-cell.r2 { padding:12px 0 22px; gap:6px; }
-    .bt-x-mx-cell.r3 { padding:12px 0 22px 14px; }
-    .bt-x-dep { padding:8px 10px 9px; font-size:13px; }
+    .bt-x-mx-cell.r3 { padding:23px 0 22px 14px; }
     .bt-x-mx-pick { margin:0 -12px; border-radius:12px; }
     .bt-x-mx-pick em { left:12px; }
     .bt-x-scene .lbl { font-size:12px; }   /* the scene is ~160px wide here; keep its labels legible */
@@ -965,7 +961,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="bt-x-mx-cell r2 c1">
             <h4 class="bt-x-strat-name">Establish a review step</h4>
             <p class="bt-x-lead">Add exception review to the workflow, for example checking related requests together before batch shipping.</p>
-            <p class="bt-x-dep">Merchants accepting and following a new review step</p>
           </div>
           <p class="bt-x-mx-cell bt-x-lead r3 c1">Is the added step worth it? Is a batched check timely enough?</p>
           <div class="bt-x-mx-cell r1 c2">
@@ -993,7 +988,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="bt-x-mx-cell r2 c2">
             <h4 class="bt-x-strat-name">Trigger a notification</h4>
             <p class="bt-x-lead">Proactively notify merchants when a request arrives or needs attention.</p>
-            <p class="bt-x-dep">Merchants noticing and responding to the alert</p>
           </div>
           <p class="bt-x-mx-cell bt-x-lead r3 c2">Will alerts be ignored? Will they interrupt the work in progress?</p>
           <div class="bt-x-mx-cell r1 c3">
@@ -1019,7 +1013,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="bt-x-mx-cell r2 c3">
             <h4 class="bt-x-strat-name">Embed discovery in daily work</h4>
             <p class="bt-x-lead">Show exception-task information in the order workspace merchants already use.</p>
-            <p class="bt-x-dep">Merchants using that workspace, and noticing the tasks there</p>
           </div>
           <p class="bt-x-mx-cell bt-x-lead r3 c3">How can tasks earn attention without disrupting routine work? What happens when merchants leave the workspace?</p>
         </div></div>
