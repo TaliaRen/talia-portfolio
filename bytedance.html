@@ -369,42 +369,41 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-figure { display:flex; flex-direction:column; gap:48px; }
 
-  /* discovery: a comparison matrix — approaches are the columns, and each row's label (Approach / Depends on /
-     Key question) is written once on the left. Cells carry their row + column as classes so the same markup can
-     regroup: labels move above their row on mid widths, and each approach becomes its own stack on phones. */
-  .bt-x-strats { container-type:inline-size; border:1px solid rgba(255,255,255,0.10); border-radius:20px; background:rgba(255,255,255,0.03); padding:12px 32px; }
-  .bt-x-mx { display:grid; grid-template-columns:max-content repeat(3, minmax(0,1fr)); }
+  /* discovery: a comparison table — one approach per row, and the column labels (Approach / Depends on /
+     Key question) written once across the top. Cells carry their approach (c1–c3) and attribute (r1–r4) as
+     classes so the same markup can regroup: the scene moves above the approach text on mid widths, and each
+     approach becomes its own stack on phones. */
+  .bt-x-strats { container-type:inline-size; border:1px solid rgba(255,255,255,0.10); border-radius:20px; background:rgba(255,255,255,0.03); padding:8px 32px; }
+  .bt-x-mx { display:grid; grid-template-columns:180px minmax(0,1.3fr) minmax(0,1fr) minmax(0,1.1fr); }
   .bt-x-mx .r1 { --r:1; } .bt-x-mx .r2 { --r:2; } .bt-x-mx .r3 { --r:3; } .bt-x-mx .r4 { --r:4; }
   .bt-x-mx .c1 { --c:1; } .bt-x-mx .c2 { --c:2; } .bt-x-mx .c3 { --c:3; }
-  .bt-x-mx-label { grid-column:1; grid-row:var(--r); padding:20px 0; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
-  .bt-x-mx-cell { grid-column:calc(var(--c) + 1); grid-row:var(--r); padding:20px 0 20px 28px; min-width:0; }
-  .bt-x-mx .r1 { padding-bottom:0; }
-  .bt-x-mx .r3, .bt-x-mx .r4 { border-top:1px solid rgba(255,255,255,0.08); }
+  .bt-x-mx-label { grid-row:1; grid-column:var(--r); padding:20px 0 14px 28px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; }
+  .bt-x-mx-cell { grid-row:calc(var(--c) + 1); grid-column:var(--r); padding:28px 0 28px 28px; min-width:0; border-top:1px solid rgba(255,255,255,0.08); }
+  .bt-x-mx-cell.r1 { padding-left:0; padding-top:34px; }
   .bt-x-mx-cell.r2 { display:flex; flex-direction:column; gap:8px; }
-  .bt-x-mx-label.r2 { line-height:1.5; }
   .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-diagram.bt-x-scene { border:0; background:transparent; border-radius:0; aspect-ratio:240/160; }   /* doubled class so it beats the base rule that follows */
   .bt-x-scene .hair { fill:none; stroke:rgba(255,255,255,0.14); stroke-width:1; }
   .bt-x-scene .stand { fill:none; stroke:rgba(255,255,255,0.35); stroke-width:1.2; stroke-linecap:round; }
   .bt-x-scene .flow, .bt-x-scene .flow-head { fill:none; stroke:rgba(255,255,255,0.55); stroke-width:1.2; stroke-linecap:round; stroke-linejoin:round; }
   .bt-x-scene .lbl { font-size:10px; }
-  .bt-x-scene .num { font-family:'Figtree',sans-serif; font-size:17px; font-weight:400; fill:#FF7A6B; }
+  .bt-x-scene .num { font-family:'Figtree',sans-serif; font-size:17px; font-weight:400; fill:#FFB86B; }
   @container (max-width:780px) {
-    /* labels become a heading above their row, so the three columns get the full width */
-    .bt-x-mx { grid-template-columns:repeat(3, minmax(0,1fr)); column-gap:20px; }
-    .bt-x-mx-label { grid-column:1 / -1; grid-row:calc(var(--r) * 2 - 1); padding:20px 0 0; }
+    /* three columns: the scene sits above its approach text */
+    .bt-x-mx { grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1.1fr); }
+    .bt-x-mx-label { grid-column:calc(var(--r) - 1); padding-left:20px; }
     .bt-x-mx-label.r1 { display:none; }
-    .bt-x-mx-cell { grid-column:var(--c); grid-row:calc(var(--r) * 2); padding:8px 0 20px; }
-    .bt-x-mx-cell.r1 { padding:20px 0 0; }
-    .bt-x-mx-cell.r3, .bt-x-mx-cell.r4 { border-top:0; }
-    .bt-x-mx-label.r2 { border-top:1px solid rgba(255,255,255,0.08); margin-top:20px; }
+    .bt-x-mx-label.r2 { padding-left:0; }
+    .bt-x-mx-cell { grid-column:calc(var(--r) - 1); grid-row:calc(var(--c) * 2) / span 2; padding:24px 0 24px 20px; }
+    .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc(var(--c) * 2); padding:24px 0 0; }
+    .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 24px; border-top:0; }
   }
   @container (max-width:520px) {
-    /* one approach after another; the row labels are printed inside each cell instead */
+    /* one approach after another; the labels are printed inside each cell instead */
     .bt-x-mx { grid-template-columns:minmax(0,1fr); }
     .bt-x-mx-label { display:none; }
-    .bt-x-mx-cell { grid-column:1; grid-row:calc((var(--c) - 1) * 4 + var(--r)); padding:0 0 16px; }
-    .bt-x-mx-cell.r1 { padding:24px 0 16px; }
+    .bt-x-mx-cell, .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc((var(--c) - 1) * 4 + var(--r)); padding:0 0 16px; border-top:0; }
+    .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc((var(--c) - 1) * 4 + 1); padding:24px 0 16px; }
     .bt-x-mx-cell.r4 { padding-bottom:24px; }
     .bt-x-mx-cell.r1.c2, .bt-x-mx-cell.r1.c3 { border-top:1px solid rgba(255,255,255,0.08); }
     .bt-x-mx-cell[data-label]::before { content:attr(data-label); display:block; font-weight:400; color:#fff; }
@@ -425,10 +424,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-diagram .ws { fill:rgba(255,255,255,0.06); stroke:rgba(255,255,255,0.35); stroke-width:1.2; }
   .bt-x-diagram .tl { fill:rgba(130,205,245,0.10); stroke:rgba(130,205,245,0.85); stroke-width:1.2; }
   .bt-x-diagram .row { fill:rgba(255,255,255,0.10); stroke:none; }
-  .bt-x-diagram .task { fill:#FF7A6B; stroke:none; }
+  .bt-x-diagram .task { fill:#FFB86B; stroke:none; }
   .bt-x-diagram .lbl { font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; fill:#E0E0E0; }
   .bt-x-diagram .lbl-tl { fill:#82CDF5; }
-  .bt-x-diagram .lbl-task { fill:#FF7A6B; font-weight:400; }
+  .bt-x-diagram .lbl-task { fill:#FFB86B; font-weight:400; }
   .bt-x-diagram .lbl-dim { fill:#979797; font-size:10px; }
   .bt-x-diagram .arrow { fill:none; stroke:rgba(255,255,255,0.55); stroke-width:1.3; marker-end:url(#bt-x-arrowhead); }
   .bt-x-diagram .arrow-dashed { stroke-dasharray:4 3; }
@@ -452,10 +451,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-vp { position:relative; aspect-ratio:16/13; overflow:hidden; border-radius:8px; border:1px solid rgba(255,255,255,0.10); background:#0d1013; }
   .bt-x-vp .bt-x-shot { position:absolute; left:0; width:100%; border:0; border-radius:0; }
   .bt-x-vp-band { position:absolute; left:0; right:0; background:rgba(130,205,245,0.14); border-top:1px solid rgba(130,205,245,0.55); border-bottom:1px solid rgba(130,205,245,0.55); pointer-events:none; }
-  .bt-x-vp-line { position:absolute; left:0; right:0; top:56%; border-top:2px dashed #FF7A6B; pointer-events:none; }
-  .bt-x-vp-line span { position:absolute; left:8px; top:4px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:400; color:#FF7A6B; letter-spacing:.06em; text-transform:uppercase; background:rgba(10,13,12,0.75); padding:2px 6px; border-radius:4px; }
+  .bt-x-vp-line { position:absolute; left:0; right:0; top:56%; border-top:2px dashed #FFB86B; pointer-events:none; }
+  .bt-x-vp-line span { position:absolute; left:8px; top:4px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:400; color:#FFB86B; letter-spacing:.06em; text-transform:uppercase; background:rgba(10,13,12,0.75); padding:2px 6px; border-radius:4px; }
   .bt-x-vp-tag { position:absolute; right:8px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#fff; background:rgba(10,13,12,0.85); border:1px solid rgba(255,255,255,0.25); padding:3px 7px; border-radius:4px; letter-spacing:.02em; max-width:62%; text-align:right; }
-  .bt-x-vp-tag--task { color:#FF7A6B; border-color:rgba(255,122,107,0.5); }
+  .bt-x-vp-tag--task { color:#FFB86B; border-color:rgba(255,184,107,0.5); }
 
   /* 03: division of responsibility */
   .bt-x-split { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:16px; align-items:stretch; }
@@ -466,7 +465,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-zone--tl h5 { color:#82CDF5; }
   .bt-x-zone ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
   .bt-x-zone li { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.5; padding-left:14px; position:relative; }
-  .bt-x-zone li::before { content:''; position:absolute; left:0; top:.6em; width:6px; height:6px; border-radius:50%; background:#FF7A6B; }
+  .bt-x-zone li::before { content:''; position:absolute; left:0; top:.6em; width:6px; height:6px; border-radius:50%; background:#FFB86B; }
   .bt-x-zone--tl li::before { background:#82CDF5; }
   .bt-x-link { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:0 4px; }
   .bt-x-link svg { width:56px; height:16px; display:block; }
@@ -922,7 +921,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="bt-x-mini-q"></span>
       </div>
 
-      <!-- 01 · how exceptions get noticed: three approaches side by side, row labels written once on the left -->
+      <!-- 01 · how exceptions get noticed: three approaches side by side, column labels written once across the top -->
       <div class="bt-x-block" id="x-discovery">
         <p class="bt-x-lead">I started by thinking about when and where merchants could notice exception requests. Could checking become a regular step in their routine? Should a notification prompt them to act? Or could requests appear alongside the orders they were already processing? I explored these three approaches to understand how each would fit into merchants’ day.</p>
         <div class="bt-x-strats"><div class="bt-x-mx">
@@ -936,17 +935,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <path class="hair" d="M8 32 H232"/>
                 <rect class="ws" x="18" y="40" width="58" height="20" rx="10"/><text class="lbl" x="47" y="53.5" text-anchor="middle">Prepare</text>
                 <path class="flow" d="M78 50 H88"/><path class="flow-head" d="M86 46.5 L91 50 L86 53.5"/>
-                <rect x="93" y="40" width="58" height="20" rx="10" fill="rgba(255,122,107,0.14)" stroke="#FF7A6B" stroke-width="1.2"/><text class="lbl lbl-task" x="122" y="53.5" text-anchor="middle">Review</text>
+                <rect x="93" y="40" width="58" height="20" rx="10" fill="rgba(255,184,107,0.14)" stroke="#FFB86B" stroke-width="1.2"/><text class="lbl lbl-task" x="122" y="53.5" text-anchor="middle">Review</text>
                 <path class="flow" d="M153 50 H163"/><path class="flow-head" d="M161 46.5 L166 50 L161 53.5"/>
                 <rect x="168" y="40" width="54" height="20" rx="10" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.2" stroke-dasharray="3 3"/><text class="lbl lbl-dim" x="195" y="53.5" text-anchor="middle">Ship</text>
-                <path d="M122 60 V70" fill="none" stroke="#FF7A6B" stroke-width="1.2"/>
-                <rect x="18" y="70" width="204" height="58" rx="6" fill="rgba(255,122,107,0.08)" stroke="#FF7A6B" stroke-width="1.2"/>
+                <path d="M122 60 V70" fill="none" stroke="#FFB86B" stroke-width="1.2"/>
+                <rect x="18" y="70" width="204" height="58" rx="6" fill="rgba(255,184,107,0.08)" stroke="#FFB86B" stroke-width="1.2"/>
                 <circle class="task" cx="30" cy="84" r="3"/><rect class="row" x="39" y="80.5" width="130" height="7" rx="2"/>
-                <rect x="202" y="79" width="10" height="10" rx="2" fill="rgba(255,122,107,0.25)" stroke="#FF7A6B" stroke-width="1"/><path d="M204.5 84 l2 2 l3.5 -4" fill="none" stroke="#FF7A6B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="202" y="79" width="10" height="10" rx="2" fill="rgba(255,184,107,0.25)" stroke="#FFB86B" stroke-width="1"/><path d="M204.5 84 l2 2 l3.5 -4" fill="none" stroke="#FFB86B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle class="task" cx="30" cy="99" r="3"/><rect class="row" x="39" y="95.5" width="108" height="7" rx="2"/>
-                <rect x="202" y="94" width="10" height="10" rx="2" fill="none" stroke="#FF7A6B" stroke-width="1"/>
+                <rect x="202" y="94" width="10" height="10" rx="2" fill="none" stroke="#FFB86B" stroke-width="1"/>
                 <circle class="task" cx="30" cy="114" r="3"/><rect class="row" x="39" y="110.5" width="130" height="7" rx="2"/>
-                <rect x="202" y="109" width="10" height="10" rx="2" fill="none" stroke="#FF7A6B" stroke-width="1"/>
+                <rect x="202" y="109" width="10" height="10" rx="2" fill="none" stroke="#FFB86B" stroke-width="1"/>
               </svg>
             </div>
           </div>
@@ -961,9 +960,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <rect x="14" y="67" width="212" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
                 <rect class="row" x="18" y="70" width="204" height="8" rx="2"/><rect class="row" x="18" y="84" width="204" height="8" rx="2"/>
                 <rect class="row" x="18" y="98" width="204" height="8" rx="2"/><rect class="row" x="18" y="112" width="140" height="8" rx="2"/>
-                <rect x="128" y="2" width="110" height="40" rx="8" fill="#171110"/>
-                <rect x="128" y="2" width="110" height="40" rx="8" fill="rgba(255,122,107,0.12)" stroke="#FF7A6B" stroke-width="1.2"/>
-                <g transform="translate(145 22)" fill="none" stroke="#FF7A6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="128" y="2" width="110" height="40" rx="8" fill="#15130F"/>
+                <rect x="128" y="2" width="110" height="40" rx="8" fill="rgba(255,184,107,0.12)" stroke="#FFB86B" stroke-width="1.2"/>
+                <g transform="translate(145 22)" fill="none" stroke="#FFB86B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M-6 4 H6 C4.2 2.2 4 0 4 -2 A4 4 0 0 0 -4 -2 C-4 0 -4.2 2.2 -6 4 Z"/><path d="M-1.6 6.8 A1.7 1.7 0 0 0 1.6 6.8"/>
                   <path d="M-8.5 -5.5 A9 9 0 0 1 -5.5 -8.8" opacity=".7"/><path d="M8.5 -5.5 A9 9 0 0 0 5.5 -8.8" opacity=".7"/>
                 </g>
@@ -980,11 +979,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <text class="lbl lbl-dim" x="18" y="25">Order Management</text>
                 <path class="hair" d="M8 32 H232"/>
                 <text class="lbl lbl-task" x="18" y="45">Pending requests</text>
-                <rect x="18" y="50" width="64" height="38" rx="6" fill="rgba(255,122,107,0.10)" stroke="#FF7A6B" stroke-width="1.2"/>
+                <rect x="18" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
                 <text class="num" x="28" y="70">5</text><rect class="row" x="28" y="76" width="40" height="5" rx="2"/>
-                <rect x="88" y="50" width="64" height="38" rx="6" fill="rgba(255,122,107,0.10)" stroke="#FF7A6B" stroke-width="1.2"/>
+                <rect x="88" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
                 <text class="num" x="98" y="70">4</text><rect class="row" x="98" y="76" width="32" height="5" rx="2"/>
-                <rect x="158" y="50" width="64" height="38" rx="6" fill="rgba(255,122,107,0.10)" stroke="#FF7A6B" stroke-width="1.2"/>
+                <rect x="158" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
                 <text class="num" x="168" y="70">3</text><rect class="row" x="168" y="76" width="44" height="5" rx="2"/>
                 <rect class="row" x="18" y="98" width="204" height="8" rx="2"/>
                 <rect x="14" y="109" width="212" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
