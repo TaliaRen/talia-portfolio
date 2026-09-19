@@ -385,6 +385,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-mx-cell.r2 { display:flex; flex-direction:column; gap:8px; }
   .bt-x-mx-cell.r2, .bt-x-mx-cell.r3 { padding-top:29px; }   /* first text line level with the top of the monitor, which sits a little down inside its drawing */
   .bt-x-mx-cell.c3 { border-top:0; }
+  .bt-x-mx-cell.r3 span { display:block; }   /* one question per line */
+  .bt-x-mx-cell.r3 span + span { margin-top:8px; }
   /* the outline around the chosen direction: its own grid item laid over that row, 20px wider on each side */
   .bt-x-mx-pick { grid-row:4; grid-column:1 / -1; position:relative; margin:0 -20px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
   .bt-x-mx-pick em { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
@@ -964,7 +966,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h4 class="bt-x-strat-name">Establish a review step</h4>
             <p class="bt-x-lead">Add exception review to the workflow, for example checking related requests together before batch shipping.</p>
           </div>
-          <p class="bt-x-mx-cell bt-x-lead r3 c1">Is the added step worth it? Is a batched check timely enough?</p>
+          <p class="bt-x-mx-cell bt-x-lead r3 c1"><span>Is the added step worth it?</span><span>Is a batched check timely enough?</span></p>
           <div class="bt-x-mx-cell r1 c2">
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="A notification about a new request appears over the order workspace while orders are being processed">
               <svg viewBox="7 0 232 160" xmlns="http://www.w3.org/2000/svg">
@@ -991,7 +993,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h4 class="bt-x-strat-name">Trigger a notification</h4>
             <p class="bt-x-lead">Proactively notify merchants when a request arrives or needs attention.</p>
           </div>
-          <p class="bt-x-mx-cell bt-x-lead r3 c2">Will alerts be ignored? Will they interrupt the work in progress?</p>
+          <p class="bt-x-mx-cell bt-x-lead r3 c2"><span>Will alerts be ignored?</span><span>Will they interrupt the work in progress?</span></p>
           <div class="bt-x-mx-cell r1 c3">
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="Pending-request counts sit as metrics at the top of the order workspace, above the order list">
               <svg viewBox="7 0 232 160" xmlns="http://www.w3.org/2000/svg">
@@ -1016,7 +1018,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h4 class="bt-x-strat-name">Embed discovery in daily work</h4>
             <p class="bt-x-lead">Surface exceptions as merchants carry out their existing order-processing tasks.</p>
           </div>
-          <p class="bt-x-mx-cell bt-x-lead r3 c3">How can tasks earn attention without disrupting routine work? What happens when merchants leave the workspace?</p>
+          <p class="bt-x-mx-cell bt-x-lead r3 c3"><span>How can tasks earn attention without disrupting routine work?</span><span>What happens when merchants leave the workspace?</span></p>
         </div></div>
       </div>
 
