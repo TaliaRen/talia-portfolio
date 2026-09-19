@@ -333,13 +333,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-nav.is-stuck::before { content:''; position:absolute; left:0; right:0; bottom:100%; height:80px; background:#0A0D0C; }
     .bt-x-nav-q { font-size:14px; }
   }
+  /* compact progress header, phones only (see below) */
+  .bt-x-mini { display:none; }
   @media(max-width:640px) {
-    /* phones: the three labels share one row; the current question sits on its own line underneath */
-    .bt-x-nav { grid-template-columns:repeat(3, auto); justify-content:start; column-gap:20px; row-gap:8px; }
-    .bt-x-nav-item { display:contents; }
-    .bt-x-nav-num { grid-row:1; }
-    .bt-x-nav-q { display:none; grid-row:2; grid-column:1 / -1; font-size:16px; }
-    .bt-x-nav-item.is-active .bt-x-nav-q { display:block; }
+    /* phones: in place, the overview is a plain stacked list of all three questions (not sticky).
+       Once it has scrolled away, a compact header takes over: three progress segments, then the
+       current label and its question. Separate fixed element, so nothing in the flow changes size. */
+    .bt-x-nav { position:static; grid-template-columns:minmax(0,1fr); gap:0; padding:0; border-bottom:0; margin-top:-12px; }
+    .bt-x-nav-item { gap:6px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.12); }
+    .bt-x-nav-item:first-child { border-top:1px solid rgba(255,255,255,0.12); }
+    .bt-x-nav-item .bt-x-nav-num, .bt-x-nav-item.is-active .bt-x-nav-num { color:#82CDF5; }
+    .bt-x-nav-item .bt-x-nav-q, .bt-x-nav-item.is-active .bt-x-nav-q, .bt-x-nav-item.is-done .bt-x-nav-q { display:block; font-size:16px; font-weight:200; color:#fff; }
+    .bt-x-nav-bar { display:none; }
+    .bt-x-mini {
+      display:flex; flex-direction:column; gap:6px; position:fixed; z-index:20;
+      left:calc(var(--frame-inset) + 7px); right:calc(var(--frame-inset) + 7px); top:92px;
+      padding:10px 16px 12px; background:#0A0D0C; border-bottom:1px solid rgba(255,255,255,0.12);
+      opacity:0; visibility:hidden; transform:translateY(-6px);
+      transition:opacity .2s ease, transform .2s ease, visibility 0s linear .2s;
+    }
+    .bt-x-mini.is-on { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+    .bt-x-mini::before { content:''; position:absolute; left:0; right:0; bottom:100%; height:80px; background:#0A0D0C; }   /* solid up to the frame edge, behind the Back pill */
+    .bt-x-mini-segs { display:flex; gap:6px; margin-bottom:4px; }
+    .bt-x-mini-segs span { flex:1; height:2px; border-radius:2px; background:rgba(255,255,255,0.18); transition:background-color .3s ease; }
+    .bt-x-mini-segs span.is-done { background:rgba(130,205,245,0.45); }
+    .bt-x-mini-segs span.is-current { background:#82CDF5; }
+    .bt-x-mini-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.04em; }
+    .bt-x-mini-q { font-family:'Figtree',sans-serif; font-size:16px; font-weight:400; color:#fff; line-height:1.35; }
   }
   .bt-x-pill { display:inline-flex; align-items:center; width:fit-content; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.08); color:#E0E0E0; line-height:1; text-transform:none; letter-spacing:.04em; }
   .bt-x-lead { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
@@ -851,6 +871,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a class="bt-x-nav-item" href="#x-attention"><span class="bt-x-nav-num">03 · Attention</span><span class="bt-x-nav-q">How should exceptions stand&nbsp;out?</span></a>
         <span class="bt-x-nav-bar" aria-hidden="true"></span>
       </div>
+      <div class="bt-x-mini" id="bt-x-mini" aria-hidden="true">
+        <div class="bt-x-mini-segs"><span></span><span></span><span></span></div>
+        <span class="bt-x-mini-num"></span>
+        <span class="bt-x-mini-q"></span>
+      </div>
 
       <!-- 01 · who has to go looking -->
       <div class="bt-x-block" id="x-discovery">
@@ -1221,12 +1246,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function update() {
     const navRect = nav.getBoundingClientRect();
     nav.classList.toggle('is-stuck', navRect.top <= parseFloat(getComputedStyle(nav).top) + 1 && window.scrollY > 0);
-    const navBottom = navRect.bottom;
+    const mini = document.getElementById('bt-x-mini');
+    const miniOn = mini && getComputedStyle(mini).display !== 'none';            // phones only
+    const navBottom = miniOn ? mini.getBoundingClientRect().bottom : navRect.bottom;
     let active = 0;
     const reach = navBottom + window.innerHeight * 0.25;               // a lens counts as current once its top enters the upper part of the screen
     blocks.forEach((b, i) => { if (b.getBoundingClientRect().top <= reach) active = i; });
     items.forEach((a, i) => { a.classList.toggle('is-active', i === active); a.classList.toggle('is-done', i < active); });
-    const box = items[active].getBoundingClientRect().width ? items[active] : items[active].querySelector('.bt-x-nav-num');   // on phones the item is display:contents
+    if (miniOn) {
+      const first = blocks[0].getBoundingClientRect().top, end = blocks[blocks.length - 1].getBoundingClientRect().bottom;
+      mini.classList.toggle('is-on', first <= navBottom + 8 && end > navBottom + 40);   // only while the three lenses are passing underneath
+      mini.querySelector('.bt-x-mini-num').textContent = items[active].querySelector('.bt-x-nav-num').textContent;
+      mini.querySelector('.bt-x-mini-q').textContent = items[active].querySelector('.bt-x-nav-q').textContent;
+      mini.querySelectorAll('.bt-x-mini-segs span').forEach((sg, i) => { sg.classList.toggle('is-done', i < active); sg.classList.toggle('is-current', i === active); });
+    }
+    const box = items[active];
     const col = box.getBoundingClientRect();
     bar.style.left = (col.left - navRect.left) + 'px'; bar.style.width = col.width + 'px';
   }
