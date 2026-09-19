@@ -367,6 +367,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-figure { display:flex; flex-direction:column; gap:48px; }
 
+  /* discovery: three strategies, identical structure — name → description → flow → depends on → key question */
+  .bt-x-strats { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; }
+  .bt-x-strat { display:flex; flex-direction:column; gap:12px; padding:18px 18px 20px; border:1px solid rgba(255,255,255,0.10); border-radius:14px; background:rgba(255,255,255,0.04); }
+  .bt-x-strat-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.1em; }
+  .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.4; margin:0; min-height:2.8em; }
+  .bt-x-strat-desc { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.6; margin:0; min-height:4.8em; }
+  .bt-x-diagram.bt-x-diagram--bare { border:0; background:transparent; border-radius:0; aspect-ratio:6/5; }   /* the card is the frame; doubled class so it beats the base rule that follows */
+  .bt-x-kv { margin:0; display:flex; flex-direction:column; gap:4px; }
+  .bt-x-kv dt { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.04em; margin-top:8px; }
+  .bt-x-kv dt:first-child { margin-top:0; }
+  .bt-x-kv dd { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.6; margin:0; }
+
   /* figure with two panels side by side */
   .bt-x-pair { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; align-items:start; }
   .bt-x-panel { display:flex; flex-direction:column; gap:12px; }
@@ -433,7 +445,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:860px) {
     .bt-x-section { padding:0 32px 80px; }
     .bt-x-inner { gap:80px; }
-    .bt-x-pair, .bt-x-trio { grid-template-columns:minmax(0,1fr); }
+    .bt-x-pair, .bt-x-trio, .bt-x-strats { grid-template-columns:minmax(0,1fr); }
+    .bt-x-strat-name, .bt-x-strat-desc { min-height:0; }
+    .bt-x-diagram.bt-x-diagram--bare { max-width:320px; }
     .bt-x-split { grid-template-columns:minmax(0,1fr); }
     .bt-x-link svg { transform:rotate(90deg); }
   }
@@ -883,59 +897,74 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="bt-research-header bt-x-pill">Discovery</span>
           <h2 class="bt-research-title">Should merchants have to look for exception work?</h2>
         </div>
-        <div class="bt-x-copy">
-          <p class="bt-x-lead">The existing setup depended on merchants remembering to check Order Tools. Feedback showed that some only discovered requests through customer support.</p>
-          <p class="bt-x-lead">I explored bringing exception-task information into the workspace they already used, so discovering pending work would no longer depend on a separate check.</p>
-        </div>
-        <div class="bt-x-pair">
-          <div class="bt-x-panel">
-            <h4>Existing approach</h4>
-            <div class="bt-x-diagram" aria-label="Order Management and a separate Order Tools workspace; the merchant has to remember to go and check">
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+        <p class="bt-x-lead">Relying on merchants to check Order Tools left requests overlooked. I considered how discovery could become more reliable: by introducing a dedicated review step, prompting merchants when requests arrived, or surfacing tasks within their existing workflow.</p>
+        <div class="bt-x-strats">
+          <div class="bt-x-strat">
+            <span class="bt-x-strat-num">01</span>
+            <h4 class="bt-x-strat-name">Establish a review step</h4>
+            <p class="bt-x-strat-desc">Make exception review an explicit step before a relevant action, such as batch shipping.</p>
+            <div class="bt-x-diagram bt-x-diagram--bare" aria-label="Prepare orders, then review exceptions, then ship">
+              <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg">
                 <defs><marker id="bt-x-arrowhead" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.5L7.5 4 0 7.5z" fill="rgba(255,255,255,0.55)"/></marker></defs>
-                <rect class="ws" x="14" y="34" width="132" height="112" rx="8"/>
-                <text class="lbl" x="24" y="53">Order Management</text>
-                <rect class="row" x="24" y="66" width="112" height="9" rx="2"/>
-                <rect class="row" x="24" y="82" width="112" height="9" rx="2"/>
-                <rect class="row" x="24" y="98" width="112" height="9" rx="2"/>
-                <rect class="row" x="24" y="114" width="112" height="9" rx="2"/>
-                <rect class="row" x="24" y="130" width="72" height="9" rx="2"/>
-                <path class="arrow arrow-dashed" d="M146 90 H180"/>
-                <text class="lbl lbl-dim" x="163" y="82" text-anchor="middle">remember</text>
-                <text class="lbl lbl-dim" x="163" y="105" text-anchor="middle">to check</text>
-                <rect class="tl" x="188" y="34" width="118" height="112" rx="8"/>
-                <text class="lbl lbl-tl" x="198" y="53">Order Tools</text>
-                <circle class="task" cx="206" cy="76" r="4"/><rect class="row" x="216" y="72" width="78" height="8" rx="2"/>
-                <circle class="task" cx="206" cy="98" r="4"/><rect class="row" x="216" y="94" width="78" height="8" rx="2"/>
-                <circle class="task" cx="206" cy="120" r="4"/><rect class="row" x="216" y="116" width="78" height="8" rx="2"/>
-                <text class="lbl lbl-task" x="247" y="163" text-anchor="middle">pending requests</text>
+                <rect class="ws" x="20" y="12" width="200" height="40" rx="8"/>
+                <text class="lbl" x="120" y="36" text-anchor="middle">Prepare orders</text>
+                <path class="arrow" d="M120 54 V78"/>
+                <rect x="20" y="80" width="200" height="40" rx="8" fill="rgba(255,184,107,0.12)" stroke="#FFB86B" stroke-width="1.2"/>
+                <text class="lbl lbl-task" x="120" y="104" text-anchor="middle">Review exceptions</text>
+                <path class="arrow" d="M120 122 V146"/>
+                <rect class="ws" x="20" y="148" width="200" height="40" rx="8"/>
+                <text class="lbl" x="120" y="172" text-anchor="middle">Ship</text>
+                <text class="lbl lbl-dim" x="220" y="198" text-anchor="end">Illustrative workflow</text>
               </svg>
             </div>
-            <p>Discovery depends on a separate visit.</p>
+            <dl class="bt-x-kv">
+              <dt>Depends on</dt><dd>Merchants adopting a new review routine.</dd>
+              <dt>Key question</dt><dd>Is a dedicated checkpoint timely enough to justify an extra step?</dd>
+            </dl>
           </div>
-          <div class="bt-x-panel is-selected">
-            <h4>Proposed direction</h4>
-            <div class="bt-x-diagram" aria-label="The same two workspaces; a small summary of pending exception work now appears inside Order Management, and Order Tools stays">
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
-                <rect class="ws" x="14" y="34" width="132" height="112" rx="8"/>
-                <text class="lbl" x="24" y="53">Order Management</text>
-                <rect x="24" y="61" width="112" height="28" rx="4" fill="rgba(255,184,107,0.10)" stroke="rgba(255,184,107,0.6)" stroke-width="1"/>
-                <circle class="task" cx="35" cy="70" r="3.5"/><rect class="row" x="43" y="66.5" width="40" height="7" rx="2"/>
-                <circle class="task" cx="35" cy="81" r="3.5"/><rect class="row" x="43" y="77.5" width="54" height="7" rx="2"/>
-                <text class="lbl lbl-task" x="130" y="78" text-anchor="end" font-size="9.5">12 pending</text>
-                <rect class="row" x="24" y="98" width="112" height="9" rx="2"/>
-                <rect class="row" x="24" y="114" width="112" height="9" rx="2"/>
-                <rect class="row" x="24" y="130" width="72" height="9" rx="2"/>
-                <path class="arrow" d="M146 75 H180"/>
-                <rect class="tl" x="188" y="34" width="118" height="112" rx="8"/>
-                <text class="lbl lbl-tl" x="198" y="53">Order Tools</text>
-                <rect class="row" x="198" y="68" width="96" height="9" rx="2"/>
-                <rect class="row" x="198" y="86" width="96" height="9" rx="2"/>
-                <rect class="row" x="198" y="104" width="96" height="9" rx="2"/>
-                <text class="lbl lbl-task" x="80" y="163" text-anchor="middle">pending work surfaced here</text>
+          <div class="bt-x-strat">
+            <span class="bt-x-strat-num">02</span>
+            <h4 class="bt-x-strat-name">Trigger a notification</h4>
+            <p class="bt-x-strat-desc">Prompt merchants when a request arrives or requires attention.</p>
+            <div class="bt-x-diagram bt-x-diagram--bare" aria-label="A request arrives, a notification is sent, the merchant responds">
+              <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg">
+                <rect class="ws" x="20" y="12" width="200" height="40" rx="8"/>
+                <text class="lbl" x="120" y="36" text-anchor="middle">Request arrives</text>
+                <path class="arrow" d="M120 54 V78"/>
+                <rect x="20" y="80" width="200" height="40" rx="8" fill="rgba(255,184,107,0.12)" stroke="#FFB86B" stroke-width="1.2"/>
+                <text class="lbl lbl-task" x="120" y="104" text-anchor="middle">Notification</text>
+                <path class="arrow" d="M120 122 V146"/>
+                <rect class="ws" x="20" y="148" width="200" height="40" rx="8"/>
+                <text class="lbl" x="120" y="172" text-anchor="middle">Merchant responds</text>
               </svg>
             </div>
-            <p>Discover requests during everyday work.</p>
+            <dl class="bt-x-kv">
+              <dt>Depends on</dt><dd>Merchants noticing and responding to alerts.</dd>
+              <dt>Key question</dt><dd>Which requests warrant an interruption, and when?</dd>
+            </dl>
+          </div>
+          <div class="bt-x-strat">
+            <span class="bt-x-strat-num">03</span>
+            <h4 class="bt-x-strat-name">Embed discovery in daily work</h4>
+            <p class="bt-x-strat-desc">Surface pending requests where merchants already process orders.</p>
+            <div class="bt-x-diagram bt-x-diagram--bare" aria-label="Exception-task information sits inside the daily order-processing workspace">
+              <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg">
+                <rect class="ws" x="20" y="12" width="200" height="176" rx="8"/>
+                <text class="lbl" x="32" y="33">Daily order processing</text>
+                <rect x="32" y="44" width="176" height="50" rx="6" fill="rgba(255,184,107,0.12)" stroke="#FFB86B" stroke-width="1.2"/>
+                <text class="lbl lbl-task" x="42" y="62">Exception-task information</text>
+                <circle class="task" cx="46" cy="78" r="3.5"/><rect class="row" x="56" y="74.5" width="58" height="7" rx="2"/>
+                <circle class="task" cx="128" cy="78" r="3.5"/><rect class="row" x="138" y="74.5" width="58" height="7" rx="2"/>
+                <rect class="row" x="32" y="106" width="176" height="10" rx="2"/>
+                <rect class="row" x="32" y="126" width="176" height="10" rx="2"/>
+                <rect class="row" x="32" y="146" width="176" height="10" rx="2"/>
+                <rect class="row" x="32" y="166" width="120" height="10" rx="2"/>
+              </svg>
+            </div>
+            <dl class="bt-x-kv">
+              <dt>Depends on</dt><dd>Regular use of the order workspace.</dd>
+              <dt>Key question</dt><dd>Can the existing routine provide a timely discovery point?</dd>
+            </dl>
           </div>
         </div>
       </div>
