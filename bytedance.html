@@ -328,10 +328,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-nav-bar { position:absolute; left:0; bottom:-1px; height:2px; width:0; background:#82CDF5; transition:left .35s cubic-bezier(.4,0,.2,1), width .35s cubic-bezier(.4,0,.2,1); }
   @media(max-width:860px) {
     .bt-x-nav { top:96px; gap:12px; }   /* below the pill Back button */
+    /* pinned below the pill, so paint the band between the frame edge and the strip too —
+       otherwise content scrolls visibly through that gap. A pseudo-element: no layout shift on stick */
+    .bt-x-nav.is-stuck::before { content:''; position:absolute; left:0; right:0; bottom:100%; height:80px; background:#0A0D0C; }
     .bt-x-nav-q { font-size:14px; }
   }
   @media(max-width:640px) {
-    .bt-x-nav-q { display:none; }
+    /* phones: the three labels share one row; the current question sits on its own line underneath */
+    .bt-x-nav { grid-template-columns:repeat(3, auto); justify-content:start; column-gap:20px; row-gap:8px; }
+    .bt-x-nav-item { display:contents; }
+    .bt-x-nav-num { grid-row:1; }
+    .bt-x-nav-q { display:none; grid-row:2; grid-column:1 / -1; font-size:16px; }
+    .bt-x-nav-item.is-active .bt-x-nav-q { display:block; }
   }
   .bt-x-pill { display:inline-flex; align-items:center; width:fit-content; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.08); color:#E0E0E0; line-height:1; text-transform:none; letter-spacing:.04em; }
   .bt-x-lead { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
@@ -838,7 +846,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="bt-x-lead">Merchants were expected to check for exceptions themselves. I explored how the order workspace could help them stay on top of this work without disrupting routine fulfillment.</p>
       </div>
       <div class="bt-x-nav" id="bt-x-nav" aria-label="The three questions this exploration answers">
-        <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">Where should exceptions&nbsp;surface?</span></a>
+        <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">How should exceptions&nbsp;surface?</span></a>
         <a class="bt-x-nav-item" href="#x-handling"><span class="bt-x-nav-num">02 · Handling</span><span class="bt-x-nav-q">How much handling belongs&nbsp;here?</span></a>
         <a class="bt-x-nav-item" href="#x-attention"><span class="bt-x-nav-num">03 · Attention</span><span class="bt-x-nav-q">How should exceptions stand&nbsp;out?</span></a>
         <span class="bt-x-nav-bar" aria-hidden="true"></span>
@@ -1218,7 +1226,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const reach = navBottom + window.innerHeight * 0.25;               // a lens counts as current once its top enters the upper part of the screen
     blocks.forEach((b, i) => { if (b.getBoundingClientRect().top <= reach) active = i; });
     items.forEach((a, i) => { a.classList.toggle('is-active', i === active); a.classList.toggle('is-done', i < active); });
-    const col = items[active].getBoundingClientRect();
+    const box = items[active].getBoundingClientRect().width ? items[active] : items[active].querySelector('.bt-x-nav-num');   // on phones the item is display:contents
+    const col = box.getBoundingClientRect();
     bar.style.left = (col.left - navRect.left) + 'px'; bar.style.width = col.width + 'px';
   }
   items.forEach((a, i) => a.addEventListener('click', e => { e.preventDefault(); blocks[i].scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
