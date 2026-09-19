@@ -369,45 +369,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-figure { display:flex; flex-direction:column; gap:48px; }
 
-  /* discovery: a comparison table — one approach per row, and the column labels (Approach / Depends on /
-     Key question) written once across the top. Cells carry their approach (c1–c3) and attribute (r1–r4) as
-     classes so the same markup can regroup: the scene moves above the approach text on mid widths, and each
-     approach becomes its own stack on phones. */
-  .bt-x-strats { container-type:inline-size; border:1px solid rgba(255,255,255,0.10); border-radius:20px; background:rgba(255,255,255,0.03); padding:8px 32px; }
-  .bt-x-mx { display:grid; grid-template-columns:180px minmax(0,1.3fr) minmax(0,1fr) minmax(0,1.1fr); }
+  /* discovery: a comparison table with no outer frame — one direction per row (its name + a scene of the order
+     workspace), and the column labels written once across the top. Cells carry their direction (c1–c3) and
+     attribute (r1–r4) as classes so the same markup can regroup: on mid widths the name + scene become a band
+     above their three cells, and on phones each direction is its own stack with the labels printed inline. */
+  .bt-x-strats { container-type:inline-size; }
+  .bt-x-mx { display:grid; grid-template-columns:200px repeat(3, minmax(0,1fr)); border-bottom:1px solid rgba(255,255,255,0.10); }
   .bt-x-mx .r1 { --r:1; } .bt-x-mx .r2 { --r:2; } .bt-x-mx .r3 { --r:3; } .bt-x-mx .r4 { --r:4; }
   .bt-x-mx .c1 { --c:1; } .bt-x-mx .c2 { --c:2; } .bt-x-mx .c3 { --c:3; }
-  .bt-x-mx-label { grid-row:1; grid-column:var(--r); padding:20px 0 14px 28px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; }
-  .bt-x-mx-cell { grid-row:calc(var(--c) + 1); grid-column:var(--r); padding:28px 0 28px 28px; min-width:0; border-top:1px solid rgba(255,255,255,0.08); }
-  .bt-x-mx-cell.r1 { padding-left:0; padding-top:34px; }
-  .bt-x-mx-cell.r2 { display:flex; flex-direction:column; gap:8px; }
-  .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
+  .bt-x-mx-label { grid-row:1; grid-column:var(--r); padding:0 0 14px 28px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; }
+  .bt-x-mx-label.r1 { padding-left:0; }
+  .bt-x-mx-cell { grid-row:calc(var(--c) + 1); grid-column:var(--r); padding:28px 0 28px 28px; min-width:0; border-top:1px solid rgba(255,255,255,0.10); }
+  .bt-x-mx-cell.r1 { padding-left:0; display:flex; flex-direction:column; gap:16px; }
+  .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; padding-top:.15em; }
   .bt-x-diagram.bt-x-scene { border:0; background:transparent; border-radius:0; aspect-ratio:240/160; }   /* doubled class so it beats the base rule that follows */
   .bt-x-scene .hair { fill:none; stroke:rgba(255,255,255,0.14); stroke-width:1; }
   .bt-x-scene .stand { fill:none; stroke:rgba(255,255,255,0.35); stroke-width:1.2; stroke-linecap:round; }
   .bt-x-scene .flow, .bt-x-scene .flow-head { fill:none; stroke:rgba(255,255,255,0.55); stroke-width:1.2; stroke-linecap:round; stroke-linejoin:round; }
   .bt-x-scene .lbl { font-size:10px; }
-  .bt-x-scene .num { font-family:'Figtree',sans-serif; font-size:17px; font-weight:400; fill:#FFB86B; }
+  .bt-x-diagram.bt-x-scene .task, .bt-x-diagram.bt-x-scene .lbl-task { fill:#82CDF5; }   /* scenes use the project blue; doubled class beats the base rule below */
+  .bt-x-scene .num { font-family:'Figtree',sans-serif; font-size:17px; font-weight:400; fill:#82CDF5; }
   @container (max-width:780px) {
-    /* three columns: the scene sits above its approach text */
-    .bt-x-mx { grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1.1fr); }
-    .bt-x-mx-label { grid-column:calc(var(--r) - 1); padding-left:20px; }
+    /* three columns; each direction's name + scene run as a band above its three cells */
+    .bt-x-mx { grid-template-columns:repeat(3, minmax(0,1fr)); column-gap:24px; }
+    .bt-x-mx-label { grid-column:calc(var(--r) - 1); padding-left:0; }
     .bt-x-mx-label.r1 { display:none; }
-    .bt-x-mx-label.r2 { padding-left:0; }
-    .bt-x-mx-cell { grid-column:calc(var(--r) - 1); grid-row:calc(var(--c) * 2) / span 2; padding:24px 0 24px 20px; }
-    .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc(var(--c) * 2); padding:24px 0 0; }
-    .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 24px; border-top:0; }
+    .bt-x-mx-cell { grid-column:calc(var(--r) - 1); grid-row:calc(var(--c) * 2 + 1); padding:16px 0 28px; border-top:0; }
+    .bt-x-mx-cell.r1 { grid-column:1 / -1; grid-row:calc(var(--c) * 2); padding:28px 0 0; border-top:1px solid rgba(255,255,255,0.10); flex-direction:row-reverse; justify-content:flex-end; align-items:center; gap:24px; }
+    .bt-x-mx-cell.r1 .bt-x-scene { width:168px; flex:none; }
   }
   @container (max-width:520px) {
-    /* one approach after another; the labels are printed inside each cell instead */
+    /* one direction after another; the labels are printed inside each cell instead */
     .bt-x-mx { grid-template-columns:minmax(0,1fr); }
     .bt-x-mx-label { display:none; }
-    .bt-x-mx-cell, .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc((var(--c) - 1) * 4 + var(--r)); padding:0 0 16px; border-top:0; }
-    .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc((var(--c) - 1) * 4 + 1); padding:24px 0 16px; }
+    .bt-x-mx-cell { grid-column:1; grid-row:calc((var(--c) - 1) * 4 + var(--r)); padding:0 0 16px; }
+    .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc((var(--c) - 1) * 4 + 1); padding:24px 0 16px; flex-direction:column; align-items:stretch; gap:16px; }
+    .bt-x-mx-cell.r1 .bt-x-scene { width:100%; max-width:340px; }
     .bt-x-mx-cell.r4 { padding-bottom:24px; }
-    .bt-x-mx-cell.r1.c2, .bt-x-mx-cell.r1.c3 { border-top:1px solid rgba(255,255,255,0.08); }
     .bt-x-mx-cell[data-label]::before { content:attr(data-label); display:block; font-weight:400; color:#fff; }
-    .bt-x-diagram.bt-x-scene { max-width:340px; }
   }
 
   /* figure with two panels side by side */
@@ -477,7 +476,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-section { padding:0 32px 80px; }
     .bt-x-inner { --x-gap:80px; }
     .bt-x-pair, .bt-x-trio { grid-template-columns:minmax(0,1fr); }
-    .bt-x-strats { padding:4px 20px; border-radius:16px; }
     .bt-x-split { grid-template-columns:minmax(0,1fr); }
     .bt-x-link svg { transform:rotate(90deg); }
   }
@@ -921,12 +919,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="bt-x-mini-q"></span>
       </div>
 
-      <!-- 01 · how exceptions get noticed: three approaches side by side, column labels written once across the top -->
+      <!-- 01 · how exceptions get noticed: one direction per row, column labels written once across the top -->
       <div class="bt-x-block" id="x-discovery">
         <p class="bt-x-lead">I started by thinking about when and where merchants could notice exception requests. Could checking become a regular step in their routine? Should a notification prompt them to act? Or could requests appear alongside the orders they were already processing? I explored these three approaches to understand how each would fit into merchants’ day.</p>
         <div class="bt-x-strats"><div class="bt-x-mx">
-          <span class="bt-x-mx-label r1" aria-hidden="true"></span>
+          <span class="bt-x-mx-label r1">Direction</span>
+          <span class="bt-x-mx-label r2">What it is</span>
+          <span class="bt-x-mx-label r3">Depends on</span>
+          <span class="bt-x-mx-label r4">What to weigh</span>
           <div class="bt-x-mx-cell r1 c1">
+            <h4 class="bt-x-strat-name">01 · Establish a review step</h4>
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="Order processing stops at a dedicated review step, a checklist of pending requests, before shipping">
               <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
                 <rect class="ws" x="8" y="10" width="224" height="128" rx="8"/>
@@ -935,21 +937,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <path class="hair" d="M8 32 H232"/>
                 <rect class="ws" x="18" y="40" width="58" height="20" rx="10"/><text class="lbl" x="47" y="53.5" text-anchor="middle">Prepare</text>
                 <path class="flow" d="M78 50 H88"/><path class="flow-head" d="M86 46.5 L91 50 L86 53.5"/>
-                <rect x="93" y="40" width="58" height="20" rx="10" fill="rgba(255,184,107,0.14)" stroke="#FFB86B" stroke-width="1.2"/><text class="lbl lbl-task" x="122" y="53.5" text-anchor="middle">Review</text>
+                <rect x="93" y="40" width="58" height="20" rx="10" fill="rgba(130,205,245,0.14)" stroke="#82CDF5" stroke-width="1.2"/><text class="lbl lbl-task" x="122" y="53.5" text-anchor="middle">Review</text>
                 <path class="flow" d="M153 50 H163"/><path class="flow-head" d="M161 46.5 L166 50 L161 53.5"/>
                 <rect x="168" y="40" width="54" height="20" rx="10" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.2" stroke-dasharray="3 3"/><text class="lbl lbl-dim" x="195" y="53.5" text-anchor="middle">Ship</text>
-                <path d="M122 60 V70" fill="none" stroke="#FFB86B" stroke-width="1.2"/>
-                <rect x="18" y="70" width="204" height="58" rx="6" fill="rgba(255,184,107,0.08)" stroke="#FFB86B" stroke-width="1.2"/>
+                <path d="M122 60 V70" fill="none" stroke="#82CDF5" stroke-width="1.2"/>
+                <rect x="18" y="70" width="204" height="58" rx="6" fill="rgba(130,205,245,0.08)" stroke="#82CDF5" stroke-width="1.2"/>
                 <circle class="task" cx="30" cy="84" r="3"/><rect class="row" x="39" y="80.5" width="130" height="7" rx="2"/>
-                <rect x="202" y="79" width="10" height="10" rx="2" fill="rgba(255,184,107,0.25)" stroke="#FFB86B" stroke-width="1"/><path d="M204.5 84 l2 2 l3.5 -4" fill="none" stroke="#FFB86B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="202" y="79" width="10" height="10" rx="2" fill="rgba(130,205,245,0.25)" stroke="#82CDF5" stroke-width="1"/><path d="M204.5 84 l2 2 l3.5 -4" fill="none" stroke="#82CDF5" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle class="task" cx="30" cy="99" r="3"/><rect class="row" x="39" y="95.5" width="108" height="7" rx="2"/>
-                <rect x="202" y="94" width="10" height="10" rx="2" fill="none" stroke="#FFB86B" stroke-width="1"/>
+                <rect x="202" y="94" width="10" height="10" rx="2" fill="none" stroke="#82CDF5" stroke-width="1"/>
                 <circle class="task" cx="30" cy="114" r="3"/><rect class="row" x="39" y="110.5" width="130" height="7" rx="2"/>
-                <rect x="202" y="109" width="10" height="10" rx="2" fill="none" stroke="#FFB86B" stroke-width="1"/>
+                <rect x="202" y="109" width="10" height="10" rx="2" fill="none" stroke="#82CDF5" stroke-width="1"/>
               </svg>
             </div>
           </div>
+          <p class="bt-x-mx-cell bt-x-lead r2 c1" data-label="What it is">Add exception review to the workflow, for example checking related requests together before batch shipping.</p>
+          <p class="bt-x-mx-cell bt-x-lead r3 c1" data-label="Depends on">Merchants accepting and following a new review step.</p>
+          <p class="bt-x-mx-cell bt-x-lead r4 c1" data-label="What to weigh">Is the added step worth it? Is a batched check timely enough?</p>
           <div class="bt-x-mx-cell r1 c2">
+            <h4 class="bt-x-strat-name">02 · Trigger a notification</h4>
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="A notification about a new request appears over the order workspace while orders are being processed">
               <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
                 <rect class="ws" x="8" y="10" width="224" height="128" rx="8"/>
@@ -960,9 +966,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <rect x="14" y="67" width="212" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
                 <rect class="row" x="18" y="70" width="204" height="8" rx="2"/><rect class="row" x="18" y="84" width="204" height="8" rx="2"/>
                 <rect class="row" x="18" y="98" width="204" height="8" rx="2"/><rect class="row" x="18" y="112" width="140" height="8" rx="2"/>
-                <rect x="128" y="2" width="110" height="40" rx="8" fill="#15130F"/>
-                <rect x="128" y="2" width="110" height="40" rx="8" fill="rgba(255,184,107,0.12)" stroke="#FFB86B" stroke-width="1.2"/>
-                <g transform="translate(145 22)" fill="none" stroke="#FFB86B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="128" y="2" width="110" height="40" rx="8" fill="#0F1518"/>
+                <rect x="128" y="2" width="110" height="40" rx="8" fill="rgba(130,205,245,0.12)" stroke="#82CDF5" stroke-width="1.2"/>
+                <g transform="translate(145 22)" fill="none" stroke="#82CDF5" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M-6 4 H6 C4.2 2.2 4 0 4 -2 A4 4 0 0 0 -4 -2 C-4 0 -4.2 2.2 -6 4 Z"/><path d="M-1.6 6.8 A1.7 1.7 0 0 0 1.6 6.8"/>
                   <path d="M-8.5 -5.5 A9 9 0 0 1 -5.5 -8.8" opacity=".7"/><path d="M8.5 -5.5 A9 9 0 0 0 5.5 -8.8" opacity=".7"/>
                 </g>
@@ -971,7 +977,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg>
             </div>
           </div>
+          <p class="bt-x-mx-cell bt-x-lead r2 c2" data-label="What it is">Proactively notify merchants when a request arrives or needs attention.</p>
+          <p class="bt-x-mx-cell bt-x-lead r3 c2" data-label="Depends on">Merchants noticing and responding to the alert.</p>
+          <p class="bt-x-mx-cell bt-x-lead r4 c2" data-label="What to weigh">Will alerts be ignored? Will they interrupt the work in progress?</p>
           <div class="bt-x-mx-cell r1 c3">
+            <h4 class="bt-x-strat-name">03 · Embed discovery in daily work</h4>
             <div class="bt-x-diagram bt-x-scene" role="img" aria-label="Pending-request counts sit as metrics at the top of the order workspace, above the order list">
               <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
                 <rect class="ws" x="8" y="10" width="224" height="128" rx="8"/>
@@ -979,11 +989,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <text class="lbl lbl-dim" x="18" y="25">Order Management</text>
                 <path class="hair" d="M8 32 H232"/>
                 <text class="lbl lbl-task" x="18" y="45">Pending requests</text>
-                <rect x="18" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
+                <rect x="18" y="50" width="64" height="38" rx="6" fill="rgba(130,205,245,0.10)" stroke="#82CDF5" stroke-width="1.2"/>
                 <text class="num" x="28" y="70">5</text><rect class="row" x="28" y="76" width="40" height="5" rx="2"/>
-                <rect x="88" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
+                <rect x="88" y="50" width="64" height="38" rx="6" fill="rgba(130,205,245,0.10)" stroke="#82CDF5" stroke-width="1.2"/>
                 <text class="num" x="98" y="70">4</text><rect class="row" x="98" y="76" width="32" height="5" rx="2"/>
-                <rect x="158" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
+                <rect x="158" y="50" width="64" height="38" rx="6" fill="rgba(130,205,245,0.10)" stroke="#82CDF5" stroke-width="1.2"/>
                 <text class="num" x="168" y="70">3</text><rect class="row" x="168" y="76" width="44" height="5" rx="2"/>
                 <rect class="row" x="18" y="98" width="204" height="8" rx="2"/>
                 <rect x="14" y="109" width="212" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
@@ -991,27 +1001,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </svg>
             </div>
           </div>
-          <span class="bt-x-mx-label r2">Approach</span>
-          <div class="bt-x-mx-cell r2 c1">
-            <h4 class="bt-x-strat-name">Establish a review step</h4>
-            <p class="bt-x-lead">Make exception review an explicit step before a relevant action, such as batch shipping.</p>
-          </div>
-          <div class="bt-x-mx-cell r2 c2">
-            <h4 class="bt-x-strat-name">Trigger a notification</h4>
-            <p class="bt-x-lead">Prompt merchants when a request arrives or requires attention.</p>
-          </div>
-          <div class="bt-x-mx-cell r2 c3">
-            <h4 class="bt-x-strat-name">Embed discovery in daily work</h4>
-            <p class="bt-x-lead">Surface pending requests where merchants already process orders.</p>
-          </div>
-          <span class="bt-x-mx-label r3">Depends on</span>
-          <p class="bt-x-mx-cell bt-x-lead r3 c1" data-label="Depends on">Merchants adopting a new review routine.</p>
-          <p class="bt-x-mx-cell bt-x-lead r3 c2" data-label="Depends on">Merchants noticing and responding to alerts.</p>
-          <p class="bt-x-mx-cell bt-x-lead r3 c3" data-label="Depends on">Regular use of the order workspace.</p>
-          <span class="bt-x-mx-label r4">Key question</span>
-          <p class="bt-x-mx-cell bt-x-lead r4 c1" data-label="Key question">Is a dedicated checkpoint timely enough to justify an extra step?</p>
-          <p class="bt-x-mx-cell bt-x-lead r4 c2" data-label="Key question">Which requests warrant an interruption, and when?</p>
-          <p class="bt-x-mx-cell bt-x-lead r4 c3" data-label="Key question">Can the existing routine provide a timely discovery point?</p>
+          <p class="bt-x-mx-cell bt-x-lead r2 c3" data-label="What it is">Show exception-task information in the order workspace merchants already use.</p>
+          <p class="bt-x-mx-cell bt-x-lead r3 c3" data-label="Depends on">Merchants using that workspace, and noticing the tasks there.</p>
+          <p class="bt-x-mx-cell bt-x-lead r4 c3" data-label="What to weigh">How can tasks earn attention without disrupting routine work? What happens when merchants leave the workspace?</p>
         </div></div>
       </div>
 
@@ -1331,7 +1323,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const col = box.getBoundingClientRect();
     bar.style.left = (col.left - navRect.left) + 'px'; bar.style.width = col.width + 'px';
   }
-  items.forEach((a, i) => a.addEventListener('click', e => { e.preventDefault(); blocks[i].scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+  // land the lens just under whatever is pinned: the strip at its stuck height (or the compact header on phones)
+  function pinnedBottom() {
+    const mini = document.getElementById('bt-x-mini');
+    if (mini && getComputedStyle(mini).display !== 'none') return mini.getBoundingClientRect().bottom;
+    const cs = getComputedStyle(nav);
+    const stuckPad = nav.classList.contains('is-stuck') ? 0 : 18;               // .is-stuck adds 18px of top padding
+    return (parseFloat(cs.top) || 0) + nav.offsetHeight + stuckPad;
+  }
+  items.forEach((a, i) => a.addEventListener('click', e => {
+    e.preventDefault();
+    window.scrollTo({ top: blocks[i].getBoundingClientRect().top + window.scrollY - pinnedBottom() - 32, behavior: 'smooth' });
+  }));
   let ticking = false;
   window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } }, { passive: true });
   window.addEventListener('resize', update);
