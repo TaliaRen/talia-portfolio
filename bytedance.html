@@ -371,7 +371,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* discovery: a comparison table with no outer frame — one direction per row (scene · name, what it is, and a boxed
      note of what it depends on · what to weigh), column labels written once across the top. Text and scenes run
-     flush with the ends of the rules; the chosen direction sits on a blue block that bleeds past them instead.
+     flush with the ends of the rules; the chosen direction's outline bleeds past them instead.
      Cells carry their direction (c1–c3) and part (r1 scene, r2 direction, r3 weigh) as classes so the scene can
      move to its own full-width band below 780px; it stays a table at every width, smaller type on phones. */
   .bt-x-strats { container-type:inline-size; }
@@ -384,25 +384,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-mx-cell.r1 { padding-left:0; }
   .bt-x-mx-cell.r2 { display:flex; flex-direction:column; gap:8px; }
   .bt-x-mx-cell.c3 { border-top:0; }
-  /* the block behind the chosen direction: its own grid item laid under that row, 20px wider on each side */
-  .bt-x-mx-pick { grid-row:4; grid-column:1 / -1; position:relative; margin:0 -20px; border-radius:16px; background:rgba(130,205,245,0.10); pointer-events:none; }
-  .bt-x-mx-pick em { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:4px 12px; border-radius:999px; background:#17262F; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
-  /* what the direction depends on: a quieter boxed note under the description */
-  .bt-x-dep { margin:8px 0 0; padding:10px 14px 11px; border:1px solid rgba(255,255,255,0.14); border-radius:12px; background:rgba(255,255,255,0.04); font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.55; }
+  /* the outline around the chosen direction: its own grid item laid over that row, 20px wider on each side */
+  .bt-x-mx-pick { grid-row:4; grid-column:1 / -1; position:relative; margin:0 -20px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
+  .bt-x-mx-pick em { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
+  /* what the direction depends on: a blue-tinted note under the description, no outline */
+  .bt-x-dep { margin:8px 0 0; padding:10px 14px 11px; border:0; border-radius:12px; background:rgba(130,205,245,0.12); font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.55; }
   .bt-x-strat-name { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
   .bt-x-diagram.bt-x-scene { border:0; background:transparent; border-radius:0; aspect-ratio:232/160; }   /* doubled class so it beats the base rule that follows */
   .bt-x-scene .hair { fill:none; stroke:rgba(255,255,255,0.14); stroke-width:1; }
   .bt-x-scene .stand { fill:none; stroke:rgba(255,255,255,0.35); stroke-width:1.2; stroke-linecap:round; }
   .bt-x-scene .flow, .bt-x-scene .flow-head { fill:none; stroke:rgba(255,255,255,0.55); stroke-width:1.2; stroke-linecap:round; stroke-linejoin:round; }
   .bt-x-scene .lbl { font-size:10px; }
-  .bt-x-scene .num { font-family:'Figtree',sans-serif; font-size:17px; font-weight:400; fill:#FFB86B; }
+  .bt-x-scene .num { font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; fill:#FFB86B; }
   @container (max-width:780px) {
-    /* two columns; each direction's scene gets a band of its own above them, large enough to read */
+    /* two columns; each direction's scene sits above its text, inside the Direction column */
     .bt-x-mx { grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); }
     .bt-x-mx-label, .bt-x-mx-label.r2 { grid-column:calc(var(--r) - 1); }
     .bt-x-mx-label.r3 { padding-left:24px; }
-    .bt-x-mx-cell.r1 { grid-column:1 / -1; grid-row:calc(var(--c) * 2); padding:28px 0 0; }
-    .bt-x-mx-cell.r1 .bt-x-scene { max-width:360px; }
+    .bt-x-mx-cell.r1 { grid-column:1; grid-row:calc(var(--c) * 2); padding:28px 0 0; }
+    .bt-x-mx::before, .bt-x-mx::after { content:''; grid-column:2; border-top:1px solid rgba(255,255,255,0.10); }   /* carry the row rules across the empty cell beside each scene */
+    .bt-x-mx::before { grid-row:2; } .bt-x-mx::after { grid-row:4; }
     .bt-x-mx-cell.r2 { grid-column:1; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 28px; border-top:0; }
     .bt-x-mx-cell.r3 { grid-column:2; grid-row:calc(var(--c) * 2 + 1); padding:16px 0 28px 24px; border-top:0; }
     .bt-x-mx-pick { grid-row:6 / span 2; }
@@ -418,6 +419,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-dep { padding:8px 10px 9px; font-size:13px; }
     .bt-x-mx-pick { margin:0 -12px; border-radius:12px; }
     .bt-x-mx-pick em { left:12px; }
+    .bt-x-scene .lbl { font-size:12px; }   /* the scene is ~160px wide here; keep its labels legible */
   }
 
   /* figure with two panels side by side */
@@ -1001,16 +1003,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <path class="stand" d="M120 138 V152 M90 153 H150"/>
                 <text class="lbl lbl-dim" x="18" y="25">Order Management</text>
                 <path class="hair" d="M8 32 H232"/>
-                <text class="lbl lbl-task" x="18" y="45">Pending requests</text>
-                <rect x="18" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
-                <text class="num" x="28" y="70">5</text><rect class="row" x="28" y="76" width="40" height="5" rx="2"/>
-                <rect x="88" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
-                <text class="num" x="98" y="70">4</text><rect class="row" x="98" y="76" width="32" height="5" rx="2"/>
-                <rect x="158" y="50" width="64" height="38" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
-                <text class="num" x="168" y="70">3</text><rect class="row" x="168" y="76" width="44" height="5" rx="2"/>
-                <rect class="row" x="18" y="98" width="204" height="8" rx="2"/>
-                <rect x="14" y="109" width="212" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-                <rect class="row" x="18" y="112" width="204" height="8" rx="2"/><rect class="row" x="18" y="126" width="140" height="6" rx="2"/>
+                <text class="lbl lbl-task" x="18" y="46">Pending requests</text>
+                <rect x="18" y="54" width="64" height="26" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
+                <text class="num" x="27" y="72">5</text><rect class="row" x="42" y="64.5" width="30" height="5" rx="2"/>
+                <rect x="88" y="54" width="64" height="26" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
+                <text class="num" x="97" y="72">4</text><rect class="row" x="112" y="64.5" width="24" height="5" rx="2"/>
+                <rect x="158" y="54" width="64" height="26" rx="6" fill="rgba(255,184,107,0.10)" stroke="#FFB86B" stroke-width="1.2"/>
+                <text class="num" x="167" y="72">3</text><rect class="row" x="182" y="64.5" width="32" height="5" rx="2"/>
+                <rect class="row" x="18" y="92" width="204" height="8" rx="2"/>
+                <rect x="14" y="103" width="212" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+                <rect class="row" x="18" y="106" width="204" height="8" rx="2"/><rect class="row" x="18" y="120" width="140" height="7" rx="2"/>
               </svg>
             </div>
           </div>
