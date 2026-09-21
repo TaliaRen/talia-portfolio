@@ -569,6 +569,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family: 'Figtree', sans-serif; font-size: 1.125rem; font-weight:200;
     color: #E0E0E0; line-height: 1.8; margin: 0;
   }
+  /* the two module mock-ups: drawn, same soft filled-card style as the exploration scenes */
+  .bt-bg-ui { width:100%; height:auto; display:block; overflow:visible; }
+  .bt-bg-ui text { font-family:'Figtree',sans-serif; }
+  .bt-bg-ui .ui-card { fill:#1B1F21; filter:url(#bt-bg-shadow); }
+  .bt-bg-ui .ui-tile { fill:#2A2F32; } .bt-bg-ui .ui-row { fill:#24292C; }
+  .bt-bg-ui .ui-sk { fill:#3A4145; } .bt-bg-ui .ui-btn { fill:#3A4145; }
+  .bt-bg-ui .ui-label { font-size:12px; font-weight:300; fill:#A5ACB0; }
+  .bt-bg-ui .ui-num { font-size:20px; font-weight:500; fill:#fff; }
+  .bt-bg-ui .ui-title { font-size:13.5px; font-weight:500; fill:#fff; }
+  .bt-bg-ui .ui-btn-t { font-size:12px; font-weight:400; fill:#E0E0E0; } .bt-bg-ui .ui-btn-on { fill:#0B2433; font-weight:500; }
+  .bt-bg-ui .ui-pill { font-size:10.5px; font-weight:400; fill:#FFC88A; }
   @media(max-width:860px) {
     .bt-bg-section { padding: 0 32px 80px; }
   }
@@ -885,7 +896,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="bt-order-compare" style="display:flex; gap:24px; align-items:flex-start;">
           <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:16px;">
-            <img src="bytedance/order-management.png" alt="Order Management" style="width:100%; height:auto; display:block; border-radius:12px; border:1px solid rgba(255,255,255,0.08);">
+            <svg class="bt-bg-ui" viewBox="0 0 420 254" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Order Management: order counts by status, and a list of orders with View and Ship actions">
+              <defs>
+                <linearGradient id="bt-bg-blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A6DDF9"/><stop offset="1" stop-color="#6FC1EE"/></linearGradient>
+                <filter id="bt-bg-shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/></filter>
+              </defs>
+              <rect class="ui-card" x="0" y="0" width="420" height="254" rx="16"/>
+              <rect class="ui-tile" x="22" y="22" width="118" height="66" rx="10"/><text class="ui-label" x="36" y="46">All</text><text class="ui-num" x="36" y="73">2379</text>
+              <rect class="ui-tile" x="151" y="22" width="118" height="66" rx="10"/><text class="ui-label" x="165" y="46">Shipped</text><text class="ui-num" x="165" y="73">123</text>
+              <rect class="ui-tile" x="280" y="22" width="118" height="66" rx="10"/><text class="ui-label" x="294" y="46">Returns</text><text class="ui-num" x="294" y="73">24</text>
+              <rect class="ui-row" x="22" y="108" width="376" height="56" rx="12"/>
+              <rect class="ui-sk" x="36" y="122" width="28" height="28" rx="7"/>
+              <text class="ui-title" x="76" y="134">Men’s sneakers</text><rect class="ui-sk" x="76" y="143" width="72" height="5" rx="2.5"/>
+              <rect class="ui-btn" x="260" y="122" width="58" height="28" rx="14"/><text class="ui-btn-t" x="289" y="140.5" text-anchor="middle">View</text>
+              <rect x="326" y="122" width="58" height="28" rx="14" fill="url(#bt-bg-blue)"/><text class="ui-btn-t ui-btn-on" x="355" y="140.5" text-anchor="middle">Ship</text>
+              <rect class="ui-row" x="22" y="176" width="376" height="56" rx="12"/>
+              <rect class="ui-sk" x="36" y="190" width="28" height="28" rx="7"/>
+              <text class="ui-title" x="76" y="202">Women’s sneakers</text><rect class="ui-sk" x="76" y="211" width="72" height="5" rx="2.5"/>
+              <rect class="ui-btn" x="260" y="190" width="58" height="28" rx="14"/><text class="ui-btn-t" x="289" y="208.5" text-anchor="middle">View</text>
+              <rect x="326" y="190" width="58" height="28" rx="14" fill="url(#bt-bg-blue)"/><text class="ui-btn-t ui-btn-on" x="355" y="208.5" text-anchor="middle">Ship</text>
+            </svg>
             <div style="display:flex; flex-direction:column; gap:8px;">
               <p style="font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; margin:0;">Order Management</p>
               <ul style="list-style:disc; padding-left:1.1em; margin:0; display:flex; flex-direction:column; gap:6px;">
@@ -896,7 +926,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
 
           <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:16px;">
-            <img src="bytedance/order-tool.png" alt="Order Tools" style="width:100%; height:auto; display:block; border-radius:12px; border:1px solid rgba(255,255,255,0.08);">
+            <svg class="bt-bg-ui" viewBox="0 0 420 254" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Order Tools: exception requests such as Change address, each pending review with Reject and Approve actions">
+              <rect class="ui-card" x="0" y="0" width="420" height="254" rx="16"/>
+              <rect class="ui-tile" x="22" y="22" width="376" height="64" rx="12"/>
+              <text class="ui-title" x="38" y="49">Change address</text>
+              <rect x="38" y="58" width="104" height="18" rx="9" fill="rgba(255,184,107,0.16)"/><circle cx="49" cy="67" r="3" fill="#FFB86B"/><text class="ui-pill" x="57" y="70.8">Pending Review</text>
+              <rect class="ui-btn" x="254" y="40" width="60" height="28" rx="14"/><text class="ui-btn-t" x="284" y="58.5" text-anchor="middle">Reject</text>
+              <rect x="320" y="40" width="64" height="28" rx="14" fill="url(#bt-bg-blue)"/><text class="ui-btn-t ui-btn-on" x="352" y="58.5" text-anchor="middle">Approve</text>
+              <rect class="ui-tile" x="22" y="95" width="376" height="64" rx="12"/>
+              <text class="ui-title" x="38" y="122">Ship a few days later</text>
+              <rect x="38" y="131" width="104" height="18" rx="9" fill="rgba(255,184,107,0.16)"/><circle cx="49" cy="140" r="3" fill="#FFB86B"/><text class="ui-pill" x="57" y="143.8">Pending Review</text>
+              <rect class="ui-btn" x="254" y="113" width="60" height="28" rx="14"/><text class="ui-btn-t" x="284" y="131.5" text-anchor="middle">Reject</text>
+              <rect x="320" y="113" width="64" height="28" rx="14" fill="url(#bt-bg-blue)"/><text class="ui-btn-t ui-btn-on" x="352" y="131.5" text-anchor="middle">Approve</text>
+              <rect class="ui-tile" x="22" y="168" width="376" height="64" rx="12"/>
+              <text class="ui-title" x="38" y="195">Priority ship</text>
+              <rect x="38" y="204" width="104" height="18" rx="9" fill="rgba(255,184,107,0.16)"/><circle cx="49" cy="213" r="3" fill="#FFB86B"/><text class="ui-pill" x="57" y="216.8">Pending Review</text>
+              <rect class="ui-btn" x="254" y="186" width="60" height="28" rx="14"/><text class="ui-btn-t" x="284" y="204.5" text-anchor="middle">Reject</text>
+              <rect x="320" y="186" width="64" height="28" rx="14" fill="url(#bt-bg-blue)"/><text class="ui-btn-t ui-btn-on" x="352" y="204.5" text-anchor="middle">Approve</text>
+            </svg>
             <div style="display:flex; flex-direction:column; gap:8px;">
               <p style="font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; margin:0;">Order Tools</p>
               <ul style="list-style:disc; padding-left:1.1em; margin:0; display:flex; flex-direction:column; gap:6px;">
