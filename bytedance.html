@@ -397,12 +397,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-diagram.bt-x-scene { border:0; background:transparent; border-radius:0; aspect-ratio:232/160; }   /* doubled class so it beats the base rule that follows */
   /* scenes: soft filled cards — no outlines, skeleton bars, a lifted floating layer, the accent as a warm gradient fill */
   .bt-x-scene svg { overflow:visible; }
-  .bt-x-scene .card { fill:#1B1F21; filter:url(#bt-x-shadow); }
-  .bt-x-scene .float { fill:#2A2F32; } .bt-x-scene .float-hi { fill:#30363A; }
-  .bt-x-scene .pill { fill:#2E3437; } .bt-x-scene .pill-off { fill:#23272A; }
-  .bt-x-scene .sk { fill:#33393C; } .bt-x-scene .sk-hi { fill:#4B5357; }
-  .bt-x-scene .hl { fill:#292E31; } .bt-x-scene .sq-on { fill:#FFB86B; }
-  .bt-x-scene .flow { fill:none; stroke:#5F676B; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+  .bt-x-scene .card { fill:#1C1C1C; filter:url(#bt-x-shadow); }
+  .bt-x-scene .float { fill:#2B2B2B; } .bt-x-scene .float-hi { fill:#333333; }
+  .bt-x-scene .pill { fill:#313131; } .bt-x-scene .pill-off { fill:#252525; }
+  .bt-x-scene .sk { fill:#363636; } .bt-x-scene .sk-hi { fill:#4F4F4F; }
+  .bt-x-scene .hl { fill:#2A2A2A; } .bt-x-scene .sq-on { fill:#FFB86B; }
+  .bt-x-scene .flow { fill:none; stroke:#666666; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
   .bt-x-diagram.bt-x-scene .lbl-on { fill:#2A1A08; font-weight:500; } .bt-x-diagram.bt-x-scene .lbl-strong { fill:#fff; font-weight:400; }
   .bt-x-diagram.bt-x-scene .num-on { fill:#2A1A08; font-weight:500; }
   .bt-x-scene .lbl { font-size:10px; }
@@ -572,10 +572,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* the two module mock-ups: drawn, same soft filled-card style as the exploration scenes */
   .bt-bg-ui { width:100%; height:auto; display:block; overflow:visible; }
   .bt-bg-ui text { font-family:'Figtree',sans-serif; }
-  .bt-bg-ui .ui-card { fill:#1B1F21; filter:url(#bt-bg-shadow); }
-  .bt-bg-ui .ui-tile { fill:#2A2F32; } .bt-bg-ui .ui-row { fill:#24292C; }
-  .bt-bg-ui .ui-sk { fill:#3A4145; } .bt-bg-ui .ui-btn { fill:#3A4145; }
-  .bt-bg-ui .ui-label { font-size:12px; font-weight:300; fill:#A5ACB0; }
+  .bt-bg-ui .ui-card { fill:#1C1C1C; filter:url(#bt-bg-shadow); }
+  .bt-bg-ui .ui-tile { fill:#2B2B2B; } .bt-bg-ui .ui-row { fill:#252525; }
+  .bt-bg-ui .ui-sk { fill:#3D3D3D; } .bt-bg-ui .ui-btn { fill:#3D3D3D; }
+  .bt-bg-ui .ui-label { font-size:12px; font-weight:300; fill:#A8A8A8; }
   .bt-bg-ui .ui-num { font-size:20px; font-weight:500; fill:#fff; }
   .bt-bg-ui .ui-title { font-size:13.5px; font-weight:500; fill:#fff; }
   .bt-bg-ui .ui-btn-t { font-size:12px; font-weight:400; fill:#E0E0E0; } .bt-bg-ui .ui-btn-on { fill:#0B2433; font-weight:500; }
@@ -680,7 +680,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-meta-col { flex:0 0 auto; }
   }
   @media(max-width:640px) {
-    .bt-order-compare { flex-direction:column; }
+    .bt-order-compare { flex-direction:column; align-items:stretch !important; }   /* inline flex-start would let each column shrink to its own text width */
   }
   @media(max-width:480px) {
     .bt-hero-section { padding:150px 24px 60px; }
