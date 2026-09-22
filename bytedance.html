@@ -500,8 +500,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-gc:nth-of-type(1) { margin-top:8px; }
   .bt-x-gc span { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
   .bt-x-gc p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
-  /* highlighter stroke: a solid band of the project blue behind the words (dark text on it), running under descenders */
-  .bt-x-hl { color:#0A0D0C; font-weight:400; background:linear-gradient(transparent 8%, #82CDF5 8%, #82CDF5 96%, transparent 96%); padding:0 .12em; margin:0 -.12em; border-radius:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+  /* highlighter stroke: a solid band of the project blue behind the words (dark text on it); the padding paints past the glyph box, within the 1.8 line pitch */
+  .bt-x-hl { color:#0A0D0C; font-weight:400; background:#82CDF5; padding:.16em .12em; margin:0 -.12em; border-radius:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
   .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
     .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; }
