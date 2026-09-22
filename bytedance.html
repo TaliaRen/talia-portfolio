@@ -489,7 +489,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-opts { margin-top:40px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
   /* each option is a subgrid of the options grid's rows (name · scene · benefit · tradeoff), so the Benefit rows line
      up across the two columns and so do the Tradeoff rows, whatever the text lengths */
-  .bt-x-opt { position:relative; display:grid; grid-template-rows:subgrid; grid-row:span 4; row-gap:12px; align-content:start; }
+  .bt-x-opt { position:relative; display:grid; grid-template-rows:subgrid; grid-row:span 5; row-gap:12px; align-content:start; }   /* 5th row: the chosen option's reasons */
   .bt-x-opt.is-selected::before { content:''; position:absolute; inset:-22px -20px -22px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
   .bt-x-opt-pick { position:absolute; left:0; top:-22px; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
   .bt-x-opt .bt-x-strat-name { padding-top:0; }
@@ -502,6 +502,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-gc p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   /* highlighter stroke: a solid band of the project blue behind the words (dark text on it); the padding paints past the glyph box, within the 1.8 line pitch */
   .bt-x-hl { color:#0A0D0C; font-weight:400; background:#82CDF5; padding:.16em .12em; margin:0 -.12em; border-radius:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+  /* the chosen option's reasons: a label, then one small filled card per reason */
+  .bt-x-why { margin-top:16px; display:flex; flex-direction:column; gap:12px; }
+  .bt-x-why-label { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; }
+  .bt-x-why-cards { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .bt-x-why-cards li { position:relative; padding:12px 16px 12px 38px; border-radius:12px; background:#1C1C1C; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.6; }
+  .bt-x-why-cards li::before { content:''; position:absolute; left:16px; top:calc(12px + .8em); transform:translateY(-50%); width:8px; height:8px; border-radius:50%; background:#82CDF5; }
   .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
     /* stacked: the unselected option comes first, so no outline or pill needs room under the lead */
@@ -1146,6 +1152,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="bt-x-gc"><span>Benefit</span><p>Retain tool capabilities without crowding the order page</p></div>
             <div class="bt-x-gc"><span>Tradeoff</span><p>Requires switching workspaces</p></div>
+            <div class="bt-x-why">
+              <span class="bt-x-why-label">Why this direction</span>
+              <ul class="bt-x-why-cards">
+                <li>Reuse existing tools to reduce engineering effort</li>
+                <li>Support new exception types without complicating the order page</li>
+                <li>Keep detailed reviews and multi-step actions in dedicated tools</li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="bt-x-decision">
