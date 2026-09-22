@@ -503,6 +503,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   @media(max-width:860px) {
     .bt-x-section { padding:0 32px 80px; }
+    /* the outlines around chosen directions bleed past the content column; below 860 the gutter to the frame's inner
+       stroke is only 16px, so the bleed drops to 12px at every width instead of crossing the stroke */
+    .bt-x-mx-pick { margin:0 -12px; border-radius:12px; }
+    .bt-x-mx-pick em { left:12px; }
+    .bt-x-opt.is-selected::before { inset:-22px -12px -22px; border-radius:12px; }
     .bt-x-inner { --x-gap:80px; }
     .bt-x-pair, .bt-x-trio { grid-template-columns:minmax(0,1fr); }
   }
