@@ -318,7 +318,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* overview of the three questions; sticks to the top while the three lenses scroll by and
      reads like a progress nav — the current one lit, an accent bar creeping left to right */
-  .bt-x-nav { position:sticky; top:calc(var(--frame-inset) + 7px); z-index:20; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:calc(36px - var(--x-gap)); }   /* 36px under the intro, whatever the section gap is */
+  .bt-x-nav { position:sticky; top:calc(var(--frame-inset) + 7px); z-index:20; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:calc(36px - var(--x-gap)); }   /* 36px under the intro, whatever the section gap is */
   .bt-x-nav.is-stuck { background:#0A0D0C; padding-top:18px; }   /* only while pinned: solid page colour */
   .bt-x-nav-item { display:flex; flex-direction:column; gap:10px; text-decoration:none; color:inherit; min-width:0; }
   .bt-x-nav-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; transition:color .25s ease; }
@@ -365,9 +365,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .bt-x-pill { display:inline-flex; align-items:center; width:fit-content; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.08); color:#E0E0E0; line-height:1; text-transform:none; letter-spacing:.04em; }
   .bt-x-lead { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
-  .bt-x-conclusion { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.7; margin:0; }
-  .bt-x-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; line-height:1.5; margin:0; }
-  .bt-x-figure { display:flex; flex-direction:column; gap:48px; }
 
   /* discovery: a comparison table with no outer frame — one direction per row (scene · name and what it is ·
      what to weigh), column labels written once across the top. Text and scenes run
@@ -436,13 +433,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-scene .lbl { font-size:12px; }   /* the scene is ~160px wide here; keep its labels legible */
   }
 
-  /* figure with two panels side by side */
-  .bt-x-pair { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; align-items:start; }
-  .bt-x-panel { display:flex; flex-direction:column; gap:12px; }
-  .bt-x-panel h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#82CDF5; margin:0; }
-  .bt-x-panel.is-selected h4 { color:#fff; }
-  .bt-x-panel p { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.6; margin:0; }
-  .bt-x-panel p b { font-weight:400; color:#fff; }
 
   /* schematics: workspace vs tools are two fixed colours everywhere; the exception task is the one accent */
   .bt-x-diagram { width:100%; aspect-ratio:16/9; border:1px solid rgba(255,255,255,0.10); border-radius:12px; background:rgba(255,255,255,0.03); }
@@ -458,29 +448,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-diagram .arrow { fill:none; stroke:rgba(255,255,255,0.55); stroke-width:1.3; marker-end:url(#bt-x-arrowhead); }
   .bt-x-diagram .arrow-dashed { stroke-dasharray:4 3; }
 
-  /* framed crop of a screenshot / video: --z zoom, --fx/--fy = the source point that sits at the box's top-left */
-  .bt-x-shot { position:relative; overflow:hidden; border-radius:8px; background:#0d1013; border:1px solid rgba(255,255,255,0.08); }
-  .bt-x-shot > img, .bt-x-shot > video {
-    position:absolute; left:0; top:0; width:100%; height:auto; display:block;
-    transform-origin:0 0;
-    transform:translate(calc(var(--fx, 0) * var(--z, 1) * -100%), calc(var(--fy, 0) * var(--z, 1) * -100%)) scale(var(--z, 1));
-  }
 
-  /* 02-A: three approaches, same crop scale, Provides / Tradeoff underneath */
-  .bt-x-trio { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; }
-  .bt-x-trio .bt-x-panel h4 { color:#fff; }
-  .bt-x-pt { display:flex; flex-direction:column; gap:6px; margin:0; padding:0; list-style:none; }
-  .bt-x-pt li { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.6; }
-  .bt-x-pt b { font-weight:400; color:#fff; }
-
-  /* 02-B: initial vs revised at the same viewport size, order list kept in both */
-  .bt-x-vp { position:relative; aspect-ratio:16/13; overflow:hidden; border-radius:8px; border:1px solid rgba(255,255,255,0.10); background:#0d1013; }
-  .bt-x-vp .bt-x-shot { position:absolute; left:0; width:100%; border:0; border-radius:0; }
-  .bt-x-vp-band { position:absolute; left:0; right:0; background:rgba(130,205,245,0.14); border-top:1px solid rgba(130,205,245,0.55); border-bottom:1px solid rgba(130,205,245,0.55); pointer-events:none; }
-  .bt-x-vp-line { position:absolute; left:0; right:0; top:56%; border-top:2px dashed #FFB86B; pointer-events:none; }
-  .bt-x-vp-line span { position:absolute; left:8px; top:4px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:400; color:#FFB86B; letter-spacing:.06em; text-transform:uppercase; background:rgba(10,13,12,0.75); padding:2px 6px; border-radius:4px; }
-  .bt-x-vp-tag { position:absolute; right:8px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#fff; background:rgba(10,13,12,0.85); border:1px solid rgba(255,255,255,0.25); padding:3px 7px; border-radius:4px; letter-spacing:.02em; max-width:62%; text-align:right; }
-  .bt-x-vp-tag--task { color:#FFB86B; border-color:rgba(255,184,107,0.5); }
 
   /* 02 · handling: two options side by side, same width, a drawn scene each. Content runs flush with the column
      edges; the chosen option's outline is drawn outside them (like the discovery table's) rather than insetting it. */
@@ -518,7 +486,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-mx-pick em { left:12px; }
     .bt-x-opt.is-selected::before { inset:-22px -12px -22px; border-radius:12px; }
     .bt-x-inner { --x-gap:112px; }
-    .bt-x-pair, .bt-x-trio { grid-template-columns:minmax(0,1fr); }
   }
 
   @media(max-width:860px) {
@@ -998,11 +965,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="bt-x-nav" id="bt-x-nav" aria-label="The three questions this exploration answers">
         <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">How should <br class="bt-x-nav-br">exceptions&nbsp;surface?</span></a>
         <a class="bt-x-nav-item" href="#x-handling"><span class="bt-x-nav-num">02 · Handling</span><span class="bt-x-nav-q">Where should <br class="bt-x-nav-br">exception handling&nbsp;happen?</span></a>
-        <a class="bt-x-nav-item" href="#x-attention"><span class="bt-x-nav-num">03 · Attention</span><span class="bt-x-nav-q">How should <br class="bt-x-nav-br">exceptions stand&nbsp;out?</span></a>
         <span class="bt-x-nav-bar" aria-hidden="true"></span>
       </div>
       <div class="bt-x-mini" id="bt-x-mini" aria-hidden="true">
-        <div class="bt-x-mini-segs"><span></span><span></span><span></span></div>
+        <div class="bt-x-mini-segs"><span></span><span></span></div>
         <span class="bt-x-mini-num"></span>
         <span class="bt-x-mini-q"></span>
       </div>
@@ -1149,76 +1115,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="bt-x-why">
               <h4 class="bt-x-strat-name">Why this direction</h4>
               <p class="bt-x-lead">Reusing existing tools reduces engineering effort, supports detailed handling, and keeps new exception types from adding complexity to the order page.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 02 · how much attention -->
-      <div class="bt-x-block" id="x-attention">
-        <div class="bt-x-copy">
-          <p class="bt-x-lead">Bringing exceptions into Order Management created a tradeoff: they needed to be noticeable without overwhelming routine order processing.</p>
-          <p class="bt-x-lead">I compared how different approaches communicated pending work and how much space and attention they demanded.</p>
-        </div>
-        <div class="bt-x-figure">
-          <div class="bt-x-trio">
-            <div class="bt-x-panel">
-              <h4>A general reminder</h4>
-              <div class="bt-x-shot" style="aspect-ratio:16/8; --z:2; --fx:.02; --fy:.02;"><img src="bytedance/banner.png" alt="A banner above the order page pointing to Order Tools" loading="lazy"></div>
-              <ul class="bt-x-pt">
-                <li><b>Provides</b> A visible route to Order Tools.</li>
-                <li><b>Tradeoff</b> No indication of specific pending requests.</li>
-              </ul>
-            </div>
-            <div class="bt-x-panel">
-              <h4>Actions within each order</h4>
-              <div class="bt-x-shot" style="aspect-ratio:16/8; --z:1.6; --fx:.36; --fy:.05;"><img src="bytedance/inline action.png" alt="Order rows, one carrying an address-change request with approve and reject" loading="lazy"></div>
-              <ul class="bt-x-pt">
-                <li><b>Provides</b> The request beside its order.</li>
-                <li><b>Tradeoff</b> Exception tasks are distributed across the list.</li>
-              </ul>
-            </div>
-            <div class="bt-x-panel">
-              <h4>A consolidated task overview</h4>
-              <div class="bt-x-shot" style="aspect-ratio:16/8; --z:2.5; --fx:.15; --fy:.10;"><video autoplay loop muted playsinline preload="metadata"><source src="bytedance/v2.mp4" type="video/mp4"></video></div>
-              <ul class="bt-x-pt">
-                <li><b>Provides</b> Routine and exception tasks in one place.</li>
-                <li><b>Tradeoff</b> More categories competing for attention.</li>
-              </ul>
-            </div>
-          </div>
-          <p class="bt-x-conclusion">The direction: surface enough task information to support action, while keeping the order list central.</p>
-        </div>
-
-        <div class="bt-x-figure">
-          <div class="bt-x-copy" style="gap:16px;">
-            <p class="bt-x-sub">The new module displaced the work it was meant to support.</p>
-            <p class="bt-x-lead">Adding the module pushed the order list below the initial viewport. I reorganized status navigation and filters to reduce their vertical footprint.</p>
-          </div>
-          <div class="bt-x-pair">
-            <div class="bt-x-panel">
-              <h4>Initial integration</h4>
-              <div class="bt-x-vp">
-                <!-- tool module + unchanged status nav / filters (content column, full width) -->
-                <div class="bt-x-shot" style="top:0; height:56.6%; --z:1; --fx:0; --fy:0;"><img src="bytedance/integration.png" alt="" loading="lazy"></div>
-                <!-- the order list, same content column, same scale -->
-                <div class="bt-x-shot" style="top:56.6%; height:44%; --z:1.44; --fx:.155; --fy:.585;"><img src="bytedance/solution1.png" alt="" loading="lazy"></div>
-                <div class="bt-x-vp-band" style="top:19.8%; height:36.8%;"></div>
-                <div class="bt-x-vp-line"><span>Viewport boundary</span></div>
-                <span class="bt-x-vp-tag bt-x-vp-tag--task" style="top:62%;">Order list pushed below the fold</span>
-              </div>
-            </div>
-            <div class="bt-x-panel is-selected">
-              <h4>Revised layout</h4>
-              <div class="bt-x-vp">
-                <div class="bt-x-shot" style="top:0; height:9.6%; --z:1; --fx:0; --fy:0;"><img src="bytedance/integration.png" alt="" loading="lazy"></div>
-                <div class="bt-x-shot" style="top:9.6%; height:31%; --z:1.429; --fx:.30; --fy:.66;"><img src="bytedance/beforeafter.png" alt="" loading="lazy"></div>
-                <div class="bt-x-shot" style="top:40.6%; height:60%; --z:1.44; --fx:.155; --fy:.585;"><img src="bytedance/solution1.png" alt="" loading="lazy"></div>
-                <div class="bt-x-vp-band" style="top:9.6%; height:31%;"></div>
-                <div class="bt-x-vp-line"><span>Viewport boundary</span></div>
-                <span class="bt-x-vp-tag" style="top:12%;">Compact status navigation</span>
-                <span class="bt-x-vp-tag" style="top:26%;">Reorganized filters</span>
-              </div>
             </div>
           </div>
         </div>
