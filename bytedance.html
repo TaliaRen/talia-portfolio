@@ -486,7 +486,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      edges; the chosen option's outline is drawn outside them (like the discovery table's) rather than insetting it. */
   #x-handling { container-type:inline-size; }   /* the options query the lens's width (an element cannot query itself) */
   /* the chosen option's outline + pill reach 22px and ~32px above the options, so give the lead extra room */
-  .bt-x-opts { margin-top:20px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
+  .bt-x-opts { margin-top:40px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
   /* each option is a subgrid of the options grid's rows (name · scene · benefit · tradeoff), so the Benefit rows line
      up across the two columns and so do the Tradeoff rows, whatever the text lengths */
   .bt-x-opt { position:relative; display:grid; grid-template-rows:subgrid; grid-row:span 4; row-gap:12px; align-content:start; }
@@ -501,7 +501,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-gc span { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
   .bt-x-gc p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   /* highlighter stroke: a solid band of the project blue behind the words (dark text on it), running under descenders */
-  .bt-x-hl { color:#0A0D0C; font-weight:400; background:linear-gradient(transparent 22%, #82CDF5 22%, #82CDF5 94%, transparent 94%); padding:0 .12em; margin:0 -.12em; border-radius:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+  .bt-x-hl { color:#0A0D0C; font-weight:400; background:linear-gradient(transparent 8%, #82CDF5 8%, #82CDF5 96%, transparent 96%); padding:0 .12em; margin:0 -.12em; border-radius:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
   .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
     .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; }
