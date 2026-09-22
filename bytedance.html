@@ -482,26 +482,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-vp-tag { position:absolute; right:8px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#fff; background:rgba(10,13,12,0.85); border:1px solid rgba(255,255,255,0.25); padding:3px 7px; border-radius:4px; letter-spacing:.02em; max-width:62%; text-align:right; }
   .bt-x-vp-tag--task { color:#FFB86B; border-color:rgba(255,184,107,0.5); }
 
-  /* 02 · handling: two options side by side, same width, a crop each; the chosen one outlined */
+  /* 02 · handling: two options side by side, same width, a drawn scene each. Content runs flush with the column
+     edges; the chosen option's outline is drawn outside them (like the discovery table's) rather than insetting it. */
   #x-handling { container-type:inline-size; }   /* the options query the lens's width (an element cannot query itself) */
-  .bt-x-opts { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; align-items:start; }
-  .bt-x-opt { position:relative; display:flex; flex-direction:column; gap:12px; padding:22px 20px 24px; border:1px solid transparent; border-radius:16px; }
-  .bt-x-opt.is-selected { border-color:rgba(130,205,245,0.75); }
-  .bt-x-opt-pick { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
+  .bt-x-opts { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
+  .bt-x-opt { position:relative; display:flex; flex-direction:column; gap:12px; }
+  .bt-x-opt.is-selected::before { content:''; position:absolute; inset:-22px -20px -22px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
+  .bt-x-opt-pick { position:absolute; left:0; top:-22px; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
   .bt-x-opt .bt-x-strat-name { padding-top:0; }
-  .bt-x-fig { position:relative; aspect-ratio:2/1; margin-top:8px; }
-  .bt-x-fig > .bt-x-shot { position:absolute; left:0; top:0; width:100%; height:100%; }
-  .bt-x-fig--chain > .bt-x-shot { height:auto; }   /* the two crops set their own top + height inline */
-  .bt-x-fig-arrow { position:absolute; left:50%; top:34%; height:28%; width:auto; transform:translateX(-50%); display:block; }
+  .bt-x-fig { margin-top:8px; }
+  .bt-x-diagram.bt-x-scene--wide { aspect-ratio:2/1; }
   .bt-x-fig-cap { margin:-4px 0 0; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.02em; }
   .bt-x-gc { margin:8px 0 0; display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:16px; row-gap:8px; }
   .bt-x-gc dt { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
   .bt-x-gc dd { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
-  .bt-x-decision { display:flex; flex-direction:column; gap:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
+  .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
-    .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:32px; }
-    .bt-x-opt { padding:20px 16px 22px; }
-    .bt-x-opt-pick { left:16px; }
+    .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; }
+    .bt-x-opt.is-selected::before { inset:-22px -12px -22px; border-radius:12px; }
   }
 
   @media(max-width:860px) {
@@ -1091,7 +1089,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h4 class="bt-x-strat-name">Handle within Order Management</h4>
             <p class="bt-x-lead">Bring request details and actions into the order list.</p>
             <div class="bt-x-fig">
-              <div class="bt-x-shot" style="--z:1.89; --fx:.42; --fy:.02;"><img src="bytedance/inline action.png" alt="An order row carrying an address-change request, with Approve and Reject beside the order" loading="lazy"></div>
+              <div class="bt-x-diagram bt-x-scene bt-x-scene--wide" role="img" aria-label="The order list, with one order expanded to show its address-change request and Reject / Approve buttons">
+                <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+                  <rect class="card" x="0" y="0" width="320" height="160" rx="12"/>
+                  <text class="lbl lbl-dim" x="14" y="21">Order Management</text>
+                  <rect class="sk" x="14" y="36" width="10" height="10" rx="3"/><rect class="sk" x="32" y="37.5" width="150" height="7" rx="3.5"/>
+                  <rect class="hl" x="8" y="54" width="304" height="58" rx="8"/>
+                  <rect class="sq-on" x="14" y="62" width="10" height="10" rx="3"/><rect class="sk-hi" x="32" y="63.5" width="120" height="7" rx="3.5"/>
+                  <rect x="32" y="80" width="118" height="18" rx="9" fill="rgba(255,184,107,0.16)"/><text class="lbl lbl-task" x="91" y="92" text-anchor="middle">Address change requested</text>
+                  <rect class="pill" x="196" y="79" width="50" height="20" rx="10"/><text class="lbl" x="221" y="92.5" text-anchor="middle">Reject</text>
+                  <rect x="252" y="79" width="54" height="20" rx="10" fill="url(#bt-x-grad)"/><text class="lbl lbl-on" x="279" y="92.5" text-anchor="middle">Approve</text>
+                  <rect class="sk" x="14" y="124" width="10" height="10" rx="3"/><rect class="sk" x="32" y="125.5" width="136" height="7" rx="3.5"/>
+                  <rect class="sk" x="14" y="142" width="10" height="10" rx="3"/><rect class="sk" x="32" y="143.5" width="112" height="7" rx="3.5"/>
+                </svg>
+              </div>
             </div>
             <p class="bt-x-fig-cap">Actions within the order list</p>
             <dl class="bt-x-gc">
@@ -1103,10 +1114,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="bt-x-opt-pick" aria-hidden="true">Selected direction</span>
             <h4 class="bt-x-strat-name">Continue in Order Tools</h4>
             <p class="bt-x-lead">Surface requests in Order Management and link to the relevant handling tool.</p>
-            <div class="bt-x-fig bt-x-fig--chain" role="img" aria-label="The Address Change Review entry in Order Management, leading to the review page in Order Tools">
-              <div class="bt-x-shot" style="top:0; height:34%; --z:2.2; --fx:.445; --fy:.188;"><img src="bytedance/solution1.png" alt="" loading="lazy"></div>
-              <svg class="bt-x-fig-arrow" viewBox="0 0 16 40" xmlns="http://www.w3.org/2000/svg"><path d="M8 2 V32" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none"/><path d="M2.5 27 L8 34 L13.5 27" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div class="bt-x-shot" style="top:62%; height:38%; --z:1.1; --fx:.05; --fy:.07;"><img src="bytedance/order-tool.png" alt="" loading="lazy"></div>
+            <div class="bt-x-fig">
+              <div class="bt-x-diagram bt-x-scene bt-x-scene--wide" role="img" aria-label="An Address Change Review entry in Order Management, leading to the request's Reject / Approve row in Order Tools">
+                <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+                  <rect class="card" x="0" y="0" width="320" height="66" rx="10"/>
+                  <text class="lbl lbl-dim" x="14" y="19">Order Management</text>
+                  <rect class="float" x="12" y="27" width="296" height="32" rx="8"/>
+                  <circle cx="30" cy="43" r="9" fill="url(#bt-x-grad)"/><path d="M26 43.2 l2.6 2.6 l5.4 -5.6" fill="none" stroke="#2A1A08" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text class="lbl lbl-strong" x="46" y="40">Address Change Review</text>
+                  <text class="lbl lbl-task" x="46" y="52.5">90 pending requests</text>
+                  <text class="lbl lbl-task" x="296" y="46.5" text-anchor="end">Review →</text>
+                  <path class="flow" d="M160 70 V86"/><path class="flow" d="M155.5 82 L160 87 L164.5 82"/>
+                  <rect class="card" x="0" y="94" width="320" height="66" rx="10"/>
+                  <text class="lbl lbl-dim" x="14" y="113">Order Tools</text>
+                  <rect class="float" x="12" y="121" width="296" height="32" rx="8"/>
+                  <text class="lbl lbl-strong" x="24" y="134">Change address</text>
+                  <circle class="task" cx="27" cy="145" r="2.5"/><text class="lbl lbl-task" x="33" y="148">Pending review</text>
+                  <rect class="pill" x="196" y="127" width="50" height="20" rx="10"/><text class="lbl" x="221" y="140.5" text-anchor="middle">Reject</text>
+                  <rect x="252" y="127" width="54" height="20" rx="10" fill="url(#bt-x-grad)"/><text class="lbl lbl-on" x="279" y="140.5" text-anchor="middle">Approve</text>
+                </svg>
+              </div>
             </div>
             <p class="bt-x-fig-cap">Access here, handle in the tool</p>
             <dl class="bt-x-gc">
