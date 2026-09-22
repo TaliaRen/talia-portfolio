@@ -344,7 +344,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-nav-item { gap:6px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.12); }
     .bt-x-nav-item:first-child { border-top:1px solid rgba(255,255,255,0.12); }
     .bt-x-nav-item .bt-x-nav-num, .bt-x-nav-item.is-active .bt-x-nav-num { color:#82CDF5; }
-    .bt-x-nav-br { display:none; }   /* stacked list: each question runs on one line */
     .bt-x-nav-item .bt-x-nav-q, .bt-x-nav-item.is-active .bt-x-nav-q, .bt-x-nav-item.is-done .bt-x-nav-q { display:block; font-size:16px; font-weight:200; color:#fff; }
     .bt-x-nav-bar { display:none; }
     .bt-x-mini {
@@ -478,6 +477,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-opt.is-selected::before { inset:-22px -12px -22px; border-radius:12px; }
   }
 
+  @media(max-width:1140px) and (min-width:1021px) { .bt-x-nav-q { font-size:1rem; } }   /* columns ~300–380px: one step down keeps each question on one line */
+  @media(max-width:1020px) and (min-width:861px) { .bt-x-nav-q { font-size:14px; } }   /* the 196px section gutters leave ~220–300px per column here */
   @media(max-width:860px) {
     .bt-x-section { padding:0 32px 80px; }
     /* the outlines around chosen directions bleed past the content column; below 860 the gutter to the frame's inner
@@ -963,8 +964,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="bt-x-lead">Merchants were expected to check for exceptions themselves. I explored how the order workspace could help them stay on top of this work without disrupting routine fulfillment.</p>
       </div>
       <div class="bt-x-nav" id="bt-x-nav" aria-label="The three questions this exploration answers">
-        <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">How should <br class="bt-x-nav-br">exceptions&nbsp;surface?</span></a>
-        <a class="bt-x-nav-item" href="#x-handling"><span class="bt-x-nav-num">02 · Handling</span><span class="bt-x-nav-q">Where should <br class="bt-x-nav-br">exception handling&nbsp;happen?</span></a>
+        <a class="bt-x-nav-item is-active" href="#x-discovery"><span class="bt-x-nav-num">01 · Discovery</span><span class="bt-x-nav-q">How should exceptions&nbsp;surface?</span></a>
+        <a class="bt-x-nav-item" href="#x-handling"><span class="bt-x-nav-num">02 · Handling</span><span class="bt-x-nav-q">Where should exception handling&nbsp;happen?</span></a>
         <span class="bt-x-nav-bar" aria-hidden="true"></span>
       </div>
       <div class="bt-x-mini" id="bt-x-mini" aria-hidden="true">
