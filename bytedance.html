@@ -486,15 +486,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      edges; the chosen option's outline is drawn outside them (like the discovery table's) rather than insetting it. */
   #x-handling { container-type:inline-size; }   /* the options query the lens's width (an element cannot query itself) */
   .bt-x-opts { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
-  .bt-x-opt { position:relative; display:flex; flex-direction:column; gap:12px; }
+  /* each option is a subgrid of the options grid's rows (name · scene · benefit · tradeoff), so the Benefit rows line
+     up across the two columns and so do the Tradeoff rows, whatever the text lengths */
+  .bt-x-opt { position:relative; display:grid; grid-template-rows:subgrid; grid-row:span 4; row-gap:12px; align-content:start; }
   .bt-x-opt.is-selected::before { content:''; position:absolute; inset:-22px -20px -22px; border:1px solid rgba(130,205,245,0.75); border-radius:16px; pointer-events:none; }
   .bt-x-opt-pick { position:absolute; left:0; top:-22px; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
   .bt-x-opt .bt-x-strat-name { padding-top:0; }
   .bt-x-fig { margin:8px 0; }
   .bt-x-diagram.bt-x-scene--wide { aspect-ratio:2/1; }
-  .bt-x-gc { margin:8px 0 0; display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:16px; row-gap:8px; }
-  .bt-x-gc dt { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
-  .bt-x-gc dd { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  .bt-x-gc { display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:16px; align-items:start; }
+  .bt-x-gc:nth-of-type(1) { margin-top:8px; }
+  .bt-x-gc span { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
+  .bt-x-gc p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
     .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; }
@@ -1109,14 +1112,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </svg>
               </div>
             </div>
-            <dl class="bt-x-gc">
-              <dt>Gains</dt><dd>Handled in place, no switching.</dd>
-              <dt>Costs</dt><dd>Adds complexity to the order page.</dd>
-            </dl>
+            <div class="bt-x-gc"><span>Benefit</span><p>Complete tasks without switching pages</p></div>
+            <div class="bt-x-gc"><span>Tradeoff</span><p>Adds complexity to the order page</p></div>
           </div>
           <div class="bt-x-opt is-selected">
             <span class="bt-x-opt-pick" aria-hidden="true">Selected direction</span>
-            <h4 class="bt-x-strat-name">Handle in the tool</h4>
+            <h4 class="bt-x-strat-name">Handle in a dedicated tool</h4>
             <div class="bt-x-fig">
               <div class="bt-x-diagram bt-x-scene bt-x-scene--wide" role="img" aria-label="Order Management shows the address-change request with a Go handle link; an arrow leads to the Address Review Tool, where details are viewed and the request approved or rejected">
                 <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
@@ -1138,10 +1139,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </svg>
               </div>
             </div>
-            <dl class="bt-x-gc">
-              <dt>Gains</dt><dd>Keeps the tools’ capabilities; less load on the order page.</dd>
-              <dt>Costs</dt><dd>Requires switching workspaces.</dd>
-            </dl>
+            <div class="bt-x-gc"><span>Benefit</span><p>Retain tool capabilities without crowding the order page</p></div>
+            <div class="bt-x-gc"><span>Tradeoff</span><p>Requires switching workspaces</p></div>
           </div>
         </div>
         <div class="bt-x-decision">
