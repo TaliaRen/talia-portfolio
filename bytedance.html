@@ -492,7 +492,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-opt .bt-x-strat-name { padding-top:0; }
   .bt-x-fig { margin-top:8px; }
   .bt-x-diagram.bt-x-scene--wide { aspect-ratio:2/1; }
-  .bt-x-fig-cap { margin:-4px 0 0; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.02em; }
   .bt-x-gc { margin:8px 0 0; display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:16px; row-gap:8px; }
   .bt-x-gc dt { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
   .bt-x-gc dd { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
@@ -1086,59 +1085,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="bt-x-lead">Once requests surfaced in Order Management, I considered whether merchants should resolve them there too. Would fewer page switches justify bringing more exception-specific information and actions into an already dense order list?</p>
         <div class="bt-x-opts">
           <div class="bt-x-opt">
-            <h4 class="bt-x-strat-name">Handle within Order Management</h4>
-            <p class="bt-x-lead">Bring request details and actions into the order list.</p>
+            <h4 class="bt-x-strat-name">Handle directly on the order page</h4>
             <div class="bt-x-fig">
-              <div class="bt-x-diagram bt-x-scene bt-x-scene--wide" role="img" aria-label="The order list, with one order expanded to show its address-change request and Reject / Approve buttons">
+              <div class="bt-x-diagram bt-x-scene bt-x-scene--wide" role="img" aria-label="Inside Order Management: discover the address-change request, view its details, then Approve or Reject, all in one place">
                 <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
                   <rect class="card" x="0" y="0" width="320" height="160" rx="12"/>
                   <text class="lbl lbl-dim" x="14" y="21">Order Management</text>
-                  <rect class="sk" x="14" y="36" width="10" height="10" rx="3"/><rect class="sk" x="32" y="37.5" width="150" height="7" rx="3.5"/>
-                  <rect class="hl" x="8" y="54" width="304" height="58" rx="8"/>
-                  <rect class="sq-on" x="14" y="62" width="10" height="10" rx="3"/><rect class="sk-hi" x="32" y="63.5" width="120" height="7" rx="3.5"/>
-                  <rect x="32" y="80" width="118" height="18" rx="9" fill="rgba(255,184,107,0.16)"/><text class="lbl lbl-task" x="91" y="92" text-anchor="middle">Address change requested</text>
-                  <rect class="pill" x="196" y="79" width="50" height="20" rx="10"/><text class="lbl" x="221" y="92.5" text-anchor="middle">Reject</text>
-                  <rect x="252" y="79" width="54" height="20" rx="10" fill="url(#bt-x-grad)"/><text class="lbl lbl-on" x="279" y="92.5" text-anchor="middle">Approve</text>
-                  <rect class="sk" x="14" y="124" width="10" height="10" rx="3"/><rect class="sk" x="32" y="125.5" width="136" height="7" rx="3.5"/>
-                  <rect class="sk" x="14" y="142" width="10" height="10" rx="3"/><rect class="sk" x="32" y="143.5" width="112" height="7" rx="3.5"/>
+                  <rect class="float" x="14" y="32" width="292" height="26" rx="7"/>
+                  <circle class="task" cx="28" cy="45" r="3"/><text class="lbl lbl-strong" x="38" y="48.5">Address change request</text>
+                  <path class="flow" d="M160 60 V66"/><path class="flow" d="M156.5 63 L160 67 L163.5 63"/>
+                  <rect class="float" x="14" y="70" width="292" height="34" rx="7"/>
+                  <text class="lbl lbl-strong" x="24" y="84">Request details</text>
+                  <rect class="sk-hi" x="24" y="90" width="96" height="5" rx="2.5"/><rect class="sk-hi" x="128" y="90" width="64" height="5" rx="2.5"/>
+                  <path class="flow" d="M160 106 V112"/><path class="flow" d="M156.5 109 L160 113 L163.5 109"/>
+                  <rect class="float" x="14" y="116" width="292" height="30" rx="7"/>
+                  <rect x="24" y="121" width="58" height="20" rx="10" fill="url(#bt-x-grad)"/><text class="lbl lbl-on" x="53" y="134.5" text-anchor="middle">Approve</text>
+                  <rect class="pill" x="88" y="121" width="50" height="20" rx="10"/><text class="lbl" x="113" y="134.5" text-anchor="middle">Reject</text>
                 </svg>
               </div>
             </div>
-            <p class="bt-x-fig-cap">Actions within the order list</p>
             <dl class="bt-x-gc">
-              <dt>Gain</dt><dd>Fewer page switches; actions stay beside the order.</dd>
-              <dt>Cost</dt><dd>Adds exception-specific information and controls to routine order processing.</dd>
+              <dt>Gain</dt><dd>Discovery and handling stay connected, without leaving the current workspace.</dd>
+              <dt>Cost</dt><dd>The information and actions each exception type needs add complexity to the order page.</dd>
             </dl>
           </div>
           <div class="bt-x-opt is-selected">
             <span class="bt-x-opt-pick" aria-hidden="true">Selected direction</span>
-            <h4 class="bt-x-strat-name">Continue in Order Tools</h4>
-            <p class="bt-x-lead">Surface requests in Order Management and link to the relevant handling tool.</p>
+            <h4 class="bt-x-strat-name">Handle in the dedicated tool</h4>
             <div class="bt-x-fig">
-              <div class="bt-x-diagram bt-x-scene bt-x-scene--wide" role="img" aria-label="An Address Change Review entry in Order Management, leading to the request's Reject / Approve row in Order Tools">
+              <div class="bt-x-diagram bt-x-scene bt-x-scene--wide" role="img" aria-label="Order Management shows the address-change request with a Go handle link; an arrow leads to the Address Review Tool, where details are viewed and the request approved or rejected">
                 <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
-                  <rect class="card" x="0" y="0" width="320" height="66" rx="10"/>
-                  <text class="lbl lbl-dim" x="14" y="19">Order Management</text>
-                  <rect class="float" x="12" y="27" width="296" height="32" rx="8"/>
-                  <circle cx="30" cy="43" r="9" fill="url(#bt-x-grad)"/><path d="M26 43.2 l2.6 2.6 l5.4 -5.6" fill="none" stroke="#2A1A08" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  <text class="lbl lbl-strong" x="46" y="40">Address Change Review</text>
-                  <text class="lbl lbl-task" x="46" y="52.5">90 pending requests</text>
-                  <text class="lbl lbl-task" x="296" y="46.5" text-anchor="end">Review →</text>
-                  <path class="flow" d="M160 70 V86"/><path class="flow" d="M155.5 82 L160 87 L164.5 82"/>
-                  <rect class="card" x="0" y="94" width="320" height="66" rx="10"/>
-                  <text class="lbl lbl-dim" x="14" y="113">Order Tools</text>
-                  <rect class="float" x="12" y="121" width="296" height="32" rx="8"/>
-                  <text class="lbl lbl-strong" x="24" y="134">Change address</text>
-                  <circle class="task" cx="27" cy="145" r="2.5"/><text class="lbl lbl-task" x="33" y="148">Pending review</text>
-                  <rect class="pill" x="196" y="127" width="50" height="20" rx="10"/><text class="lbl" x="221" y="140.5" text-anchor="middle">Reject</text>
-                  <rect x="252" y="127" width="54" height="20" rx="10" fill="url(#bt-x-grad)"/><text class="lbl lbl-on" x="279" y="140.5" text-anchor="middle">Approve</text>
+                  <rect class="card" x="0" y="20" width="140" height="120" rx="10"/>
+                  <text class="lbl lbl-dim" x="12" y="41">Order Management</text>
+                  <rect class="float" x="10" y="52" width="120" height="26" rx="7"/>
+                  <circle class="task" cx="22" cy="65" r="3"/><text class="lbl lbl-strong" x="31" y="68.5">Address change request</text>
+                  <rect x="10" y="90" width="82" height="20" rx="10" fill="url(#bt-x-grad)"/><text class="lbl lbl-on" x="51" y="103.5" text-anchor="middle">Go handle →</text>
+                  <path class="flow" d="M146 80 H172"/><path class="flow" d="M168 76 L173 80 L168 84"/>
+                  <rect class="card" x="180" y="20" width="140" height="120" rx="10"/>
+                  <text class="lbl lbl-dim" x="192" y="41">Address Review Tool</text>
+                  <rect class="float" x="190" y="52" width="120" height="36" rx="7"/>
+                  <text class="lbl lbl-strong" x="200" y="66">Request details</text>
+                  <rect class="sk-hi" x="200" y="73" width="80" height="5" rx="2.5"/>
+                  <rect x="190" y="98" width="56" height="20" rx="10" fill="url(#bt-x-grad)"/><text class="lbl lbl-on" x="218" y="111.5" text-anchor="middle">Approve</text>
+                  <rect class="pill" x="252" y="98" width="48" height="20" rx="10"/><text class="lbl" x="276" y="111.5" text-anchor="middle">Reject</text>
                 </svg>
               </div>
             </div>
-            <p class="bt-x-fig-cap">Access here, handle in the tool</p>
             <dl class="bt-x-gc">
-              <dt>Gain</dt><dd>Keeps specialized handling out of the main order list.</dd>
-              <dt>Cost</dt><dd>Requires merchants to switch workspaces to complete the task.</dd>
+              <dt>Gain</dt><dd>Keeps the dedicated tools’ handling capabilities; the order page takes on no further exception actions.</dd>
+              <dt>Cost</dt><dd>Merchants switch workspaces to complete the handling.</dd>
             </dl>
           </div>
         </div>
