@@ -492,9 +492,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-opt .bt-x-strat-name { padding-top:0; }
   .bt-x-fig { margin:8px 0; }
   .bt-x-diagram.bt-x-scene--wide { aspect-ratio:2/1; }
-  .bt-x-gc { margin:4px 0 0; display:flex; flex-direction:column; gap:12px; }
-  .bt-x-gc dt { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; }
-  .bt-x-gc dd { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:2px 0 0; }
+  .bt-x-gc { margin:8px 0 0; display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:16px; row-gap:8px; }
+  .bt-x-gc dt { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
+  .bt-x-gc dd { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
     .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; }
@@ -1105,8 +1105,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
             <dl class="bt-x-gc">
-              <dt>What it gains</dt><dd>Fewer page switches; the order and its actions sit together.</dd>
-              <dt>What it costs</dt><dd>The order page has to hold more information and actions.</dd>
+              <dt>Gains</dt><dd>Discovery and handling stay connected, without leaving the current workspace.</dd>
+              <dt>Costs</dt><dd>The information and actions each exception type needs add complexity to the order page.</dd>
             </dl>
           </div>
           <div class="bt-x-opt is-selected">
@@ -1134,8 +1134,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </div>
             <dl class="bt-x-gc">
-              <dt>What it gains</dt><dd>The order page carries few specialized actions, and the tools’ handling capabilities stay in use.</dd>
-              <dt>What it costs</dt><dd>Merchants still handle requests across pages.</dd>
+              <dt>Gains</dt><dd>Keeps the dedicated tools’ handling capabilities; the order page takes on no further exception actions.</dd>
+              <dt>Costs</dt><dd>Merchants switch workspaces to complete the handling.</dd>
             </dl>
           </div>
         </div>
