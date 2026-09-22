@@ -485,7 +485,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* 02 · handling: two options side by side, same width, a drawn scene each. Content runs flush with the column
      edges; the chosen option's outline is drawn outside them (like the discovery table's) rather than insetting it. */
   #x-handling { container-type:inline-size; }   /* the options query the lens's width (an element cannot query itself) */
-  .bt-x-opts { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
+  /* the chosen option's outline + pill reach 22px and ~32px above the options, so give the lead extra room */
+  .bt-x-opts { margin-top:20px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
   /* each option is a subgrid of the options grid's rows (name · scene · benefit · tradeoff), so the Benefit rows line
      up across the two columns and so do the Tradeoff rows, whatever the text lengths */
   .bt-x-opt { position:relative; display:grid; grid-template-rows:subgrid; grid-row:span 4; row-gap:12px; align-content:start; }
@@ -499,6 +500,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-gc:nth-of-type(1) { margin-top:8px; }
   .bt-x-gc span { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
   .bt-x-gc p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  /* highlighter stroke: a translucent band of the project blue behind the words, running under descenders */
+  .bt-x-hl { color:inherit; background:linear-gradient(transparent 22%, rgba(130,205,245,0.28) 22%, rgba(130,205,245,0.28) 94%, transparent 94%); padding:0 .12em; margin:0 -.12em; border-radius:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
   .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
     .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; }
@@ -1091,7 +1094,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- 03 · where handling lives -->
       <div class="bt-x-block" id="x-handling">
-        <p class="bt-x-lead">Embedding exception discovery in daily work raised another question: should the handling move there too? Would fewer page switches be worth the added complexity?</p>
+        <p class="bt-x-lead">Embedding exception discovery in daily work raised another question: <mark class="bt-x-hl">should the handling move there too? Would fewer page switches be worth the added complexity?</mark></p>
         <div class="bt-x-opts">
           <div class="bt-x-opt">
             <h4 class="bt-x-strat-name">Handle on the order page</h4>
