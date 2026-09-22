@@ -494,7 +494,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-opt .bt-x-strat-name { padding-top:0; }
   .bt-x-fig { margin:8px 0; }
   .bt-x-diagram.bt-x-scene--wide { aspect-ratio:2/1; }
-  .bt-x-gc { display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:16px; align-items:start; }
+  .bt-x-gc { display:grid; grid-template-columns:var(--gc-label) minmax(0,1fr); column-gap:16px; align-items:start; }   /* fixed label column: the Benefit and Tradeoff texts start on the same line */
+  .bt-x-opts { --gc-label:4.6em; }
   .bt-x-gc:nth-of-type(1) { margin-top:8px; }
   .bt-x-gc span { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
   .bt-x-gc p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
