@@ -310,7 +310,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ── Exploration: three lenses (discovery → attention → handling boundaries), each
         one question, two or three sentences, one figure with a stated conclusion ── */
   .bt-x-section { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
-  .bt-x-inner { --x-gap:120px; width:100%; max-width:860px; display:flex; flex-direction:column; gap:var(--x-gap); }
+  .bt-x-inner { --x-gap:168px; width:100%; max-width:860px; display:flex; flex-direction:column; gap:var(--x-gap); }
   .bt-x-block { display:flex; flex-direction:column; gap:36px; scroll-margin-top:140px; }
   #x-discovery { margin-top:calc(48px - var(--x-gap)); }   /* first lens sits 48px under the strip */
   .bt-x-head { display:flex; flex-direction:column; gap:16px; }
@@ -504,7 +504,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-hl { color:#0A0D0C; font-weight:400; background:#82CDF5; padding:.16em .12em; margin:0 -.12em; border-radius:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
   .bt-x-decision { display:flex; flex-direction:column; gap:12px; margin-top:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
   @container (max-width:640px) {
-    .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; }
+    /* stacked: the unselected option comes first, so no outline or pill needs room under the lead */
+    .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; margin-top:0; }
     .bt-x-opt.is-selected::before { inset:-22px -12px -22px; border-radius:12px; }
   }
 
@@ -515,7 +516,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .bt-x-mx-pick { margin:0 -12px; border-radius:12px; }
     .bt-x-mx-pick em { left:12px; }
     .bt-x-opt.is-selected::before { inset:-22px -12px -22px; border-radius:12px; }
-    .bt-x-inner { --x-gap:80px; }
+    .bt-x-inner { --x-gap:112px; }
     .bt-x-pair, .bt-x-trio { grid-template-columns:minmax(0,1fr); }
   }
 
