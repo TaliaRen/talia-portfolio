@@ -482,29 +482,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-vp-tag { position:absolute; right:8px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#fff; background:rgba(10,13,12,0.85); border:1px solid rgba(255,255,255,0.25); padding:3px 7px; border-radius:4px; letter-spacing:.02em; max-width:62%; text-align:right; }
   .bt-x-vp-tag--task { color:#FFB86B; border-color:rgba(255,184,107,0.5); }
 
-  /* 03: division of responsibility */
-  .bt-x-split { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:16px; align-items:stretch; }
-  .bt-x-zone { border-radius:12px; padding:20px 22px; display:flex; flex-direction:column; gap:12px; }
-  .bt-x-zone--ws { border:1px solid rgba(255,255,255,0.28); background:rgba(255,255,255,0.05); }
-  .bt-x-zone--tl { border:1px solid rgba(130,205,245,0.7); background:rgba(130,205,245,0.08); }
-  .bt-x-zone h5 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; margin:0; }
-  .bt-x-zone--tl h5 { color:#82CDF5; }
-  .bt-x-zone ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
-  .bt-x-zone li { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.5; padding-left:14px; position:relative; }
-  .bt-x-zone li::before { content:''; position:absolute; left:0; top:.6em; width:6px; height:6px; border-radius:50%; background:#FFB86B; }
-  .bt-x-zone--tl li::before { background:#82CDF5; }
-  .bt-x-link { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:0 4px; }
-  .bt-x-link svg { width:56px; height:16px; display:block; }
-  .bt-x-link span { font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#979797; letter-spacing:.04em; white-space:nowrap; }
-  .bt-x-tradeoff { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.6; margin:0; }
-  .bt-x-tradeoff b { font-weight:400; color:#fff; }
+  /* 02 · handling: two options side by side, same width, a crop each; the chosen one outlined */
+  #x-handling { container-type:inline-size; }   /* the options query the lens's width (an element cannot query itself) */
+  .bt-x-opts { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; align-items:start; }
+  .bt-x-opt { position:relative; display:flex; flex-direction:column; gap:12px; padding:22px 20px 24px; border:1px solid transparent; border-radius:16px; }
+  .bt-x-opt.is-selected { border-color:rgba(130,205,245,0.75); }
+  .bt-x-opt-pick { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(130,205,245,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#82CDF5; letter-spacing:.02em; white-space:nowrap; }
+  .bt-x-opt .bt-x-strat-name { padding-top:0; }
+  .bt-x-fig { position:relative; aspect-ratio:2/1; margin-top:8px; }
+  .bt-x-fig > .bt-x-shot { position:absolute; left:0; top:0; width:100%; height:100%; }
+  .bt-x-fig--chain > .bt-x-shot { height:auto; }   /* the two crops set their own top + height inline */
+  .bt-x-fig-arrow { position:absolute; left:50%; top:34%; height:28%; width:auto; transform:translateX(-50%); display:block; }
+  .bt-x-fig-cap { margin:-4px 0 0; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.02em; }
+  .bt-x-gc { margin:8px 0 0; display:grid; grid-template-columns:max-content minmax(0,1fr); column-gap:16px; row-gap:8px; }
+  .bt-x-gc dt { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.8; }
+  .bt-x-gc dd { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  .bt-x-decision { display:flex; flex-direction:column; gap:12px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.10); }
+  @container (max-width:640px) {
+    .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:32px; }
+    .bt-x-opt { padding:20px 16px 22px; }
+    .bt-x-opt-pick { left:16px; }
+  }
 
   @media(max-width:860px) {
     .bt-x-section { padding:0 32px 80px; }
     .bt-x-inner { --x-gap:80px; }
     .bt-x-pair, .bt-x-trio { grid-template-columns:minmax(0,1fr); }
-    .bt-x-split { grid-template-columns:minmax(0,1fr); }
-    .bt-x-link svg { transform:rotate(90deg); }
   }
 
   @media(max-width:860px) {
@@ -1082,33 +1085,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- 03 · where handling lives -->
       <div class="bt-x-block" id="x-handling">
-        <div class="bt-x-copy">
-          <p class="bt-x-lead">Bringing exception tasks into Order Management did not necessarily mean bringing every handling flow with them.</p>
-          <p class="bt-x-lead">The selected approach surfaced task information and access points in the main workspace, while keeping exception-specific actions in Order Tools. This retained the existing handling flows for different exception types while making their tasks easier to access.</p>
-        </div>
-        <div class="bt-x-figure" style="gap:20px;">
-          <div class="bt-x-split">
-            <div class="bt-x-zone bt-x-zone--ws">
-              <h5>Order Management</h5>
-              <ul>
-                <li>Discover requests</li>
-                <li>See task information</li>
-                <li>Enter the relevant tool</li>
-              </ul>
+        <p class="bt-x-lead">Once requests surfaced in Order Management, I considered whether merchants should resolve them there too. Would fewer page switches justify bringing more exception-specific information and actions into an already dense order list?</p>
+        <div class="bt-x-opts">
+          <div class="bt-x-opt">
+            <h4 class="bt-x-strat-name">Handle within Order Management</h4>
+            <p class="bt-x-lead">Bring request details and actions into the order list.</p>
+            <div class="bt-x-fig">
+              <div class="bt-x-shot" style="--z:1.89; --fx:.42; --fy:.02;"><img src="bytedance/inline action.png" alt="An order row carrying an address-change request, with Approve and Reject beside the order" loading="lazy"></div>
             </div>
-            <div class="bt-x-link" aria-label="Continue handling in Order Tools">
-              <svg viewBox="0 0 56 16" xmlns="http://www.w3.org/2000/svg"><path d="M2 8 H46" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none"/><path d="M44 2.5 L52 8 L44 13.5" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>Continue handling</span>
-            </div>
-            <div class="bt-x-zone bt-x-zone--tl">
-              <h5>Order Tools</h5>
-              <ul>
-                <li>Review request details</li>
-                <li>Complete exception-specific actions</li>
-              </ul>
-            </div>
+            <p class="bt-x-fig-cap">Actions within the order list</p>
+            <dl class="bt-x-gc">
+              <dt>Gain</dt><dd>Fewer page switches; actions stay beside the order.</dd>
+              <dt>Cost</dt><dd>Adds exception-specific information and controls to routine order processing.</dd>
+            </dl>
           </div>
-          <p class="bt-x-tradeoff"><b>Tradeoff:</b> merchants still switch workspaces to complete the task.</p>
+          <div class="bt-x-opt is-selected">
+            <span class="bt-x-opt-pick" aria-hidden="true">Selected direction</span>
+            <h4 class="bt-x-strat-name">Continue in Order Tools</h4>
+            <p class="bt-x-lead">Surface requests in Order Management and link to the relevant handling tool.</p>
+            <div class="bt-x-fig bt-x-fig--chain" role="img" aria-label="The Address Change Review entry in Order Management, leading to the review page in Order Tools">
+              <div class="bt-x-shot" style="top:0; height:34%; --z:2.2; --fx:.445; --fy:.188;"><img src="bytedance/solution1.png" alt="" loading="lazy"></div>
+              <svg class="bt-x-fig-arrow" viewBox="0 0 16 40" xmlns="http://www.w3.org/2000/svg"><path d="M8 2 V32" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none"/><path d="M2.5 27 L8 34 L13.5 27" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="bt-x-shot" style="top:62%; height:38%; --z:1.1; --fx:.05; --fy:.07;"><img src="bytedance/order-tool.png" alt="" loading="lazy"></div>
+            </div>
+            <p class="bt-x-fig-cap">Access here, handle in the tool</p>
+            <dl class="bt-x-gc">
+              <dt>Gain</dt><dd>Keeps specialized handling out of the main order list.</dd>
+              <dt>Cost</dt><dd>Requires merchants to switch workspaces to complete the task.</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="bt-x-decision">
+          <p class="bt-x-conclusion">Surface requests here. Keep specialized handling in Order Tools.</p>
+          <p class="bt-x-lead">I chose to connect merchants to existing tools rather than add more controls to the order list. This kept the main workspace focused on routine order processing, while accepting a page switch for exception handling.</p>
         </div>
       </div>
 
