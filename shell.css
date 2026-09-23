@@ -145,11 +145,12 @@ html.embed .case-meta[data-cols="1"] { display:grid; grid-template-columns:minma
 html.embed .case-meta[data-cols] .case-meta-col label { font-size:.8rem; margin-bottom:12px; }   /* no longer squeezing four across, so back to the normal type size */
 html.embed .case-meta[data-cols] .case-meta-col p { font-size:1.125rem; line-height:1.9; }
 
-/* ── More work: the other three case studies, at the end of every project page ── */
+/* ── More work: two other case studies, at the end of every project page ── */
 .case-more { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
 .case-more-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:36px; }
-.case-more-tag { font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:300; color:var(--accent,#fff); letter-spacing:.1em; text-transform:uppercase; }
-.case-more-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; }
+.case-more-title-row { display:flex; align-items:center; gap:24px; margin:0; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; }
+.case-more-title-row::before, .case-more-title-row::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.12); }   /* the rules run out to the column edges */
+.case-more-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; }
 .case-more-card { display:flex; flex-direction:column; gap:6px; text-decoration:none; color:inherit; min-width:0; }
 .case-more-img { position:relative; aspect-ratio:570/380; border-radius:12px; overflow:hidden; background:rgba(255,255,255,0.05); margin-bottom:10px; transition:transform .35s cubic-bezier(.25,.46,.45,.94); }
 .case-more-card:hover .case-more-img { transform:scale(1.025); }
@@ -159,7 +160,6 @@ html.embed .case-meta[data-cols] .case-meta-col p { font-size:1.125rem; line-hei
 .case-more-img--left .cover { bottom:0; left:0; width:90%; }
 .case-more-img--bottom .cover { bottom:0; left:50%; transform:translateX(-50%); width:80%; border-radius:8px 8px 0 0; }
 .case-more-img--bottom-sm .cover { bottom:0; left:50%; transform:translateX(-50%); width:72%; }
-.case-more-meta { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.02em; }
 .case-more-title { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; }
 .case-more-desc { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.6; }
 @media(max-width:860px) { .case-more { padding:0 32px 80px; } }

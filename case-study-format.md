@@ -19,7 +19,7 @@ Every case-study page has exactly this top-level structure:
     [Problem]               → required, id="problem"
     ...flexible narrative sections...  → 1 or more, pick what the story needs (see §5)
     [Takeaways]             → required, always the last narrative section, id="takeaways"
-    [More work]             → required, `<section class="case-more">` (styles in shell.css): the other three case studies as cover + meta + title + one-liner cards; no id, so it stays out of the sidebar. Set `--accent` inline to the page's accent.
+    [More work]             → required, `<section class="case-more">` (styles in shell.css): the next two case studies (homepage order, wrapping) as cover + title + one-liner cards under a centred "More work" heading with rules to both edges; no id, so it stays out of the sidebar. Set `--accent` inline to the page's accent.
   </main>
   <footer>                  → shared site footer, identical across all pages
 ```
