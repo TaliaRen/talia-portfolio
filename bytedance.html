@@ -1302,14 +1302,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // land the lens just under whatever is pinned: the strip at its stuck height (or the compact header on phones)
   function pinnedBottom() {
     const mini = document.getElementById('bt-x-mini');
-    if (mini && getComputedStyle(mini).display !== 'none') return mini.getBoundingClientRect().bottom;
+    if (mini && getComputedStyle(mini).display !== 'none') return (parseFloat(getComputedStyle(mini).top) || 0) + mini.offsetHeight;   // where it sits once shown (it slides in from a few px up)
     const cs = getComputedStyle(nav);
-    const stuckPad = nav.classList.contains('is-stuck') ? 0 : 18;               // .is-stuck adds 18px of top padding
+    const stuckPad = nav.classList.contains('is-stuck') ? 0 : 4;                // .is-stuck raises the top padding from 14px to 18px
     return (parseFloat(cs.top) || 0) + nav.offsetHeight + stuckPad;
   }
   items.forEach((a, i) => a.addEventListener('click', e => {
     e.preventDefault();
-    window.scrollTo({ top: blocks[i].getBoundingClientRect().top + window.scrollY - pinnedBottom() - 32, behavior: 'smooth' });
+    window.scrollTo({ top: blocks[i].getBoundingClientRect().top + window.scrollY - pinnedBottom() - 72, behavior: 'smooth' });   // same 72px the first lens has under the strip in the flow
   }));
   let ticking = false;
   window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } }, { passive: true });
