@@ -266,6 +266,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:860px) {
     .bt-solution-section { padding: 0 32px 80px; }
   }
+  /* takeaways: one card per lesson, a heading and a paragraph in each */
+  .bt-tk-cards { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; align-items:stretch; }
+  .bt-tk-card { padding:24px 28px 28px; border-radius:14px; background:rgba(255,255,255,0.08); display:flex; flex-direction:column; gap:12px; }
+  .bt-tk-card h3 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
+  .bt-tk-card p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
+  @media(max-width:640px) { .bt-tk-cards { grid-template-columns:minmax(0,1fr); } }
   .bt-iteration-video {
     width: 100%; border-radius: 12px; display: block;
   }
@@ -1122,10 +1128,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="bt-solution-header">Takeaways</span>
           <h2 class="bt-solution-title">What I've learned</h2>
         </div>
-        <div style="display:flex; flex-wrap:wrap; gap:48px; align-items:flex-start;">
-          <div style="flex:1 1 320px; min-width:280px; display:flex; flex-direction:column; gap:16px;">
-            <div style="padding:20px 24px; border-radius:14px; background:rgba(255,255,255,0.08); font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.7;">Products constantly evolve through the addition, removal, and adjustment of features, and being able to anticipate and accommodate this change is central to building scalable products.</div>
-            <div style="padding:20px 24px; border-radius:14px; background:rgba(255,255,255,0.08); font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.7;">In a mature ecosystem, users rely on muscle memory. Design interventions should focus on seamless integration rather than radical change.</div>
+        <div class="bt-tk-cards">
+          <div class="bt-tk-card">
+            <h3>Small changes require a broader view.</h3>
+            <p>Even a change to one module needs to be evaluated across the full workflow. The interface change may be small, but its impact can reach beyond it.</p>
+          </div>
+          <div class="bt-tk-card">
+            <h3>Existing workflows carry familiar habits.</h3>
+            <p>Reusing tools can reduce engineering effort and preserve familiar ways of working. The key is knowing what needs to change and what is worth keeping.</p>
           </div>
         </div>
       </div>
