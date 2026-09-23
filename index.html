@@ -3378,6 +3378,39 @@ document.addEventListener('mousemove', e => {
   // the beams can be aimed at another element (the About portrait while it decodes)
   let beamTarget = null;
   window.beamAt = el => { beamTarget = el; beamsOn = !!el; camBeams?.classList.toggle('on', !!el); document.getElementById('detectorCamera')?.classList.toggle('lit', !!el); };
+  // ── Opening pose: a fresh visit loads already "hovering" the unknown text — the camera lit,
+  //    beams on the phrases, the phrases decoded and the translation on the screen — so a first-time
+  //    visitor sees the trick without having to find it. The first real input (mouse movement,
+  //    scroll, click, key, touch) hands control back and everything returns to the resting state,
+  //    unless the cursor happens to be over a phrase, in which case the real hover just continues. ──
+  if (!cameBack && !reducedMotion) {
+    const hero = () => strands.filter(o => !o.sample);
+    const enter = () => { hero().forEach(o => o.decode()); beamsOn = true; camBeams?.classList.add('on'); camBox?.classList.add('lit'); if (screenText) showIntro(); };
+    const leave = () => { hero().forEach(o => o.encode()); beamsOn = false; camBeams?.classList.remove('on'); camBox?.classList.remove('lit'); if (screenText && !atEnd) showReady(true); };
+    const EVENTS = ['mousemove', 'wheel', 'scroll', 'pointerdown', 'keydown', 'touchstart'];
+    let started = false, done = false, lastX = null, lastY = null;
+    const release = e => {
+      if (done) return;
+      // Chrome dispatches synthetic mousemoves while things move under a resting cursor;
+      // only a move that actually travels counts as the visitor taking over
+      if (e.type === 'mousemove') {
+        if (lastX !== null && Math.hypot(e.clientX - lastX, e.clientY - lastY) < 3) return;
+        if (lastX === null) { lastX = e.clientX; lastY = e.clientY; return; }
+      }
+      done = true;
+      EVENTS.forEach(ev => window.removeEventListener(ev, release, true));
+      if (!started) return;
+      const over = e.clientX != null && hero().some(o => { const r = o.el.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; });
+      if (!over) leave();
+    };
+    EVENTS.forEach(ev => window.addEventListener(ev, release, { capture: true, passive: true }));
+    // begin once the board has risen (1s transform transition), with a fallback in case the event never fires
+    const det = document.getElementById('detector');
+    let startTimer = 0;
+    const start = () => { clearTimeout(startTimer); if (done || started) return; started = true; enter(); };
+    det?.addEventListener('transitionend', function once(e) { if (e.propertyName !== 'transform') return; det.removeEventListener('transitionend', once); start(); });
+    startTimer = setTimeout(start, 1600);
+  }
   function drawBeams() {
     if (!camBeams || !beamsOn || !beamEls.length) return;
     const [sx, sy] = camLensScreen;
