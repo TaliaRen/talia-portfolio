@@ -318,7 +318,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* overview of the three questions; sticks to the top while the three lenses scroll by and
      reads like a progress nav — the current one lit, an accent bar creeping left to right */
-  .bt-x-nav { position:sticky; top:calc(var(--frame-inset) + 7px); z-index:20; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:calc(36px - var(--x-gap)); }   /* 36px under the intro, whatever the section gap is */
+  .bt-x-nav { position:sticky; top:calc(var(--frame-inset) + 7px); z-index:20; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; padding:14px 0 16px; background:transparent; border-bottom:1px solid rgba(255,255,255,0.12); margin-top:calc(64px - var(--x-gap)); }   /* 64px under the intro, whatever the section gap is */
   .bt-x-nav.is-stuck { background:#0A0D0C; padding-top:18px; }   /* only while pinned: solid page colour */
   .bt-x-nav-item { display:flex; flex-direction:column; gap:10px; text-decoration:none; color:inherit; min-width:0; }
   .bt-x-nav-num { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; transition:color .25s ease; }
@@ -340,7 +340,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* phones: in place, the overview is a plain stacked list of all three questions (not sticky).
        Once it has scrolled away, a compact header takes over: three progress segments, then the
        current label and its question. Separate fixed element, so nothing in the flow changes size. */
-    .bt-x-nav { position:static; grid-template-columns:minmax(0,1fr); gap:0; padding:0; border-bottom:0; margin-top:calc(32px - var(--x-gap)); }
+    .bt-x-nav { position:static; grid-template-columns:minmax(0,1fr); gap:0; padding:0; border-bottom:0; margin-top:calc(56px - var(--x-gap)); }
     .bt-x-nav-item { gap:6px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.12); }
     .bt-x-nav-item:first-child { border-top:1px solid rgba(255,255,255,0.12); }
     .bt-x-nav-item .bt-x-nav-num, .bt-x-nav-item.is-active .bt-x-nav-num { color:#82CDF5; }
@@ -370,7 +370,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      flush with the ends of the rules; the chosen direction's outline bleeds past them instead.
      Cells carry their direction (c1–c3) and part (r1 scene, r2 direction, r3 weigh) as classes so the scene can
      move to its own full-width band below 780px; it stays a table at every width, smaller type on phones. */
-  .bt-x-strats { container-type:inline-size; margin-top:40px; }   /* 76px under the lead, the same as the handling options */
+  .bt-x-strats { container-type:inline-size; }
   .bt-x-mx { display:grid; grid-template-columns:260px minmax(0,1.15fr) minmax(0,1fr); }
   .bt-x-mx .r1 { --r:1; } .bt-x-mx .r2 { --r:2; } .bt-x-mx .r3 { --r:3; }
   .bt-x-mx .c1 { --c:1; } .bt-x-mx .c2 { --c:2; } .bt-x-mx .c3 { --c:3; }
