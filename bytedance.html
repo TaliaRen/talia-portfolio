@@ -280,7 +280,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-section { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
   .bt-x-inner { --x-gap:168px; width:100%; max-width:860px; display:flex; flex-direction:column; gap:var(--x-gap); }
   .bt-x-block { display:flex; flex-direction:column; gap:36px; scroll-margin-top:140px; }
-  #x-discovery { margin-top:calc(48px - var(--x-gap)); }   /* first lens sits 48px under the strip */
+  #x-discovery { margin-top:calc(72px - var(--x-gap)); }   /* first lens sits 72px under the strip */
   .bt-x-head { display:flex; flex-direction:column; gap:16px; }
   .bt-x-copy { display:flex; flex-direction:column; gap:24px; }
 
@@ -338,7 +338,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      flush with the ends of the rules; the chosen direction's outline bleeds past them instead.
      Cells carry their direction (c1–c3) and part (r1 scene, r2 direction, r3 weigh) as classes so the scene can
      move to its own full-width band below 780px; it stays a table at every width, smaller type on phones. */
-  .bt-x-strats { container-type:inline-size; margin-top:28px; }   /* 64px under the lead */
+  .bt-x-strats { container-type:inline-size; margin-top:52px; }   /* 88px under the lead */
   .bt-x-mx { display:grid; grid-template-columns:260px minmax(0,1.15fr) minmax(0,1fr); }
   .bt-x-mx .r1 { --r:1; } .bt-x-mx .r2 { --r:2; } .bt-x-mx .r3 { --r:3; }
   .bt-x-mx .c1 { --c:1; } .bt-x-mx .c2 { --c:2; } .bt-x-mx .c3 { --c:3; }
@@ -421,7 +421,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      edges; the chosen option's outline is drawn outside them (like the discovery table's) rather than insetting it. */
   #x-handling { container-type:inline-size; }   /* the options query the lens's width (an element cannot query itself) */
   /* the chosen option's outline + pill reach 22px and ~32px above the options, so give the lead extra room */
-  .bt-x-opts { margin-top:60px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
+  .bt-x-opts { margin-top:84px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:56px; align-items:start; }
   /* each option is a subgrid of the options grid's rows (name · scene · benefit · tradeoff), so the Benefit rows line
      up across the two columns and so do the Tradeoff rows, whatever the text lengths */
   .bt-x-opt { position:relative; display:grid; grid-template-rows:subgrid; grid-row:span 5; row-gap:12px; align-content:start; }   /* 5th row: the chosen option's reasons */
@@ -441,7 +441,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bt-x-why { margin-top:16px; padding-top:24px; border-top:1px solid rgba(130,205,245,0.28); display:flex; flex-direction:column; gap:12px; }   /* same rule + blue label as the discovery table's footer */
   @container (max-width:640px) {
     /* stacked: the unselected option comes first, so no outline or pill needs room under the lead */
-    .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; margin-top:28px; }
+    .bt-x-opts { grid-template-columns:minmax(0,1fr); gap:56px; margin-top:52px; }
     .bt-x-opt.is-selected::before { inset:-22px -12px -22px; border-radius:12px; }
   }
 
