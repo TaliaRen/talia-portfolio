@@ -27,7 +27,7 @@ Helping merchants discover and handle exception requests in their daily workflow
 | Metric | Result |
 |---|---|
 | Adoption of Order Tools | **+23%** |
-| Screen efficiency (order list visible in the first viewport after the integration) | **+12%** |
+| Screen efficiency (order list visible in the first viewport after the Common Tools module was added) | **+12%** |
 | CPO — calls per order (customer-support calls) | **−5%** |
 
 > ⚠️ The homepage card's hover tip says "21% increase in feature adoption" while the case study says +23%. One of them is stale. Confirm the right number before it goes on a résumé.
@@ -98,11 +98,11 @@ Direction taken: surface enough task information to support action, while keepin
 
 - **Small changes require a broader view.** Even a change to one module needs to be evaluated across the full workflow; the interface change may be small, but its impact can reach beyond it.
 - **Existing workflows carry familiar habits.** Reusing tools reduces engineering effort and preserves familiar ways of working; the key is knowing what needs to change and what is worth keeping.
-- (Earlier drafts) Products constantly evolve through adding, removing and adjusting features; anticipating that is central to scalable products. In a mature ecosystem users rely on muscle memory — interventions should integrate seamlessly rather than change radically.
+- (Earlier drafts) Products constantly evolve through adding, removing and adjusting features; anticipating that is central to scalable products. In a mature ecosystem users rely on muscle memory — interventions should fit in seamlessly rather than change things radically. (Note: "integrate" is avoided deliberately — the tools were connected, not merged; see Decision 2.)
 
 ## Résumé-ready phrasing (only uses sourced facts)
 
-- Designed the integration of Doudian's exception-handling tools into merchants' primary Order Management workflow (ByteDance, Douyin E-commerce), surfacing pending requests where merchants already work; **+23% Order Tools adoption, −5% calls per order.**
+- Surfaced pending exception requests inside Doudian's Order Management workflow (ByteDance, Douyin E-commerce) and connected each to its existing handling tool, so merchants could act without checking a separate module; **+23% Order Tools adoption, −5% calls per order.**
 - Framed the problem from support-call evidence (merchants discovering requests only after customers complained) and led exploration across three discovery strategies and two handling models, documenting the tradeoffs behind each decision.
 - Chose to reuse existing tools rather than rebuild handling inside the order page, cutting engineering scope while keeping the order list uncluttered and the design scalable to new exception types.
 - Restructured status navigation and filters to recover vertical space lost to the new module, **+12% screen efficiency**, with no change to the existing order-processing flow.
