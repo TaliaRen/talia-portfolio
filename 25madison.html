@@ -361,20 +361,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
   /* ── Locked case study: everything under Context sits behind a password ── */
-  .jbx-lock { width:100%; max-width:860px; border:1px solid rgba(120,206,151,0.35); border-radius:16px; padding:32px 36px; display:flex; flex-direction:column; gap:20px; background:rgba(120,206,151,0.04); }
-  .jbx-lock-head { display:flex; align-items:center; gap:12px; }
-  .jbx-lock-head svg { width:20px; height:20px; flex:none; color:#78CE97; }
-  .jbx-lock-head span { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#78CE97; letter-spacing:.1em; text-transform:uppercase; }
-  .jbx-lock p { font-family:'Libertinus Serif',serif; font-size:1.125rem; font-weight:400; color:#78CE97; line-height:1.8; margin:0; }
-  .jbx-lock p.jbx-lock-sub { font-family:'Figtree',sans-serif; font-weight:200; color:#E0E0E0; font-size:1rem; line-height:1.7; }
-  .jbx-lock-form { display:flex; gap:10px; flex-wrap:wrap; }
-  .jbx-lock-form input { flex:1 1 220px; min-width:0; height:46px; padding:0 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.04); color:#fff; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; letter-spacing:.06em; outline:none; transition:border-color .2s; }
+  .jbx-lock { width:100%; max-width:860px; display:flex; flex-direction:column; gap:16px; }
+  .jbx-lock p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  .jbx-lock-form { display:flex; gap:10px; flex-wrap:wrap; max-width:420px; }
+  .jbx-lock-form input { flex:1 1 180px; min-width:0; height:44px; padding:0 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.04); color:#fff; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; letter-spacing:.06em; outline:none; transition:border-color .2s; }
   .jbx-lock-form input::placeholder { color:#979797; letter-spacing:0; }
   .jbx-lock-form input:focus { border-color:rgba(120,206,151,0.8); }
-  .jbx-lock-form button { height:46px; padding:0 22px; border-radius:10px; border:0; background:#78CE97; color:#0A0D0C; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; transition:transform .15s, filter .15s; }
+  .jbx-lock-form button { height:44px; padding:0 20px; border-radius:10px; border:0; background:#78CE97; color:#0A0D0C; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; white-space:nowrap; transition:transform .15s, filter .15s; }
   .jbx-lock-form button:hover { filter:brightness(1.08); }
   .jbx-lock-form button:active { transform:translateY(1px); }
-  .jbx-lock-err { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#FF9A66; margin:0; min-height:1.4em; }
+  .jbx-lock-err { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#FF9A66; margin:0; min-height:0; }
+  .jbx-lock-err:empty { display:none; }
   .jbx-lock.is-shake { animation:jbx-shake .4s; }
   @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
   .jbx-locked { display:none; }
@@ -382,7 +379,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   body.jbx-open .jbx-lock { display:none; }
   body:not(.jbx-open) .case-sidebar a[data-locked] { display:none; }   /* only hides; once open, the sidebar's own rules (incl. the phone Back-only mode) apply */
   @keyframes jbx-reveal { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
-  @media(max-width:640px) { .jbx-lock { padding:24px 20px; } }
 
   /* ── Case-study sections (shared shell: tag → title → content) ── */
   .jbx-sec { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
@@ -535,15 +531,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-block-text">25madison is a venture studio focused on applying AI to modernize legacy industries. I joined the team incubating <span style="color:#78CE97;font-weight:400;">Jain</span> and helped shape <span style="color:#78CE97;font-weight:400;">Bid X-Ray</span>, a workspace that enables commercial janitorial operators to analyze RFPs and evaluate bid opportunities. My work focused on turning static AI-extracted outputs into information users could verify, edit, and confidently use in bid decisions.</p>
       </div>
       <form class="jbx-lock" id="jbxLock" autocomplete="off">
-        <div class="jbx-lock-head">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1"/></svg>
-          <span>Confidential</span>
-        </div>
-        <p>This case study is confidential. The rest of the page is locked.</p>
-        <p class="jbx-lock-sub">If you have the password, enter it below. Otherwise, please reach out to me directly and I'd be glad to walk you through it.</p>
+        <p>Psst, this one's under NDA. Got the password?</p>
         <div class="jbx-lock-form">
           <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
-          <button type="submit">Unlock</button>
+          <button type="submit">Let me in</button>
         </div>
         <p class="jbx-lock-err" id="jbxErr" aria-live="polite"></p>
       </form>
@@ -1152,7 +1143,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     let ok = false;
     try { ok = (await sha256(v)) === HASH; } catch (e2) { ok = false; }
     if (ok) { err.textContent = ''; open(); const first = document.getElementById('jbxLocked'); first?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    else { err.textContent = "That's not it. Check the password, or reach out to me for access."; form.classList.remove('is-shake'); void form.offsetWidth; form.classList.add('is-shake'); input.select(); }
+    else { err.textContent = "Nope, not that one. Try again?"; form.classList.remove('is-shake'); void form.offsetWidth; form.classList.add('is-shake'); input.select(); }
   });
 })();
 </script>
