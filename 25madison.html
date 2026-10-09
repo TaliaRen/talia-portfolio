@@ -531,10 +531,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-block-text">25madison is a venture studio focused on applying AI to modernize legacy industries. I joined the team incubating <span style="color:#78CE97;font-weight:400;">Jain</span> and helped shape <span style="color:#78CE97;font-weight:400;">Bid X-Ray</span>, a workspace that enables commercial janitorial operators to analyze RFPs and evaluate bid opportunities. My work focused on turning static AI-extracted outputs into information users could verify, edit, and confidently use in bid decisions.</p>
       </div>
       <form class="jbx-lock" id="jbxLock" autocomplete="off">
-        <p>The full story is password-protected. Ask me for access, or enter it below.</p>
+        <p>Confidential work. Enter the password to read on.</p>
         <div class="jbx-lock-form">
           <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
-          <button type="submit">Continue</button>
+          <button type="submit">Read on</button>
         </div>
         <p class="jbx-lock-err" id="jbxErr" aria-live="polite"></p>
       </form>
@@ -1159,7 +1159,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     let ok = false;
     try { ok = (await sha256(v)) === HASH; } catch (e2) { ok = false; }
     if (ok) { err.textContent = ''; open(); const first = document.getElementById('jbxLocked'); first?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    else { err.textContent = "Not quite. Give it another go."; form.classList.remove('is-shake'); void form.offsetWidth; form.classList.add('is-shake'); input.select(); }
+    else { err.textContent = "Wrong password."; form.classList.remove('is-shake'); void form.offsetWidth; form.classList.add('is-shake'); input.select(); }
   });
 })();
 </script>
