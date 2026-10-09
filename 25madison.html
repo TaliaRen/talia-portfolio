@@ -1130,8 +1130,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const form = document.getElementById('jbxLock'), input = document.getElementById('jbxKey'), err = document.getElementById('jbxErr');
   if (!form) return;
   const HASH = 'c0c856b967081f47b928e2bc8d9525215381adc30520bc2801e30208493da4bf';
-  // remembered for 30 days: localStorage first, then sessionStorage, then a cookie (previews and private
-  // windows sometimes block one of them), so a reload or a return visit doesn't ask again
+  // the unlock survives a reload only. Stored three ways (previews and private windows sometimes block
+  // one of them) and read back only when the navigation type is 'reload'
   const KEY = 'jbx-open', DAYS = 30;
   const remember = () => {
     const until = String(Date.now() + DAYS * 864e5);
@@ -1146,8 +1146,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     try { const m = document.cookie.match(new RegExp('(?:^|; )' + KEY + '=(\\d+)')); if (m && ok(m[1])) return true; } catch (e) {}
     return false;
   };
+  const forget = () => {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    try { sessionStorage.removeItem(KEY); } catch (e) {}
+    try { document.cookie = KEY + '=; max-age=0; path=/'; } catch (e) {}
+  };
   const open = () => { document.body.classList.add('jbx-open'); remember(); window.dispatchEvent(new Event('scroll')); };
-  if (remembered()) open();
+  const lock = () => { document.body.classList.remove('jbx-open'); forget(); };
+  // a reload keeps the page open; arriving any other way (a link, Back, typing the address) asks again
+  const navType = ((performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {}).type || 'navigate';
+  if (navType === 'reload' && remembered()) open(); else forget();
+  window.addEventListener('pageshow', e => { if (e.persisted) lock(); });   // restored from the back-forward cache: scripts don't re-run, so lock here
   async function sha256(t) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
