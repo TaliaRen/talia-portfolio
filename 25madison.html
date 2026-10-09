@@ -359,13 +359,143 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .jbx-overview-section { padding:0 32px 80px; gap:64px; }
   }
 
+
+  /* ── Locked case study: everything under Context sits behind a password ── */
+  .jbx-lock { width:100%; max-width:860px; border:1px solid rgba(120,206,151,0.35); border-radius:16px; padding:32px 36px; display:flex; flex-direction:column; gap:20px; background:rgba(120,206,151,0.04); }
+  .jbx-lock-head { display:flex; align-items:center; gap:12px; }
+  .jbx-lock-head svg { width:20px; height:20px; flex:none; color:#78CE97; }
+  .jbx-lock-head span { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#78CE97; letter-spacing:.1em; text-transform:uppercase; }
+  .jbx-lock p { font-family:'Libertinus Serif',serif; font-size:1.125rem; font-weight:400; color:#78CE97; line-height:1.8; margin:0; }
+  .jbx-lock p.jbx-lock-sub { font-family:'Figtree',sans-serif; font-weight:200; color:#E0E0E0; font-size:1rem; line-height:1.7; }
+  .jbx-lock-form { display:flex; gap:10px; flex-wrap:wrap; }
+  .jbx-lock-form input { flex:1 1 220px; min-width:0; height:46px; padding:0 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.04); color:#fff; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; letter-spacing:.06em; outline:none; transition:border-color .2s; }
+  .jbx-lock-form input::placeholder { color:#979797; letter-spacing:0; }
+  .jbx-lock-form input:focus { border-color:rgba(120,206,151,0.8); }
+  .jbx-lock-form button { height:46px; padding:0 22px; border-radius:10px; border:0; background:#78CE97; color:#0A0D0C; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; transition:transform .15s, filter .15s; }
+  .jbx-lock-form button:hover { filter:brightness(1.08); }
+  .jbx-lock-form button:active { transform:translateY(1px); }
+  .jbx-lock-err { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#FF9A66; margin:0; min-height:1.4em; }
+  .jbx-lock.is-shake { animation:jbx-shake .4s; }
+  @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+  .jbx-locked { display:none; }
+  body.jbx-open .jbx-locked { display:block; animation:jbx-reveal .6s ease-out; }
+  body.jbx-open .jbx-lock { display:none; }
+  body:not(.jbx-open) .case-sidebar a[data-locked] { display:none; }   /* only hides; once open, the sidebar's own rules (incl. the phone Back-only mode) apply */
+  @keyframes jbx-reveal { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+  @media(max-width:640px) { .jbx-lock { padding:24px 20px; } }
+
+  /* ── Case-study sections (shared shell: tag → title → content) ── */
+  .jbx-sec { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
+  .jbx-sec-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:48px; }
+  .jbx-sec-head { display:flex; flex-direction:column; gap:16px; }
+  .jbx-sec-title { font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400; color:#fff; line-height:1.3; margin:0; }
+  .jbx-copy { display:flex; flex-direction:column; gap:24px; }
+  .jbx-body { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  .jbx-mini { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#78CE97; line-height:1.5; margin:0; }
+  .jbx-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
+  .jbx-group { display:flex; flex-direction:column; gap:24px; }
+  .jbx-pull { font-family:'Libertinus Serif',serif; font-size:1.375rem; font-weight:400; color:#fff; line-height:1.6; margin:0; padding-left:20px; border-left:2px solid #78CE97; }
+  /* cards: three across, title + body */
+  .jbx-cards { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; }
+  .jbx-cards--2 { grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .jbx-card { padding:22px 24px 24px; border-radius:14px; background:rgba(255,255,255,0.06); display:flex; flex-direction:column; gap:10px; }
+  .jbx-card h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
+  .jbx-card p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
+  .jbx-card .jbx-sym { font-family:'Libertinus Serif',serif; font-size:1.5rem; color:#78CE97; line-height:1; }
+  .jbx-card--accent h4 { color:#78CE97; }
+  /* quotes */
+  .jbx-quotes { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; }
+  .jbx-quote { padding:20px 22px; border-radius:14px; background:rgba(120,206,151,0.05); display:flex; flex-direction:column; gap:10px; }
+  .jbx-quote p { font-family:'Libertinus Serif',serif; font-size:1.125rem; font-style:italic; color:#78CE97; line-height:1.6; margin:0; }
+  .jbx-quote small { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; }
+  /* figures */
+  .jbx-fig { display:flex; flex-direction:column; gap:12px; margin:0; }
+  .jbx-fig img { width:100%; height:auto; display:block; border-radius:12px; border:1px solid rgba(255,255,255,0.08); background:#0d1013; }
+  .jbx-fig figcaption { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; line-height:1.5; }
+  .jbx-figs { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; align-items:start; }
+  /* colour swatches */
+  .jbx-swatches { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; }
+  .jbx-swatch { display:flex; gap:14px; align-items:flex-start; }
+  .jbx-swatch i { flex:none; width:18px; height:18px; border-radius:50%; margin-top:5px; }
+  .jbx-swatch h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0 0 4px; }
+  .jbx-swatch p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
+  /* exploration options: the chosen one outlined like the other pages' "Selected direction" */
+  .jbx-opts { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:20px 24px; }
+  .jbx-opt { position:relative; padding:22px 24px 24px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); display:flex; flex-direction:column; gap:8px; }
+  .jbx-opt.is-pick { border-color:rgba(120,206,151,0.75); }
+  .jbx-opt-pick { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(120,206,151,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#78CE97; letter-spacing:.02em; white-space:nowrap; }
+  .jbx-opt h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
+  .jbx-opt.is-pick h4 { color:#78CE97; }
+  .jbx-opt p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
+  .jbx-opt ul { list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:4px; }
+  .jbx-opt li { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; line-height:1.6; padding-left:20px; position:relative; color:#E0E0E0; }
+  .jbx-opt li::before { position:absolute; left:0; top:0; font-weight:400; }
+  .jbx-opt li.plus::before { content:'+'; color:#78CE97; }
+  .jbx-opt li.minus::before { content:'−'; color:#979797; }
+  .jbx-opt li.minus { color:#979797; }
+  /* collaboration: two voices, then the resolution */
+  .jbx-vs { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; }
+  .jbx-res { padding:20px 24px; border-radius:14px; background:rgba(120,206,151,0.05); font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
+  /* tables (solution decisions, trade-offs) */
+  .jbx-table { display:grid; column-gap:24px; border-bottom:1px solid rgba(255,255,255,0.10); }
+  .jbx-table--3 { grid-template-columns:200px minmax(0,1.2fr) minmax(0,1fr); }
+  .jbx-table--4 { grid-template-columns:150px minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr); }
+  .jbx-table .th { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#78CE97; letter-spacing:.1em; text-transform:uppercase; padding:0 0 14px; }
+  .jbx-table .td { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; padding:20px 0; border-top:1px solid rgba(255,255,255,0.10); }
+  .jbx-table .td.k { color:#fff; font-weight:400; }
+  .jbx-table .td[data-h]::before { display:none; }
+  /* flow strip */
+  .jbx-flow { display:flex; align-items:stretch; gap:10px; flex-wrap:wrap; }
+  .jbx-flow-step { flex:1 1 120px; min-width:0; padding:14px 16px; border-radius:12px; background:rgba(255,255,255,0.06); font-family:'Figtree',sans-serif; font-size:1rem; font-weight:400; color:#fff; line-height:1.4; display:flex; flex-direction:column; gap:4px; }
+  .jbx-flow-step small { font-size:12px; font-weight:300; color:#979797; letter-spacing:.02em; }
+  .jbx-flow-arrow { flex:none; align-self:center; color:#979797; font-family:'Figtree',sans-serif; }
+  .jbx-flow-side { flex:0 0 auto; align-self:center; padding:8px 14px; border-radius:999px; border:1px dashed rgba(255,255,255,0.25); font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; }
+  /* chips (rejected directions) */
+  .jbx-chips { display:flex; flex-wrap:wrap; gap:10px; }
+  .jbx-chip { padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.14); font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#E0E0E0; line-height:1.4; text-decoration:line-through; text-decoration-color:rgba(255,255,255,0.35); }
+  .jbx-note { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; line-height:1.6; margin:0; font-style:italic; }
+  /* metrics to watch */
+  .jbx-watch { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; }
+
+  @media(max-width:1100px) {
+    .jbx-table--4 { grid-template-columns:130px minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr); }
+  }
+  @media(max-width:860px) {
+    .jbx-sec { padding:0 32px 80px; }
+    .jbx-sec-inner { gap:40px; }
+    .jbx-sec-title { font-size:1.5rem; }
+    .jbx-cards, .jbx-quotes, .jbx-swatches { grid-template-columns:minmax(0,1fr); }
+    .jbx-figs { grid-template-columns:minmax(0,1fr); }
+    /* tables become one card per row, the column heading printed above each cell */
+    .jbx-table { display:flex; flex-direction:column; column-gap:0; }
+    .jbx-table .th { display:none; }
+    .jbx-table .td { padding:6px 0; border-top:0; }
+    .jbx-table .td.k { padding-top:24px; border-top:1px solid rgba(255,255,255,0.10); font-size:1.125rem; }
+    .jbx-table .td:last-child, .jbx-table .td.row-end { padding-bottom:24px; }
+    .jbx-table .td[data-h]::before { display:block; content:attr(data-h); font-size:12px; font-weight:300; color:#78CE97; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px; }
+  }
+  @media(max-width:640px) {
+    .jbx-opts, .jbx-vs, .jbx-watch, .jbx-cards--2 { grid-template-columns:minmax(0,1fr); }
+    .jbx-flow-arrow { display:none; }
+    .jbx-flow-step { flex-basis:100%; }
+  }
+
   /* ── Anchor scroll offset ── */
-  #overview { scroll-margin-top: 140px; }
+  #overview, #background, #problem, #principle, #exploration, #collab, #solution, #pricing, #tradeoffs, #takeaways { scroll-margin-top: 140px; }
 </style>
 
 <aside class="case-sidebar">
   <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"><path d="M15 5l-7 7 7 7"/></svg>Back</a>
   <a href="#overview" class="active">Overview</a>
+  <a href="#background" data-locked>Background</a>
+  <a href="#problem" data-locked>Problem</a>
+  <a href="#principle" data-locked>Principle</a>
+  <a href="#exploration" data-locked>Exploration</a>
+  <a href="#collab" data-locked>Collaboration</a>
+  <a href="#solution" data-locked>Solution</a>
+  <a href="#pricing" data-locked>Pricing</a>
+  <a href="#tradeoffs" data-locked>Trade-offs</a>
+  <a href="#takeaways" data-locked>Takeaways</a>
 </aside>
 
 <main>
@@ -404,11 +534,301 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="jbx-block-label">Context</span>
         <p class="jbx-block-text">25madison is a venture studio focused on applying AI to modernize legacy industries. I joined the team incubating <span style="color:#78CE97;font-weight:400;">Jain</span> and helped shape <span style="color:#78CE97;font-weight:400;">Bid X-Ray</span>, a workspace that enables commercial janitorial operators to analyze RFPs and evaluate bid opportunities. My work focused on turning static AI-extracted outputs into information users could verify, edit, and confidently use in bid decisions.</p>
       </div>
-      <div class="jbx-confidential-note">
-        <p>This project is currently confidential. Please reach out to me directly if you'd like to hear more.</p>
+      <form class="jbx-lock" id="jbxLock" autocomplete="off">
+        <div class="jbx-lock-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1"/></svg>
+          <span>Confidential</span>
+        </div>
+        <p>This case study is confidential. The rest of the page is locked.</p>
+        <p class="jbx-lock-sub">If you have the password, enter it below. Otherwise, please reach out to me directly and I'd be glad to walk you through it.</p>
+        <div class="jbx-lock-form">
+          <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
+          <button type="submit">Unlock</button>
+        </div>
+        <p class="jbx-lock-err" id="jbxErr" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="jbx-locked" id="jbxLocked">
+
+
+  <!-- Overview, continued: impact + design snapshot -->
+  <div class="jbx-overview-section" style="padding-top:0;">
+    <div class="jbx-overview-text">
+      <div class="jbx-section-block">
+        <span class="jbx-block-label">Impact</span>
+        <div class="jbx-cards" style="margin-top:8px;">
+        <div class="jbx-card jbx-card--accent"><h4>Investment review</h4><p>The product, pitch deck and marketing site took Jain through 25madison's internal review and into the next stage of incubation.</p></div>
+        <div class="jbx-card jbx-card--accent"><h4>0 → 1</h4><p>A human-in-the-loop workflow from extracted RFP data to a priced bid, defined by one principle and built as a working prototype.</p></div>
+        <div class="jbx-card jbx-card--accent"><h4>AI-native process</h4><p>Concept to handoff with an AI agent: 40+ iterations, decisions made in the browser, rules written as a file engineering can continue from.</p></div>
+        </div>
+        <p class="jbx-note">No usage data yet; the numbers I'd watch after launch are in Takeaways.</p>
+      </div>
+      <div class="jbx-section-block">
+        <span class="jbx-block-label">Design snapshot</span>
+        <div class="jbx-cards" style="margin-top:8px;">
+        <div class="jbx-card"><h4>Edit in place</h4><p>Values are edited in the report. A confirm card shows what will move before the change lands.</p></div>
+        <div class="jbx-card"><h4>A working log, not a chat</h4><p>The side panel records what was done and what Jain did about it, and asks only where it can't decide.</p></div>
+        <div class="jbx-card"><h4>Review before pricing</h4><p>A dialog, a spotlight on what changed, then three traceable price plans.</p></div>
+        </div>
+      </div>
+      <div style="margin-top:-30px;">
+      <figure class="jbx-fig"><img src="Jain/case/review-spotlight.png" alt="" loading="lazy"><figcaption>Review mode: pick a changed value, only its dependencies draw.</figcaption></figure>
       </div>
     </div>
   </div>
+
+  <section class="jbx-sec " id="background">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Background</span>
+        <h2 class="jbx-sec-title">Jain turns a 40-page RFP into a bid in minutes. Every number in it depends on another.</h2>
+      </div>
+      <div class="jbx-copy">
+        <p class="jbx-body">Commercial janitorial contractors win work by answering RFPs: long documents listing buildings, square footage, floor types, cleaning windows and compliance terms. Reading one and pricing it takes an estimator days. Jain's Bid X-ray does the reading: it extracts every space, fills what the RFP leaves out with estimates, scores the opportunity, and hands the result to a pricing engine.</p>
+        <p class="jbx-body">Each value in the X-ray has one of four origins: stated in the RFP, estimated by Jain, missing, or calculated from the others. The constraints came from three sentences.</p>
+      </div>
+      <div class="jbx-quotes">
+        <div class="jbx-quote"><p>"Users won't go line by line. They handle exceptions. And the document has to feel like theirs."</p><small>Roy, product</small></div>
+        <div class="jbx-quote"><p>"Change anything, everything recalculates. The bid is a living system."</p><small>Tan, engineering</small></div>
+        <div class="jbx-quote"><p>"Show the propagation."</p><small>Chi</small></div>
+      </div>
+      <figure class="jbx-fig"><img src="Jain/case/site-breakdown.png" alt="" loading="lazy"><figcaption>The site breakdown. Plain text is stated, dotted underline is estimated, amber is missing, solid underline is calculated.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="problem">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Problem</span>
+        <h2 class="jbx-sec-title">The X-ray was only useful until the first correction.</h2>
+      </div>
+      <div class="jbx-copy">
+        <p class="jbx-body">Extraction is never perfect, and estimators know their buildings. The moment one corrects a value, Jain's output stops being trustworthy: dependent values move without a sign, estimates built on the old number keep standing, and nothing says which of them need a person. Faced with that, estimators either redo the bid by hand, which erases Jain's value, or price on numbers they no longer trust.</p>
+        <p class="jbx-body">The first fix made it worse. Jain explained every recalculation in the side panel, like a chatbot narrating a spreadsheet. The real work was three unanswered questions:</p>
+      </div>
+      <div class="jbx-cards">
+        <div class="jbx-card"><h4>Which consequences need a person?</h4><p>Not all of them. Not none of them.</p></div>
+        <div class="jbx-card"><h4>How is a change taken back?</h4><p>In a table where every number feeds another, undo has no obvious meaning.</p></div>
+        <div class="jbx-card"><h4>How is the report trusted before it becomes a price?</h4><p>Edited or not, it carries estimates and gaps.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="principle">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Principle</span>
+        <h2 class="jbx-sec-title">What's calculated changes by itself. What needs judgment goes to the person.</h2>
+      </div>
+      <p class="jbx-body">Every cell has an author: a formula, Jain, or the RFP. The author of the cell being touched decides what happens to it. One rule, three consequences, applied on every surface: the confirm card, the panel, the history, the hover cards, review.</p>
+      <div class="jbx-cards">
+        <div class="jbx-card"><span class="jbx-sym">ƒx</span><h4>Recalculated</h4><p>A formula. Changes silently and gets a dot.</p></div>
+        <div class="jbx-card"><span class="jbx-sym">↗</span><h4>Revised</h4><p>Jain's own inference, redone. Jain updates it and says so once.</p></div>
+        <div class="jbx-card"><span class="jbx-sym">?</span><h4>Needs your call</h4><p>The change contradicts something the RFP stated, or Jain's suggestion needs a decision.</p></div>
+      </div>
+      <p class="jbx-pull">Jain speaks only when it knows something the person can't see from the table. Everything else it shows and stays quiet.</p>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Three colours, three meanings</h3>
+        <div class="jbx-swatches">
+          <div class="jbx-swatch"><i style="background:#744aa8"></i><div><h4>Purple · a change</h4><p>Whoever made it. Edited values, history rows, dashed frames on affected cells, review lines.</p></div></div>
+          <div class="jbx-swatch"><i style="background:#2e535a"></i><div><h4>Green · Jain's words</h4><p>Replies, proposed values, the "applied" tick.</p></div></div>
+          <div class="jbx-swatch"><i style="background:#d08a12"></i><div><h4>Amber · needs a person</h4><p>Suggestions waiting, Needs review, To confirm. Only where a person is really needed.</p></div></div>
+        </div>
+        <p class="jbx-body">One correction along the way: values Jain changed on request started out green. They became purple, because whoever did it, it is a change. Green is only for what Jain says.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="exploration">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Exploration</span>
+        <h2 class="jbx-sec-title">Showing what a change touched: four options, one that answers the real question.</h2>
+      </div>
+      <div class="jbx-opts">
+        <div class="jbx-opt"><h4>Minimap</h4><p>A thumbnail of the report with dots and lines.</p><ul><li class="plus">Whole-page overview</li><li class="minus">Too far from the data; "what is this for?"</li></ul></div>
+        <div class="jbx-opt"><h4>All lines, toggle</h4><p>Every dependency drawn at once.</p><ul><li class="plus">Nothing hidden</li><li class="minus">Unreadable past three edits</li></ul></div>
+        <div class="jbx-opt"><h4>Routed lines</h4><p>Lines run round the margin.</p><ul><li class="plus">Off the text</li><li class="minus">Impossible to follow</li></ul></div>
+        <div class="jbx-opt is-pick"><span class="jbx-opt-pick">Chosen</span><h4>Spotlight</h4><p>Pick a value; only its lines draw, the rest dims.</p><ul><li class="plus">Answers the one question review asks</li><li class="minus">No overview; scrollbar marks carry it</li></ul></div>
+      </div>
+      <p class="jbx-body">Midway, a bug: the hover card listed three affected items, review drew one line. Three surfaces were reading three copies of the dependency data. Now they read one function. If the card lists it, the line is drawn.</p>
+      <div class="jbx-group" style="margin-top:24px;">
+        <h3 class="jbx-sec-title" style="font-size:1.375rem;">Taking a change back: three options, one explainable in a sentence.</h3>
+        <div class="jbx-opts" style="margin-top:12px;">
+        <div class="jbx-opt"><h4>Version history</h4><p>Restore to a point in time.</p><ul><li class="plus">Predictable</li><li class="minus">Later edits are lost</li></ul></div>
+        <div class="jbx-opt"><h4>Selective undo</h4><p>Remove one record, replay the rest.</p><ul><li class="plus">Correct</li><li class="minus">Not explainable in a connected table</li></ul></div>
+        <div class="jbx-opt is-pick"><span class="jbx-opt-pick">Chosen</span><h4>"Back to"</h4><p>The old value goes in as a new change at the top.</p><ul><li class="plus">Nothing deleted; formulas recompute; later edits stay</li><li class="minus">A reverted value appears twice</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="collab">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Collaboration</span>
+        <h2 class="jbx-sec-title">Two constraints contradicted each other. The principle is how they were reconciled.</h2>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Product vs. engineering</h3>
+        <div class="jbx-vs">
+          <div class="jbx-card"><h4>Roy, product</h4><p>"Users handle exceptions. The document has to feel like theirs." Show less; let the AI stay out of the way.</p></div>
+          <div class="jbx-card"><h4>Tan, engineering</h4><p>"Change anything, everything recalculates." Show everything; the user has to see what moved.</p></div>
+        </div>
+        <p class="jbx-res">Both are right about different cells. Formulas recalculate silently with a dot (Tan's system stays live); only RFP contradictions and Jain's own revisions surface (Roy's exceptions). The confirm card shows consequences before the change lands, so the document never changes behind the user's back.</p>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Engineering alignment</h3>
+        <p class="jbx-body">Agreed with Tan that the dependency graph comes from the parser, not front-end rules; that each cell carries origin, source page, original value, who changed it and when; and that review is read-only so Jain can't move a value mid-check.</p>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Where I overruled the AI agent I built with</h3>
+        <div class="jbx-vs">
+          <div class="jbx-card"><h4>Agent</h4><p>A sidebar list of all changes for review, click to jump. A pricing dialog that appears only when something changed, with "don't ask again."</p></div>
+          <div class="jbx-card"><h4>Decision</h4><p>Spotlight on the data, not a list beside it. Ask every time: an untouched report still carries estimates and gaps that go straight into the price.</p></div>
+        </div>
+        <p class="jbx-res">The list stays in the prototype behind a switch for user testing. The dialog's skip rate is the first number to watch; if most people skip, this call was wrong.</p>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Open with product</h3>
+        <div class="jbx-cards jbx-cards--2">
+        <div class="jbx-card"><h4>What counts as "needs a person"?</h4><p>Amber is only for real decisions. Every new type has to pass that bar.</p></div>
+        <div class="jbx-card"><h4>What is "Jain recommends" based on?</h4><p>Win history, usual margin, or the client's scoring criteria. Who sets the three plans' parameters.</p></div>
+        <div class="jbx-card"><h4>How do assumptions reach the proposal?</h4><p>Unconfirmed values become stated basis of the price; wording needs product and legal.</p></div>
+        <div class="jbx-card"><h4>Is review mandatory?</h4><p>Currently asked every time, skippable. Decide from skip rate and post-pricing error rate.</p></div>
+        </div>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">How the prototype was built</h3>
+        <p class="jbx-body">With an AI agent, under rules I wrote for it: a plain-language case before any "where should this go"; variations in a switcher inside the prototype, decided by clicking; one change per iteration, verified in the browser; no silent removals; "reference, don't copy" after the first panel came back as chat bubbles with an avatar. The rules live in a file so another agent, or engineering, can continue.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="solution">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Solution</span>
+        <h2 class="jbx-sec-title">Change a value. See what moved. Decide only where a machine can't.</h2>
+      </div>
+      <div class="jbx-table jbx-table--3">
+        <div class="th">Design</div><div class="th">Why</div><div class="th">Trade-off</div>
+        <div class="td k">Origin on every cell</div><div class="td" data-h="Why">Four origins readable without a click. Hover: "Affects" on a changed value, "Affected by" on a dependent one, then the source and original value.</div><div class="td" data-h="Trade-off">One more layer on a dense table; carried by underlines, not colour.</div>
+        <div class="td k">Confirm before</div><div class="td" data-h="Why">The card lists what will move before the change lands. Formulas shown; lists and risks wait for approval.</div><div class="td" data-h="Trade-off">One extra step on every edit.</div>
+        <div class="td k">Panel as a log</div><div class="td" data-h="Why">No avatar, no bubbles. Each edit or question is one record: where, old → new, what Jain updated, one line of reason, what needs a decision (Skip / Approve), the RFP citation.</div><div class="td" data-h="Trade-off">Jain feels quieter; the ƒx dot and a dot on the Jain button (purple = unseen change, amber = decision waiting) keep it present.</div>
+        <div class="td k">History never deletes</div><div class="td" data-h="Why">Read-only. One row per change with its consequences marked ƒx / ↗ / ?; "Back to" writes the old value as a new change; an Original toggle shows the first report. No unread count: a record is not an inbox.</div><div class="td" data-h="Trade-off">Longer history; reverted values appear twice.</div>
+        <div class="td k">Review, then ask</div><div class="td" data-h="Why">Spotlight on a picked value; scrollbar marks as the overview; a dialog before pricing, every time, its copy changing with the state of the report.</div><div class="td" data-h="Trade-off">No single list of changes; one click per bid.</div>
+        <div class="td k">One way forward</div><div class="td" data-h="Why">Three steps in the top bar: Bid X-ray → Pricing → Proposal. One primary button, "Price this bid" (after "Continue to pricing" and "Ready to price"). No bid is a side door under "⋯".</div><div class="td row-end" data-h="Trade-off">No breadcrumb; no explicit go / no-go step.</div>
+      </div>
+      <div class="jbx-figs">
+      <figure class="jbx-fig"><img src="Jain/case/confirm-card.png" alt="" loading="lazy"><figcaption>Confirm card: formulas listed, list changes wait.</figcaption></figure>
+      <figure class="jbx-fig"><img src="Jain/case/panel-suggestions.png" alt="" loading="lazy"><figcaption>Panel: Jain's suggestions, approved or skipped in place.</figcaption></figure>
+      </div>
+      <div class="jbx-figs">
+      <figure class="jbx-fig"><img src="Jain/case/history.png" alt="" loading="lazy"><figcaption>History: what changed, what it moved, a way back.</figcaption></figure>
+      <figure class="jbx-fig"><img src="Jain/case/panel-home.png" alt="" loading="lazy"><figcaption>Panel home: what Jain filled, what it couldn't.</figcaption></figure>
+      </div>
+      <div class="jbx-figs">
+      <figure class="jbx-fig"><img src="Jain/case/review-mode.png" alt="" loading="lazy"><figcaption>Review: changed values marked, scrollbar marks as overview.</figcaption></figure>
+      <figure class="jbx-fig"><img src="Jain/case/before-pricing.png" alt="" loading="lazy"><figcaption>Before pricing: review or skip.</figcaption></figure>
+      </div>
+      <div class="jbx-flow">
+        <div class="jbx-flow-step">Queue<small>missing · estimated</small></div><span class="jbx-flow-arrow">→</span>
+        <div class="jbx-flow-step">Edit in place</div><span class="jbx-flow-arrow">→</span>
+        <div class="jbx-flow-step">Jain panel</div><span class="jbx-flow-arrow">→</span>
+        <div class="jbx-flow-step">Review</div><span class="jbx-flow-arrow">→</span>
+        <div class="jbx-flow-step">Pricing<small>3 plans, traceable</small></div>
+        <div class="jbx-flow-side">⋯ No bid</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="pricing">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Pricing</span>
+        <h2 class="jbx-sec-title">A price is a choice between strategies, not a number.</h2>
+      </div>
+      <div class="jbx-copy">
+        <p class="jbx-body">Three plans, Competitive / Balanced / Premium, each with annual price, price per square foot, margin and cleaning efficiency; the selected plan drives every figure on the page. Below it, where the money goes, staffing per building and shift, and the contract value over the term. Every value from the X-ray keeps its origin label; the assumptions are listed in one place with a link back to the cell they rest on, so they can be stated to the client as the basis of the price rather than discovered later.</p>
+        <p class="jbx-note">Market comparison and rate data in the prototype are illustrative.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="tradeoffs">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Trade-offs</span>
+        <h2 class="jbx-sec-title">What was chosen, what was given up, and what was accepted under constraint.</h2>
+      </div>
+      <div class="jbx-table jbx-table--4">
+        <div class="th">Decision</div><div class="th">Chose</div><div class="th">Gave up</div><div class="th">Why it's worth it</div>
+        <div class="td k">Consequences</div><div class="td" data-h="Chose">Formulas recalculate silently; only judgment calls are asked</div><div class="td" data-h="Gave up">A changed number may go unnoticed</div><div class="td" data-h="Why it's worth it">Avoids confirmation fatigue; the dot, hover card and review cover it</div>
+        <div class="td k">Review</div><div class="td" data-h="Chose">Spotlight on the report</div><div class="td" data-h="Gave up">A list of all changes at a glance</div><div class="td" data-h="Why it's worth it">Checking happens on the data; scrollbar marks carry the overview</div>
+        <div class="td k">Lines</div><div class="td" data-h="Chose">Only for the picked value, straight across the page</div><div class="td" data-h="Gave up">Seeing the whole graph; lines never crossing content</div><div class="td" data-h="Why it's worth it">All lines at once reads as nothing; white stroke and dimming make the crossing legible</div>
+        <div class="td k">Ask</div><div class="td" data-h="Chose">Every time</div><div class="td" data-h="Gave up">One click per bid</div><div class="td" data-h="Why it's worth it">Estimates and gaps enter the price whether or not anything was edited</div>
+        <div class="td k">Navigation</div><div class="td" data-h="Chose">Step bar, no breadcrumb</div><div class="td" data-h="Gave up">Bid name and level-up at a glance</div><div class="td" data-h="Why it's worth it">In a fixed sequence the step bar says more</div>
+        <div class="td k">No bid</div><div class="td" data-h="Chose">A side door under "⋯"</div><div class="td" data-h="Gave up">An explicit go / no-go step</div><div class="td row-end" data-h="Why it's worth it">Three steps at most; declining shouldn't be a step everyone walks through</div>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Compromises</h3>
+        <p class="jbx-body">A trade-off is wanting both and picking one. A compromise is accepting something imperfect because of a limit or a disagreement.</p>
+        <div class="jbx-cards jbx-cards--2">
+        <div class="jbx-card"><h4>Lines cross content</h4><p>No routing around text. Mitigated three ways: white stroke, lines only on selection, everything else dimmed.</p></div>
+        <div class="jbx-card"><h4>Purple dot on the Jain button</h4><p>I thought "you changed something" was noise and proposed removing it; the team kept it as a useful reminder. The purple / amber split is the middle ground.</p></div>
+        <div class="jbx-card"><h4>Custom scrollbar</h4><p>Cleaner, and width doesn't jump when the panel opens; keyboard and screen-reader behaviour need engineering to confirm.</p></div>
+        <div class="jbx-card"><h4>Illustrative data</h4><p>Market comparison and rates in the prototype are invented to make the interface credible, and are labelled as such.</p></div>
+        </div>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Rejected along the way</h3>
+        <div class="jbx-chips">
+          <span class="jbx-chip">Panel as chat bubbles with an avatar (copied the reference)</span>
+          <span class="jbx-chip">Nine panel workflows; only "approve in place" survived</span>
+          <span class="jbx-chip">A handoff flow before pricing (Ready to price → checklist → mark priceable)</span>
+          <span class="jbx-chip">A separate "Before you price" page</span>
+          <span class="jbx-chip">Five entry points to pricing: nav card, end-of-report card, sticky footer, price preview, "Jain suggests" card</span>
+          <span class="jbx-chip">"Create PowerPoint"</span>
+          <span class="jbx-chip">Minimap (panel → review → gone)</span>
+          <span class="jbx-chip">Line toggle button and its six icons</span>
+          <span class="jbx-chip">Lines routed round the margin</span>
+          <span class="jbx-chip">Three review visual treatments: dark full-width bar, teal edge glow, bold marker rail</span>
+          <span class="jbx-chip">Unread count on the history icon</span>
+          <span class="jbx-chip">Breadcrumb alongside the step bar</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="jbx-sec " id="takeaways">
+    <div class="jbx-sec-inner">
+      <div class="jbx-sec-head">
+        <span class="jbx-block-label">Takeaways</span>
+        <h2 class="jbx-sec-title">The AI is an addition, not the premise.</h2>
+      </div>
+      <div class="jbx-copy">
+        <p class="jbx-body">The report had to work with Jain closed. Everything Jain does is a second layer on a document a person already owns. The rules for when Jain may act alone turned out to be the same rules I gave the agent I built this with: reason before building, no silent removals, rules written as a file. Bounding both was one skill.</p>
+        <p class="jbx-body">If a mechanism can't be explained in one sentence, it isn't done. Selective undo was correct. I cut it anyway.</p>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">What I'd measure after launch</h3>
+        <div class="jbx-watch">
+        <div class="jbx-card"><h4>Review skip rate</h4><p>Is the dialog earning its click?</p></div>
+        <div class="jbx-card"><h4>Edits made after review</h4><p>Is the spotlight catching anything?</p></div>
+        <div class="jbx-card"><h4>Time from queue to zero</h4><p>Is the queue the right unit of work?</p></div>
+        <div class="jbx-card"><h4>Suggestion accept rate</h4><p>Too high, Jain isn't asking real questions. Too low, it's interrupting.</p></div>
+        </div>
+      </div>
+      <div class="jbx-group">
+        <h3 class="jbx-mini">Open</h3>
+        <p class="jbx-body">The proposal step. Whether scrollbar marks and spotlight still hold with dozens of changes. Spotlight vs. list with real users. Narrow screens. Accessibility beyond colour: shape, text, keyboard in review.</p>
+      </div>
+    </div>
+  </section>
+  </div><!-- /.jbx-locked -->
 
   <section class="case-more" style="--accent:#78CE97;">
     <div class="case-more-inner">
@@ -709,6 +1129,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   update();
 })();
 
+</script>
+<script>
+// ── Confidential gate: the case study under Context is hidden until the password is entered.
+//    The password itself isn't in the page; its SHA-256 is compared. Unlocking is remembered for
+//    the browser session (sessionStorage) so a reload doesn't ask again. This is a courtesy lock,
+//    not security: the content is still in the HTML for anyone who reads the source.
+(function () {
+  const form = document.getElementById('jbxLock'), input = document.getElementById('jbxKey'), err = document.getElementById('jbxErr');
+  if (!form) return;
+  const HASH = 'c0c856b967081f47b928e2bc8d9525215381adc30520bc2801e30208493da4bf';
+  const open = () => { document.body.classList.add('jbx-open'); try { sessionStorage.setItem('jbx-open', '1'); } catch (e) {} window.dispatchEvent(new Event('scroll')); };
+  try { if (sessionStorage.getItem('jbx-open') === '1') open(); } catch (e) {}
+  async function sha256(t) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const v = input.value.trim();
+    if (!v) { input.focus(); return; }
+    let ok = false;
+    try { ok = (await sha256(v)) === HASH; } catch (e2) { ok = false; }
+    if (ok) { err.textContent = ''; open(); const first = document.getElementById('jbxLocked'); first?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    else { err.textContent = "That's not it. Check the password, or reach out to me for access."; form.classList.remove('is-shake'); void form.offsetWidth; form.classList.add('is-shake'); input.select(); }
+  });
+})();
 </script>
 <script src="shell.js"></script>
 <script src="aim-cursor.js"></script>
