@@ -1130,8 +1130,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const form = document.getElementById('jbxLock'), input = document.getElementById('jbxKey'), err = document.getElementById('jbxErr');
   if (!form) return;
   const HASH = 'c0c856b967081f47b928e2bc8d9525215381adc30520bc2801e30208493da4bf';
-  const open = () => { document.body.classList.add('jbx-open'); try { sessionStorage.setItem('jbx-open', '1'); } catch (e) {} window.dispatchEvent(new Event('scroll')); };
-  try { if (sessionStorage.getItem('jbx-open') === '1') open(); } catch (e) {}
+  // remembered for 30 days: localStorage first, then sessionStorage, then a cookie (previews and private
+  // windows sometimes block one of them), so a reload or a return visit doesn't ask again
+  const KEY = 'jbx-open', DAYS = 30;
+  const remember = () => {
+    const until = String(Date.now() + DAYS * 864e5);
+    try { localStorage.setItem(KEY, until); } catch (e) {}
+    try { sessionStorage.setItem(KEY, until); } catch (e) {}
+    try { document.cookie = KEY + '=' + until + '; max-age=' + DAYS * 86400 + '; path=/; SameSite=Lax'; } catch (e) {}
+  };
+  const remembered = () => {
+    const now = Date.now(), ok = v => v && Number(v) > now;
+    try { if (ok(localStorage.getItem(KEY))) return true; } catch (e) {}
+    try { if (ok(sessionStorage.getItem(KEY))) return true; } catch (e) {}
+    try { const m = document.cookie.match(new RegExp('(?:^|; )' + KEY + '=(\\d+)')); if (m && ok(m[1])) return true; } catch (e) {}
+    return false;
+  };
+  const open = () => { document.body.classList.add('jbx-open'); remember(); window.dispatchEvent(new Event('scroll')); };
+  if (remembered()) open();
   async function sha256(t) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
