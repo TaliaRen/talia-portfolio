@@ -119,7 +119,7 @@ Used for every "Tag" and "mini-heading inside body" instance on that project's p
 ```
 Two children side by side (text column + cover image/video, `max-width:860px` each):
 1. **Context** block — tag + body (`#E0E0E0`), 1–2 short paragraphs of project background.
-2. **Impact** block — tag + 1 to 3 stat metrics (`.xx-metric`: big Libertinus Serif number in `#fff` + Figtree sub-label caption in `#979797` underneath), laid out in a row with `gap:64px` (the metrics-row gap — a different relationship from the block-to-block gap below, they just happen to share the same value).
+2. **Impact** block — tag + 1 to 3 stat metrics (a project with no launch numbers labels this block **Highlights** instead and uses three mini-heading cards, as 25madison does) (`.xx-metric`: big Libertinus Serif number in `#fff` + Figtree sub-label caption in `#979797` underneath), laid out in a row with `gap:64px` (the metrics-row gap — a different relationship from the block-to-block gap below, they just happen to share the same value).
 3. **Design Snapshot** — tag + body (`#E0E0E0`), one-sentence summary of the shipped solution, sitting above the hero cover image or looping video. Snapshot text → video gap is **34px**, independent of the block-to-block gap below — implemented by wrapping the Design Snapshot block + `.xx-cover-frame`/`.xx-cover-img` together in their own `gap:34px` container (a second, nested container, not the same one as the 64px gap).
 
 **Gap between each of these three tag-blocks (Context↔Impact, Impact↔Design Snapshot) is 64px** — `.xx-overview-text { gap:64px }` (Context↔Impact) and `.xx-overview-section`'s own `gap:64px` above (Impact-column ↔ Design-Snapshot-column). Was 48px; widened on all four project pages.
