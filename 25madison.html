@@ -389,7 +389,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
   body.jbx-open .jbx-locked { display:block; animation:jbx-reveal .6s ease-out; }
   body.jbx-open .jbx-lock { display:none; }
-  body:not(.jbx-open) .case-sidebar a[data-locked] { display:none; }   /* only hides; once open, the sidebar's own rules (incl. the phone Back-only mode) apply */
+  body:not(.jbx-open) .case-sidebar a[data-locked] { opacity:.45; }   /* listed while locked, dimmed; clicking one goes to the password */
+  body:not(.jbx-open) .case-sidebar a[data-locked]:hover { opacity:1; }
   @keyframes jbx-reveal { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
 
   /* ── Case-study sections (shared shell: tag → title → content) ── */
@@ -1121,13 +1122,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   links.forEach((a, i) => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      sections[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = (sections[i] && sections[i].offsetParent === null) ? document.getElementById('jbxLock') : sections[i];   // a locked section: go to the password instead
+      target?.scrollIntoView({ behavior: 'smooth', block: (target && target.id === 'jbxLock') ? 'center' : 'start' });
     });
   });
   function update() {
     let current = 0;
     sections.forEach((sec, i) => {
-      if (sec && window.scrollY >= sec.offsetTop - window.innerHeight / 2) current = i;
+      if (sec && sec.offsetParent !== null && window.scrollY >= sec.offsetTop - window.innerHeight / 2) current = i;   // hidden (locked) sections don't take the highlight
     });
     links.forEach((a, i) => a.classList.toggle('active', i === current));
   }
