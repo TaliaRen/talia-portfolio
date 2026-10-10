@@ -375,6 +375,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-lock.is-shake { animation:jbx-shake .4s; }
   @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
   .jbx-locked { display:none; }
+  body.jbx-open .jbx-overview-section--lead { padding-bottom:64px; }   /* once open, Context → Impact is the overview's own 64px, not a section break */
   body.jbx-open .jbx-locked { display:block; animation:jbx-reveal .6s ease-out; }
   body.jbx-open .jbx-lock { display:none; }
   body:not(.jbx-open) .case-sidebar a[data-locked] { display:none; }   /* only hides; once open, the sidebar's own rules (incl. the phone Back-only mode) apply */
@@ -524,7 +525,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- Overview content -->
-  <div class="jbx-overview-section">
+  <div class="jbx-overview-section jbx-overview-section--lead">
     <div class="jbx-overview-text">
       <div class="jbx-section-block">
         <span class="jbx-block-label">Context</span>
