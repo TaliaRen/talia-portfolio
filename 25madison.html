@@ -375,7 +375,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-lock.is-shake { animation:jbx-shake .4s; }
   @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
   .jbx-locked { display:none; }
-  body.jbx-open .jbx-overview-section--lead { padding-bottom:64px; }   /* once open, Context → Impact is the overview's own 64px, not a section break */
+  .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
+  .jbx-cover-frame > img { width:100%; height:auto; display:block; }
+  .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
   body.jbx-open .jbx-locked { display:block; animation:jbx-reveal .6s ease-out; }
   body.jbx-open .jbx-lock { display:none; }
   body:not(.jbx-open) .case-sidebar a[data-locked] { display:none; }   /* only hides; once open, the sidebar's own rules (incl. the phone Back-only mode) apply */
@@ -524,30 +526,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
-  <!-- Overview content -->
-  <div class="jbx-overview-section jbx-overview-section--lead">
+  <!-- Overview content: Context, Impact, Design Snapshot are public; the lock sits under them -->
+  <div class="jbx-overview-section">
     <div class="jbx-overview-text">
       <div class="jbx-section-block">
         <span class="jbx-block-label">Context</span>
         <p class="jbx-block-text">25madison is a venture studio focused on applying AI to modernize legacy industries. I joined the team incubating <span style="color:#5FCB9C;font-weight:400;">Jain</span> and helped shape <span style="color:#5FCB9C;font-weight:400;">Bid X-Ray</span>, a workspace that enables commercial janitorial operators to analyze RFPs and evaluate bid opportunities. My work focused on turning static AI-extracted outputs into information users could verify, edit, and confidently use in bid decisions.</p>
+
       </div>
-      <form class="jbx-lock" id="jbxLock" autocomplete="off">
-        <p>This project is under NDA. Enter the password to read.</p>
-        <div class="jbx-lock-form">
-          <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
-          <button type="submit">Open</button>
-        </div>
-        <p class="jbx-lock-err" id="jbxErr" aria-live="polite"></p>
-      </form>
-    </div>
-  </div>
-
-  <div class="jbx-locked" id="jbxLocked">
-
-
-  <!-- Overview, continued: impact + design snapshot -->
-  <div class="jbx-overview-section" style="padding-top:0;">
-    <div class="jbx-overview-text">
       <div class="jbx-section-block">
         <span class="jbx-block-label">Impact</span>
         <div class="jbx-cards" style="margin-top:8px;">
@@ -557,19 +543,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <p class="jbx-note">No usage data yet; the numbers I'd watch after launch are in Takeaways.</p>
       </div>
+    </div>
+    <div style="width:100%; max-width:860px; display:flex; flex-direction:column; gap:34px;">
       <div class="jbx-section-block">
-        <span class="jbx-block-label">Design snapshot</span>
-        <div class="jbx-cards" style="margin-top:8px;">
-        <div class="jbx-card"><h4>Edit in place</h4><p>Values are edited in the report. A confirm card shows what will move before the change lands.</p></div>
-        <div class="jbx-card"><h4>A working log, not a chat</h4><p>The side panel records what was done and what Jain did about it, and asks only where it can't decide.</p></div>
-        <div class="jbx-card"><h4>Review before pricing</h4><p>A dialog, a spotlight on what changed, then three traceable price plans.</p></div>
-        </div>
+        <span class="jbx-block-label">Design Snapshot</span>
+        <p class="jbx-block-text">Values are edited right in the report. A confirm card shows what will move before a change lands, the side panel keeps a working log of what Jain did and asks only where it can't decide, and a review step spotlights every change before pricing.</p>
       </div>
-      <div style="margin-top:-30px;">
-      <figure class="jbx-fig"><img src="Jain/case/review-spotlight.png" alt="" loading="lazy"><figcaption>Review mode: pick a changed value, only its dependencies draw.</figcaption></figure>
+      <div class="jbx-cover-frame">
+        <img src="project cover/jain bg.png" alt="">
+        <picture>
+          <source srcset="project%20cover/jain%20edit-review@2x.webp" type="image/webp">
+          <img class="cover" src="project cover/jain edit-review@2x.gif" alt="Editing a value in the Jain report: the confirm card, the side panel log, then review" loading="lazy">
+        </picture>
       </div>
     </div>
+      <form class="jbx-lock" id="jbxLock" autocomplete="off">
+        <p>This project is under NDA. Enter the password to read.</p>
+        <div class="jbx-lock-form">
+          <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
+          <button type="submit">Open</button>
+        </div>
+        <p class="jbx-lock-err" id="jbxErr" aria-live="polite"></p>
+      </form>
   </div>
+
+  <div class="jbx-locked" id="jbxLocked">
 
   <section class="jbx-sec " id="background">
     <div class="jbx-sec-inner">
@@ -645,6 +643,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="jbx-opt"><h4>Routed lines</h4><p>Lines run round the margin.</p><ul><li class="plus">Off the text</li><li class="minus">Impossible to follow</li></ul></div>
         <div class="jbx-opt is-pick"><span class="jbx-opt-pick">Chosen</span><h4>Spotlight</h4><p>Pick a value; only its lines draw, the rest dims.</p><ul><li class="plus">Answers the one question review asks</li><li class="minus">No overview; scrollbar marks carry it</li></ul></div>
       </div>
+      <figure class="jbx-fig"><img src="Jain/case/review-spotlight.png" alt="" loading="lazy"><figcaption>Review mode: pick a changed value, only its dependencies draw.</figcaption></figure>
       <p class="jbx-body">Midway, a bug: the hover card listed three affected items, review drew one line. Three surfaces were reading three copies of the dependency data. Now they read one function. If the card lists it, the line is drawn.</p>
       <div class="jbx-group" style="margin-top:24px;">
         <h3 class="jbx-sec-title" style="font-size:1.375rem;">Taking a change back: three options, one explainable in a sentence.</h3>
