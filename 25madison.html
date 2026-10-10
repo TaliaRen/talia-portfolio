@@ -370,8 +370,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-lock-eye { position:absolute; right:4px; top:50%; transform:translateY(-50%); width:36px; height:36px; border:0; background:transparent; color:#979797; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:color .2s; }
   .jbx-lock-eye:hover { color:#fff; }
   .jbx-lock-eye svg { width:20px; height:20px; }
-  .jbx-lock-eye .eye-off, .jbx-lock-eye[aria-pressed="true"] .eye { display:none; }
-  .jbx-lock-eye[aria-pressed="true"] .eye-off { display:block; }
+  /* the icon shows the state: slashed eye while the password is hidden, open eye while it is visible */
+  .jbx-lock-eye .eye, .jbx-lock-eye[aria-pressed="true"] .eye-off { display:none; }
+  .jbx-lock-eye[aria-pressed="true"] .eye { display:block; }
   .jbx-lock-form input { flex:1 1 180px; min-width:0; height:44px; padding:0 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.04); color:#fff; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; letter-spacing:.06em; outline:none; transition:border-color .2s; }
   .jbx-lock-form input::placeholder { color:#979797; letter-spacing:0; }
   .jbx-lock-form input:focus { border-color:rgba(95,203,156,0.8); }
