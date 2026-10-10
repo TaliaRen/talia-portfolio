@@ -364,12 +364,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-lock { width:100%; max-width:860px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px; margin-top:56px; }   /* 120px under the cover (the section's 64 + 56) */
   .jbx-lock p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   .jbx-lock-form { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; width:100%; max-width:420px; }
+  .jbx-lock-field { position:relative; flex:1 1 180px; min-width:0; display:flex; }
+  .jbx-lock-field input { width:100%; padding-right:44px; }
+  .jbx-lock-field input::-ms-reveal, .jbx-lock-field input::-ms-clear { display:none; }   /* Edge's own eye: ours replaces it */
+  .jbx-lock-eye { position:absolute; right:4px; top:50%; transform:translateY(-50%); width:36px; height:36px; border:0; background:transparent; color:#979797; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:color .2s; }
+  .jbx-lock-eye:hover { color:#fff; }
+  .jbx-lock-eye svg { width:20px; height:20px; }
+  .jbx-lock-eye .eye-off, .jbx-lock-eye[aria-pressed="true"] .eye { display:none; }
+  .jbx-lock-eye[aria-pressed="true"] .eye-off { display:block; }
   .jbx-lock-form input { flex:1 1 180px; min-width:0; height:44px; padding:0 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.04); color:#fff; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; letter-spacing:.06em; outline:none; transition:border-color .2s; }
   .jbx-lock-form input::placeholder { color:#979797; letter-spacing:0; }
   .jbx-lock-form input:focus { border-color:rgba(95,203,156,0.8); }
-  .jbx-lock-form button { height:44px; padding:0 20px; border-radius:10px; border:0; background:#5FCB9C; color:#0A0D0C; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; white-space:nowrap; transition:transform .15s, filter .15s; }
-  .jbx-lock-form button:hover { filter:brightness(1.08); }
-  .jbx-lock-form button:active { transform:translateY(1px); }
+  .jbx-lock-form button[type="submit"] { height:44px; padding:0 20px; border-radius:10px; border:0; background:#5FCB9C; color:#0A0D0C; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; white-space:nowrap; transition:transform .15s, filter .15s; }
+  .jbx-lock-form button[type="submit"]:hover { filter:brightness(1.08); }
+  .jbx-lock-form button[type="submit"]:active { transform:translateY(1px); }
   .jbx-lock p.jbx-lock-err { font-size:12px; font-weight:300; color:#FF5C5C; line-height:1.5; margin:-8px 0 0; }   /* same specificity as the .jbx-lock p rule above, so these win; -8px pulls it up against the input */
   .jbx-lock p.jbx-lock-err:empty { display:none; }
   .jbx-lock.is-shake { animation:jbx-shake .4s; }
@@ -560,7 +568,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <form class="jbx-lock" id="jbxLock" autocomplete="off">
         <p>Want the full story? The rest is under NDA. Enter the password to keep reading.</p>
         <div class="jbx-lock-form">
-          <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
+          <span class="jbx-lock-field">
+            <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
+            <button type="button" class="jbx-lock-eye" id="jbxEye" aria-label="Show password" aria-pressed="false">
+              <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 0 0 4.2 4.2"/><path d="M9.9 5.1A10.9 10.9 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2"/><path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 7 10 7a10.6 10.6 0 0 0 4.4-.9"/></svg>
+            </button>
+          </span>
           <button type="submit">Open</button>
         </div>
         <p class="jbx-lock-err" id="jbxErr" aria-live="polite"></p>
@@ -1161,6 +1175,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
   }
+  const eye = document.getElementById('jbxEye');
+  eye?.addEventListener('click', () => { const show = input.type === 'password'; input.type = show ? 'text' : 'password'; eye.setAttribute('aria-pressed', String(show)); eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password'); input.focus(); });
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const v = input.value.trim();
