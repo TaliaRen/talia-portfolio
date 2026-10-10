@@ -361,9 +361,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
   /* ── Locked case study: everything under Context sits behind a password ── */
-  .jbx-lock { width:100%; max-width:860px; display:flex; flex-direction:column; gap:16px; }
+  .jbx-lock { width:100%; max-width:860px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px; }
   .jbx-lock p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
-  .jbx-lock-form { display:flex; gap:10px; flex-wrap:wrap; max-width:420px; }
+  .jbx-lock-form { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; width:100%; max-width:420px; }
   .jbx-lock-form input { flex:1 1 180px; min-width:0; height:44px; padding:0 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.04); color:#fff; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; letter-spacing:.06em; outline:none; transition:border-color .2s; }
   .jbx-lock-form input::placeholder { color:#979797; letter-spacing:0; }
   .jbx-lock-form input:focus { border-color:rgba(95,203,156,0.8); }
@@ -558,7 +558,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
       <form class="jbx-lock" id="jbxLock" autocomplete="off">
-        <p>This project is under NDA. Enter the password to read.</p>
+        <p>Want the full story? The rest is under NDA. Enter the password to keep reading.</p>
         <div class="jbx-lock-form">
           <input type="password" id="jbxKey" placeholder="Password" aria-label="Password">
           <button type="submit">Open</button>
