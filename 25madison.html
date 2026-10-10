@@ -1167,7 +1167,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!v) { input.focus(); return; }
     let ok = false;
     try { ok = (await sha256(v)) === HASH; } catch (e2) { ok = false; }
-    if (ok) { err.textContent = ''; open(); const first = document.getElementById('jbxLocked'); first?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    if (ok) { err.textContent = ''; open(); }   // no scroll: the content unfolds in place, right where the lock was
     else { err.textContent = "Wrong password."; form.classList.remove('is-shake'); void form.offsetWidth; form.classList.add('is-shake'); input.select(); }
   });
 })();
