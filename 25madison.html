@@ -370,9 +370,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-lock-eye { position:absolute; right:4px; top:50%; transform:translateY(-50%); width:36px; height:36px; border:0; background:transparent; color:#979797; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:color .2s; }
   .jbx-lock-eye:hover { color:#fff; }
   .jbx-lock-eye svg { width:20px; height:20px; }
-  /* the icon shows the state: slashed eye while the password is hidden, open eye while it is visible */
-  .jbx-lock-eye .eye, .jbx-lock-eye[aria-pressed="true"] .eye-off { display:none; }
-  .jbx-lock-eye[aria-pressed="true"] .eye { display:block; }
+  /* the icon is the action: open eye = "show", slashed eye = "hide" */
+  .jbx-lock-eye .eye-off, .jbx-lock-eye[aria-pressed="true"] .eye { display:none; }
+  .jbx-lock-eye[aria-pressed="true"] .eye-off { display:block; }
   .jbx-lock-form input { flex:1 1 180px; min-width:0; height:44px; padding:0 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.04); color:#fff; font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; letter-spacing:.06em; outline:none; transition:border-color .2s; }
   .jbx-lock-form input::placeholder { color:#979797; letter-spacing:0; }
   .jbx-lock-form input:focus { border-color:rgba(95,203,156,0.8); }
@@ -576,7 +576,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 0 0 4.2 4.2"/><path d="M9.9 5.1A10.9 10.9 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2"/><path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 7 10 7a10.6 10.6 0 0 0 4.4-.9"/></svg>
             </button>
           </span>
-          <button type="submit">Open</button>
+          <button type="submit">Unlock</button>
         </div>
         <p class="jbx-lock-err" id="jbxErr" aria-live="polite"></p>
       </form>
