@@ -404,9 +404,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-hl-art .hl-bg { fill:none; stroke:#0A0D0C; stroke-width:1.6; stroke-linecap:round; }
   @media(max-width:860px) { .jbx-hl-item { grid-template-columns:240px minmax(0,1fr); gap:32px; } }
   @media(max-width:640px) { .jbx-hl-item { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-hl-art { max-width:300px; } }
-  .jbx-snap { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:12px; }
-  .jbx-snap li { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:300; color:#E0E0E0; line-height:1.5; padding:10px 18px; background:rgba(255,255,255,0.06); border-radius:999px; }
-  @media(max-width:640px) { .jbx-snap li { border-radius:18px; } }
+  .jbx-snap { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
+  .jbx-snap li { position:relative; padding-left:22px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; }
+  .jbx-snap li::before { content:""; position:absolute; left:2px; top:13px; width:6px; height:6px; border-radius:50%; background:#5FCB9C; }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
