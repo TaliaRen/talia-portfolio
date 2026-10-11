@@ -404,10 +404,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-hl-art .hl-bg { fill:none; stroke:#0A0D0C; stroke-width:1.6; stroke-linecap:round; }
   @media(max-width:860px) { .jbx-hl-item { grid-template-columns:240px minmax(0,1fr); gap:32px; } }
   @media(max-width:640px) { .jbx-hl-item { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-hl-art { max-width:300px; } }
-  .jbx-snap { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
-  .jbx-snap li { position:relative; padding:14px 0 14px 28px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; border-top:1px solid rgba(255,255,255,0.12); }
-  .jbx-snap li:last-child { border-bottom:1px solid rgba(255,255,255,0.12); }
-  .jbx-snap li::before { content:""; position:absolute; left:2px; top:calc(14px + 0.9em); width:10px; height:1.5px; background:#5FCB9C; transform:translateY(-50%); }
+  .jbx-snap { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:20px; }
+  .jbx-snap li { display:grid; grid-template-columns:64px minmax(0,1fr); align-items:baseline; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; }
+  .jbx-snap-n { font-family:'Libertinus Serif',serif; font-size:2rem; font-weight:400; color:#5FCB9C; line-height:1; letter-spacing:.02em; }
+  @media(max-width:640px) { .jbx-snap li { grid-template-columns:48px minmax(0,1fr); } .jbx-snap-n { font-size:1.75rem; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -610,12 +610,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="width:100%; max-width:860px; display:flex; flex-direction:column; gap:34px;">
       <div class="jbx-section-block">
         <span class="jbx-block-label">Design Snapshot</span>
-        <ul class="jbx-snap">
-          <li>Every value is traceable to its source: the RFP, a Jain estimate, or a calculation</li>
-          <li>Every edit shows its ripple effects before it’s applied</li>
-          <li>Jain stays quiet on recalculations and speaks only when users need to decide</li>
-          <li>A review mode spotlights every edit and what it touched before pricing</li>
-        </ul>
+        <ol class="jbx-snap">
+          <li><span class="jbx-snap-n">01</span><span>Every value is traceable to its source: the RFP, a Jain estimate, or a calculation</span></li>
+          <li><span class="jbx-snap-n">02</span><span>Every edit shows its ripple effects before it’s applied</span></li>
+          <li><span class="jbx-snap-n">03</span><span>Jain stays quiet on recalculations and speaks only when users need to decide</span></li>
+          <li><span class="jbx-snap-n">04</span><span>A review mode spotlights every edit and what it touched before pricing</span></li>
+        </ol>
       </div>
       <div class="jbx-cover-frame">
         <img src="project cover/jain bg.png" alt="">
