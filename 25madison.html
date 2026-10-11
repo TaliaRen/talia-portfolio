@@ -384,6 +384,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-lock.is-shake { animation:jbx-shake .4s; }
   @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
   .jbx-locked { display:none; }
+  /* highlights: three rows, a small line drawing beside each (boundary · dial · flow), same stroke style */
+  .jbx-hl { display:flex; flex-direction:column; gap:40px; margin-top:16px; }
+  .jbx-hl-item { display:grid; grid-template-columns:200px minmax(0,1fr); gap:36px; align-items:center; }
+  .jbx-hl-art { width:100%; height:auto; display:block; }
+  .jbx-hl-art .hl-acc { fill:none; stroke:#5FCB9C; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-hl-art .hl-ink { fill:none; stroke:#E0E0E0; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-hl-art .hl-dim { fill:none; stroke:rgba(255,255,255,0.28); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-hl-art .dash { stroke-dasharray:3 3; }
+  .jbx-hl-art .hl-acc.fill { fill:#5FCB9C; stroke:none; }
+  .jbx-hl-art .hl-lbl { font-family:'Figtree',sans-serif; font-size:7.5px; font-weight:300; fill:#979797; letter-spacing:.02em; }
+  .jbx-hl-art .hl-lbl.dim { fill:rgba(255,255,255,0.35); }
+  .jbx-hl-text { display:flex; flex-direction:column; gap:10px; }
+  @media(max-width:640px) { .jbx-hl-item { grid-template-columns:minmax(0,1fr); gap:12px; } .jbx-hl-art { max-width:220px; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -545,10 +558,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="jbx-section-block">
         <span class="jbx-block-label">Highlights</span>
-        <div class="jbx-cards" style="margin-top:8px;">
-        <div class="jbx-card jbx-card--accent"><h4>Investment review</h4><p>The product, pitch deck and marketing site took Jain through 25madison's internal review and into the next stage of incubation.</p></div>
-        <div class="jbx-card jbx-card--accent"><h4>0 → 1</h4><p>A human-in-the-loop workflow from extracted RFP data to a priced bid, defined by one principle and built as a working prototype.</p></div>
-        <div class="jbx-card jbx-card--accent"><h4>AI-native process</h4><p>Concept to handoff with an AI agent: 40+ iterations, decisions made in the browser, rules written as a file engineering can continue from.</p></div>
+        <div class="jbx-hl">
+          <div class="jbx-hl-item">
+            <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
+              <path class="hl-dim dash" d="M16 60c-7 0-10-6-7-11 2-4 6-6 10-4 1-8 12-11 18-5 6-6 17-4 18 5 5-1 10 3 9 8-1 5-6 8-11 7H24c-3 1-6 1-8 0z"/>
+              <path class="hl-ink" d="M62 54h14"/><path class="hl-ink" d="M73 50l5 4-5 4"/>
+              <rect class="hl-acc" x="84" y="30" width="86" height="52" rx="6"/>
+              <rect class="hl-acc fill" x="94" y="40" width="12" height="12" rx="2"/><rect class="hl-acc fill" x="121" y="40" width="12" height="12" rx="2"/><rect class="hl-acc fill" x="148" y="40" width="12" height="12" rx="2"/>
+              <text class="hl-lbl" x="100" y="66" text-anchor="middle">edit</text><text class="hl-lbl" x="127" y="66" text-anchor="middle">review</text><text class="hl-lbl" x="154" y="66" text-anchor="middle">price</text>
+              <rect class="hl-dim" x="180" y="40" width="12" height="12" rx="2"/><text class="hl-lbl dim" x="186" y="66" text-anchor="middle">pricing</text>
+            </svg>
+            <div class="jbx-hl-text"><h4 class="jbx-mini">From a one-line brief to a bounded problem</h4><p class="jbx-body">The brief was one line: “let them edit the report.” I turned it into a question — what should an edit do when every number depends on another — drew the line at pricing, and designed the whole loop inside it.</p></div>
+          </div>
+          <div class="jbx-hl-item">
+            <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
+              <path class="hl-acc fill" d="M22 30 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><path class="hl-acc fill" d="M22 56 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><path class="hl-acc fill" d="M22 82 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/>
+              <circle class="hl-ink" cx="178" cy="31" r="3.2"/><path class="hl-ink" d="M172 43 a6 6 0 0 1 12 0"/><circle class="hl-ink" cx="178" cy="57" r="3.2"/><path class="hl-ink" d="M172 69 a6 6 0 0 1 12 0"/><circle class="hl-ink" cx="178" cy="83" r="3.2"/><path class="hl-ink" d="M172 95 a6 6 0 0 1 12 0"/>
+              <path class="hl-dim" d="M44 36H156"/><circle class="hl-acc fill" cx="44" cy="36" r="4.5"/>
+              <path class="hl-dim" d="M44 62H156"/><circle class="hl-acc fill" cx="100" cy="62" r="4.5"/>
+              <path class="hl-dim" d="M44 88H156"/><circle class="hl-acc fill" cx="156" cy="88" r="4.5"/>
+            </svg>
+            <div class="jbx-hl-text"><h4 class="jbx-mini">Where the AI stops and the person starts</h4><p class="jbx-body">The hard part wasn’t making the AI do more. It was deciding when it shouldn’t: formulas recalculate on their own, Jain revises its own estimates and says so, and anything that contradicts the RFP waits for a person.</p></div>
+          </div>
+          <div class="jbx-hl-item">
+            <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
+              <path class="hl-dim" d="M36 56H166"/>
+              <circle class="hl-acc" cx="36" cy="56" r="6"/><text class="hl-lbl" x="36" y="76" text-anchor="middle">reason</text>
+              <path class="hl-acc fill" d="M29 28 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><circle class="hl-ink" cx="44" cy="31" r="3.2"/><path class="hl-ink" d="M38 43 a6 6 0 0 1 12 0"/>
+              <circle class="hl-acc" cx="78" cy="56" r="6"/><text class="hl-lbl" x="78" y="76" text-anchor="middle">build</text>
+              <path class="hl-acc fill" d="M71 28 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><circle class="hl-ink" cx="86" cy="31" r="3.2"/><path class="hl-ink" d="M80 43 a6 6 0 0 1 12 0"/>
+              <circle class="hl-acc" cx="122" cy="56" r="6"/><text class="hl-lbl" x="122" y="76" text-anchor="middle">compare</text>
+              <path class="hl-acc fill" d="M115 28 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><circle class="hl-ink" cx="130" cy="31" r="3.2"/><path class="hl-ink" d="M124 43 a6 6 0 0 1 12 0"/>
+              <circle class="hl-acc fill" cx="166" cy="56" r="6"/><text class="hl-lbl" x="166" y="76" text-anchor="middle">decide</text>
+              <circle class="hl-ink" cx="166" cy="31" r="3.2"/><path class="hl-ink" d="M160 43 a6 6 0 0 1 12 0"/>
+            </svg>
+            <div class="jbx-hl-text"><h4 class="jbx-mini">AI in every step, not just the last</h4><p class="jbx-body">The agent sat in every step: it argued the options in plain language before anything was built, built the variations I chose, and lost the argument twice. The rules I gave it ended up being the rules I gave Jain.</p></div>
+          </div>
         </div>
         <p class="jbx-note">No usage data yet; the numbers I'd watch after launch are in Takeaways.</p>
       </div>
