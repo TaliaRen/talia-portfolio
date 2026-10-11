@@ -388,10 +388,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-hl { display:flex; flex-direction:column; gap:40px; margin-top:16px; }
   .jbx-hl-item { display:grid; grid-template-columns:200px minmax(0,1fr); gap:36px; align-items:center; }
   .jbx-hl-art { width:100%; height:auto; display:block; }
-  .jbx-hl-art .hl-acc { fill:none; stroke:#5FCB9C; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-  .jbx-hl-art .hl-ink { fill:none; stroke:#E0E0E0; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-  .jbx-hl-art .hl-dim { fill:none; stroke:rgba(255,255,255,0.28); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-  .jbx-hl-art .dash { stroke-dasharray:3 3; }
+  .jbx-hl-art .hl-acc { fill:none; stroke:#5FCB9C; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-hl-art .hl-ink { fill:none; stroke:#E0E0E0; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-hl-art .hl-dim { fill:none; stroke:rgba(255,255,255,0.3); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-hl-art .dash { stroke-dasharray:4 4; }
   .jbx-hl-art .hl-acc.fill { fill:#5FCB9C; stroke:none; }
   .jbx-hl-art .hl-lbl { font-family:'Figtree',sans-serif; font-size:7.5px; font-weight:300; fill:#979797; letter-spacing:.02em; }
   .jbx-hl-art .hl-lbl.dim { fill:rgba(255,255,255,0.35); }
@@ -561,38 +561,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="jbx-hl">
           <div class="jbx-hl-item">
             <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
-              <path class="hl-dim dash" d="M16 60c-7 0-10-6-7-11 2-4 6-6 10-4 1-8 12-11 18-5 6-6 17-4 18 5 5-1 10 3 9 8-1 5-6 8-11 7H24c-3 1-6 1-8 0z"/>
-              <path class="hl-ink" d="M62 54h14"/><path class="hl-ink" d="M73 50l5 4-5 4"/>
-              <rect class="hl-acc" x="84" y="30" width="86" height="52" rx="6"/>
-              <rect class="hl-acc fill" x="94" y="40" width="12" height="12" rx="2"/><rect class="hl-acc fill" x="121" y="40" width="12" height="12" rx="2"/><rect class="hl-acc fill" x="148" y="40" width="12" height="12" rx="2"/>
-              <text class="hl-lbl" x="100" y="66" text-anchor="middle">edit</text><text class="hl-lbl" x="127" y="66" text-anchor="middle">review</text><text class="hl-lbl" x="154" y="66" text-anchor="middle">price</text>
-              <rect class="hl-dim" x="180" y="40" width="12" height="12" rx="2"/><text class="hl-lbl dim" x="186" y="66" text-anchor="middle">pricing</text>
+              <path class="hl-dim" d="M14 66c6-18 22-26 34-16s-2 30-16 22 4-34 20-26 10 30-6 26c-10-3-6-20 4-20 12 0 10 22 0 20"/>
+              <path class="hl-ink" d="M74 58h16"/><path class="hl-ink" d="M86 53l6 5-6 5"/>
+              <rect class="hl-acc" x="100" y="28" width="68" height="60" rx="8"/>
+              <rect class="hl-acc fill" x="110" y="52" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M122 58h6"/>
+              <rect class="hl-acc fill" x="128" y="52" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M140 58h6"/>
+              <rect class="hl-acc fill" x="146" y="52" width="12" height="12" rx="2.5"/>
+              <path class="hl-dim dash" d="M178 22v76"/>
+              <rect class="hl-dim" x="186" y="52" width="10" height="12" rx="2.5"/>
             </svg>
-            <div class="jbx-hl-text"><h4 class="jbx-mini">From a one-line brief to a bounded problem</h4><p class="jbx-body">The brief was one line: “let them edit the report.” I turned it into a question — what should an edit do when every number depends on another — drew the line at pricing, and designed the whole loop inside it.</p></div>
+            <p class="jbx-body">A one-line brief, “let them edit the report,” became a bounded problem: what an edit should do when every number depends on another, and where it stops.</p>
           </div>
           <div class="jbx-hl-item">
             <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
-              <path class="hl-acc fill" d="M22 30 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><path class="hl-acc fill" d="M22 56 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><path class="hl-acc fill" d="M22 82 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/>
-              <circle class="hl-ink" cx="178" cy="31" r="3.2"/><path class="hl-ink" d="M172 43 a6 6 0 0 1 12 0"/><circle class="hl-ink" cx="178" cy="57" r="3.2"/><path class="hl-ink" d="M172 69 a6 6 0 0 1 12 0"/><circle class="hl-ink" cx="178" cy="83" r="3.2"/><path class="hl-ink" d="M172 95 a6 6 0 0 1 12 0"/>
-              <path class="hl-dim" d="M44 36H156"/><circle class="hl-acc fill" cx="44" cy="36" r="4.5"/>
-              <path class="hl-dim" d="M44 62H156"/><circle class="hl-acc fill" cx="100" cy="62" r="4.5"/>
-              <path class="hl-dim" d="M44 88H156"/><circle class="hl-acc fill" cx="156" cy="88" r="4.5"/>
+              <rect class="hl-acc" x="14" y="26" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M17 26v-3M23 26v-3M17 38v3M23 38v3M14 29h-3M14 35h-3M26 29h3M26 35h3"/><circle class="hl-acc fill" cx="20" cy="32" r="1.8"/><rect class="hl-acc" x="14" y="54" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M17 54v-3M23 54v-3M17 66v3M23 66v3M14 57h-3M14 63h-3M26 57h3M26 63h3"/><circle class="hl-acc fill" cx="20" cy="60" r="1.8"/><rect class="hl-acc" x="14" y="82" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M17 82v-3M23 82v-3M17 94v3M23 94v3M14 85h-3M14 91h-3M26 85h3M26 91h3"/><circle class="hl-acc fill" cx="20" cy="88" r="1.8"/>
+              <circle class="hl-ink" cx="180" cy="27" r="4"/><path class="hl-ink" d="M172 41 a8 8 0 0 1 16 0"/><circle class="hl-ink" cx="180" cy="55" r="4"/><path class="hl-ink" d="M172 69 a8 8 0 0 1 16 0"/><circle class="hl-ink" cx="180" cy="83" r="4"/><path class="hl-ink" d="M172 97 a8 8 0 0 1 16 0"/>
+              <path class="hl-dim" d="M44 32H156"/><circle class="hl-acc fill" cx="44" cy="32" r="5.5"/>
+              <path class="hl-dim" d="M44 60H156"/><circle class="hl-acc fill" cx="100" cy="60" r="5.5"/>
+              <path class="hl-dim" d="M44 88H156"/><circle class="hl-acc fill" cx="156" cy="88" r="5.5"/>
             </svg>
-            <div class="jbx-hl-text"><h4 class="jbx-mini">Where the AI stops and the person starts</h4><p class="jbx-body">The hard part wasn’t making the AI do more. It was deciding when it shouldn’t: formulas recalculate on their own, Jain revises its own estimates and says so, and anything that contradicts the RFP waits for a person.</p></div>
+            <p class="jbx-body">The hard part was deciding when the AI shouldn’t act: formulas recalculate on their own, Jain revises its own estimates and says so, and anything that contradicts the RFP waits for a person.</p>
           </div>
           <div class="jbx-hl-item">
             <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
-              <path class="hl-dim" d="M36 56H166"/>
-              <circle class="hl-acc" cx="36" cy="56" r="6"/><text class="hl-lbl" x="36" y="76" text-anchor="middle">reason</text>
-              <path class="hl-acc fill" d="M29 28 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><circle class="hl-ink" cx="44" cy="31" r="3.2"/><path class="hl-ink" d="M38 43 a6 6 0 0 1 12 0"/>
-              <circle class="hl-acc" cx="78" cy="56" r="6"/><text class="hl-lbl" x="78" y="76" text-anchor="middle">build</text>
-              <path class="hl-acc fill" d="M71 28 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><circle class="hl-ink" cx="86" cy="31" r="3.2"/><path class="hl-ink" d="M80 43 a6 6 0 0 1 12 0"/>
-              <circle class="hl-acc" cx="122" cy="56" r="6"/><text class="hl-lbl" x="122" y="76" text-anchor="middle">compare</text>
-              <path class="hl-acc fill" d="M115 28 l1.6 4.4 4.4 1.6 -4.4 1.6 -1.6 4.4 -1.6 -4.4 -4.4 -1.6 4.4 -1.6z"/><circle class="hl-ink" cx="130" cy="31" r="3.2"/><path class="hl-ink" d="M124 43 a6 6 0 0 1 12 0"/>
-              <circle class="hl-acc fill" cx="166" cy="56" r="6"/><text class="hl-lbl" x="166" y="76" text-anchor="middle">decide</text>
-              <circle class="hl-ink" cx="166" cy="31" r="3.2"/><path class="hl-ink" d="M160 43 a6 6 0 0 1 12 0"/>
+              <path class="hl-dim" d="M28 76H172"/>
+              <circle class="hl-acc" cx="28" cy="76" r="7"/>
+              <rect class="hl-acc" x="22" y="36" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M25 36v-3M31 36v-3M25 48v3M31 48v3M22 39h-3M22 45h-3M34 39h3M34 45h3"/><circle class="hl-acc fill" cx="28" cy="42" r="1.8"/>
+              <path class="hl-dim" d="M28 56v12"/>
+              <circle class="hl-acc" cx="76" cy="76" r="7"/>
+              <rect class="hl-acc" x="70" y="36" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M73 36v-3M79 36v-3M73 48v3M79 48v3M70 39h-3M70 45h-3M82 39h3M82 45h3"/><circle class="hl-acc fill" cx="76" cy="42" r="1.8"/>
+              <path class="hl-dim" d="M76 56v12"/>
+              <circle class="hl-acc" cx="124" cy="76" r="7"/>
+              <rect class="hl-acc" x="118" y="36" width="12" height="12" rx="2.5"/><path class="hl-acc" d="M121 36v-3M127 36v-3M121 48v3M127 48v3M118 39h-3M118 45h-3M130 39h3M130 45h3"/><circle class="hl-acc fill" cx="124" cy="42" r="1.8"/>
+              <path class="hl-dim" d="M124 56v12"/>
+              <circle class="hl-acc fill" cx="172" cy="76" r="7"/>
+              <circle class="hl-ink" cx="172" cy="37" r="4"/><path class="hl-ink" d="M164 51 a8 8 0 0 1 16 0"/>
+              <path class="hl-dim" d="M172 56v12"/>
             </svg>
-            <div class="jbx-hl-text"><h4 class="jbx-mini">AI in every step, not just the last</h4><p class="jbx-body">The agent sat in every step: it argued the options in plain language before anything was built, built the variations I chose, and lost the argument twice. The rules I gave it ended up being the rules I gave Jain.</p></div>
+            <p class="jbx-body">The agent argued the options before anything was built and built the variations I chose, but every decision stayed mine.</p>
           </div>
         </div>
         <p class="jbx-note">No usage data yet; the numbers I'd watch after launch are in Takeaways.</p>
