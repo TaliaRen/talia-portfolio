@@ -419,6 +419,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-sec { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
   .jbx-sec-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:48px; }
   .jbx-sec-head { display:flex; flex-direction:column; gap:16px; }
+  .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-12px; } /* title → body 36px inside the 48px stack */
   .jbx-sec-title { font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400; color:#fff; line-height:1.3; margin:0; }
   .jbx-copy { display:flex; flex-direction:column; gap:24px; }
   .jbx-body { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
@@ -494,6 +495,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:860px) {
     .jbx-sec { padding:0 32px 80px; }
     .jbx-sec-inner { gap:40px; }
+    .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-4px; }
     .jbx-sec-title { font-size:1.5rem; }
     .jbx-cards, .jbx-quotes, .jbx-swatches { grid-template-columns:minmax(0,1fr); }
     .jbx-figs { grid-template-columns:minmax(0,1fr); }
