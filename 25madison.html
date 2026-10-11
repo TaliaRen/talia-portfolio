@@ -385,9 +385,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
   .jbx-locked { display:none; }
   /* highlights: three rows, a small line drawing beside each (boundary · dial · flow), same stroke style */
-  .jbx-hl { display:flex; flex-direction:column; gap:20px; margin-top:16px; }
-  .jbx-hl-item { display:grid; grid-template-columns:300px minmax(0,1fr); gap:40px; align-items:center; }
-  .jbx-hl-art { width:100%; height:auto; display:block; }
+  .jbx-hl { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px; margin-top:24px; }
+  .jbx-hl-item { display:flex; flex-direction:column; gap:20px; }
+  .jbx-hl-art { width:100%; height:112px; display:block; }
   .jbx-hl-art .hl-acc { fill:none; stroke:#5FCB9C; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .jbx-hl-art .hl-ink { fill:none; stroke:#E0E0E0; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .jbx-hl-art .hl-dim { fill:none; stroke:rgba(255,255,255,0.3); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
@@ -402,8 +402,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-hl-art .hl-lbl.ai.small { font-size:8px; }
   .jbx-hl-art .hl-lbl.wide { font-size:10.2px; }
   .jbx-hl-art .hl-bg { fill:none; stroke:#0A0D0C; stroke-width:1.6; stroke-linecap:round; }
-  @media(max-width:860px) { .jbx-hl-item { grid-template-columns:240px minmax(0,1fr); gap:28px; } }
-  @media(max-width:640px) { .jbx-hl-item { grid-template-columns:minmax(0,1fr); gap:12px; } .jbx-hl-art { max-width:300px; } }
+  @media(max-width:860px) { .jbx-hl { grid-template-columns:minmax(0,1fr); gap:32px; } .jbx-hl-item { gap:12px; } .jbx-hl-art { max-width:300px; height:auto; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -567,7 +566,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="jbx-block-label">Highlights</span>
         <div class="jbx-hl">
           <div class="jbx-hl-item">
-            <svg class="jbx-hl-art" viewBox="0 18 200 64" aria-hidden="true">
+            <svg class="jbx-hl-art" viewBox="0 18 200 64" preserveAspectRatio="xMinYMax meet" aria-hidden="true">
               <path class="hl-dim dash" d="M36 30c10-6 24-2 28 8 8 2 10 12 4 18-2 10-14 14-24 10-10 6-24 0-24-10-8-6-4-18 6-20 2-6 6-8 10-6z"/>
               <text class="hl-lbl big dim" x="44" y="48" text-anchor="middle" dominant-baseline="central">?</text>
               <path class="hl-ink" d="M78 50h14"/><path class="hl-ink" d="M88 45l6 5-6 5"/>
@@ -578,7 +577,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="jbx-body">Shaped an ambiguous problem into a scoped 0→1 workflow.</p>
           </div>
           <div class="jbx-hl-item">
-            <svg class="jbx-hl-art" viewBox="0 8 240 98" aria-hidden="true">
+            <svg class="jbx-hl-art" viewBox="0 8 240 98" preserveAspectRatio="xMinYMax meet" aria-hidden="true">
               <rect class="hl-dim" x="8" y="22" width="56" height="56" rx="11"/>
               <rect class="hl-dim" x="80" y="22" width="56" height="56" rx="11"/>
               <rect class="hl-dim" x="176" y="22" width="56" height="56" rx="11"/>
@@ -591,7 +590,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="jbx-body">Defined when the AI acts, when it explains, and when it hands off to users.</p>
           </div>
           <div class="jbx-hl-item">
-            <svg class="jbx-hl-art" viewBox="0 28 200 76" aria-hidden="true">
+            <svg class="jbx-hl-art" viewBox="0 28 200 76" preserveAspectRatio="xMinYMax meet" aria-hidden="true">
               <path class="hl-dim" d="M28 76H172"/>
               <circle class="hl-acc" cx="28" cy="76" r="7"/>
               <rect class="hl-acc" x="19" y="33" width="18" height="18" rx="5"/><text class="hl-lbl ai small" x="28" y="42" text-anchor="middle" dominant-baseline="central">AI</text>
