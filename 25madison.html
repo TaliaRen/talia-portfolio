@@ -385,9 +385,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
   .jbx-locked { display:none; }
   /* highlights: three rows, a small line drawing beside each (boundary · dial · flow), same stroke style */
-  .jbx-hl { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px; margin-top:24px; }
-  .jbx-hl-item { display:flex; flex-direction:column; gap:20px; }
-  .jbx-hl-art { width:100%; height:112px; display:block; }
+  .jbx-hl { display:flex; flex-direction:column; gap:24px; }
+  .jbx-hl-item { display:grid; grid-template-columns:300px minmax(0,1fr); gap:48px; align-items:center; }
+  .jbx-hl-art { width:100%; height:auto; display:block; }
   .jbx-hl-art .hl-acc { fill:none; stroke:#5FCB9C; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .jbx-hl-art .hl-ink { fill:none; stroke:#E0E0E0; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .jbx-hl-art .hl-dim { fill:none; stroke:rgba(255,255,255,0.3); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
@@ -402,7 +402,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-hl-art .hl-lbl.ai.small { font-size:8px; }
   .jbx-hl-art .hl-lbl.wide { font-size:10.2px; }
   .jbx-hl-art .hl-bg { fill:none; stroke:#0A0D0C; stroke-width:1.6; stroke-linecap:round; }
-  @media(max-width:860px) { .jbx-hl { grid-template-columns:minmax(0,1fr); gap:32px; } .jbx-hl-item { gap:12px; } .jbx-hl-art { max-width:300px; height:auto; } }
+  @media(max-width:860px) { .jbx-hl-item { grid-template-columns:240px minmax(0,1fr); gap:32px; } }
+  @media(max-width:640px) { .jbx-hl-item { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-hl-art { max-width:300px; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
