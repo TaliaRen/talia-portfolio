@@ -398,6 +398,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-hl-art .hl-lbl { font-family:'Figtree',sans-serif; font-size:8.5px; font-weight:300; fill:#E0E0E0; letter-spacing:.02em; }
   .jbx-hl-art .hl-lbl.dim { fill:rgba(255,255,255,0.45); }
   .jbx-hl-art .hl-lbl.big { font-size:22px; font-weight:300; }
+  .jbx-hl-art .hl-lbl.ai { font-size:9.5px; font-weight:500; fill:#5FCB9C; letter-spacing:.04em; }
+  .jbx-hl-art .hl-lbl.ai.small { font-size:8px; }
+  .jbx-hl-art .hl-bg { fill:none; stroke:#0A0D0C; stroke-width:1.6; stroke-linecap:round; }
   @media(max-width:860px) { .jbx-hl-item { grid-template-columns:240px minmax(0,1fr); gap:28px; } }
   @media(max-width:640px) { .jbx-hl-item { grid-template-columns:minmax(0,1fr); gap:12px; } .jbx-hl-art { max-width:300px; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
@@ -575,12 +578,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="jbx-hl-item">
             <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
-              <path class="hl-acc fill" d="M60 49 C61.5 56.5 63.5 58.5 71 60 C63.5 61.5 61.5 63.5 60 71 C58.5 63.5 56.5 61.5 49 60 C56.5 58.5 58.5 56.5 60 49z"/><path class="hl-acc fill" d="M69 47 C69.6 49.4 70.6 50.4 73 51 C70.6 51.6 69.6 52.6 69 55 C68.4 52.6 67.4 51.6 65 51 C67.4 50.4 68.4 49.4 69 47z"/><circle class="hl-ink" cx="140" cy="55" r="5"/><path class="hl-ink" d="M130 72 a10 10 0 0 1 20 0"/>
-              <path class="hl-acc" d="M65.4 40 A40 40 0 0 1 134.6 40"/><path class="hl-acc" d="M134.6 32 L134.6 40 L127.7 36"/>
-              <path class="hl-dim" d="M134.6 80 A40 40 0 0 1 65.4 80"/><path class="hl-dim" d="M65.4 88 L65.4 80 L72.3 84"/>
-              <text class="hl-lbl" x="100" y="14" text-anchor="middle">shows what changed</text>
-              <text class="hl-lbl dim" x="100" y="114" text-anchor="middle">you approve or correct</text>
-              <text class="hl-lbl" x="60" y="92" text-anchor="middle">AI</text><text class="hl-lbl" x="140" y="92" text-anchor="middle">You</text>
+              <rect class="hl-dim" x="14" y="24" width="52" height="52" rx="10"/>
+              <rect class="hl-dim" x="74" y="24" width="52" height="52" rx="10"/>
+              <rect class="hl-dim" x="134" y="24" width="52" height="52" rx="10"/>
+              <rect class="hl-acc" x="29" y="39" width="22" height="22" rx="6"/><text class="hl-lbl ai" x="40" y="50" text-anchor="middle" dominant-baseline="central">AI</text>
+              <rect class="hl-acc" x="85" y="42" width="22" height="22" rx="6"/><text class="hl-lbl ai" x="96" y="53" text-anchor="middle" dominant-baseline="central">AI</text><path class="hl-acc fill" d="M103 29 h14 a3 3 0 0 1 3 3 v6 a3 3 0 0 1 -3 3 h-7 l-4 4 v-4 h-3 a3 3 0 0 1 -3 -3 v-6 a3 3 0 0 1 3 -3z"/><path class="hl-bg" d="M107 35 h9"/>
+              <circle class="hl-ink" cx="160" cy="45" r="5"/><path class="hl-ink" d="M150 62 a10 10 0 0 1 20 0"/>
+              <path class="hl-dim dash" d="M130 16v88"/>
+              <text class="hl-lbl" x="40" y="96" text-anchor="middle">acts</text><text class="hl-lbl" x="100" y="96" text-anchor="middle">explains</text><text class="hl-lbl" x="160" y="96" text-anchor="middle">you decide</text>
             </svg>
             <p class="jbx-body">Defined when the AI acts, when it explains, and when it hands off to users.</p>
           </div>
@@ -588,15 +593,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <svg class="jbx-hl-art" viewBox="0 0 200 120" aria-hidden="true">
               <path class="hl-dim" d="M28 76H172"/>
               <circle class="hl-acc" cx="28" cy="76" r="7"/>
-              <path class="hl-acc fill" d="M28 34 C29.1 39.4 30.6 40.9 36 42 C30.6 43.1 29.1 44.6 28 50 C26.9 44.6 25.4 43.1 20 42 C25.4 40.9 26.9 39.4 28 34z"/>
+              <rect class="hl-acc" x="19" y="33" width="18" height="18" rx="5"/><text class="hl-lbl ai small" x="28" y="42" text-anchor="middle" dominant-baseline="central">AI</text>
               <path class="hl-dim" d="M28 56v12"/>
               <text class="hl-lbl" x="28" y="98" text-anchor="middle">reason</text>
               <circle class="hl-acc" cx="76" cy="76" r="7"/>
-              <path class="hl-acc fill" d="M76 34 C77.1 39.4 78.6 40.9 84 42 C78.6 43.1 77.1 44.6 76 50 C74.9 44.6 73.4 43.1 68 42 C73.4 40.9 74.9 39.4 76 34z"/>
+              <rect class="hl-acc" x="67" y="33" width="18" height="18" rx="5"/><text class="hl-lbl ai small" x="76" y="42" text-anchor="middle" dominant-baseline="central">AI</text>
               <path class="hl-dim" d="M76 56v12"/>
               <text class="hl-lbl" x="76" y="98" text-anchor="middle">build</text>
               <circle class="hl-acc" cx="124" cy="76" r="7"/>
-              <path class="hl-acc fill" d="M124 34 C125.1 39.4 126.6 40.9 132 42 C126.6 43.1 125.1 44.6 124 50 C122.9 44.6 121.4 43.1 116 42 C121.4 40.9 122.9 39.4 124 34z"/>
+              <rect class="hl-acc" x="115" y="33" width="18" height="18" rx="5"/><text class="hl-lbl ai small" x="124" y="42" text-anchor="middle" dominant-baseline="central">AI</text>
               <path class="hl-dim" d="M124 56v12"/>
               <text class="hl-lbl" x="124" y="98" text-anchor="middle">compare</text>
               <circle class="hl-acc fill" cx="172" cy="76" r="7"/>
