@@ -404,9 +404,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-hl-art .hl-bg { fill:none; stroke:#0A0D0C; stroke-width:1.6; stroke-linecap:round; }
   @media(max-width:860px) { .jbx-hl-item { grid-template-columns:240px minmax(0,1fr); gap:32px; } }
   @media(max-width:640px) { .jbx-hl-item { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-hl-art { max-width:300px; } }
-  .jbx-snap { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); column-gap:48px; row-gap:40px; }
-  .jbx-snap-item { display:flex; flex-direction:column; gap:8px; }
-  @media(max-width:640px) { .jbx-snap { grid-template-columns:minmax(0,1fr); row-gap:32px; } }
+  .jbx-snap { display:flex; flex-direction:column; gap:16px; }
+  .jbx-snap-item { display:flex; flex-direction:column; gap:8px; padding:22px 24px 24px; border-radius:14px; background:rgba(255,255,255,0.06); }
+  .jbx-snap-item h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -610,10 +610,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="jbx-section-block">
         <span class="jbx-block-label">Design Snapshot</span>
         <div class="jbx-snap">
-          <div class="jbx-snap-item"><h4 class="jbx-mini">Every value shows where it came from</h4><p class="jbx-block-text">Stated in the RFP, estimated by Jain, missing, or calculated, readable at a glance.</p></div>
-          <div class="jbx-snap-item"><h4 class="jbx-mini">See the ripple before it lands</h4><p class="jbx-block-text">A confirm card shows what a change will move: formulas recalculate, Jain’s estimates get revised, and conflicts with the RFP wait for a decision.</p></div>
-          <div class="jbx-snap-item"><h4 class="jbx-mini">Jain speaks only when users need to decide</h4><p class="jbx-block-text">It stays quiet on recalculations and only steps in when something needs a call.</p></div>
-          <div class="jbx-snap-item"><h4 class="jbx-mini">Review before pricing</h4><p class="jbx-block-text">A review mode spotlights each edit and what it touched, before the numbers go to pricing.</p></div>
+          <div class="jbx-snap-item"><h4>Every value shows where it came from</h4><p class="jbx-block-text">Stated in the RFP, estimated by Jain, missing, or calculated, readable at a glance.</p></div>
+          <div class="jbx-snap-item"><h4>See the ripple before it lands</h4><p class="jbx-block-text">A confirm card shows what a change will move: formulas recalculate, Jain’s estimates get revised, and conflicts with the RFP wait for a decision.</p></div>
+          <div class="jbx-snap-item"><h4>Jain speaks only when users need to decide</h4><p class="jbx-block-text">It stays quiet on recalculations and only steps in when something needs a call.</p></div>
+          <div class="jbx-snap-item"><h4>Review before pricing</h4><p class="jbx-block-text">A review mode spotlights each edit and what it touched, before the numbers go to pricing.</p></div>
         </div>
       </div>
       <div class="jbx-cover-frame">
