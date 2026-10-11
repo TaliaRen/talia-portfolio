@@ -385,9 +385,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @keyframes jbx-shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
   .jbx-locked { display:none; }
   /* highlights: three rows, a small line drawing beside each (boundary · dial · flow), same stroke style */
-  .jbx-hl { display:flex; flex-direction:column; gap:40px; }
-  .jbx-hl-item { display:flex; flex-direction:column; gap:16px; align-items:flex-start; }
-  .jbx-hl-art { width:240px; max-width:100%; height:auto; display:block; }
+  .jbx-hl { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px; margin-top:8px; }
+  .jbx-hl-item { display:flex; flex-direction:column; gap:20px; }
+  .jbx-hl-art { width:100%; height:100px; display:block; }
+  @media(max-width:860px) { .jbx-hl { grid-template-columns:minmax(0,1fr); gap:40px; margin-top:0; } .jbx-hl-item { gap:16px; } .jbx-hl-art { width:260px; max-width:100%; height:auto; } }
   .jbx-hl-art .hl-acc { fill:none; stroke:#5FCB9C; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .jbx-hl-art .hl-ink { fill:none; stroke:#E0E0E0; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .jbx-hl-art .hl-dim { fill:none; stroke:rgba(255,255,255,0.3); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
