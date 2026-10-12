@@ -421,6 +421,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-sec { padding:0 196px 180px; display:flex; flex-direction:column; align-items:center; }
   .jbx-sec-inner { width:100%; max-width:860px; display:flex; flex-direction:column; gap:48px; }
   .jbx-sec-head { display:flex; flex-direction:column; gap:16px; }
+  .jbx-sec-inner--items { gap:120px; }
+  .jbx-sec-inner--items > .jbx-block-label { margin-bottom:calc(16px - 120px); }
+  .jbx-item { display:flex; flex-direction:column; gap:36px; }
   .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-12px; } /* title → body 36px inside the 48px stack */
   .jbx-sec-title { font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400; color:#fff; line-height:1.3; margin:0; }
   .jbx-copy { display:flex; flex-direction:column; gap:24px; }
@@ -497,6 +500,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:860px) {
     .jbx-sec { padding:0 32px 80px; }
     .jbx-sec-inner { gap:40px; }
+    .jbx-sec-inner--items { gap:80px; }
+    .jbx-sec-inner--items > .jbx-block-label { margin-bottom:calc(16px - 80px); }
     .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-4px; }
     .jbx-sec-title { font-size:1.5rem; }
     .jbx-cards, .jbx-quotes, .jbx-swatches { grid-template-columns:minmax(0,1fr); }
@@ -516,13 +521,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   /* ── Anchor scroll offset ── */
-  #overview, #background, #problem, #principle, #exploration, #collab, #solution, #pricing, #tradeoffs, #takeaways { scroll-margin-top: 140px; }
+  #overview, #problem, #principle, #exploration, #collab, #solution, #pricing, #tradeoffs, #takeaways { scroll-margin-top: 140px; }
 </style>
 
 <aside class="case-sidebar">
   <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"><path d="M15 5l-7 7 7 7"/></svg>Back</a>
   <a href="#overview" class="active">Overview</a>
-  <a href="#background" data-locked>Background</a>
   <a href="#problem" data-locked>Problem</a>
   <a href="#principle" data-locked>Principle</a>
   <a href="#exploration" data-locked>Exploration</a>
@@ -646,34 +650,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="jbx-locked" id="jbxLocked">
 
-  <section class="jbx-sec " id="background">
-    <div class="jbx-sec-inner">
-      <div class="jbx-sec-head">
-        <span class="jbx-block-label">Background</span>
-        <h2 class="jbx-sec-title">Every number in the X-Ray depends on another.</h2>
-      </div>
-      <div class="jbx-copy">
-        <p class="jbx-body">Jain’s Bid X-Ray reads a client’s RFP and breaks it into everything that affects price: buildings, spaces, floor types, cleaning windows, risks, and an opportunity score. What used to take an estimator days of reading now takes minutes.</p>
-        <p class="jbx-body">Not every value comes from the same place. Some are stated in the RFP. Some Jain estimates from similar buildings. Some the RFP never mentions. And some are calculated from the others: total area feeds restroom size, which feeds labor hours, which feeds the score. Change one, and the rest follow.</p>
-      </div>
-      <figure class="jbx-fig"><img src="Jain/case/site-breakdown.png" alt="The X-Ray site breakdown table, showing stated, estimated, missing and calculated values" loading="lazy"><figcaption>The site breakdown. Plain text is stated in the RFP, dotted underline is estimated, amber is missing, solid underline is calculated.</figcaption></figure>
-    </div>
-  </section>
-
   <section class="jbx-sec " id="problem">
-    <div class="jbx-sec-inner">
-      <div class="jbx-sec-head">
-        <span class="jbx-block-label">Problem</span>
-        <h2 class="jbx-sec-title">The X-ray was only useful until the first correction.</h2>
+    <div class="jbx-sec-inner jbx-sec-inner--items">
+      <span class="jbx-block-label">Problem</span>
+      <div class="jbx-item">
+        <h2 class="jbx-sec-title">The X-Ray is a draft, not an answer</h2>
+        <p class="jbx-body">Jain reads an RFP in minutes, but RFPs have errors and gaps, so the report still needs a person to correct it.</p>
       </div>
-      <div class="jbx-copy">
-        <p class="jbx-body">Extraction is never perfect, and estimators know their buildings. The moment one corrects a value, Jain's output stops being trustworthy: dependent values move without a sign, estimates built on the old number keep standing, and nothing says which of them need a person. Faced with that, estimators either redo the bid by hand, which erases Jain's value, or price on numbers they no longer trust.</p>
-        <p class="jbx-body">The first fix made it worse. Jain explained every recalculation in the side panel, like a chatbot narrating a spreadsheet. The real work was three unanswered questions:</p>
-      </div>
-      <div class="jbx-cards">
-        <div class="jbx-card"><h4>Which consequences need a person?</h4><p>Not all of them. Not none of them.</p></div>
-        <div class="jbx-card"><h4>How is a change taken back?</h4><p>In a table where every number feeds another, undo has no obvious meaning.</p></div>
-        <div class="jbx-card"><h4>How is the report trusted before it becomes a price?</h4><p>Edited or not, it carries estimates and gaps.</p></div>
+      <div class="jbx-item">
+        <h2 class="jbx-sec-title">And every value depends on another</h2>
+        <p class="jbx-body">The bid X-Ray is one connected report: change one value and others have to change with it. Without a way to see and control that, estimators can’t trust the numbers they’re about to price on.</p>
       </div>
     </div>
   </section>
