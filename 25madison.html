@@ -429,8 +429,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-stack-art { width:100%; height:auto; display:block; overflow:visible; }
   .jbx-stack .layer { transition:transform .4s cubic-bezier(.22,1,.36,1); }
   .jbx-stack .layer.is-on { transform:translateY(-12px); }
-  .jbx-stack .pats { opacity:0; transition:opacity .3s; }   /* a plate shows its glyph only when lifted to the front */
-  .jbx-stack .layer.is-on .pats { opacity:1; }
   .jbx-stack .base { fill:#0E1210; stroke:none; }
   .jbx-stack .face { fill:#111513; stroke:url(#jbx-g-dim); stroke-width:1.2; stroke-linejoin:round; transition:fill .25s; }
   .jbx-stack .pat { fill:none; stroke:rgba(255,255,255,0.4); stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; transition:stroke .25s, fill .25s; }
@@ -450,7 +448,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-stack .rip { transform-box:fill-box; transform-origin:center; }
   .jbx-stack .layer.is-on .rip { animation:jbx-ripple 1.8s ease-out infinite; }
   .jbx-stack .layer.is-on .r2 { animation-delay:.3s; } .jbx-stack .layer.is-on .r3 { animation-delay:.6s; }
-  .jbx-stack .undo { stroke-dasharray:60; stroke-dashoffset:0; } .jbx-stack .layer.is-on .undo { animation:jbx-draw 1.2s ease-out infinite; }
+  .jbx-stack .undo { stroke-dasharray:38; stroke-dashoffset:0; } .jbx-stack .layer.is-on .undo { animation:jbx-draw-undo 1.4s ease-out infinite; }
+  .jbx-stack .layer.is-on .undo-head { animation:jbx-undo-head 1.4s ease-out infinite; }
+  @keyframes jbx-draw-undo { 0% { stroke-dashoffset:38; } 55% { stroke-dashoffset:0; } 100% { stroke-dashoffset:0; } }
+  @keyframes jbx-undo-head { 0%,50% { opacity:0; } 62%,100% { opacity:1; } }
   .jbx-stack .tick { stroke-dasharray:24; stroke-dashoffset:0; } .jbx-stack .layer.is-on .tick { animation:jbx-draw 1.4s ease-out infinite; --len:24; }
   @keyframes jbx-march { to { stroke-dashoffset:-12; } }
   @keyframes jbx-blink { 0%,100% { opacity:1; } 50% { opacity:.3; } }
@@ -469,7 +470,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-stack-item .n { font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:400; color:#5FCB9C; letter-spacing:.08em; }
   .jbx-stack-item h3 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
   .jbx-stack-item p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.55; margin:6px 0 0; }
-  .jbx-stack-cap { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; text-align:center; margin:-8px 0 0; }
   @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
@@ -748,14 +748,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
       <div class="jbx-stack">
-        <svg class="jbx-stack-art" viewBox="0 0 400 324" aria-hidden="true">
+        <svg class="jbx-stack-art" viewBox="0 0 400 380" aria-hidden="true">
           <defs>
             <linearGradient id="jbx-g-dim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient>
             <linearGradient id="jbx-g-acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5FCB9C"/><stop offset="1" stop-color="#5FCB9C" stop-opacity=".4"/></linearGradient>
             <linearGradient id="jbx-g-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5FCB9C" stop-opacity=".22"/><stop offset="1" stop-color="#5FCB9C" stop-opacity=".05"/></linearGradient>
             <filter id="jbx-stack-glow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
-          <g class="layer layer-5" data-vx="360" data-vy="236"><polygon class="base" points="40,236 200,164 360,236 200,308"/><polygon class="face" points="40,236 200,164 360,236 200,308"/><g class="pats"><circle class="pat" cx="200" cy="236" r="14"/><path class="pat strong tick" d="M193 236l5 5 9.5-10.5"/></g></g><g class="layer layer-4" data-vx="342" data-vy="190"><polygon class="base" points="58,190 200,127 342,190 200,253"/><polygon class="face" points="58,190 200,127 342,190 200,253"/><g class="pats"><circle class="pat fillme" cx="170" cy="180" r="2"/><path class="pat" d="M176 180h26"/><circle class="pat fillme" cx="170" cy="190" r="2"/><path class="pat" d="M176 190h20"/><circle class="pat fillme" cx="170" cy="200" r="2"/><path class="pat" d="M176 200h24"/><path class="pat undo" d="M232 178v14a8 8 0 0 1-8 8h-10l5-5m-5 5l5 5"/></g></g><g class="layer layer-3" data-vx="324" data-vy="144"><polygon class="base" points="76,144 200,89 324,144 200,199"/><polygon class="face" points="76,144 200,89 324,144 200,199"/><g class="pats"><circle class="pat fillme" cx="200" cy="144" r="4"/><ellipse class="pat rip r1" cx="200" cy="144" rx="14" ry="6.3"/><ellipse class="pat rip r2" cx="200" cy="144" rx="28" ry="12.6"/><ellipse class="pat rip r3" cx="200" cy="144" rx="44" ry="19.8"/></g></g><g class="layer layer-2" data-vx="306" data-vy="98"><polygon class="base" points="94,98 200,51 306,98 200,145"/><polygon class="face" points="94,98 200,51 306,98 200,145"/><g class="pats"><circle class="pat" cx="176" cy="91" r="4.5"/><path class="pat" d="M167 109a9 9 0 0 1 18 0"/><rect class="pat dsh rule" x="196" y="83" width="40" height="30" rx="6"/><rect class="pat" x="208" y="91" width="16" height="14" rx="3.5"/><text class="pat-t" x="216" y="98" text-anchor="middle" dominant-baseline="central">AI</text></g></g><g class="layer layer-1" data-vx="288" data-vy="52"><polygon class="base" points="112,52 200,13 288,52 200,91"/><polygon class="face" points="112,52 200,13 288,52 200,91"/><g class="pats"><rect class="pat" x="160" y="43" width="30" height="18" rx="3"/><path class="pat strong" d="M166 52h18"/><path class="pat trace" d="M192 52h20"/><path class="pat" d="M214 38h14l7 7v21h-21z"/><path class="pat" d="M228 38v7h7"/><path class="pat" d="M219 52h11M219 58h8"/><path class="pat strong src" d="M219 46h11"/></g></g>
+          <g class="layer layer-5" data-vx="360" data-vy="300"><polygon class="base" points="40,300 200,236 360,300 200,364"/><polygon class="face" points="40,300 200,236 360,300 200,364"/><g class="pats"><circle class="pat" cx="200" cy="306" r="14"/><path class="pat strong tick" d="M193 306l5 5 9.5-10.5"/></g></g><g class="layer layer-4" data-vx="342" data-vy="238"><polygon class="base" points="58,238 200,182 342,238 200,294"/><polygon class="face" points="58,238 200,182 342,238 200,294"/><g class="pats"><circle class="pat fillme" cx="170" cy="234" r="2"/><path class="pat" d="M176 234h26"/><circle class="pat fillme" cx="170" cy="244" r="2"/><path class="pat" d="M176 244h20"/><circle class="pat fillme" cx="170" cy="254" r="2"/><path class="pat" d="M176 254h24"/><path class="pat undo" d="M232 232v14a8 8 0 0 1-8 8h-10"/><path class="pat undo-head" d="M219 249l-5 5 5 5"/></g></g><g class="layer layer-3" data-vx="324" data-vy="176"><polygon class="base" points="76,176 200,127 324,176 200,225"/><polygon class="face" points="76,176 200,127 324,176 200,225"/><g class="pats"><circle class="pat fillme" cx="200" cy="182" r="4"/><ellipse class="pat rip r1" cx="200" cy="182" rx="14" ry="6.3"/><ellipse class="pat rip r2" cx="200" cy="182" rx="28" ry="12.6"/><ellipse class="pat rip r3" cx="200" cy="182" rx="44" ry="19.8"/></g></g><g class="layer layer-2" data-vx="306" data-vy="114"><polygon class="base" points="94,114 200,72 306,114 200,156"/><polygon class="face" points="94,114 200,72 306,114 200,156"/><g class="pats"><circle class="pat" cx="176" cy="113" r="4.5"/><path class="pat" d="M167 131a9 9 0 0 1 18 0"/><rect class="pat dsh rule" x="196" y="105" width="40" height="30" rx="6"/><rect class="pat" x="208" y="113" width="16" height="14" rx="3.5"/><text class="pat-t" x="216" y="120" text-anchor="middle" dominant-baseline="central">AI</text></g></g><g class="layer layer-1" data-vx="288" data-vy="52"><polygon class="base" points="112,52 200,17 288,52 200,87"/><polygon class="face" points="112,52 200,17 288,52 200,87"/><g class="pats"><rect class="pat" x="160" y="49" width="30" height="18" rx="3"/><path class="pat strong" d="M166 58h18"/><path class="pat trace" d="M192 58h20"/><path class="pat" d="M214 44h14l7 7v21h-21z"/><path class="pat" d="M228 44v7h7"/><path class="pat" d="M219 58h11M219 64h8"/><path class="pat strong src" d="M219 52h11"/></g></g>
           <g class="tie-g"><path class="tie" d=""/><circle class="tie-dot" r="3"/></g>
         </svg>
         <ol class="jbx-stack-list">
@@ -766,7 +766,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li class="jbx-stack-item" data-layer="5" tabindex="0"><div class="t"><span class="n">05</span><h3>Verified before pricing</h3></div><p>Nothing reaches the price unchecked, and every figure there leads back to the report.</p></li>
         </ol>
       </div>
-      <p class="jbx-stack-cap">Each goal rests on the one below it.</p>
       <p class="jbx-body">All five rest on one question I had to answer first: when a value changes, what does the AI do, and what does it leave to the person?</p>
     </div>
   </section>
@@ -1269,11 +1268,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const stack = document.querySelector('.jbx-stack'); if (!stack) return;
   const svg = stack.querySelector('.jbx-stack-art'), tie = svg.querySelector('.tie'), dot = svg.querySelector('.tie-dot');
   const items = [...stack.querySelectorAll('.jbx-stack-item')], layers = [...stack.querySelectorAll('.layer')];
+  const tieG = svg.querySelector('.tie-g'), order = layers.slice();   // the stacked order, restored after each hover
   const toSvg = (x, y) => { const pt = new DOMPoint(x, y).matrixTransform(svg.getScreenCTM().inverse()); return [pt.x, pt.y]; };
   const set = (i, item) => {
     items.forEach(it => it.classList.toggle('is-active', !!i && it.dataset.layer === String(i)));
     layers.forEach(l => l.classList.toggle('is-on', !!i && l.classList.contains('layer-' + i)));
-    if (!i) { stack.classList.remove('has-tie'); return; }
+    if (!i) { stack.classList.remove('has-tie'); order.forEach(l => svg.insertBefore(l, tieG)); return; }
     const layer = layers.find(l => l.classList.contains('layer-' + i));
     svg.insertBefore(layer, svg.querySelector('.tie-g'));   // bring the lit plate to the front (the tie stays on top)
     const x0 = +layer.dataset.vx + 6, y0 = +layer.dataset.vy - 12;   // -12: the plate lifts
