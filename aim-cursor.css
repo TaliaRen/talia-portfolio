@@ -41,12 +41,9 @@
 .aim-cursor.locked .ac-dot { background:#63FF8A; width:6px; height:6px; margin:-3px 0 0 -3px; box-shadow:0 0 8px rgba(99,255,138,0.9); }
 .aim-cursor.pulse .ac-ring { animation:aimPulse 0.55s ease-out; }
 @keyframes aimPulse { 0% { opacity:0.9; transform:scale(0.5); } 100% { opacity:0; transform:scale(1.6); } }
-/* reading text: brackets fade, the dot stretches into an I-beam with short serifs */
+/* reading text: brackets fade, the dot stretches into a mint I-beam (a plain bar, no serifs) */
 .aim-cursor.text .ac-c { opacity:0; }
-.aim-cursor.text .ac-dot { width:2px; height:22px; margin:-11px 0 0 -1px; border-radius:1px; box-shadow:0 0 6px rgba(255,255,255,0.6); }
-.aim-cursor .ac-dot::before, .aim-cursor .ac-dot::after { content:""; position:absolute; left:50%; width:0; height:2px; margin-left:0; background:#fff; border-radius:1px; opacity:0; transition:all 0.22s ease; }
-.aim-cursor .ac-dot::before { top:0; } .aim-cursor .ac-dot::after { bottom:0; }
-.aim-cursor.text .ac-dot::before, .aim-cursor.text .ac-dot::after { width:8px; margin-left:-4px; opacity:1; }
+.aim-cursor.text .ac-dot { width:2px; height:22px; margin:-11px 0 0 -1px; border-radius:1px; background:#63FF8A; box-shadow:0 0 6px rgba(99,255,138,0.7); }
 /* pressed: quick squeeze */
 .aim-cursor.down { transform-origin:center; }
 .aim-cursor.down .ac-c { transform:scale(0.85); }
