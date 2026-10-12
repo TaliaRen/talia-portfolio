@@ -459,18 +459,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @keyframes jbx-draw { 0% { stroke-dashoffset:60; } 55% { stroke-dashoffset:0; } 100% { stroke-dashoffset:0; } }
   .jbx-stack .layer.is-on .tick { animation-name:jbx-draw-tick; }
   @keyframes jbx-draw-tick { 0% { stroke-dashoffset:24; } 45% { stroke-dashoffset:0; } 100% { stroke-dashoffset:0; } }
-  /* the list */
+  /* the list: each row is a card that flips to show where the strategy lives in the design */
   .jbx-stack-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
-  .jbx-stack-item { padding:18px 20px; margin:0 -20px; border-radius:14px; cursor:default; outline:none; transition:background .25s; }
-  .jbx-stack-item + .jbx-stack-item { position:relative; }
-  .jbx-stack-item + .jbx-stack-item::before { content:""; position:absolute; left:20px; right:20px; top:0; height:1px; background:rgba(255,255,255,0.08); }
-  .jbx-stack-item.is-active { background:rgba(95,203,156,0.06); }
-  .jbx-stack-item.is-active + .jbx-stack-item::before { opacity:0; }
+  .jbx-stack-item { height:128px; perspective:1400px; cursor:pointer; outline:none; position:relative; }
+  .jbx-stack-item + .jbx-stack-item::before { content:""; position:absolute; left:0; right:0; top:0; height:1px; background:rgba(255,255,255,0.08); }
+  .jbx-stack-item .flip { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.22,1,.36,1); }
+  .jbx-stack-item.is-flipped .flip { transform:rotateY(180deg); }
+  .jbx-stack-item .face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:14px; padding:0 20px; display:flex; flex-direction:column; justify-content:center; transition:background .25s; }
+  .jbx-stack-item .back { transform:rotateY(180deg); flex-direction:row; align-items:center; gap:20px; background:rgba(255,255,255,0.04); }
+  .jbx-stack-item.is-active .front { background:rgba(95,203,156,0.06); }
   .jbx-stack-item .t { display:flex; align-items:baseline; gap:12px; }
   .jbx-stack-item .n { font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:400; color:#5FCB9C; letter-spacing:.08em; }
   .jbx-stack-item h3 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
-  .jbx-stack-item p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.55; margin:6px 0 0; }
-  @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
+  .jbx-stack-item .front p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.55; margin:6px 0 0; }
+  .jbx-stack-item .hint { position:absolute; right:20px; bottom:12px; font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:300; color:rgba(255,255,255,0.35); letter-spacing:.02em; opacity:0; transition:opacity .25s, color .25s; }
+  .jbx-stack-item:hover .hint, .jbx-stack-item:focus-visible .hint { opacity:1; }
+  .jbx-stack-item.is-active .front .hint { color:#5FCB9C; }
+  .jbx-stack-item .back img { width:200px; height:104px; object-fit:cover; object-position:left top; border-radius:8px; background:#0E1210; border:1px solid rgba(255,255,255,0.08); flex:none; }
+  .jbx-stack-item .back p { font-family:'Figtree',sans-serif; font-size:.9375rem; font-weight:200; color:#E0E0E0; line-height:1.5; margin:0; }
+  @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-stack-item { height:150px; } .jbx-stack-item .face { padding:0 12px; } .jbx-stack-item .back img { width:150px; height:92px; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -595,7 +602,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="case-back" href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"><path d="M15 5l-7 7 7 7"/></svg>Back</a>
   <a href="#overview" class="active">Overview</a>
   <a href="#problem" data-locked>Problem</a>
-  <a href="#goals" data-locked>Design goals</a>
+  <a href="#goals" data-locked>Design strategies</a>
   <a href="#principle" data-locked>Principle</a>
   <a href="#exploration" data-locked>Exploration</a>
   <a href="#collab" data-locked>Collaboration</a>
@@ -741,7 +748,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="jbx-sec " id="goals">
     <div class="jbx-sec-inner">
       <div class="jbx-section-block">
-        <span class="jbx-block-label">Design Goals</span>
+        <span class="jbx-block-label">Design Strategies</span>
         <div class="jbx-statement">
           <p class="jbx-statement-q">Trust first.<br><span>Edit second.</span></p>
           <p class="jbx-statement-t">The job wasn’t just an editing feature. It was designing the confidence around it: what to change, what it affects, and what to rely on afterward. That meant five things.</p>
@@ -759,11 +766,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <g class="tie-g"><path class="tie" d=""/><circle class="tie-dot" r="3"/></g>
         </svg>
         <ol class="jbx-stack-list">
-          <li class="jbx-stack-item" data-layer="1" tabindex="0"><div class="t"><span class="n">01</span><h3>Know the source</h3></div><p>Every value shows whether it was stated in the RFP, estimated by Jain, or calculated.</p></li>
-          <li class="jbx-stack-item" data-layer="2" tabindex="0"><div class="t"><span class="n">02</span><h3>Keep the person in charge</h3></div><p>The AI acts only within a visible rule, and waits wherever judgment is needed.</p></li>
-          <li class="jbx-stack-item" data-layer="3" tabindex="0"><div class="t"><span class="n">03</span><h3>See the consequences</h3></div><p>What a change will move shows before it lands, and lights up after.</p></li>
-          <li class="jbx-stack-item" data-layer="4" tabindex="0"><div class="t"><span class="n">04</span><h3>Nothing is lost</h3></div><p>Every change stays on record, and any of them can be reversed.</p></li>
-          <li class="jbx-stack-item" data-layer="5" tabindex="0"><div class="t"><span class="n">05</span><h3>Verified before pricing</h3></div><p>Nothing reaches the price unchecked, and every figure there leads back to the report.</p></li>
+          <li class="jbx-stack-item" data-layer="1" tabindex="0" role="button" aria-pressed="false">
+            <div class="flip">
+              <div class="face front"><div class="t"><span class="n">01</span><h3>Know the source</h3></div><p>Every value shows whether it was stated in the RFP, estimated by Jain, or calculated.</p><span class="hint">See it in the design</span></div>
+              <div class="face back"><img src="Jain/case/strategy-source.png" alt="" loading="lazy"><p>Every value carries its origin: stated values are plain, estimates dotted, calculations underlined, and Jain can quote the RFP line a value came from.</p><span class="hint">Back</span></div>
+            </div>
+          </li>
+          <li class="jbx-stack-item" data-layer="2" tabindex="0" role="button" aria-pressed="false">
+            <div class="flip">
+              <div class="face front"><div class="t"><span class="n">02</span><h3>Keep the person in charge</h3></div><p>The AI acts only within a visible rule, and waits wherever judgment is needed.</p><span class="hint">See it in the design</span></div>
+              <div class="face back"><img src="Jain/case/strategy-person.png" alt="" loading="lazy"><p>Jain applies what it can calculate on its own and stops where a decision is needed: a Needs review card, with Discard or Apply.</p><span class="hint">Back</span></div>
+            </div>
+          </li>
+          <li class="jbx-stack-item" data-layer="3" tabindex="0" role="button" aria-pressed="false">
+            <div class="flip">
+              <div class="face front"><div class="t"><span class="n">03</span><h3>See the consequences</h3></div><p>What a change will move shows before it lands, and lights up after.</p><span class="hint">See it in the design</span></div>
+              <div class="face back"><img src="Jain/case/strategy-consequences.png" alt="" loading="lazy"><p>Before an edit lands, the confirm card lists what will move. After it lands, the affected cells light up.</p><span class="hint">Back</span></div>
+            </div>
+          </li>
+          <li class="jbx-stack-item" data-layer="4" tabindex="0" role="button" aria-pressed="false">
+            <div class="flip">
+              <div class="face front"><div class="t"><span class="n">04</span><h3>Nothing is lost</h3></div><p>Every change stays on record, and any of them can be reversed.</p><span class="hint">See it in the design</span></div>
+              <div class="face back"><img src="Jain/case/strategy-history.png" alt="" loading="lazy"><p>Edit history keeps every change with what it moved. Any entry can be undone, and Original shows the untouched report.</p><span class="hint">Back</span></div>
+            </div>
+          </li>
+          <li class="jbx-stack-item" data-layer="5" tabindex="0" role="button" aria-pressed="false">
+            <div class="flip">
+              <div class="face front"><div class="t"><span class="n">05</span><h3>Verified before pricing</h3></div><p>Nothing reaches the price unchecked, and every figure there leads back to the report.</p><span class="hint">See it in the design</span></div>
+              <div class="face back"><img src="Jain/case/strategy-review.png" alt="" loading="lazy"><p>Review mode counts the edited, affected and needs-review values and spotlights each one before the bid goes to pricing.</p><span class="hint">Back</span></div>
+            </div>
+          </li>
         </ol>
       </div>
       <p class="jbx-body">All five rest on one question I had to answer first: when a value changes, what does the AI do, and what does it leave to the person?</p>
@@ -1285,9 +1317,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     tie.style.transition = 'stroke-dashoffset .5s ease-out, opacity .2s'; tie.style.strokeDashoffset = 0;
     stack.classList.add('has-tie');
   };
+  const flip = it => { const on = !it.classList.contains('is-flipped'); items.forEach(x => { x.classList.toggle('is-flipped', x === it && on); x.setAttribute('aria-pressed', String(x === it && on)); }); };
   items.forEach(it => {
     it.addEventListener('mouseenter', () => set(it.dataset.layer, it)); it.addEventListener('mouseleave', () => set(null));
     it.addEventListener('focus', () => set(it.dataset.layer, it)); it.addEventListener('blur', () => set(null));
+    it.addEventListener('click', () => flip(it));
+    it.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(it); } });
   });
 })();
 
