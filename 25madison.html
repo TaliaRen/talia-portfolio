@@ -409,6 +409,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-snap { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
   .jbx-snap li { position:relative; padding-left:22px; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; }
   .jbx-snap li::before { content:""; position:absolute; left:2px; top:13px; width:6px; height:6px; border-radius:50%; background:#5FCB9C; }
+  .jbx-scene { margin:12px 0 0; }
+  .jbx-scene svg { width:100%; height:auto; display:block; overflow:visible; font-family:'Figtree',sans-serif; }
+  .jbx-scene .card { fill:#1C1C1C; filter:url(#jbx-scene-shadow); }
+  .jbx-scene .sk { fill:#363636; } .jbx-scene .sk-hi { fill:#DADADA; } .jbx-scene .sk-acc { fill:#5FCB9C; opacity:.85; }
+  .jbx-scene .rule { stroke:#2B2B2B; stroke-width:1; }
+  .jbx-scene .cell-edit { fill:rgba(95,203,156,0.08); stroke:#5FCB9C; stroke-width:1.5; }
+  .jbx-scene .cell-on { fill:rgba(95,203,156,0.12); }
+  .jbx-scene .cell-gap { fill:none; stroke:#5A5A5A; stroke-width:1.3; stroke-dasharray:4 3; }
+  .jbx-scene .caret { stroke:#5FCB9C; stroke-width:1.5; stroke-linecap:round; }
+  .jbx-scene .flow { fill:none; stroke:#5FCB9C; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-scene .pill-acc { fill:none; stroke:#5FCB9C; stroke-width:1.2; }
+  .jbx-scene .t-dim { font-size:14px; fill:#8A8A8A; } .jbx-scene .t-head { font-size:12px; fill:#6E6E6E; letter-spacing:.02em; }
+  .jbx-scene .t-acc { font-size:12px; fill:#5FCB9C; font-weight:500; } .jbx-scene .t-gap { font-size:14px; fill:#8A8A8A; }
+  .jbx-scene .t-total { font-size:13px; fill:#9A9A9A; }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -660,6 +674,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="jbx-item">
         <h2 class="jbx-sec-title">...And every value depends on another</h2>
         <p class="jbx-body">The bid X-Ray is one connected report: change one value and others have to change with it. Without a way to see and control that, estimators can’t trust the numbers they’re about to price on.</p>
+        <figure class="jbx-scene" role="img" aria-label="A draft X-Ray report: one value is being edited, the values that depend on it light up, and two cells are still blank">
+          <svg viewBox="0 0 860 400" xmlns="http://www.w3.org/2000/svg">
+            <defs><filter id="jbx-scene-shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/></filter></defs>
+            <rect class="card" x="60" y="36" width="740" height="328" rx="16"/>
+            <text class="t-dim" x="88" y="74">Bid X-Ray</text>
+            <rect class="pill-acc" x="712" y="58" width="64" height="24" rx="12"/><text class="t-acc" x="744" y="74" text-anchor="middle">Draft</text>
+            <text class="t-head" x="88" y="112">Space</text><text class="t-head" x="330" y="112">Area</text><text class="t-head" x="500" y="112">Hours</text><text class="t-head" x="660" y="112">Score</text>
+            <path class="rule" d="M88 124 H772"/>
+            <!-- row 1 -->
+            <rect class="sk" x="88" y="145" width="120" height="10" rx="5"/><rect class="sk" x="330" y="145" width="48" height="10" rx="5"/><rect class="sk" x="500" y="145" width="40" height="10" rx="5"/><rect class="sk" x="660" y="145" width="36" height="10" rx="5"/>
+            <!-- row 2: the edit and what it moves -->
+            <rect class="sk" x="88" y="187" width="96" height="10" rx="5"/>
+            <rect class="cell-edit" x="320" y="178" width="70" height="28" rx="6"/><rect class="sk-hi" x="330" y="187" width="36" height="10" rx="5"/><path class="caret" d="M374 184 V200"/>
+            <path class="flow" d="M392 192 C 430 192, 452 192, 486 192"/><path class="flow" d="M480 187 L487 192 L480 197"/>
+            <rect class="cell-on" x="492" y="178" width="60" height="28" rx="6"/><rect class="sk-acc" x="500" y="187" width="40" height="10" rx="5"/>
+            <path class="flow" d="M554 192 C 592 192, 612 192, 646 192"/><path class="flow" d="M640 187 L647 192 L640 197"/>
+            <rect class="cell-on" x="652" y="178" width="56" height="28" rx="6"/><rect class="sk-acc" x="660" y="187" width="36" height="10" rx="5"/>
+            <path class="flow" d="M355 208 C 355 250, 355 270, 355 298"/><path class="flow" d="M350 292 L355 299 L360 292"/>
+            <!-- row 3 -->
+            <rect class="sk" x="88" y="229" width="140" height="10" rx="5"/><rect class="sk" x="330" y="229" width="48" height="10" rx="5"/>
+            <rect class="cell-gap" x="492" y="220" width="60" height="28" rx="6"/><text class="t-gap" x="522" y="239" text-anchor="middle">?</text>
+            <rect class="sk" x="660" y="229" width="36" height="10" rx="5"/>
+            <!-- row 4 -->
+            <rect class="sk" x="88" y="271" width="108" height="10" rx="5"/>
+            <rect class="cell-gap" x="320" y="262" width="70" height="28" rx="6"/><text class="t-gap" x="355" y="281" text-anchor="middle">?</text>
+            <rect class="sk" x="500" y="271" width="40" height="10" rx="5"/><rect class="sk" x="660" y="271" width="36" height="10" rx="5"/>
+            <!-- total -->
+            <path class="rule" d="M88 300 H772"/>
+            <text class="t-total" x="88" y="322">Total</text>
+            <rect class="cell-on" x="320" y="304" width="70" height="28" rx="6"/><rect class="sk-acc" x="330" y="313" width="48" height="10" rx="5"/>
+            <rect class="sk" x="500" y="313" width="40" height="10" rx="5"/><rect class="sk" x="660" y="313" width="36" height="10" rx="5"/>
+          </svg>
+        </figure>
       </div>
     </div>
   </section>
