@@ -418,6 +418,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-scene .ic-acc { fill:none; stroke:#5FCB9C; stroke-width:1.4; stroke-linejoin:round; stroke-linecap:round; }
   .jbx-scene .ic-txt { font-size:12px; font-style:italic; font-weight:500; fill:#5FCB9C; stroke:none; } .jbx-scene .ic-dash { stroke-dasharray:2 2.2; }
   .jbx-scene .link { fill:none; stroke:#5FCB9C; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-scene--chain { margin:0; }
+  .jbx-scene .mark { fill:#1C1C1C; stroke:#5FCB9C; stroke-width:1.2; }
+  .jbx-scene .mark-t { font-family:'Libertinus Serif',serif; font-size:13px; fill:#5FCB9C; }
   @media(max-width:640px) { .jbx-scene { margin-left:-16px; margin-right:-16px; } }
   /* Problem closing statement: bigger, lighter, one phrase under the highlighter */
   .jbx-statement { display:grid; grid-template-columns:auto minmax(0,1fr); gap:40px; align-items:center; margin:0; padding:36px 40px; border-radius:16px; background:#5FCB9C; }
@@ -596,7 +599,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="#overview" class="active">Overview</a>
   <a href="#problem" data-locked>Problem</a>
   <a href="#goals" data-locked>Design strategies</a>
-  <a href="#principle" data-locked>Principle</a>
+  <a href="#principle" data-locked>AI boundary</a>
   <a href="#exploration" data-locked>Exploration</a>
   <a href="#collab" data-locked>Collaboration</a>
   <a href="#solution" data-locked>Solution</a>
@@ -772,25 +775,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="jbx-sec " id="principle">
     <div class="jbx-sec-inner">
       <div class="jbx-sec-head">
-        <span class="jbx-block-label">Principle</span>
-        <h2 class="jbx-sec-title">What's calculated changes by itself. What needs judgment goes to the person.</h2>
+        <span class="jbx-block-label">The AI boundary</span>
+        <h2 class="jbx-sec-title">Jain speaks only when you need to decide.</h2>
       </div>
-      <p class="jbx-body">Every cell has an author: a formula, Jain, or the RFP. The author of the cell being touched decides what happens to it. One rule, three consequences, applied on every surface: the confirm card, the panel, the history, the hover cards, review.</p>
-      <div class="jbx-cards">
-        <div class="jbx-card"><span class="jbx-sym">ƒx</span><h4>Recalculated</h4><p>A formula. Changes silently and gets a dot.</p></div>
-        <div class="jbx-card"><span class="jbx-sym">↗</span><h4>Revised</h4><p>Jain's own inference, redone. Jain updates it and says so once.</p></div>
-        <div class="jbx-card"><span class="jbx-sym">?</span><h4>Needs your call</h4><p>The change contradicts something the RFP stated, or Jain's suggestion needs a decision.</p></div>
+      <div class="jbx-copy">
+        <p class="jbx-body">Change one value and the values tied to it have to move. The open question was who moves them, and how much of that Jain should handle on its own.</p>
+        <p class="jbx-body">The first version explained every recalculation, and the panel turned into noise. The next one stayed silent, and there was no record of what had moved. Neither could be trusted.</p>
+        <p class="jbx-body">Product wanted Jain to handle only the exceptions. Engineering wanted everything recalculated, every time.</p>
       </div>
-      <p class="jbx-pull">Jain speaks only when it knows something the person can't see from the table. Everything else it shows and stays quiet.</p>
       <div class="jbx-group">
-        <h3 class="jbx-mini">Three colours, three meanings</h3>
-        <div class="jbx-swatches">
-          <div class="jbx-swatch"><i style="background:#744aa8"></i><div><h4>Purple · a change</h4><p>Whoever made it. Edited values, history rows, dashed frames on affected cells, review lines.</p></div></div>
-          <div class="jbx-swatch"><i style="background:#2e535a"></i><div><h4>Green · Jain's words</h4><p>Replies, proposed values, the "applied" tick.</p></div></div>
-          <div class="jbx-swatch"><i style="background:#d08a12"></i><div><h4>Amber · needs a person</h4><p>Suggestions waiting, Needs review, To confirm. Only where a person is really needed.</p></div></div>
+        <h3 class="jbx-mini">One rule: look at who wrote the cell being moved.</h3>
+        <div class="jbx-cards">
+          <div class="jbx-card"><span class="jbx-sym">ƒx</span><h4>Written by a formula</h4><p>It recalculates by itself. The value updates and gets a dot, and nothing more is said.</p></div>
+          <div class="jbx-card"><span class="jbx-sym">↗</span><h4>Written by Jain</h4><p>Jain revises its own estimate, and says so once.</p></div>
+          <div class="jbx-card"><span class="jbx-sym">?</span><h4>Stated in the RFP</h4><p>Jain stops and asks. A fact from the document is not Jain’s to change.</p></div>
         </div>
-        <p class="jbx-body">One correction along the way: values Jain changed on request started out green. They became purple, because whoever did it, it is a change. Green is only for what Jain says.</p>
+        <figure class="jbx-scene jbx-scene--chain" role="img" aria-label="Editing Total area: Restroom size recalculates (formula), Labor hours is revised by Jain, Score waits for a decision">
+          <svg viewBox="0 0 860 150" xmlns="http://www.w3.org/2000/svg">
+            <rect class="card" x="0" y="0" width="860" height="150" rx="16"/>
+            <rect class="p-fill" x="100.2" y="58" width="112.2" height="40" rx="20.0"/><path class="ic-ink" d="M117.0 83.1 v-2.9 l7.4-7.4 a1.4 1.4 0 0 1 2 0 l1 1 a1.4 1.4 0 0 1 0 2 l-7.4 7.4 z M122.7 74.6 l2 2"/><text class="p-ink" x="135.2" y="78.0" dominant-baseline="central">Total area</text><path class="flow" d="M220.4 78.0H288.4"/><path class="flow" d="M282.4 74.0L288.4 78.0L282.4 82.0"/><circle class="mark" cx="254.4" cy="52.0" r="11"/><text class="mark-t" x="254.4" y="52.0" text-anchor="middle" dominant-baseline="central">ƒx</text><rect class="p-line" x="296.4" y="58" width="120.8" height="40" rx="20.0"/><text class="p-txt" x="312.4" y="78.0" dominant-baseline="central">Restroom size</text><path class="flow" d="M425.2 78.0H493.2"/><path class="flow" d="M487.2 74.0L493.2 78.0L487.2 82.0"/><circle class="mark" cx="459.2" cy="52.0" r="11"/><text class="mark-t" x="459.2" y="52.0" text-anchor="middle" dominant-baseline="central">↗</text><rect class="p-line" x="501.2" y="58" width="105.9" height="40" rx="20.0"/><text class="p-txt" x="517.2" y="78.0" dominant-baseline="central">Labor hours</text><path class="flow" d="M615.2 78.0H683.2"/><path class="flow" d="M677.2 74.0L683.2 78.0L677.2 82.0"/><circle class="mark" cx="649.2" cy="52.0" r="11"/><text class="mark-t" x="649.2" y="52.0" text-anchor="middle" dominant-baseline="central">?</text><rect class="p-line" x="691.2" y="58" width="68.7" height="40" rx="20.0"/><text class="p-txt" x="707.2" y="78.0" dominant-baseline="central">Score</text>
+          </svg>
+        </figure>
       </div>
+      <p class="jbx-body">The same rule decides when Jain speaks. The panel has something to say only when there is something to decide.</p>
     </div>
   </section>
 
