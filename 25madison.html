@@ -1216,11 +1216,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function update() {
     let current = 0;
     sections.forEach((sec, i) => {
-      if (sec && window.scrollY >= sec.offsetTop - window.innerHeight / 2) current = i;
+      if (!sec || sec.offsetParent === null) return;   // hidden (still locked)
+      // page position via the rect, not offsetTop: while the unlock reveal animates, the locked wrapper
+      // becomes the offsetParent and every locked section reads offsetTop 0
+      const top = sec.getBoundingClientRect().top + window.scrollY;
+      if (window.scrollY >= top - window.innerHeight / 2) current = i;
     });
     links.forEach((a, i) => a.classList.toggle('active', i === current));
   }
   window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('load', update);          // lazy images settle the offsets
+  window.addEventListener('resize', update);
+  document.getElementById('jbxLocked')?.addEventListener('animationend', update);   // after the unlock reveal
   update();
 })();
 
