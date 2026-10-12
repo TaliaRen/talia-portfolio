@@ -434,6 +434,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-sec-inner--items { gap:120px; }
   .jbx-sec-inner--items > .jbx-block-label { margin-bottom:calc(16px - 120px); }
   .jbx-item { display:flex; flex-direction:column; gap:36px; }
+  /* exception: the two Problem titles read as one thought (… / …), so they sit 72px apart instead of 120 */
+  .jbx-sec-inner--tight { gap:72px; }
+  .jbx-sec-inner--tight > .jbx-block-label { margin-bottom:calc(16px - 72px); }
   .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-12px; } /* title → body 36px inside the 48px stack */
   .jbx-sec-title { font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400; color:#fff; line-height:1.3; margin:0; }
   .jbx-copy { display:flex; flex-direction:column; gap:24px; }
@@ -512,6 +515,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .jbx-sec-inner { gap:40px; }
     .jbx-sec-inner--items { gap:80px; }
     .jbx-sec-inner--items > .jbx-block-label { margin-bottom:calc(16px - 80px); }
+    .jbx-sec-inner--tight { gap:56px; }
+    .jbx-sec-inner--tight > .jbx-block-label { margin-bottom:calc(16px - 56px); }
     .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-4px; }
     .jbx-sec-title { font-size:1.5rem; }
     .jbx-cards, .jbx-quotes, .jbx-swatches { grid-template-columns:minmax(0,1fr); }
@@ -661,7 +666,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="jbx-locked" id="jbxLocked">
 
   <section class="jbx-sec " id="problem">
-    <div class="jbx-sec-inner jbx-sec-inner--items">
+    <div class="jbx-sec-inner jbx-sec-inner--items jbx-sec-inner--tight">
       <span class="jbx-block-label">Problem</span>
       <div class="jbx-item">
         <h2 class="jbx-sec-title">The X-Ray is a draft, not an answer...</h2>
