@@ -424,29 +424,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-statement-q { font-family:'Libertinus Serif',serif; font-size:2rem; font-weight:400; color:#0A0D0C; line-height:1.2; margin:0; padding-right:36px; border-right:1px solid rgba(10,13,12,0.25); white-space:nowrap; }
   .jbx-statement-t { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#0A0D0C; line-height:1.8; margin:0; }
   /* Design goals: number + title on the left, body on the right */
-  /* Design goals as a pyramid: five flat layers on the left, the list on the right; a goal lights its layer only while hovered */
-  .jbx-stack { display:grid; grid-template-columns:280px minmax(0,1fr); gap:40px; align-items:start; }
+  /* Design goals: a stack of five plates on the left, the list on the right; hovering a goal lights its plate, animates its glyph and draws a curved tie to the row */
+  .jbx-stack { display:grid; grid-template-columns:300px minmax(0,1fr); gap:44px; align-items:center; }
   .jbx-stack-art { width:100%; height:auto; display:block; overflow:visible; }
-  .jbx-stack .face { fill:rgba(255,255,255,0.03); stroke:url(#jbx-g-dim); stroke-width:1.2; stroke-linejoin:round; transition:fill .25s; }
+  .jbx-stack .layer { transition:transform .4s cubic-bezier(.22,1,.36,1); }
+  .jbx-stack .layer.is-on { transform:translateY(-12px); }
+  .jbx-stack .pats { opacity:0; transition:opacity .3s; }   /* a plate shows its glyph only when lifted to the front */
+  .jbx-stack .layer.is-on .pats { opacity:1; }
+  .jbx-stack .face { fill:#111513; stroke:url(#jbx-g-dim); stroke-width:1.2; stroke-linejoin:round; transition:fill .25s; }
   .jbx-stack .pat { fill:none; stroke:rgba(255,255,255,0.4); stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; transition:stroke .25s, fill .25s; }
   .jbx-stack .pat.strong { stroke:rgba(255,255,255,0.7); stroke-width:2.2; }
   .jbx-stack .pat.fillme { fill:rgba(255,255,255,0.4); stroke:none; }
   .jbx-stack .pat.dsh { stroke-dasharray:3 2.4; }
   .jbx-stack .pat-t { font-family:'Figtree',sans-serif; font-size:7.5px; font-weight:500; fill:rgba(255,255,255,0.55); letter-spacing:.04em; transition:fill .25s; }
-  .jbx-stack .tie { stroke:#5FCB9C; stroke-width:1.2; stroke-dasharray:240; stroke-dashoffset:240; opacity:0; transition:stroke-dashoffset .45s ease-out, opacity .2s; }
-  .jbx-stack .tie-dot { fill:#5FCB9C; opacity:0; transition:opacity .25s; }
+  .jbx-stack .tie { fill:none; stroke:#5FCB9C; stroke-width:1.2; opacity:0; transition:opacity .2s; }
+  .jbx-stack .tie-dot { fill:#5FCB9C; opacity:0; transition:opacity .2s; }
+  .jbx-stack.has-tie .tie, .jbx-stack.has-tie .tie-dot { opacity:1; }
   .jbx-stack .layer.is-on .face { fill:url(#jbx-g-face); stroke:url(#jbx-g-acc); stroke-width:1.5; filter:url(#jbx-stack-glow); }
-  .jbx-stack .layer.is-on .pat { stroke:#5FCB9C; } .jbx-stack .layer.is-on .pat.strong { stroke:#5FCB9C; } .jbx-stack .layer.is-on .pat.fillme { fill:#5FCB9C; stroke:none; } .jbx-stack .layer.is-on .pat-t { fill:#5FCB9C; }
-  .jbx-stack .layer.is-on .tie { opacity:1; stroke-dashoffset:0; } .jbx-stack .layer.is-on .tie-dot { opacity:1; }
-  .jbx-stack-list { list-style:none; margin:0; padding:calc(var(--top) - var(--row) / 2) 0 0; display:flex; flex-direction:column; }
-  .jbx-stack-item { height:var(--row); display:grid; grid-template-columns:40px minmax(0,1fr); gap:16px; align-items:center; padding:0 18px; margin:0 -18px; border-radius:14px; cursor:default; outline:none; transition:background .25s; }
+  .jbx-stack .layer.is-on .pat { stroke:#5FCB9C; } .jbx-stack .layer.is-on .pat.fillme { fill:#5FCB9C; stroke:none; } .jbx-stack .layer.is-on .pat-t { fill:#5FCB9C; }
+  /* glyph animations while lit */
+  .jbx-stack .trace { stroke-dasharray:3 3; } .jbx-stack .layer.is-on .trace { animation:jbx-march .6s linear infinite; }
+  .jbx-stack .layer.is-on .src { animation:jbx-blink 1.2s ease-in-out infinite; }
+  .jbx-stack .layer.is-on .rule { animation:jbx-march 1s linear infinite; }
+  .jbx-stack .rip { transform-box:fill-box; transform-origin:center; }
+  .jbx-stack .layer.is-on .rip { animation:jbx-ripple 1.8s ease-out infinite; }
+  .jbx-stack .layer.is-on .r2 { animation-delay:.3s; } .jbx-stack .layer.is-on .r3 { animation-delay:.6s; }
+  .jbx-stack .undo { stroke-dasharray:60; stroke-dashoffset:0; } .jbx-stack .layer.is-on .undo { animation:jbx-draw 1.2s ease-out infinite; }
+  .jbx-stack .tick { stroke-dasharray:24; stroke-dashoffset:0; } .jbx-stack .layer.is-on .tick { animation:jbx-draw 1.4s ease-out infinite; --len:24; }
+  @keyframes jbx-march { to { stroke-dashoffset:-12; } }
+  @keyframes jbx-blink { 0%,100% { opacity:1; } 50% { opacity:.3; } }
+  @keyframes jbx-ripple { 0% { transform:scale(.4); opacity:.9; } 100% { transform:scale(1.15); opacity:0; } }
+  @keyframes jbx-draw { 0% { stroke-dashoffset:60; } 55% { stroke-dashoffset:0; } 100% { stroke-dashoffset:0; } }
+  .jbx-stack .layer.is-on .tick { animation-name:jbx-draw-tick; }
+  @keyframes jbx-draw-tick { 0% { stroke-dashoffset:24; } 45% { stroke-dashoffset:0; } 100% { stroke-dashoffset:0; } }
+  /* the list */
+  .jbx-stack-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+  .jbx-stack-item { padding:18px 20px; margin:0 -20px; border-radius:14px; cursor:default; outline:none; transition:background .25s; }
+  .jbx-stack-item + .jbx-stack-item { position:relative; }
+  .jbx-stack-item + .jbx-stack-item::before { content:""; position:absolute; left:20px; right:20px; top:0; height:1px; background:rgba(255,255,255,0.08); }
   .jbx-stack-item.is-active { background:rgba(95,203,156,0.06); }
-  .jbx-stack-item .n { font-family:'Figtree',sans-serif; font-size:1.25rem; font-weight:300; color:rgba(255,255,255,0.4); line-height:1; transition:color .25s; }
-  .jbx-stack-item.is-active .n { color:#5FCB9C; }
+  .jbx-stack-item.is-active + .jbx-stack-item::before { opacity:0; }
+  .jbx-stack-item .t { display:flex; align-items:baseline; gap:12px; }
+  .jbx-stack-item .n { font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:400; color:#5FCB9C; letter-spacing:.08em; }
   .jbx-stack-item h3 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
-  .jbx-stack-item p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.5; margin:4px 0 0; }
+  .jbx-stack-item p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.55; margin:6px 0 0; }
   .jbx-stack-cap { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; text-align:center; margin:-8px 0 0; }
-  @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack { grid-template-columns:minmax(0,1fr); gap:8px; } .jbx-stack-art { max-width:280px; margin:0 auto; } .jbx-stack .tie, .jbx-stack .tie-dot { display:none; } .jbx-stack-item { height:auto; padding:12px 16px; margin:0; } .jbx-stack-list { padding:0; gap:4px; } }
+  @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -724,21 +747,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
       <div class="jbx-stack">
-        <svg class="jbx-stack-art" viewBox="0 0 400 668" aria-hidden="true">
+        <svg class="jbx-stack-art" viewBox="0 0 400 324" aria-hidden="true">
           <defs>
             <linearGradient id="jbx-g-dim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient>
             <linearGradient id="jbx-g-acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5FCB9C"/><stop offset="1" stop-color="#5FCB9C" stop-opacity=".4"/></linearGradient>
-            <linearGradient id="jbx-g-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5FCB9C" stop-opacity=".2"/><stop offset="1" stop-color="#5FCB9C" stop-opacity=".04"/></linearGradient>
+            <linearGradient id="jbx-g-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5FCB9C" stop-opacity=".22"/><stop offset="1" stop-color="#5FCB9C" stop-opacity=".05"/></linearGradient>
             <filter id="jbx-stack-glow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
-          <g class="layer layer-1"><polygon class="face" points="116,60 200,23 284,60 200,97"/><g class="pats"><path class="pat" d="M170 48h12l6 6v18h-18z"/><path class="pat" d="M182 48v6h6"/><path class="pat" d="M175 62h8M175 67h8"/><path class="pat" d="M194 60h12"/><path class="pat" d="M202 56l4 4-4 4"/><rect class="pat" x="210" y="52" width="26" height="16" rx="3"/><path class="pat strong" d="M215 60h16"/></g><line class="tie" x1="292" y1="60" x2="400" y2="60"/><circle class="tie-dot" cx="292" cy="60" r="3"/></g><g class="layer layer-2"><polygon class="face" points="97,188 200,142 303,188 200,234"/><g class="pats"><circle class="pat" cx="176" cy="181" r="4.5"/><path class="pat" d="M167 199a9 9 0 0 1 18 0"/><rect class="pat dsh" x="196" y="173" width="40" height="30" rx="6"/><rect class="pat" x="208" y="181" width="16" height="14" rx="3.5"/><text class="pat-t" x="216" y="188" text-anchor="middle" dominant-baseline="central">AI</text></g><line class="tie" x1="311" y1="188" x2="400" y2="188"/><circle class="tie-dot" cx="311" cy="188" r="3"/></g><g class="layer layer-3"><polygon class="face" points="78,316 200,262 322,316 200,370"/><g class="pats"><circle class="pat fillme" cx="174" cy="316" r="4.5"/><path class="pat" d="M180 316h10v-11h8M190 316v11h8M190 316h8"/><rect class="pat" x="200" y="299" width="24" height="12" rx="3"/><rect class="pat" x="200" y="310" width="24" height="12" rx="3"/><rect class="pat" x="200" y="321" width="24" height="12" rx="3"/></g><line class="tie" x1="330" y1="316" x2="400" y2="316"/><circle class="tie-dot" cx="330" cy="316" r="3"/></g><g class="layer layer-4"><polygon class="face" points="59,444 200,381 341,444 200,507"/><g class="pats"><circle class="pat fillme" cx="170" cy="434" r="2"/><path class="pat" d="M176 434h26"/><circle class="pat fillme" cx="170" cy="444" r="2"/><path class="pat" d="M176 444h20"/><circle class="pat fillme" cx="170" cy="454" r="2"/><path class="pat" d="M176 454h24"/><path class="pat" d="M232 432v14a8 8 0 0 1-8 8h-10"/><path class="pat" d="M219 449l-5 5 5 5"/></g><line class="tie" x1="349" y1="444" x2="400" y2="444"/><circle class="tie-dot" cx="349" cy="444" r="3"/></g><g class="layer layer-5"><polygon class="face" points="40,572 200,500 360,572 200,644"/><g class="pats"><circle class="pat" cx="180" cy="572" r="12"/><path class="pat" d="M174 572l4.5 4.5 8-9"/><path class="pat" d="M198 572h10"/><path class="pat" d="M204 568l4 4-4 4"/><path class="pat" d="M214 563h11l9 9-11 11-9-9z"/><circle class="pat fillme" cx="220" cy="569" r="1.8"/></g><line class="tie" x1="368" y1="572" x2="400" y2="572"/><circle class="tie-dot" cx="368" cy="572" r="3"/></g>
+          <g class="layer layer-5" data-vx="360" data-vy="236"><polygon class="face" points="40,236 200,164 360,236 200,308"/><g class="pats"><circle class="pat" cx="200" cy="236" r="14"/><path class="pat strong tick" d="M193 236l5 5 9.5-10.5"/></g></g><g class="layer layer-4" data-vx="342" data-vy="190"><polygon class="face" points="58,190 200,127 342,190 200,253"/><g class="pats"><circle class="pat fillme" cx="170" cy="180" r="2"/><path class="pat" d="M176 180h26"/><circle class="pat fillme" cx="170" cy="190" r="2"/><path class="pat" d="M176 190h20"/><circle class="pat fillme" cx="170" cy="200" r="2"/><path class="pat" d="M176 200h24"/><path class="pat undo" d="M232 178v14a8 8 0 0 1-8 8h-10l5-5m-5 5l5 5"/></g></g><g class="layer layer-3" data-vx="324" data-vy="144"><polygon class="face" points="76,144 200,89 324,144 200,199"/><g class="pats"><circle class="pat fillme" cx="200" cy="144" r="4"/><ellipse class="pat rip r1" cx="200" cy="144" rx="14" ry="6.3"/><ellipse class="pat rip r2" cx="200" cy="144" rx="28" ry="12.6"/><ellipse class="pat rip r3" cx="200" cy="144" rx="44" ry="19.8"/></g></g><g class="layer layer-2" data-vx="306" data-vy="98"><polygon class="face" points="94,98 200,51 306,98 200,145"/><g class="pats"><circle class="pat" cx="176" cy="91" r="4.5"/><path class="pat" d="M167 109a9 9 0 0 1 18 0"/><rect class="pat dsh rule" x="196" y="83" width="40" height="30" rx="6"/><rect class="pat" x="208" y="91" width="16" height="14" rx="3.5"/><text class="pat-t" x="216" y="98" text-anchor="middle" dominant-baseline="central">AI</text></g></g><g class="layer layer-1" data-vx="288" data-vy="52"><polygon class="face" points="112,52 200,13 288,52 200,91"/><g class="pats"><rect class="pat" x="160" y="43" width="30" height="18" rx="3"/><path class="pat strong" d="M166 52h18"/><path class="pat trace" d="M192 52h20"/><path class="pat" d="M214 38h14l7 7v21h-21z"/><path class="pat" d="M228 38v7h7"/><path class="pat" d="M219 52h11M219 58h8"/><path class="pat strong src" d="M219 46h11"/></g></g>
+          <g class="tie-g"><path class="tie" d=""/><circle class="tie-dot" r="3"/></g>
         </svg>
-        <ol class="jbx-stack-list" style="--row:89.6px;--top:42px">
-          <li class="jbx-stack-item" data-layer="1" tabindex="0"><span class="n">01</span><div><h3>Know the source</h3><p>Every value shows whether it was stated in the RFP, estimated by Jain, or calculated.</p></div></li>
-          <li class="jbx-stack-item" data-layer="2" tabindex="0"><span class="n">02</span><div><h3>Keep the person in charge</h3><p>The AI acts only within a visible rule, and waits wherever judgment is needed.</p></div></li>
-          <li class="jbx-stack-item" data-layer="3" tabindex="0"><span class="n">03</span><div><h3>See the consequences</h3><p>What a change will move shows before it lands, and lights up after.</p></div></li>
-          <li class="jbx-stack-item" data-layer="4" tabindex="0"><span class="n">04</span><div><h3>Nothing is lost</h3><p>Every change stays on record, and any of them can be reversed.</p></div></li>
-          <li class="jbx-stack-item" data-layer="5" tabindex="0"><span class="n">05</span><div><h3>Verified before pricing</h3><p>Nothing reaches the price unchecked, and every figure there leads back to the report.</p></div></li>
+        <ol class="jbx-stack-list">
+          <li class="jbx-stack-item" data-layer="1" tabindex="0"><div class="t"><span class="n">01</span><h3>Know the source</h3></div><p>Every value shows whether it was stated in the RFP, estimated by Jain, or calculated.</p></li>
+          <li class="jbx-stack-item" data-layer="2" tabindex="0"><div class="t"><span class="n">02</span><h3>Keep the person in charge</h3></div><p>The AI acts only within a visible rule, and waits wherever judgment is needed.</p></li>
+          <li class="jbx-stack-item" data-layer="3" tabindex="0"><div class="t"><span class="n">03</span><h3>See the consequences</h3></div><p>What a change will move shows before it lands, and lights up after.</p></li>
+          <li class="jbx-stack-item" data-layer="4" tabindex="0"><div class="t"><span class="n">04</span><h3>Nothing is lost</h3></div><p>Every change stays on record, and any of them can be reversed.</p></li>
+          <li class="jbx-stack-item" data-layer="5" tabindex="0"><div class="t"><span class="n">05</span><h3>Verified before pricing</h3></div><p>Nothing reaches the price unchecked, and every figure there leads back to the report.</p></li>
         </ol>
       </div>
       <p class="jbx-stack-cap">Each goal rests on the one below it.</p>
@@ -1239,14 +1263,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.addEventListener('resize', ()=>{ _cachedPosX=null; _cachedPosY=null; if (!dragging&&!dropped) init(); });
 })();
 
-// ── Design goals pyramid: a goal lights its layer while hovered or focused; nothing is lit otherwise ──
+// ── Design goals stack: hovering (or focusing) a goal lights its plate and draws a curved tie to the row ──
 (function () {
   const stack = document.querySelector('.jbx-stack'); if (!stack) return;
+  const svg = stack.querySelector('.jbx-stack-art'), tie = svg.querySelector('.tie'), dot = svg.querySelector('.tie-dot');
   const items = [...stack.querySelectorAll('.jbx-stack-item')], layers = [...stack.querySelectorAll('.layer')];
-  const set = i => { items.forEach(it => it.classList.toggle('is-active', !!i && it.dataset.layer === String(i))); layers.forEach(l => l.classList.toggle('is-on', !!i && l.classList.contains('layer-' + i))); };
+  const toSvg = (x, y) => { const pt = new DOMPoint(x, y).matrixTransform(svg.getScreenCTM().inverse()); return [pt.x, pt.y]; };
+  const set = (i, item) => {
+    items.forEach(it => it.classList.toggle('is-active', !!i && it.dataset.layer === String(i)));
+    layers.forEach(l => l.classList.toggle('is-on', !!i && l.classList.contains('layer-' + i)));
+    if (!i) { stack.classList.remove('has-tie'); return; }
+    const layer = layers.find(l => l.classList.contains('layer-' + i));
+    svg.insertBefore(layer, svg.querySelector('.tie-g'));   // bring the lit plate to the front (the tie stays on top)
+    const x0 = +layer.dataset.vx + 6, y0 = +layer.dataset.vy - 12;   // -12: the plate lifts
+    const r = item.getBoundingClientRect(); const [x1, y1] = toSvg(r.left + 4, r.top + r.height / 2);
+    const dx = Math.max(40, (x1 - x0) * 0.5);
+    tie.setAttribute('d', `M${x0} ${y0} C${x0 + dx} ${y0}, ${x1 - dx} ${y1}, ${x1} ${y1}`);
+    dot.setAttribute('cx', x0); dot.setAttribute('cy', y0);
+    const len = tie.getTotalLength(); tie.style.transition = 'none'; tie.style.strokeDasharray = len; tie.style.strokeDashoffset = len; void tie.getBoundingClientRect();
+    tie.style.transition = 'stroke-dashoffset .5s ease-out, opacity .2s'; tie.style.strokeDashoffset = 0;
+    stack.classList.add('has-tie');
+  };
   items.forEach(it => {
-    it.addEventListener('mouseenter', () => set(it.dataset.layer)); it.addEventListener('mouseleave', () => set(null));
-    it.addEventListener('focus', () => set(it.dataset.layer)); it.addEventListener('blur', () => set(null));
+    it.addEventListener('mouseenter', () => set(it.dataset.layer, it)); it.addEventListener('mouseleave', () => set(null));
+    it.addEventListener('focus', () => set(it.dataset.layer, it)); it.addEventListener('blur', () => set(null));
   });
 })();
 
