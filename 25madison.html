@@ -490,6 +490,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   /* Solution: five numbered parts, 120px apart; video placeholders until the recordings are in */
   .jbx-sec-inner.jbx-sol { gap:120px; }
   .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-48px; }   /* intro → first part: 72px */
+  .jbx-sol-intro { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:32px; align-items:center; background:#1C1C1C; border-radius:16px; padding:32px; }
+  .jbx-sol-intro > p { font-family:'Figtree',sans-serif; font-size:1.25rem; font-weight:300; color:#fff; line-height:1.6; margin:0; }
+  .jbx-sol-intro .code { background:#0E1210; border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; }
+  .jbx-sol-intro .bar { display:flex; align-items:center; gap:6px; padding:10px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .jbx-sol-intro .bar i { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.14); }
+  .jbx-sol-intro .bar span { margin-left:8px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; color:#7A7A7A; }
+  .jbx-sol-intro pre { margin:0; padding:14px 16px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:1.75; color:#C9D1D6; overflow-x:auto; }
+  .jbx-sol-intro .ln { display:inline-block; width:18px; margin-right:12px; color:#4A4F4C; text-align:right; user-select:none; }
+  .jbx-sol-intro .kw { color:#D9A441; } .jbx-sol-intro .fn { color:#5FCB9C; } .jbx-sol-intro .st { color:#E8C88A; } .jbx-sol-intro .cm { color:#5E6662; }
+  .jbx-sol-intro .status { display:flex; align-items:center; gap:8px; padding:10px 16px; border-top:1px solid rgba(255,255,255,0.06); font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; }
+  .jbx-sol-intro .status b { width:7px; height:7px; border-radius:50%; background:#5FCB9C; box-shadow:0 0 0 3px rgba(95,203,156,0.18); }
+  @media(max-width:860px) { .jbx-sol-intro { grid-template-columns:minmax(0,1fr); gap:24px; padding:24px 20px; } .jbx-sol-intro > p { font-size:1.125rem; } }
+  @media(max-width:640px) { .jbx-sol-intro { padding:20px 16px; } .jbx-sol-intro pre { font-size:11px; padding:12px; } .jbx-sol-intro .ln { width:12px; margin-right:10px; } .jbx-sol-intro .cm { display:none; } }
   .jbx-sol-item { display:flex; flex-direction:column; gap:36px; }
   .jbx-sol-n { color:#fff; }
   .jbx-sol-figs { display:flex; flex-direction:column; gap:32px; margin-top:12px; }   /* body → first video: 48px */
@@ -826,7 +839,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="jbx-sec-inner jbx-sol">
       <div class="jbx-section-block">
         <span class="jbx-block-label">Solution</span>
-        <p class="jbx-body">I designed and tested this in code, not in static screens. PM and engineering reviewed a working prototype, and what I handed off was logic that already ran.</p>
+        <div class="jbx-sol-intro">
+          <p>I designed and tested this in code, not in static screens. PM and engineering reviewed a working prototype, and what I handed off was logic that already ran.</p>
+          <div class="code" aria-hidden="true">
+            <div class="bar"><i></i><i></i><i></i><span>x-ray/edit.ts</span></div>
+            <pre><span class="ln">1</span><span class="kw">function</span> <span class="fn">onEdit</span>(cell, value) {
+<span class="ln">2</span>  <span class="kw">const</span> moved = <span class="fn">affected</span>(cell)
+<span class="ln">3</span>  <span class="fn">preview</span>(moved) <span class="cm">// before it lands</span>
+<span class="ln">4</span>  <span class="kw">for</span> (<span class="kw">const</span> c <span class="kw">of</span> moved)
+<span class="ln">5</span>    c.source === <span class="st">'formula'</span>
+<span class="ln">6</span>      ? <span class="fn">recalc</span>(c)
+<span class="ln">7</span>      : <span class="fn">ask</span>(person, c)
+<span class="ln">8</span>}</pre>
+            <div class="status"><b></b>Running · reviewed by PM and engineering</div>
+          </div>
+        </div>
       </div>
       <div class="jbx-sol-item">
         <h2 class="jbx-sec-title"><span class="jbx-sol-n">01.</span> Trace every value back to its source</h2>
