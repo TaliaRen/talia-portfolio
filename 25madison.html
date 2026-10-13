@@ -475,22 +475,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:1100px) { .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-statement-q { padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); white-space:normal; } }
   @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
   /* AI boundary */
-  .jbx-ab-line { background:#1C1C1C; border-radius:16px; padding:32px 40px; font-family:'Figtree',sans-serif; }
-  .jbx-ab-line .half { display:flex; gap:16px; align-items:flex-start; max-width:72%; }
-  .jbx-ab-line .half.y { margin-left:auto; text-align:right; }
-  .jbx-ab-line .av { flex:none; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; }
-  .jbx-ab-line .av.j { background:#1D3A2E; color:#5FCB9C; font-size:12px; font-weight:600; letter-spacing:.04em; }
-  .jbx-ab-line .av.y { background:#3B2F14; }
-  .jbx-ab-line .av svg { width:18px; height:18px; fill:none; stroke:#D9A441; stroke-width:1.4; stroke-linecap:round; }
+  .jbx-ab-line { position:relative; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); font-family:'Figtree',sans-serif; }
+  .jbx-ab-line .half { padding:32px 36px 36px; }
+  .jbx-ab-line .half.j { background:rgba(95,203,156,0.12); border-radius:16px 0 0 16px; }
+  .jbx-ab-line .half.y { background:rgba(217,164,65,0.12); border-radius:0 16px 16px 0; }
   .jbx-ab-line .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
   .jbx-ab-line .j .k { color:#5FCB9C; } .jbx-ab-line .y .k { color:#D9A441; }
-  .jbx-ab-line h4 { font-size:1.25rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
-  .jbx-ab-line .half p { font-size:1rem; font-weight:200; color:#979797; line-height:1.6; margin:8px 0 0; }
-  .jbx-ab-line .cut { position:relative; height:64px; margin:16px 20px; display:grid; place-items:center; }
-  .jbx-ab-line .cut svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
-  .jbx-ab-line .cut path { fill:none; stroke:rgba(217,164,65,0.6); stroke-width:1.2; stroke-dasharray:4 4; vector-effect:non-scaling-stroke; }
-  .jbx-ab-line .cut span { position:relative; padding:5px 14px; border-radius:999px; border:1px solid rgba(217,164,65,0.5); background:#1C1C1C; font-size:13px; font-weight:300; color:#D9A441; line-height:1.4; text-align:center; }
-  @media(max-width:640px) { .jbx-ab-line { padding:24px 20px; } .jbx-ab-line .half { max-width:none; gap:12px; } .jbx-ab-line .av { width:34px; height:34px; } .jbx-ab-line h4 { font-size:1.125rem; } .jbx-ab-line .cut { height:72px; margin:12px 17px; } .jbx-ab-line .cut span { font-size:12px; } }
+  .jbx-ab-line h4 { font-size:1.25rem; font-weight:400; color:#fff; line-height:1.4; margin:0 0 20px; }
+  .jbx-ab-line ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .jbx-ab-line li { position:relative; padding-left:16px; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.5; }
+  .jbx-ab-line li::before { content:""; position:absolute; left:0; top:.62em; width:6px; height:6px; border-radius:50%; }
+  .jbx-ab-line .j li::before { background:#5FCB9C; } .jbx-ab-line .y li::before { background:#D9A441; }
+  .jbx-ab-line .seam { position:absolute; left:50%; top:0; transform:translate(-50%,-50%); z-index:1; padding:5px 12px; border-radius:999px; background:#0A0D0C; border:1px solid rgba(217,164,65,0.5); font-size:12px; font-weight:300; color:#D9A441; white-space:nowrap; }
+  @media(max-width:640px) {
+    .jbx-ab-line { grid-template-columns:minmax(0,1fr); }
+    .jbx-ab-line .half { padding:24px 20px 28px; }
+    .jbx-ab-line .half.j { border-radius:16px 16px 0 0; }
+    .jbx-ab-line .half.j { grid-row:1; } .jbx-ab-line .half.y { grid-row:3; border-radius:0 0 16px 16px; padding-top:32px; }
+    .jbx-ab-line .seam { position:relative; grid-row:2; left:auto; top:auto; transform:none; justify-self:center; margin:-13px 0; }
+  }
   .jbx-ab-why { background:#1C1C1C; border-radius:16px; padding:32px 40px; font-family:'Figtree',sans-serif; }
   .jbx-ab-why h4 { font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0 0 20px; }
   .jbx-ab-why .cols { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:40px; }
@@ -805,23 +808,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="jbx-body">If something has one right answer, Jain does it. If it takes judgment, or someone has to answer for the result, Jain stops, offers an answer, and a person decides.</p>
       <div class="jbx-ab-line" role="img" aria-label="Jain does anything with one right answer. Where something takes judgment or carries consequence, Jain stops, offers an answer, and you decide.">
         <div class="half j">
-          <span class="av j">AI</span>
-          <div><span class="k">Jain does it</span><h4>One right answer</h4><p>Formulas · Scores · Change log · Reading the RFP</p></div>
-        </div>
-        <div class="cut">
-          <svg viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 C0 32, 100 32, 100 64"/></svg>
-          <span>Jain stops here and offers an answer</span>
+          <span class="k">Jain does it</span>
+          <h4>One right answer</h4>
+          <ul><li>Formulas</li><li>Scores</li><li>Change log</li><li>Reading the RFP</li></ul>
         </div>
         <div class="half y">
-          <div><span class="k">You decide</span><h4>Judgment, or consequence</h4><p>Lists · Risk notes · Conflicting sources · Estimates · Pricing and bidding</p></div>
-          <span class="av y"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.2" r="2.8"/><path d="M2.8 14a5.2 5.2 0 0 1 10.4 0"/></svg></span>
+          <span class="k">You decide</span>
+          <h4>Judgment, or consequence</h4>
+          <ul><li>Lists</li><li>Risk notes</li><li>Conflicting sources</li><li>Estimates</li><li>Pricing and bidding</li></ul>
         </div>
+        <span class="seam">Jain stops here and offers an answer</span>
       </div>
       <div class="jbx-ab-why">
-        <h4>Why the line sits where it does</h4>
+        <h4>Why the line sits here</h4>
         <div class="cols">
-          <p>If every linked change asked for a confirmation, people would stop reading and click through. Stopping only where there is a real decision keeps attention for the places that need it.</p>
-          <p>The line isn’t about how reliable Jain is. A better model would still not sign the bid. Whoever carries the consequence makes the call.</p>
+          <p>Confirming every linked change trains people to click through. Stopping only for real decisions keeps their attention.</p>
+          <p>It isn’t about how reliable Jain is. A better model still wouldn’t sign the bid. Whoever carries the consequence decides.</p>
         </div>
       </div>
       <p class="jbx-body">The same line decides when Jain speaks. The panel fills only when there is something a person needs to decide.</p>
