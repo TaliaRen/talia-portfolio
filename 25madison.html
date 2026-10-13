@@ -478,27 +478,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-ab-group { display:flex; flex-direction:column; gap:24px; }
   .jbx-ab-group > .jbx-mini + * { margin-top:-8px; }   /* mini-heading → its text: 16px */
   .jbx-ab-why { margin-top:48px; }                     /* 96px between the two groups */
-  .jbx-ab-lead { font-family:'Figtree',sans-serif; font-size:1.25rem; font-weight:300; color:#fff; line-height:1.6; margin:0; }
-  .jbx-ab-group > .jbx-ab-lead + .jbx-ab-spec, .jbx-ab-group > .jbx-body + .jbx-ab-chain { margin-top:12px; }
-  .jbx-ab-spec { background:#1C1C1C; border-radius:16px; padding:28px 40px 32px; }
-  .jbx-ab-spec .ends { display:flex; justify-content:space-between; font-family:'Figtree',sans-serif; font-size:13px; font-weight:300; color:#979797; }
-  .jbx-ab-spec .track { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); justify-items:center; align-items:center; height:52px; margin:14px 0 18px; }
-  .jbx-ab-spec .track::before { content:""; position:absolute; left:0; right:0; top:50%; height:2px; transform:translateY(-50%); background:linear-gradient(90deg,#6B7780,#5FCB9C 50%,#D9A441); opacity:.75; }
-  .jbx-ab-spec .node { position:relative; width:56px; height:48px; border-radius:14px; display:grid; place-items:center; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:500; }
-  .jbx-ab-spec .labels { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; text-align:center; }
-  .jbx-ab-spec h4 { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
-  .jbx-ab-spec p { font-family:'Figtree',sans-serif; font-size:.875rem; font-weight:200; color:#B5B5B5; line-height:1.5; margin:4px 0 0; }
-  .jbx-ab-spec .f, .jbx-ab-card .badge.f { background:#2A3036; color:#C9D1D6; }
-  .jbx-ab-spec .j, .jbx-ab-card .badge.j { background:#1D3A2E; color:#5FCB9C; }
-  .jbx-ab-spec .r, .jbx-ab-card .badge.r { background:#3B2F14; color:#D9A441; }
-  .jbx-ab-card { gap:12px; }
-  .jbx-ab-card .lbl { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.08em; text-transform:uppercase; }
-  .jbx-ab-card .cell { display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; background:#0E1210; border:1px solid rgba(255,255,255,0.08); margin-bottom:4px; }
-  .jbx-ab-card .cell s { font-family:'Figtree',sans-serif; font-size:13px; font-weight:300; color:#6E6E6E; }
-  .jbx-ab-card .cell b { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:400; color:#fff; }
-  .jbx-ab-card .badge { margin-left:auto; width:26px; height:22px; border-radius:11px; display:grid; place-items:center; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:500; }
-  .jbx-ab-card .tag { align-self:flex-start; margin-top:2px; font-family:'Figtree',sans-serif; font-size:12px; font-weight:400; padding:3px 10px; border-radius:999px; background:rgba(255,255,255,0.08); color:#B5B5B5; }
-  .jbx-ab-card .tag.w { background:rgba(217,164,65,0.16); color:#D9A441; }
+  .jbx-ab-group > .jbx-mini + .jbx-ab-ledger { margin-top:0; }
+  .jbx-ab-group > .jbx-body + .jbx-ab-chain { margin-top:12px; }
+  .jbx-ab-ledger { display:grid; grid-template-columns:minmax(0,1fr) 88px 88px; background:#1C1C1C; border-radius:16px; padding:24px 32px 22px; font-family:'Figtree',sans-serif; }
+  .jbx-ab-ledger > .hd, .jbx-ab-ledger > .row { display:contents; }
+  .jbx-ab-ledger .who { display:flex; align-items:center; justify-content:center; gap:6px; font-size:12px; font-weight:400; color:#B5B5B5; letter-spacing:.06em; text-transform:uppercase; padding-bottom:12px; }
+  .jbx-ab-ledger .who .ai { font-style:normal; font-size:9px; font-weight:600; color:#5FCB9C; border:1.2px solid #5FCB9C; border-radius:4px; padding:1px 3px; letter-spacing:.04em; }
+  .jbx-ab-ledger .who svg { width:14px; height:14px; fill:none; stroke:#D9A441; stroke-width:1.4; stroke-linecap:round; }
+  .jbx-ab-ledger .grp { grid-column:1 / -1; padding:20px 0 8px; }
+  .jbx-ab-ledger .grp .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; }
+  .jbx-ab-ledger .grp.j .k { color:#5FCB9C; } .jbx-ab-ledger .grp.y .k { color:#D9A441; }
+  .jbx-ab-ledger .grp h4 { font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
+  .jbx-ab-ledger .item, .jbx-ab-ledger .c { padding:12px 0; border-top:1px solid rgba(255,255,255,0.06); }
+  .jbx-ab-ledger .item { font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.4; }
+  .jbx-ab-ledger .c { display:flex; align-items:center; justify-content:center; }
+  .jbx-ab-ledger .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .jbx-ab-ledger .dot.j { background:#5FCB9C; } .jbx-ab-ledger .dot.y { background:#D9A441; }
+  .jbx-ab-ledger .ring { width:10px; height:10px; border-radius:50%; display:inline-block; box-sizing:border-box; border:1.4px solid rgba(95,203,156,0.7); }
+  .jbx-ab-ledger .line { grid-column:1 / -1; position:relative; height:0; margin:28px 0 8px; border-top:1px dashed rgba(217,164,65,0.7); }
+  .jbx-ab-ledger .line span { position:absolute; right:0; top:-10px; padding-left:10px; background:#1C1C1C; font-size:13px; font-weight:300; color:#D9A441; line-height:20px; }
+  .jbx-ab-ledger .legend { grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:flex-end; padding-top:16px; margin-top:4px; border-top:1px solid rgba(255,255,255,0.06); font-size:12px; font-weight:300; color:#979797; }
+  .jbx-ab-ledger .legend span { display:inline-flex; align-items:center; gap:6px; }
+  @media(max-width:640px) {
+    .jbx-ab-ledger { grid-template-columns:minmax(0,1fr) 52px 52px; padding:20px 16px 18px; }
+    .jbx-ab-ledger .item { font-size:.9375rem; }
+    .jbx-ab-ledger .line span { position:static; display:block; padding:12px 0 0; background:none; }
+    .jbx-ab-ledger .line { height:auto; }
+    .jbx-ab-ledger .legend { justify-content:flex-start; }
+  }
   .jbx-ab-chain { margin:0; background:#1C1C1C; border-radius:16px; overflow-x:auto; }
   .jbx-ab-chain svg { display:block; width:100%; min-width:620px; height:auto; font-family:'Figtree',sans-serif; }
   .jbx-ab-chain .n-box { fill:#252525; stroke:rgba(255,255,255,0.14); stroke-width:1; }
@@ -509,10 +516,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-ab-chain .m-f { fill:#2A3036; } .jbx-ab-chain .m-j { fill:#1D3A2E; } .jbx-ab-chain .m-r { fill:#3B2F14; }
   .jbx-ab-chain .m-t { font-size:12px; font-weight:500; } .jbx-ab-chain .m-t-f { fill:#C9D1D6; } .jbx-ab-chain .m-t-j { fill:#5FCB9C; } .jbx-ab-chain .m-t-r { fill:#D9A441; }
   @media(max-width:640px) {
-    .jbx-ab-spec { padding:24px 16px 24px; }
-    .jbx-ab-spec .node { width:46px; height:40px; border-radius:12px; font-size:1rem; }
-    .jbx-ab-spec h4 { font-size:.875rem; } .jbx-ab-spec p { font-size:.8125rem; }
-    .jbx-ab-spec .labels { gap:8px; }
   }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
@@ -820,20 +823,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="jbx-ab-group">
         <h3 class="jbx-mini">The boundary</h3>
-        <p class="jbx-ab-lead">What can be calculated moves on its own. What needs judgment waits for a person.</p>
-        <div class="jbx-ab-spec" role="img" aria-label="A line from 'Jain handles it' to 'A person decides': written by a formula, estimated by Jain, stated in the RFP">
-          <div class="ends"><span>Jain handles it</span><span>A person decides</span></div>
-          <div class="track"><span class="node f">ƒx</span><span class="node j">↗</span><span class="node r">?</span></div>
-          <div class="labels">
-            <div><h4>Written by a formula</h4><p>Recalculates. No prompt.</p></div>
-            <div><h4>Estimated by Jain</h4><p>Jain revises it and leaves a note.</p></div>
-            <div><h4>Stated in the RFP</h4><p>Jain stops and asks.</p></div>
-          </div>
-        </div>
-        <div class="jbx-cards jbx-ab-cards">
-          <div class="jbx-card jbx-ab-card"><span class="lbl">Written by a formula</span><div class="cell"><s>1,790</s><b>1,680</b><i class="badge f">ƒx</i></div><h4>Recalculated</h4><p>Updates the moment its inputs change. Nothing to confirm.</p><span class="tag">silent</span></div>
-          <div class="jbx-card jbx-ab-card"><span class="lbl">Estimated by Jain</span><div class="cell"><s>82</s><b>78</b><i class="badge j">↗</i></div><h4>Revised</h4><p>Jain updates its own estimate and says why in the panel.</p><span class="tag">noted</span></div>
-          <div class="jbx-card jbx-ab-card"><span class="lbl">Stated in the RFP</span><div class="cell"><b>18:00–23:00</b><i class="badge r">?</i></div><h4>Needs your call</h4><p>Jain explains what it would change and waits for approval.</p><span class="tag w">waits</span></div>
+        <div class="jbx-ab-ledger" role="table" aria-label="Who owns what: Jain does anything with one right answer; you decide anything that takes judgment">
+          <div class="hd" role="row"><span role="columnheader"></span><span class="who" role="columnheader"><i class="ai">AI</i>Jain</span><span class="who" role="columnheader"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.2" r="2.8"/><path d="M2.8 14a5.2 5.2 0 0 1 10.4 0"/></svg>You</span></div>
+          <div class="grp j"><span class="k">Jain does it</span><h4>Anything with one right answer.</h4></div>
+          <div class="row" role="row"><span class="item" role="cell">Formulas</span><span class="c" role="cell"><i class="dot j" aria-label="Jain does it"></i></span><span class="c" role="cell"></span></div>
+          <div class="row" role="row"><span class="item" role="cell">Scores</span><span class="c" role="cell"><i class="dot j" aria-label="Jain does it"></i></span><span class="c" role="cell"></span></div>
+          <div class="row" role="row"><span class="item" role="cell">Change log</span><span class="c" role="cell"><i class="dot j" aria-label="Jain does it"></i></span><span class="c" role="cell"></span></div>
+          <div class="row" role="row"><span class="item" role="cell">Reading the RFP</span><span class="c" role="cell"><i class="dot j" aria-label="Jain does it"></i></span><span class="c" role="cell"></span></div>
+          <div class="line"><span>Jain stops here and offers an answer</span></div>
+          <div class="grp y"><span class="k">You decide</span><h4>Anything that takes judgment, or that you’ll answer for.</h4></div>
+          <div class="row" role="row"><span class="item" role="cell">What goes on the list</span><span class="c" role="cell"><i class="ring" aria-label="Jain offers an answer"></i></span><span class="c" role="cell"><i class="dot y" aria-label="You decide"></i></span></div>
+          <div class="row" role="row"><span class="item" role="cell">Whether a risk still holds</span><span class="c" role="cell"><i class="ring" aria-label="Jain offers an answer"></i></span><span class="c" role="cell"><i class="dot y" aria-label="You decide"></i></span></div>
+          <div class="row" role="row"><span class="item" role="cell">Which source to trust</span><span class="c" role="cell"><i class="ring" aria-label="Jain offers an answer"></i></span><span class="c" role="cell"><i class="dot y" aria-label="You decide"></i></span></div>
+          <div class="row" role="row"><span class="item" role="cell">Jain’s estimates</span><span class="c" role="cell"><i class="ring" aria-label="Jain offers an answer"></i></span><span class="c" role="cell"><i class="dot y" aria-label="You decide"></i></span></div>
+          <div class="row" role="row"><span class="item" role="cell">Pricing and bidding</span><span class="c" role="cell"><i class="ring" aria-label="Jain offers an answer"></i></span><span class="c" role="cell"><i class="dot y" aria-label="You decide"></i></span></div>
+          <div class="legend"><span><i class="dot j"></i>Does it</span><span><i class="ring"></i>Offers an answer</span><span><i class="dot y"></i>Decides</span></div>
         </div>
       </div>
       <div class="jbx-ab-group jbx-ab-why">
