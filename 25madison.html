@@ -475,10 +475,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:1100px) { .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-statement-q { padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); white-space:normal; } }
   @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
   /* AI boundary */
-  .jbx-ab-group { display:flex; flex-direction:column; gap:24px; }
-  .jbx-ab-group > .jbx-mini + * { margin-top:-8px; }   /* mini-heading → its text: 16px */
-  .jbx-ab-why { margin-top:48px; }                     /* 96px between the two groups */
-  .jbx-ab-group > .jbx-body + .jbx-ab-chain { margin-top:12px; }
+  .jbx-ab-why { background:#1C1C1C; border-radius:16px; padding:32px 40px; font-family:'Figtree',sans-serif; }
+  .jbx-ab-why h4 { font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0 0 20px; }
+  .jbx-ab-why .cols { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:40px; }
+  .jbx-ab-why .cols p { font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
+  .jbx-ab-why .cols p + p { position:relative; }
+  .jbx-ab-why .cols p + p::before { content:""; position:absolute; left:-20px; top:4px; bottom:4px; width:1px; background:rgba(255,255,255,0.1); }
+  @media(max-width:640px) { .jbx-ab-why { padding:28px 20px; } .jbx-ab-why .cols { grid-template-columns:minmax(0,1fr); gap:20px; } .jbx-ab-why .cols p + p::before { left:0; right:0; top:-10px; bottom:auto; width:auto; height:1px; } }
   .jbx-ab-line { background:#1C1C1C; border-radius:16px; padding:36px 40px; font-family:'Figtree',sans-serif; }
   .jbx-ab-line .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
   .jbx-ab-line .j .k { color:#5FCB9C; } .jbx-ab-line .y .k { color:#D9A441; }
@@ -487,15 +490,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-ab-line .cut { position:relative; margin:32px 0; border-top:1px dashed rgba(217,164,65,0.6); }
   .jbx-ab-line .cut span { position:absolute; right:0; top:-10px; padding-left:12px; background:#1C1C1C; font-size:13px; font-weight:300; color:#D9A441; line-height:20px; }
   @media(max-width:640px) { .jbx-ab-line { padding:28px 20px; } .jbx-ab-line h4 { font-size:1.25rem; } .jbx-ab-line .cut span { position:static; display:block; padding:10px 0 0; background:none; } }
-  .jbx-ab-chain { margin:0; background:#1C1C1C; border-radius:16px; overflow-x:auto; }
-  .jbx-ab-chain svg { display:block; width:100%; min-width:620px; height:auto; font-family:'Figtree',sans-serif; }
-  .jbx-ab-chain .n-box { fill:#252525; stroke:rgba(255,255,255,0.14); stroke-width:1; }
-  .jbx-ab-chain .n-edit { fill:#5FCB9C; }
-  .jbx-ab-chain .n-txt { font-size:14px; fill:#E0E0E0; } .jbx-ab-chain .n-ink { font-size:14px; font-weight:500; fill:#0A0D0C; }
-  .jbx-ab-chain .n-sub { font-size:12px; font-weight:300; fill:#8A8A8A; } .jbx-ab-chain .n-sub.acc { fill:#5FCB9C; }
-  .jbx-ab-chain .n-flow { fill:none; stroke:#5A5A5A; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
-  .jbx-ab-chain .m-f { fill:#2A3036; } .jbx-ab-chain .m-j { fill:#1D3A2E; } .jbx-ab-chain .m-r { fill:#3B2F14; }
-  .jbx-ab-chain .m-t { font-size:12px; font-weight:500; } .jbx-ab-chain .m-t-f { fill:#C9D1D6; } .jbx-ab-chain .m-t-j { fill:#5FCB9C; } .jbx-ab-chain .m-t-r { fill:#D9A441; }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -800,28 +794,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="jbx-block-label">AI boundary</span>
         <h2 class="jbx-sec-title">How far Jain goes on its own, and where a person has to step in.</h2>
       </div>
-      <div class="jbx-ab-line" role="img" aria-label="Above the line, Jain does anything with one right answer. Below it, you decide anything that takes judgment.">
+      <p class="jbx-body">If something has one right answer, Jain does it. If it takes judgment, or someone has to answer for the result, Jain stops, offers an answer, and a person decides.</p>
+      <div class="jbx-ab-line" role="img" aria-label="Above the line, Jain does anything with one right answer. Below it, you decide anything that takes judgment or carries consequence.">
         <div class="half j">
           <span class="k">Jain does it</span>
-          <h4>Anything with one right answer.</h4>
+          <h4>One right answer</h4>
           <p>Formulas · Scores · Change log · Reading the RFP</p>
         </div>
         <div class="cut"><span>Jain stops here and offers an answer</span></div>
         <div class="half y">
           <span class="k">You decide</span>
-          <h4>Anything that takes judgment, or that you’ll answer for.</h4>
-          <p>What goes on the list · Whether a risk still holds · Which source to trust · Jain’s estimates · Pricing and bidding</p>
+          <h4>Judgment, or consequence</h4>
+          <p>Lists · Risk notes · Conflicting sources · Estimates · Pricing and bidding</p>
         </div>
       </div>
-      <div class="jbx-ab-group jbx-ab-why">
-        <h3 class="jbx-mini">Why</h3>
-        <p class="jbx-body">If every linked change needed a confirmation, people would stop reading and click through. Stopping only where a machine can’t judge keeps their attention for the places that need it.</p>
-        <p class="jbx-body">The line isn’t drawn by how reliable Jain is. It’s drawn by who is responsible for the number. The estimator signs the bid, so the estimator’s numbers stay the estimator’s.</p>
-        <figure class="jbx-ab-chain" role="img" aria-label="Editing Area: Restroom and Labor hours recalculate by formula, Score is revised by Jain, and the chain stops at Window, which the RFP stated">
-          <svg viewBox="0 0 860 170" xmlns="http://www.w3.org/2000/svg"><rect class="n-edit" x="40.0" y="64" width="118" height="40" rx="10"/><text class="n-ink" x="99.0" y="84.0" text-anchor="middle" dominant-baseline="central">Area</text><text class="n-sub acc" x="99.0" y="128" text-anchor="middle">you edit this</text><path class="n-flow" d="M164.0 84.0H199.5"/><path class="n-flow" d="M193.5 80.0L199.5 84.0L193.5 88.0"/><rect class="m-f" x="166.8" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-f" x="181.8" y="41" text-anchor="middle" dominant-baseline="central">ƒx</text><rect class="n-box" x="205.5" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="264.5" y="84.0" text-anchor="middle" dominant-baseline="central">Restroom</text><text class="n-sub" x="264.5" y="128" text-anchor="middle">formula</text><path class="n-flow" d="M329.5 84.0H365.0"/><path class="n-flow" d="M359.0 80.0L365.0 84.0L359.0 88.0"/><rect class="m-f" x="332.2" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-f" x="347.2" y="41" text-anchor="middle" dominant-baseline="central">ƒx</text><rect class="n-box" x="371.0" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="430.0" y="84.0" text-anchor="middle" dominant-baseline="central">Labor hours</text><text class="n-sub" x="430.0" y="128" text-anchor="middle">formula</text><path class="n-flow" d="M495.0 84.0H530.5"/><path class="n-flow" d="M524.5 80.0L530.5 84.0L524.5 88.0"/><rect class="m-j" x="497.8" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-j" x="512.8" y="41" text-anchor="middle" dominant-baseline="central">↗</text><rect class="n-box" x="536.5" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="595.5" y="84.0" text-anchor="middle" dominant-baseline="central">Score</text><text class="n-sub" x="595.5" y="128" text-anchor="middle">Jain</text><path class="n-flow" d="M660.5 84.0H696.0"/><path class="n-flow" d="M690.0 80.0L696.0 84.0L690.0 88.0"/><rect class="m-r" x="663.2" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-r" x="678.2" y="41" text-anchor="middle" dominant-baseline="central">?</text><rect class="n-box" x="702.0" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="761.0" y="84.0" text-anchor="middle" dominant-baseline="central">Window</text><text class="n-sub" x="761.0" y="128" text-anchor="middle">RFP</text></svg>
-        </figure>
+      <div class="jbx-ab-why">
+        <h4>Why the line sits where it does</h4>
+        <div class="cols">
+          <p>If every linked change asked for a confirmation, people would stop reading and click through. Stopping only where there is a real decision keeps attention for the places that need it.</p>
+          <p>The line isn’t about how reliable Jain is. A better model would still not sign the bid. Whoever carries the consequence makes the call.</p>
+        </div>
       </div>
-      <p class="jbx-body">The cost is that quiet recalculation can go unnoticed. The next five sections are about making it noticed.</p>
+      <p class="jbx-body">The same line decides when Jain speaks. The panel fills only when there is something a person needs to decide.</p>
     </div>
   </section>
 
