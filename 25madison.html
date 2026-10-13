@@ -474,6 +474,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-stack-item p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.55; margin:6px 0 0; }
   @media(max-width:1100px) { .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-statement-q { padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); white-space:normal; } }
   @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
+  /* AI boundary */
+  .jbx-ab-group { display:flex; flex-direction:column; gap:24px; }
+  .jbx-ab-group > .jbx-mini + * { margin-top:-8px; }   /* mini-heading → its text: 16px */
+  .jbx-ab-why { margin-top:48px; }                     /* 96px between the two groups */
+  .jbx-ab-lead { font-family:'Figtree',sans-serif; font-size:1.25rem; font-weight:300; color:#fff; line-height:1.6; margin:0; }
+  .jbx-ab-group > .jbx-ab-lead + .jbx-ab-spec, .jbx-ab-group > .jbx-body + .jbx-ab-chain { margin-top:12px; }
+  .jbx-ab-spec { background:#1C1C1C; border-radius:16px; padding:28px 40px 32px; }
+  .jbx-ab-spec .ends { display:flex; justify-content:space-between; font-family:'Figtree',sans-serif; font-size:13px; font-weight:300; color:#979797; }
+  .jbx-ab-spec .track { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); justify-items:center; align-items:center; height:52px; margin:14px 0 18px; }
+  .jbx-ab-spec .track::before { content:""; position:absolute; left:0; right:0; top:50%; height:2px; transform:translateY(-50%); background:linear-gradient(90deg,#6B7780,#5FCB9C 50%,#D9A441); opacity:.75; }
+  .jbx-ab-spec .node { position:relative; width:56px; height:48px; border-radius:14px; display:grid; place-items:center; font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:500; }
+  .jbx-ab-spec .labels { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; text-align:center; }
+  .jbx-ab-spec h4 { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
+  .jbx-ab-spec p { font-family:'Figtree',sans-serif; font-size:.875rem; font-weight:200; color:#B5B5B5; line-height:1.5; margin:4px 0 0; }
+  .jbx-ab-spec .f, .jbx-ab-card .badge.f { background:#2A3036; color:#C9D1D6; }
+  .jbx-ab-spec .j, .jbx-ab-card .badge.j { background:#1D3A2E; color:#5FCB9C; }
+  .jbx-ab-spec .r, .jbx-ab-card .badge.r { background:#3B2F14; color:#D9A441; }
+  .jbx-ab-card { gap:12px; }
+  .jbx-ab-card .lbl { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.08em; text-transform:uppercase; }
+  .jbx-ab-card .cell { display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; background:#0E1210; border:1px solid rgba(255,255,255,0.08); margin-bottom:4px; }
+  .jbx-ab-card .cell s { font-family:'Figtree',sans-serif; font-size:13px; font-weight:300; color:#6E6E6E; }
+  .jbx-ab-card .cell b { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:400; color:#fff; }
+  .jbx-ab-card .badge { margin-left:auto; width:26px; height:22px; border-radius:11px; display:grid; place-items:center; font-family:'Figtree',sans-serif; font-style:normal; font-size:12px; font-weight:500; }
+  .jbx-ab-card .tag { align-self:flex-start; margin-top:2px; font-family:'Figtree',sans-serif; font-size:12px; font-weight:400; padding:3px 10px; border-radius:999px; background:rgba(255,255,255,0.08); color:#B5B5B5; }
+  .jbx-ab-card .tag.w { background:rgba(217,164,65,0.16); color:#D9A441; }
+  .jbx-ab-chain { margin:0; background:#1C1C1C; border-radius:16px; overflow-x:auto; }
+  .jbx-ab-chain svg { display:block; width:100%; min-width:620px; height:auto; font-family:'Figtree',sans-serif; }
+  .jbx-ab-chain .n-box { fill:#252525; stroke:rgba(255,255,255,0.14); stroke-width:1; }
+  .jbx-ab-chain .n-edit { fill:#5FCB9C; }
+  .jbx-ab-chain .n-txt { font-size:14px; fill:#E0E0E0; } .jbx-ab-chain .n-ink { font-size:14px; font-weight:500; fill:#0A0D0C; }
+  .jbx-ab-chain .n-sub { font-size:12px; font-weight:300; fill:#8A8A8A; } .jbx-ab-chain .n-sub.acc { fill:#5FCB9C; }
+  .jbx-ab-chain .n-flow { fill:none; stroke:#5A5A5A; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-ab-chain .m-f { fill:#2A3036; } .jbx-ab-chain .m-j { fill:#1D3A2E; } .jbx-ab-chain .m-r { fill:#3B2F14; }
+  .jbx-ab-chain .m-t { font-size:12px; font-weight:500; } .jbx-ab-chain .m-t-f { fill:#C9D1D6; } .jbx-ab-chain .m-t-j { fill:#5FCB9C; } .jbx-ab-chain .m-t-r { fill:#D9A441; }
+  @media(max-width:640px) {
+    .jbx-ab-spec { padding:24px 16px 24px; }
+    .jbx-ab-spec .node { width:46px; height:40px; border-radius:12px; font-size:1rem; }
+    .jbx-ab-spec h4 { font-size:.875rem; } .jbx-ab-spec p { font-size:.8125rem; }
+    .jbx-ab-spec .labels { gap:8px; }
+  }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -778,26 +818,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="jbx-block-label">AI boundary</span>
         <h2 class="jbx-sec-title">How far Jain goes on its own, and where a person has to step in.</h2>
       </div>
-      <div class="jbx-copy">
-        <p class="jbx-body">Change one value and the values tied to it have to move. The open question was who moves them, and how much of that Jain should handle on its own.</p>
-        <p class="jbx-body">The first version explained every recalculation, and the panel turned into noise. The next one stayed silent, and there was no record of what had moved. Neither could be trusted.</p>
-        <p class="jbx-body">Product wanted Jain to handle only the exceptions. Engineering wanted everything recalculated, every time.</p>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">One rule: look at who wrote the cell being moved.</h3>
-        <div class="jbx-cards">
-          <div class="jbx-card"><span class="jbx-sym">ƒx</span><h4>Written by a formula</h4><p>It recalculates by itself. The value updates and gets a dot, and nothing more is said.</p></div>
-          <div class="jbx-card"><span class="jbx-sym">↗</span><h4>Written by Jain</h4><p>Jain revises its own estimate, and says so once.</p></div>
-          <div class="jbx-card"><span class="jbx-sym">?</span><h4>Stated in the RFP</h4><p>Jain stops and asks. A fact from the document is not Jain’s to change.</p></div>
+      <div class="jbx-ab-group">
+        <h3 class="jbx-mini">The boundary</h3>
+        <p class="jbx-ab-lead">What can be calculated moves on its own. What needs judgment waits for a person.</p>
+        <div class="jbx-ab-spec" role="img" aria-label="A line from 'Jain handles it' to 'A person decides': written by a formula, estimated by Jain, stated in the RFP">
+          <div class="ends"><span>Jain handles it</span><span>A person decides</span></div>
+          <div class="track"><span class="node f">ƒx</span><span class="node j">↗</span><span class="node r">?</span></div>
+          <div class="labels">
+            <div><h4>Written by a formula</h4><p>Recalculates. No prompt.</p></div>
+            <div><h4>Estimated by Jain</h4><p>Jain revises it and leaves a note.</p></div>
+            <div><h4>Stated in the RFP</h4><p>Jain stops and asks.</p></div>
+          </div>
         </div>
-        <figure class="jbx-scene jbx-scene--chain" role="img" aria-label="Editing Total area: Restroom size recalculates (formula), Labor hours is revised by Jain, Score waits for a decision">
-          <svg viewBox="0 0 860 150" xmlns="http://www.w3.org/2000/svg">
-            <rect class="card" x="0" y="0" width="860" height="150" rx="16"/>
-            <rect class="p-fill" x="100.2" y="58" width="112.2" height="40" rx="20.0"/><path class="ic-ink" d="M117.0 83.1 v-2.9 l7.4-7.4 a1.4 1.4 0 0 1 2 0 l1 1 a1.4 1.4 0 0 1 0 2 l-7.4 7.4 z M122.7 74.6 l2 2"/><text class="p-ink" x="135.2" y="78.0" dominant-baseline="central">Total area</text><path class="flow" d="M220.4 78.0H288.4"/><path class="flow" d="M282.4 74.0L288.4 78.0L282.4 82.0"/><circle class="mark" cx="254.4" cy="52.0" r="11"/><text class="mark-t" x="254.4" y="52.0" text-anchor="middle" dominant-baseline="central">ƒx</text><rect class="p-line" x="296.4" y="58" width="120.8" height="40" rx="20.0"/><text class="p-txt" x="312.4" y="78.0" dominant-baseline="central">Restroom size</text><path class="flow" d="M425.2 78.0H493.2"/><path class="flow" d="M487.2 74.0L493.2 78.0L487.2 82.0"/><circle class="mark" cx="459.2" cy="52.0" r="11"/><text class="mark-t" x="459.2" y="52.0" text-anchor="middle" dominant-baseline="central">↗</text><rect class="p-line" x="501.2" y="58" width="105.9" height="40" rx="20.0"/><text class="p-txt" x="517.2" y="78.0" dominant-baseline="central">Labor hours</text><path class="flow" d="M615.2 78.0H683.2"/><path class="flow" d="M677.2 74.0L683.2 78.0L677.2 82.0"/><circle class="mark" cx="649.2" cy="52.0" r="11"/><text class="mark-t" x="649.2" y="52.0" text-anchor="middle" dominant-baseline="central">?</text><rect class="p-line" x="691.2" y="58" width="68.7" height="40" rx="20.0"/><text class="p-txt" x="707.2" y="78.0" dominant-baseline="central">Score</text>
-          </svg>
+        <div class="jbx-cards jbx-ab-cards">
+          <div class="jbx-card jbx-ab-card"><span class="lbl">Written by a formula</span><div class="cell"><s>1,790</s><b>1,680</b><i class="badge f">ƒx</i></div><h4>Recalculated</h4><p>Updates the moment its inputs change. Nothing to confirm.</p><span class="tag">silent</span></div>
+          <div class="jbx-card jbx-ab-card"><span class="lbl">Estimated by Jain</span><div class="cell"><s>82</s><b>78</b><i class="badge j">↗</i></div><h4>Revised</h4><p>Jain updates its own estimate and says why in the panel.</p><span class="tag">noted</span></div>
+          <div class="jbx-card jbx-ab-card"><span class="lbl">Stated in the RFP</span><div class="cell"><b>18:00–23:00</b><i class="badge r">?</i></div><h4>Needs your call</h4><p>Jain explains what it would change and waits for approval.</p><span class="tag w">waits</span></div>
+        </div>
+      </div>
+      <div class="jbx-ab-group jbx-ab-why">
+        <h3 class="jbx-mini">Why</h3>
+        <p class="jbx-body">If every linked change needed a confirmation, people would stop reading and click through. Stopping only where a machine can’t judge keeps their attention for the places that need it.</p>
+        <p class="jbx-body">The line isn’t drawn by how reliable Jain is. It’s drawn by who is responsible for the number. The estimator signs the bid, so the estimator’s numbers stay the estimator’s.</p>
+        <figure class="jbx-ab-chain" role="img" aria-label="Editing Area: Restroom and Labor hours recalculate by formula, Score is revised by Jain, and the chain stops at Window, which the RFP stated">
+          <svg viewBox="0 0 860 170" xmlns="http://www.w3.org/2000/svg"><rect class="n-edit" x="40.0" y="64" width="118" height="40" rx="10"/><text class="n-ink" x="99.0" y="84.0" text-anchor="middle" dominant-baseline="central">Area</text><text class="n-sub acc" x="99.0" y="128" text-anchor="middle">you edit this</text><path class="n-flow" d="M164.0 84.0H199.5"/><path class="n-flow" d="M193.5 80.0L199.5 84.0L193.5 88.0"/><rect class="m-f" x="166.8" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-f" x="181.8" y="41" text-anchor="middle" dominant-baseline="central">ƒx</text><rect class="n-box" x="205.5" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="264.5" y="84.0" text-anchor="middle" dominant-baseline="central">Restroom</text><text class="n-sub" x="264.5" y="128" text-anchor="middle">formula</text><path class="n-flow" d="M329.5 84.0H365.0"/><path class="n-flow" d="M359.0 80.0L365.0 84.0L359.0 88.0"/><rect class="m-f" x="332.2" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-f" x="347.2" y="41" text-anchor="middle" dominant-baseline="central">ƒx</text><rect class="n-box" x="371.0" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="430.0" y="84.0" text-anchor="middle" dominant-baseline="central">Labor hours</text><text class="n-sub" x="430.0" y="128" text-anchor="middle">formula</text><path class="n-flow" d="M495.0 84.0H530.5"/><path class="n-flow" d="M524.5 80.0L530.5 84.0L524.5 88.0"/><rect class="m-j" x="497.8" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-j" x="512.8" y="41" text-anchor="middle" dominant-baseline="central">↗</text><rect class="n-box" x="536.5" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="595.5" y="84.0" text-anchor="middle" dominant-baseline="central">Score</text><text class="n-sub" x="595.5" y="128" text-anchor="middle">Jain</text><path class="n-flow" d="M660.5 84.0H696.0"/><path class="n-flow" d="M690.0 80.0L696.0 84.0L690.0 88.0"/><rect class="m-r" x="663.2" y="30" width="30" height="22" rx="11"/><text class="m-t m-t-r" x="678.2" y="41" text-anchor="middle" dominant-baseline="central">?</text><rect class="n-box" x="702.0" y="64" width="118" height="40" rx="10"/><text class="n-txt" x="761.0" y="84.0" text-anchor="middle" dominant-baseline="central">Window</text><text class="n-sub" x="761.0" y="128" text-anchor="middle">RFP</text></svg>
         </figure>
       </div>
-      <p class="jbx-body">The same rule decides when Jain speaks. The panel has something to say only when there is something to decide.</p>
+      <p class="jbx-body">The cost is that quiet recalculation can go unnoticed. The next five sections are about making it noticed.</p>
     </div>
   </section>
 
