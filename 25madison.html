@@ -483,14 +483,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-ab-line h4 { display:flex; align-items:center; gap:10px; font-size:1.25rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
   .jbx-ab-line h4 svg { flex:none; width:20px; height:20px; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
   .jbx-ab-line .j h4 svg { stroke:#5FCB9C; } .jbx-ab-line .y h4 svg { stroke:#D9A441; }
-  .jbx-ab-line .d { font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.6; margin:12px 0 0; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1); }
-  .jbx-ab-line .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin:24px 0 8px; }
-  .jbx-ab-line .j .k { color:#5FCB9C; } .jbx-ab-line .y .k { color:#D9A441; }
-  .jbx-ab-line .half > p:last-child { font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.6; margin:0; }
-  .jbx-ab-why { background:#1C1C1C; border-radius:16px; padding:28px 32px; font-family:'Figtree',sans-serif; }
-  .jbx-ab-why .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; color:#979797; margin-bottom:10px; }
-  .jbx-ab-why .rule { font-size:1.25rem; font-weight:500; color:#fff; line-height:1.5; margin:0; }
-  @media(max-width:640px) { .jbx-ab-line { grid-template-columns:minmax(0,1fr); } .jbx-ab-line .half { padding:24px 20px 28px; } .jbx-ab-why { padding:24px 20px; } .jbx-ab-why .rule { font-size:1.125rem; } }
+  .jbx-ab-line .d { font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:12px 0 24px; }
+  .jbx-ab-line .ex { list-style:none; margin:auto 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
+  .jbx-ab-line .ex li { font-size:1rem; font-weight:300; line-height:1.4; padding:6px 12px; border-radius:10px; }
+  .jbx-ab-line .j .ex li { background:rgba(95,203,156,0.14); color:#BFE9D5; }
+  .jbx-ab-line .y .ex li { background:rgba(217,164,65,0.14); color:#EBD3A2; }
+  @media(max-width:640px) { .jbx-ab-line { grid-template-columns:minmax(0,1fr); } .jbx-ab-line .half { padding:24px 20px 28px; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -800,19 +798,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="half j">
           <h4><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M11.2 2.5 4.5 11h5l-1 6.5L15.5 9h-5z"/></svg>AI executes</h4>
           <p class="d">Deterministic, low-risk tasks that require no new decisions.</p>
-          <span class="k">Examples</span>
-          <p>Recalculate values, update scores, track changes, and extract RFP data with source labels.</p>
+          <ul class="ex"><li>Recalculate values</li><li>Update scores</li><li>Track changes</li><li>Extract RFP data with source labels</li></ul>
         </div>
         <div class="half y">
           <h4><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="6.5" r="3.2"/><path d="M2.5 17a5.5 5.5 0 0 1 9.2-4"/><path d="M12.5 15l2 2 3.5-4"/></svg>AI recommends, humans decide</h4>
           <p class="d">Judgment-based decisions that affect cost, scope, or risk.</p>
-          <span class="k">Examples</span>
-          <p>Adjust equipment lists, resolve conflicting data, validate assumptions, and select bid strategies.</p>
+          <ul class="ex"><li>Adjust equipment lists</li><li>Resolve conflicting data</li><li>Validate assumptions</li></ul>
         </div>
-      </div>
-      <div class="jbx-ab-why">
-        <span class="k">Principle</span>
-        <p class="rule">Automate what can be calculated. Require human judgment for what must be decided.</p>
       </div>
     </div>
   </section>
