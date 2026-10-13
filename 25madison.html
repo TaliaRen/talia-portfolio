@@ -475,6 +475,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:1100px) { .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-statement-q { padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); white-space:normal; } }
   @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
   /* AI boundary */
+  .jbx-ab-line { background:#1C1C1C; border-radius:16px; padding:32px 40px; font-family:'Figtree',sans-serif; }
+  .jbx-ab-line .half { display:flex; gap:16px; align-items:flex-start; max-width:72%; }
+  .jbx-ab-line .half.y { margin-left:auto; text-align:right; }
+  .jbx-ab-line .av { flex:none; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; }
+  .jbx-ab-line .av.j { background:#1D3A2E; color:#5FCB9C; font-size:12px; font-weight:600; letter-spacing:.04em; }
+  .jbx-ab-line .av.y { background:#3B2F14; }
+  .jbx-ab-line .av svg { width:18px; height:18px; fill:none; stroke:#D9A441; stroke-width:1.4; stroke-linecap:round; }
+  .jbx-ab-line .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+  .jbx-ab-line .j .k { color:#5FCB9C; } .jbx-ab-line .y .k { color:#D9A441; }
+  .jbx-ab-line h4 { font-size:1.25rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
+  .jbx-ab-line .half p { font-size:1rem; font-weight:200; color:#979797; line-height:1.6; margin:8px 0 0; }
+  .jbx-ab-line .cut { position:relative; height:64px; margin:16px 20px; display:grid; place-items:center; }
+  .jbx-ab-line .cut svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .jbx-ab-line .cut path { fill:none; stroke:rgba(217,164,65,0.6); stroke-width:1.2; stroke-dasharray:4 4; vector-effect:non-scaling-stroke; }
+  .jbx-ab-line .cut span { position:relative; padding:5px 14px; border-radius:999px; border:1px solid rgba(217,164,65,0.5); background:#1C1C1C; font-size:13px; font-weight:300; color:#D9A441; line-height:1.4; text-align:center; }
+  @media(max-width:640px) { .jbx-ab-line { padding:24px 20px; } .jbx-ab-line .half { max-width:none; gap:12px; } .jbx-ab-line .av { width:34px; height:34px; } .jbx-ab-line h4 { font-size:1.125rem; } .jbx-ab-line .cut { height:72px; margin:12px 17px; } .jbx-ab-line .cut span { font-size:12px; } }
   .jbx-ab-why { background:#1C1C1C; border-radius:16px; padding:32px 40px; font-family:'Figtree',sans-serif; }
   .jbx-ab-why h4 { font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0 0 20px; }
   .jbx-ab-why .cols { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:40px; }
@@ -482,14 +498,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-ab-why .cols p + p { position:relative; }
   .jbx-ab-why .cols p + p::before { content:""; position:absolute; left:-20px; top:4px; bottom:4px; width:1px; background:rgba(255,255,255,0.1); }
   @media(max-width:640px) { .jbx-ab-why { padding:28px 20px; } .jbx-ab-why .cols { grid-template-columns:minmax(0,1fr); gap:20px; } .jbx-ab-why .cols p + p::before { left:0; right:0; top:-10px; bottom:auto; width:auto; height:1px; } }
-  .jbx-ab-line { background:#1C1C1C; border-radius:16px; padding:36px 40px; font-family:'Figtree',sans-serif; }
-  .jbx-ab-line .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
-  .jbx-ab-line .j .k { color:#5FCB9C; } .jbx-ab-line .y .k { color:#D9A441; }
-  .jbx-ab-line h4 { font-size:1.375rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
-  .jbx-ab-line p { font-size:1rem; font-weight:200; color:#979797; line-height:1.6; margin:10px 0 0; }
-  .jbx-ab-line .cut { position:relative; margin:32px 0; border-top:1px dashed rgba(217,164,65,0.6); }
-  .jbx-ab-line .cut span { position:absolute; right:0; top:-10px; padding-left:12px; background:#1C1C1C; font-size:13px; font-weight:300; color:#D9A441; line-height:20px; }
-  @media(max-width:640px) { .jbx-ab-line { padding:28px 20px; } .jbx-ab-line h4 { font-size:1.25rem; } .jbx-ab-line .cut span { position:static; display:block; padding:10px 0 0; background:none; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -795,17 +803,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2 class="jbx-sec-title">How far Jain goes on its own, and where a person has to step in.</h2>
       </div>
       <p class="jbx-body">If something has one right answer, Jain does it. If it takes judgment, or someone has to answer for the result, Jain stops, offers an answer, and a person decides.</p>
-      <div class="jbx-ab-line" role="img" aria-label="Above the line, Jain does anything with one right answer. Below it, you decide anything that takes judgment or carries consequence.">
+      <div class="jbx-ab-line" role="img" aria-label="Jain does anything with one right answer. Where something takes judgment or carries consequence, Jain stops, offers an answer, and you decide.">
         <div class="half j">
-          <span class="k">Jain does it</span>
-          <h4>One right answer</h4>
-          <p>Formulas · Scores · Change log · Reading the RFP</p>
+          <span class="av j">AI</span>
+          <div><span class="k">Jain does it</span><h4>One right answer</h4><p>Formulas · Scores · Change log · Reading the RFP</p></div>
         </div>
-        <div class="cut"><span>Jain stops here and offers an answer</span></div>
+        <div class="cut">
+          <svg viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 C0 32, 100 32, 100 64"/></svg>
+          <span>Jain stops here and offers an answer</span>
+        </div>
         <div class="half y">
-          <span class="k">You decide</span>
-          <h4>Judgment, or consequence</h4>
-          <p>Lists · Risk notes · Conflicting sources · Estimates · Pricing and bidding</p>
+          <div><span class="k">You decide</span><h4>Judgment, or consequence</h4><p>Lists · Risk notes · Conflicting sources · Estimates · Pricing and bidding</p></div>
+          <span class="av y"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.2" r="2.8"/><path d="M2.8 14a5.2 5.2 0 0 1 10.4 0"/></svg></span>
         </div>
       </div>
       <div class="jbx-ab-why">
