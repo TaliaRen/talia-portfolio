@@ -495,6 +495,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-sol-figs { display:flex; flex-direction:column; gap:32px; margin-top:12px; }   /* body → first video: 48px */
   .jbx-sol-fig { margin:0; display:grid; grid-template-columns:minmax(0,1.9fr) minmax(0,1fr); gap:32px; align-items:end; }
   .jbx-sol-fig figcaption { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; }
+  .jbx-sol-vid { display:block; width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:12px; background:#0E1210; }
   .jbx-vid-ph { aspect-ratio:16/10; border-radius:12px; background:#121614; border:1px dashed rgba(95,203,156,0.35); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:24px; text-align:center; font-family:'Figtree',sans-serif; }
   .jbx-vid-ph svg { width:40px; height:40px; fill:none; stroke:#5FCB9C; stroke-width:1.2; }
   .jbx-vid-ph svg path { fill:#5FCB9C; stroke:none; }
@@ -832,7 +833,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-body">Before changing a number, an estimator needs to know whether to trust it. So every value carries its source in its underline, stated in the RFP, estimated by Jain, or missing. Hover, and a card shows the exact reference, what the value affects, and what it depends on. Nobody has to dig through the RFP to check.</p>
         <div class="jbx-sol-figs">
           <figure class="jbx-sol-fig">
-            <div class="jbx-vid-ph" data-video="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 1 · 8–10s</span><span class="desc">Sweep across the underline styles, stop on a value, the hover card opens, move to another value and the card switches</span></div>
+            <video class="jbx-sol-vid" src="Jain/design%201.mp4" autoplay muted loop playsinline preload="auto" aria-label="Hovering values in the X-Ray: each underline style, then the hover card with the source, what the value affects and what it depends on"></video>
             <figcaption>Hover any value to see where it came from and what it touches.</figcaption>
           </figure>
         </div>
