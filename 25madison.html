@@ -475,32 +475,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:1100px) { .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-statement-q { padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); white-space:normal; } }
   @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
   /* AI boundary */
-  .jbx-ab-line { position:relative; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); font-family:'Figtree',sans-serif; }
-  .jbx-ab-line .half { padding:32px 36px 36px; }
-  .jbx-ab-line .half.j { background:rgba(95,203,156,0.12); border-radius:16px 0 0 16px; }
-  .jbx-ab-line .half.y { background:rgba(217,164,65,0.12); border-radius:0 16px 16px 0; }
-  .jbx-ab-line .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
-  .jbx-ab-line .j .k { color:#5FCB9C; } .jbx-ab-line .y .k { color:#D9A441; }
-  .jbx-ab-line h4 { font-size:1.25rem; font-weight:400; color:#fff; line-height:1.4; margin:0 0 20px; }
-  .jbx-ab-line ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
-  .jbx-ab-line li { position:relative; padding-left:16px; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.5; }
-  .jbx-ab-line li::before { content:""; position:absolute; left:0; top:.62em; width:6px; height:6px; border-radius:50%; }
-  .jbx-ab-line .j li::before { background:#5FCB9C; } .jbx-ab-line .y li::before { background:#D9A441; }
-  .jbx-ab-line .seam { position:absolute; left:50%; top:0; transform:translate(-50%,-50%); z-index:1; padding:5px 12px; border-radius:999px; background:#0A0D0C; border:1px solid rgba(217,164,65,0.5); font-size:12px; font-weight:300; color:#D9A441; white-space:nowrap; }
   @media(max-width:640px) {
-    .jbx-ab-line { grid-template-columns:minmax(0,1fr); }
-    .jbx-ab-line .half { padding:24px 20px 28px; }
-    .jbx-ab-line .half.j { border-radius:16px 16px 0 0; }
-    .jbx-ab-line .half.j { grid-row:1; } .jbx-ab-line .half.y { grid-row:3; border-radius:0 0 16px 16px; padding-top:32px; }
-    .jbx-ab-line .seam { position:relative; grid-row:2; left:auto; top:auto; transform:none; justify-self:center; margin:-13px 0; }
   }
-  .jbx-ab-why { background:#1C1C1C; border-radius:16px; padding:32px 40px; font-family:'Figtree',sans-serif; }
-  .jbx-ab-why h4 { font-size:1.125rem; font-weight:400; color:#fff; line-height:1.4; margin:0 0 20px; }
-  .jbx-ab-why .cols { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:40px; }
-  .jbx-ab-why .cols p { font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
-  .jbx-ab-why .cols p + p { position:relative; }
-  .jbx-ab-why .cols p + p::before { content:""; position:absolute; left:-20px; top:4px; bottom:4px; width:1px; background:rgba(255,255,255,0.1); }
-  @media(max-width:640px) { .jbx-ab-why { padding:28px 20px; } .jbx-ab-why .cols { grid-template-columns:minmax(0,1fr); gap:20px; } .jbx-ab-why .cols p + p::before { left:0; right:0; top:-10px; bottom:auto; width:auto; height:1px; } }
+  .jbx-ab-line { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; font-family:'Figtree',sans-serif; }
+  .jbx-ab-line .half { border-radius:16px; padding:28px 32px 32px; display:flex; flex-direction:column; }
+  .jbx-ab-line .half.j { background:rgba(95,203,156,0.10); } .jbx-ab-line .half.y { background:rgba(217,164,65,0.10); }
+  .jbx-ab-line h4 { display:flex; align-items:center; gap:10px; font-size:1.25rem; font-weight:400; color:#fff; line-height:1.4; margin:0; }
+  .jbx-ab-line h4 svg { flex:none; width:20px; height:20px; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .jbx-ab-line .j h4 svg { stroke:#5FCB9C; } .jbx-ab-line .y h4 svg { stroke:#D9A441; }
+  .jbx-ab-line .d { font-size:1rem; font-weight:200; color:#B5B5B5; line-height:1.6; margin:12px 0 0; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.1); }
+  .jbx-ab-line .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; margin:24px 0 8px; }
+  .jbx-ab-line .j .k { color:#5FCB9C; } .jbx-ab-line .y .k { color:#D9A441; }
+  .jbx-ab-line .half > p:last-child { font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.6; margin:0; }
+  .jbx-ab-why { background:#1C1C1C; border-radius:16px; padding:28px 32px; font-family:'Figtree',sans-serif; }
+  .jbx-ab-why .k { display:block; font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; color:#979797; margin-bottom:10px; }
+  .jbx-ab-why .rule { font-size:1.25rem; font-weight:500; color:#fff; line-height:1.5; margin:0; }
+  @media(max-width:640px) { .jbx-ab-line { grid-template-columns:minmax(0,1fr); } .jbx-ab-line .half { padding:24px 20px 28px; } .jbx-ab-why { padding:24px 20px; } .jbx-ab-why .rule { font-size:1.125rem; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -805,28 +795,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="jbx-block-label">AI boundary</span>
         <h2 class="jbx-sec-title">How far Jain goes on its own, and where a person has to step in.</h2>
       </div>
-      <p class="jbx-body">If something has one right answer, Jain does it. If it takes judgment, or someone has to answer for the result, Jain stops, offers an answer, and a person decides.</p>
-      <div class="jbx-ab-line" role="img" aria-label="Jain does anything with one right answer. Where something takes judgment or carries consequence, Jain stops, offers an answer, and you decide.">
+      <p class="jbx-body">Jain automates predictable updates while keeping consequential decisions in human hands. This ensures efficiency without compromising user control over bid commitments.</p>
+      <div class="jbx-ab-line">
         <div class="half j">
-          <span class="k">Jain does it</span>
-          <h4>One right answer</h4>
-          <ul><li>Formulas</li><li>Scores</li><li>Change log</li><li>Reading the RFP</li></ul>
+          <h4><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M11.2 2.5 4.5 11h5l-1 6.5L15.5 9h-5z"/></svg>AI Executes</h4>
+          <p class="d">Deterministic, low-risk tasks that require no new decisions.</p>
+          <span class="k">Examples</span>
+          <p>Recalculate values, update scores, track changes, and extract RFP data with source labels.</p>
         </div>
         <div class="half y">
-          <span class="k">You decide</span>
-          <h4>Judgment, or consequence</h4>
-          <ul><li>Lists</li><li>Risk notes</li><li>Conflicting sources</li><li>Estimates</li><li>Pricing and bidding</li></ul>
+          <h4><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="6.5" r="3.2"/><path d="M2.5 17a5.5 5.5 0 0 1 9.2-4"/><path d="M12.5 15l2 2 3.5-4"/></svg>AI Recommends, Humans Decide</h4>
+          <p class="d">Judgment-based decisions that affect cost, scope, or risk.</p>
+          <span class="k">Examples</span>
+          <p>Adjust equipment lists, resolve conflicting data, validate assumptions, and select bid strategies.</p>
         </div>
-        <span class="seam">Jain stops here and offers an answer</span>
       </div>
       <div class="jbx-ab-why">
-        <h4>Why the line sits here</h4>
-        <div class="cols">
-          <p>Confirming every linked change trains people to click through. Stopping only for real decisions keeps their attention.</p>
-          <p>It isn’t about how reliable Jain is. A better model still wouldn’t sign the bid. Whoever carries the consequence decides.</p>
-        </div>
+        <span class="k">Principle</span>
+        <p class="rule">Automate what can be calculated. Require human judgment for what must be decided.</p>
       </div>
-      <p class="jbx-body">The same line decides when Jain speaks. The panel fills only when there is something a person needs to decide.</p>
     </div>
   </section>
 
