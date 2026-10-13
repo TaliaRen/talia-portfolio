@@ -65,7 +65,7 @@ Two deliberate exceptions to the above:
 
 Page background is `#0A0D0C` on every project page (set on `<html style="background:...">`, same as the homepage — the pages sit inside the shared frame).
 
-### Sizes — only 3 buckets, simpler than the color model
+### Sizes — Title / Tag / Body, plus Body 2 for captions
 For font-size (not color), everything collapses to **Title / Tag / Body** — anything that isn't literally a Title or a Tag counts as Body, even content types that get their own *color* above (mini-headings, hero meta values, impact metric captions). Size and color are independent axes; a mini-heading is tag-*colored* but body-*sized*.
 
 | Bucket | Size | Includes |
@@ -73,6 +73,7 @@ For font-size (not color), everything collapses to **Title / Tag / Body** — an
 | **Title** | 28px (`1.75rem`), weight 400 | the five `.xx-*-title` classes (research/solution/problem/background/users). *Not* the hero headline (`.xx-headline` stays 34px / Libertinus Serif — a separate, established element) and *not* card-level titles like `.xx-decision-title` (see exceptions below). |
 | **Tag** | 12px, weight 300 | section labels, hero meta labels, sidebar links, hint text. Exactly 12px — not `.75rem`/`.78rem`/`.8rem` (those rounded to 12.0/12.48/12.8 and were unified). |
 | **Body** | 18px (`1.125rem`) | everything else with visible text: all body paragraph classes, hero meta *values*, impact metric captions, and every mini-heading (Early concept labels, Why AI Command Bar, DiDi mindset names, decision-card titles/hints, compare-column headings, tradeoff cards, iteration label/critique) |
+| **Body 2** | 14px, weight 200 | secondary prose that sits beside or under media and shouldn't compete with body copy: video/figure captions (25madison Solution captions, in their #1C1C1C box). Use sparingly; anything that reads as part of the argument stays Body. |
 
 ### Weights — three values only
 | Weight | Used for |
