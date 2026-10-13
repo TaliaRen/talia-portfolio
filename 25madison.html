@@ -214,7 +214,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-
 <nav>
   <a href="/" class="nav-logo" aria-label="Talia Ren">
     <img src="logo.png" width="32" height="32" alt="Talia Ren">
@@ -359,7 +358,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .jbx-overview-section { padding:0 32px 80px; gap:64px; }
   }
 
-
   /* ── Locked case study: everything under Context sits behind a password ── */
   .jbx-lock { width:100%; max-width:860px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px; margin-top:56px; }   /* 120px under the cover (the section's 64 + 56) */
   .jbx-lock p { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
@@ -492,18 +490,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   /* Solution: five numbered parts, 120px apart; video placeholders until the recordings are in */
   .jbx-sec-inner.jbx-sol { gap:120px; }
   .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-48px; }   /* intro → first part: 72px */
-  .jbx-sol-item { display:flex; flex-direction:column; gap:36px; }
-  .jbx-sol-head { display:flex; flex-direction:column; gap:12px; }
-  .jbx-sol-n { font-family:'Figtree',sans-serif; font-size:.875rem; font-weight:400; color:#5FCB9C; letter-spacing:.08em; }
-  .jbx-sol-figs { display:flex; flex-direction:column; gap:40px; margin-top:12px; }   /* body → video: 48px */
+  .jbx-sol-item { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); grid-template-areas:"vid txt"; gap:48px; align-items:center; }
+  .jbx-sol-text { grid-area:txt; display:flex; flex-direction:column; gap:36px; }
+  .jbx-sol-n { color:#5FCB9C; }
+  .jbx-sol-figs { grid-area:vid; display:flex; flex-direction:column; gap:32px; }
   .jbx-sol-fig { margin:0; display:flex; flex-direction:column; gap:12px; }
   .jbx-sol-fig figcaption { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; line-height:1.5; }
   .jbx-vid-ph { aspect-ratio:16/10; border-radius:12px; background:#121614; border:1px dashed rgba(95,203,156,0.35); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:24px; text-align:center; font-family:'Figtree',sans-serif; }
   .jbx-vid-ph svg { width:40px; height:40px; fill:none; stroke:#5FCB9C; stroke-width:1.2; }
   .jbx-vid-ph svg path { fill:#5FCB9C; stroke:none; }
   .jbx-vid-ph .lbl { font-size:.875rem; font-weight:400; color:#5FCB9C; letter-spacing:.04em; }
-  .jbx-vid-ph .desc { max-width:460px; font-size:.875rem; font-weight:300; color:#7A7A7A; line-height:1.5; }
-  @media(max-width:860px) { .jbx-sec-inner.jbx-sol { gap:80px; } .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-24px; } }
+  .jbx-vid-ph .desc { max-width:360px; font-size:.875rem; font-weight:300; color:#7A7A7A; line-height:1.5; }
+  @media(max-width:860px) { .jbx-sol-item { grid-template-columns:minmax(0,1fr); grid-template-areas:"txt" "vid"; gap:40px; } .jbx-sec-inner.jbx-sol { gap:80px; } .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-24px; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
   .jbx-cover-frame picture img { position:absolute; inset:0; width:100%; height:auto; display:block; }   /* the loop is 1.5:1 like the backdrop, so it fills the frame */
@@ -630,9 +628,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="#problem" data-locked>Problem</a>
   <a href="#goals" data-locked>Design strategies</a>
   <a href="#principle" data-locked>AI boundary</a>
+  <a href="#solution" data-locked>Solution</a>
   <a href="#exploration" data-locked>Exploration</a>
   <a href="#collab" data-locked>Collaboration</a>
-  <a href="#solution" data-locked>Solution</a>
   <a href="#pricing" data-locked>Pricing</a>
   <a href="#tradeoffs" data-locked>Trade-offs</a>
   <a href="#takeaways" data-locked>Takeaways</a>
@@ -824,6 +822,79 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
+  <section class="jbx-sec " id="solution">
+    <div class="jbx-sec-inner jbx-sol">
+      <div class="jbx-section-block">
+        <span class="jbx-block-label">Solution</span>
+        <p class="jbx-body">I built and tested each of these in a working prototype with an agent, choosing between variants by using them on real RFP data.</p>
+      </div>
+      <div class="jbx-sol-item">
+        <div class="jbx-sol-text">
+          <h2 class="jbx-sec-title"><span class="jbx-sol-n">01.</span> Trace every value back to its source</h2>
+          <p class="jbx-body">Before changing a number, an estimator needs to know whether to trust it. So every value carries its source in its underline, stated in the RFP, estimated by Jain, or missing. Hover, and a card shows the exact reference, what the value affects, and what it depends on. Nobody has to dig through the RFP to check.</p>
+        </div>
+        <div class="jbx-sol-figs">
+          <figure class="jbx-sol-fig">
+            <div class="jbx-vid-ph" data-video="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 1 · 8–10s</span><span class="desc">Sweep across the underline styles, stop on a value, the hover card opens, move to another value and the card switches</span></div>
+            <figcaption>Hover any value to see where it came from and what it touches.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="jbx-sol-item">
+        <div class="jbx-sol-text">
+          <h2 class="jbx-sec-title"><span class="jbx-sol-n">02.</span> Preview the ripple before an edit is applied</h2>
+          <p class="jbx-body">In the X-Ray, one value feeds many others. Changing it blind is how a bid goes wrong. So an edit doesn’t land right away. A card first lists every value it will update, and nothing changes until you apply. Once it does, the values that moved light up across the report, and anything that needs judgment waits for your approval.</p>
+        </div>
+        <div class="jbx-sol-figs">
+          <figure class="jbx-sol-fig">
+            <div class="jbx-vid-ph" data-video="2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 2 · 12–15s</span><span class="desc">Edit a number, the confirm card lists what it affects, Apply, related values light up, pending approvals appear in the side panel</span></div>
+            <figcaption>One edit, every consequence visible before and after.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="jbx-sol-item">
+        <div class="jbx-sol-text">
+          <h2 class="jbx-sec-title"><span class="jbx-sol-n">03.</span> Point, ask, and change in place with Jain</h2>
+          <p class="jbx-body">Questions about the report come up in the middle of the report, not in a separate chat. So you select the exact thing you mean and bring it to Jain. Ask why a value is what it is, or ask for a change. Jain previews the change before it applies, sums up what it did, and every change can be undone.</p>
+        </div>
+        <div class="jbx-sol-figs">
+          <figure class="jbx-sol-fig">
+            <div class="jbx-vid-ph" data-video="3a"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 3a · 10s</span><span class="desc">Click the select tool, pick a piece of the report, ask, Jain answers</span></div>
+            <figcaption>Point at what you mean, then ask.</figcaption>
+          </figure>
+          <figure class="jbx-sol-fig">
+            <div class="jbx-vid-ph" data-video="3b"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 3b · 12s</span><span class="desc">Ask Jain for a change, preview, confirm, summary, Undo</span></div>
+            <figcaption>Every change is previewed first and can be taken back.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="jbx-sol-item">
+        <div class="jbx-sol-text">
+          <h2 class="jbx-sec-title"><span class="jbx-sol-n">04.</span> Keep every change on record, with the original one switch away</h2>
+          <p class="jbx-body">After a few rounds of edits, it’s hard to remember what the report said before. So history records every change, by you or by Jain. Click any entry to jump straight to that value in the report. Switch on Original to see what Jain first generated.</p>
+        </div>
+        <div class="jbx-sol-figs">
+          <figure class="jbx-sol-fig">
+            <div class="jbx-vid-ph" data-video="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 4 · 10–12s</span><span class="desc">Open history, click an entry, the report scrolls to that value, switch on Original and the value flips back</span></div>
+            <figcaption>Jump to any change, or compare with the original.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="jbx-sol-item">
+        <div class="jbx-sol-text">
+          <h2 class="jbx-sec-title"><span class="jbx-sol-n">05.</span> Review everything before a bid goes to pricing</h2>
+          <p class="jbx-body">A long report makes it easy to miss one change. So review mode marks every edit and open item on the scrollbar, and a bar along the top steps you through them one by one. Pricing starts only after that final look.</p>
+        </div>
+        <div class="jbx-sol-figs">
+          <figure class="jbx-sol-fig">
+            <div class="jbx-vid-ph" data-video="5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 5 · 15s</span><span class="desc">Enter Review, marks appear on the scrollbar, step to the next item from the top bar, Price this bid, the check dialog, the Pricing page</span></div>
+            <figcaption>See every change, then price with confidence.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="jbx-sec " id="exploration">
     <div class="jbx-sec-inner">
       <div class="jbx-sec-head">
@@ -887,69 +958,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="jbx-group">
         <h3 class="jbx-mini">How the prototype was built</h3>
         <p class="jbx-body">With an AI agent, under rules I wrote for it: a plain-language case before any "where should this go"; variations in a switcher inside the prototype, decided by clicking; one change per iteration, verified in the browser; no silent removals; "reference, don't copy" after the first panel came back as chat bubbles with an avatar. The rules live in a file so another agent, or engineering, can continue.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="jbx-sec " id="solution">
-    <div class="jbx-sec-inner jbx-sol">
-      <div class="jbx-section-block">
-        <span class="jbx-block-label">Solution</span>
-        <p class="jbx-body">I built and tested each of these in a working prototype with an agent, choosing between variants by using them on real RFP data.</p>
-      </div>
-      <div class="jbx-sol-item">
-        <div class="jbx-sol-head"><span class="jbx-sol-n">01</span><h2 class="jbx-sec-title">Trace every value back to its source</h2></div>
-        <p class="jbx-body">Before changing a number, an estimator needs to know whether to trust it. So every value carries its source in its underline, stated in the RFP, estimated by Jain, or missing. Hover, and a card shows the exact reference, what the value affects, and what it depends on. Nobody has to dig through the RFP to check.</p>
-        <div class="jbx-sol-figs">
-          <figure class="jbx-sol-fig">
-            <div class="jbx-vid-ph" data-video="1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 1 · 8–10s</span><span class="desc">Sweep across the underline styles, stop on a value, the hover card opens, move to another value and the card switches</span></div>
-            <figcaption>Hover any value to see where it came from and what it touches.</figcaption>
-          </figure>
-        </div>
-      </div>
-      <div class="jbx-sol-item">
-        <div class="jbx-sol-head"><span class="jbx-sol-n">02</span><h2 class="jbx-sec-title">Preview the ripple before an edit is applied</h2></div>
-        <p class="jbx-body">In the X-Ray, one value feeds many others. Changing it blind is how a bid goes wrong. So an edit doesn’t land right away. A card first lists every value it will update, and nothing changes until you apply. Once it does, the values that moved light up across the report, and anything that needs judgment waits for your approval.</p>
-        <div class="jbx-sol-figs">
-          <figure class="jbx-sol-fig">
-            <div class="jbx-vid-ph" data-video="2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 2 · 12–15s</span><span class="desc">Edit a number, the confirm card lists what it affects, Apply, related values light up, pending approvals appear in the side panel</span></div>
-            <figcaption>One edit, every consequence visible before and after.</figcaption>
-          </figure>
-        </div>
-      </div>
-      <div class="jbx-sol-item">
-        <div class="jbx-sol-head"><span class="jbx-sol-n">03</span><h2 class="jbx-sec-title">Point, ask, and change in place with Jain</h2></div>
-        <p class="jbx-body">Questions about the report come up in the middle of the report, not in a separate chat. So you select the exact thing you mean and bring it to Jain. Ask why a value is what it is, or ask for a change. Jain previews the change before it applies, sums up what it did, and every change can be undone.</p>
-        <div class="jbx-sol-figs">
-          <figure class="jbx-sol-fig">
-            <div class="jbx-vid-ph" data-video="3a"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 3a · 10s</span><span class="desc">Click the select tool, pick a piece of the report, ask, Jain answers</span></div>
-            <figcaption>Point at what you mean, then ask.</figcaption>
-          </figure>
-          <figure class="jbx-sol-fig">
-            <div class="jbx-vid-ph" data-video="3b"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 3b · 12s</span><span class="desc">Ask Jain for a change, preview, confirm, summary, Undo</span></div>
-            <figcaption>Every change is previewed first and can be taken back.</figcaption>
-          </figure>
-        </div>
-      </div>
-      <div class="jbx-sol-item">
-        <div class="jbx-sol-head"><span class="jbx-sol-n">04</span><h2 class="jbx-sec-title">Keep every change on record, with the original one switch away</h2></div>
-        <p class="jbx-body">After a few rounds of edits, it’s hard to remember what the report said before. So history records every change, by you or by Jain. Click any entry to jump straight to that value in the report. Switch on Original to see what Jain first generated.</p>
-        <div class="jbx-sol-figs">
-          <figure class="jbx-sol-fig">
-            <div class="jbx-vid-ph" data-video="4"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 4 · 10–12s</span><span class="desc">Open history, click an entry, the report scrolls to that value, switch on Original and the value flips back</span></div>
-            <figcaption>Jump to any change, or compare with the original.</figcaption>
-          </figure>
-        </div>
-      </div>
-      <div class="jbx-sol-item">
-        <div class="jbx-sol-head"><span class="jbx-sol-n">05</span><h2 class="jbx-sec-title">Review everything before a bid goes to pricing</h2></div>
-        <p class="jbx-body">A long report makes it easy to miss one change. So review mode marks every edit and open item on the scrollbar, and a bar along the top steps you through them one by one. Pricing starts only after that final look.</p>
-        <div class="jbx-sol-figs">
-          <figure class="jbx-sol-fig">
-            <div class="jbx-vid-ph" data-video="5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5v7l6-3.5z"/></svg><span class="lbl">Video 5 · 15s</span><span class="desc">Enter Review, marks appear on the scrollbar, step to the next item from the top bar, Price this bid, the check dialog, the Pricing page</span></div>
-            <figcaption>See every change, then price with confidence.</figcaption>
-          </figure>
-        </div>
       </div>
     </div>
   </section>
@@ -1055,7 +1063,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 </main>
-
 
 <footer>
   <div class="footer-top">
