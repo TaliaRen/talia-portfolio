@@ -341,15 +341,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     font-family:'Figtree',sans-serif; font-size:.75rem; font-weight:300;
     color:#5FCB9C; letter-spacing:.1em; text-transform:uppercase;
   }
-  .jbx-confidential-note {
-    background:rgba(95,203,156,0.05);
-    border-radius:12px;
-    padding:20px 24px;
-  }
-  .jbx-confidential-note p {
-    font-family:'Libertinus Serif',serif; font-weight:400; font-size:1.125rem;
-    color:#5FCB9C; line-height:1.8; margin:0;
-  }
   .jbx-block-text {
     font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200;
     color:#E0E0E0; line-height:1.8; margin:0;
@@ -414,13 +405,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-scene .p-line { fill:none; stroke:#5FCB9C; stroke-width:1.5; } .jbx-scene .p-txt { font-size:14px; font-weight:400; fill:#E0E0E0; }
   .jbx-scene .ic-ink { fill:none; stroke:#0A0D0C; stroke-width:1.4; stroke-linejoin:round; stroke-linecap:round; }
   .jbx-scene .ic-acc { fill:none; stroke:#5FCB9C; stroke-width:1.4; stroke-linejoin:round; stroke-linecap:round; }
-  .jbx-scene .ic-txt { font-size:12px; font-style:italic; font-weight:500; fill:#5FCB9C; stroke:none; } .jbx-scene .ic-dash { stroke-dasharray:2 2.2; }
   .jbx-scene .link { fill:none; stroke:#5FCB9C; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
-  .jbx-scene--chain { margin:0; }
-  .jbx-scene .mark { fill:#1C1C1C; stroke:#5FCB9C; stroke-width:1.2; }
-  .jbx-scene .mark-t { font-family:'Libertinus Serif',serif; font-size:13px; fill:#5FCB9C; }
   @media(max-width:640px) { .jbx-scene { margin-left:-16px; margin-right:-16px; } }
-  /* Problem closing statement: bigger, lighter, one phrase under the highlighter */
+  /* Design strategies statement card */
   .jbx-statement { display:grid; grid-template-columns:auto minmax(0,1fr); gap:40px; align-items:center; margin:0; padding:36px 40px; border-radius:16px; background:#5FCB9C; }
   .jbx-statement-q { font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400; color:#0A0D0C; line-height:1.2; margin:0; padding-right:36px; border-right:1px solid rgba(10,13,12,0.25); white-space:nowrap; }
   .jbx-statement-t { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#0A0D0C; line-height:1.8; margin:0; }
@@ -473,8 +460,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:1100px) { .jbx-stack { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-stack-art { max-width:300px; margin:0 auto; } .jbx-stack .tie-g { display:none; } .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-statement-q { padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); white-space:normal; } }
   @media(max-width:860px) { .jbx-statement { grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 28px; } .jbx-statement-q { font-size:1.75rem; padding:0 0 24px; border-right:0; border-bottom:1px solid rgba(10,13,12,0.25); } .jbx-stack-item { margin:0; padding:16px 0; border-radius:0; } .jbx-stack-item + .jbx-stack-item::before { left:0; right:0; } }
   /* AI boundary */
-  @media(max-width:640px) {
-  }
   .jbx-ab-line { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; font-family:'Figtree',sans-serif; }
   .jbx-ab-line .half { border-radius:16px; padding:28px 32px 32px; display:flex; flex-direction:column; }
   .jbx-ab-line .half.j { background:rgba(95,203,156,0.10); } .jbx-ab-line .half.y { background:rgba(217,164,65,0.10); }
@@ -513,11 +498,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   @media(max-width:1100px) { .jbx-sol-fig { grid-template-columns:minmax(0,1fr); gap:12px; } }
   .jbx-sol-fig figcaption { font-family:'Figtree',sans-serif; font-size:14px; font-weight:200; color:#E0E0E0; line-height:1.7; background:#1C1C1C; border-radius:12px; padding:16px 20px; }   /* Body 2 */
   .jbx-sol-vid { display:block; width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:12px; background:#0E1210; }
-  .jbx-vid-ph { aspect-ratio:16/10; border-radius:12px; background:#121614; border:1px dashed rgba(95,203,156,0.35); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:24px; text-align:center; font-family:'Figtree',sans-serif; }
-  .jbx-vid-ph svg { width:40px; height:40px; fill:none; stroke:#5FCB9C; stroke-width:1.2; }
-  .jbx-vid-ph svg path { fill:#5FCB9C; stroke:none; }
-  .jbx-vid-ph .lbl { font-size:.875rem; font-weight:400; color:#5FCB9C; letter-spacing:.04em; }
-  .jbx-vid-ph .desc { max-width:360px; font-size:.875rem; font-weight:300; color:#7A7A7A; line-height:1.5; }
   @media(max-width:860px) { .jbx-sol-fig { grid-template-columns:minmax(0,1fr); gap:12px; } .jbx-sec-inner.jbx-sol { gap:80px; } .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-24px; } }
   .jbx-cover-frame { position:relative; width:100%; max-width:860px; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.05); }
   .jbx-cover-frame > img { width:100%; height:auto; display:block; }
@@ -537,84 +517,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   /* exception: the two Problem titles read as one thought (… / …), so they sit 72px apart instead of 120 */
   .jbx-sec-inner--tight { gap:72px; }
   .jbx-sec-inner--tight > .jbx-block-label { margin-bottom:calc(16px - 72px); }
-  .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-12px; } /* title → body 36px inside the 48px stack */
+  .jbx-sec-head + .jbx-body { margin-top:-12px; } /* title → body 36px inside the 48px stack */
   .jbx-sec-title { font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400; color:#fff; line-height:1.3; margin:0; }
-  .jbx-copy { display:flex; flex-direction:column; gap:24px; }
   .jbx-sec-head + .jbx-tk { margin-top:-12px; }   /* title → cards 36px, same as title → body */
   .jbx-tk { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
   .jbx-tk > .jbx-body { background:#1C1C1C; border-radius:16px; padding:28px; }
   @media(max-width:1100px) { .jbx-tk { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-tk > .jbx-body { padding:24px; } }
   @media(max-width:640px) { .jbx-sec-head + .jbx-tk { margin-top:-4px; } .jbx-tk > .jbx-body { padding:20px 16px; } }
   .jbx-body { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
-  .jbx-mini { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#5FCB9C; line-height:1.5; margin:0; }
-  .jbx-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
-  .jbx-group { display:flex; flex-direction:column; gap:24px; }
-  .jbx-pull { font-family:'Libertinus Serif',serif; font-size:1.375rem; font-weight:400; color:#fff; line-height:1.6; margin:0; padding-left:20px; border-left:2px solid #5FCB9C; }
-  /* cards: three across, title + body */
-  .jbx-cards { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; }
-  .jbx-cards--2 { grid-template-columns:repeat(2, minmax(0,1fr)); }
-  .jbx-card { padding:22px 24px 24px; border-radius:14px; background:rgba(255,255,255,0.06); display:flex; flex-direction:column; gap:10px; }
-  .jbx-card h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
-  .jbx-card p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
-  .jbx-card .jbx-sym { font-family:'Libertinus Serif',serif; font-size:1.5rem; color:#5FCB9C; line-height:1; }
-  .jbx-card--accent h4 { color:#5FCB9C; }
   /* quotes */
-  .jbx-quotes { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; }
-  .jbx-quote { padding:20px 22px; border-radius:14px; background:rgba(95,203,156,0.05); display:flex; flex-direction:column; gap:10px; }
-  .jbx-quote p { font-family:'Libertinus Serif',serif; font-size:1.125rem; font-style:italic; color:#5FCB9C; line-height:1.6; margin:0; }
-  .jbx-quote small { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; letter-spacing:.04em; }
   /* figures */
-  .jbx-fig { display:flex; flex-direction:column; gap:12px; margin:0; }
-  .jbx-fig img { width:100%; height:auto; display:block; border-radius:12px; border:1px solid rgba(255,255,255,0.08); background:#0d1013; }
-  .jbx-fig figcaption { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; line-height:1.5; }
-  .jbx-figs { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; align-items:start; }
   /* colour swatches */
-  .jbx-swatches { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; }
-  .jbx-swatch { display:flex; gap:14px; align-items:flex-start; }
-  .jbx-swatch i { flex:none; width:18px; height:18px; border-radius:50%; margin-top:5px; }
-  .jbx-swatch h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0 0 4px; }
-  .jbx-swatch p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
   /* exploration options: the chosen one outlined like the other pages' "Selected direction" */
-  .jbx-opts { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:20px 24px; }
-  .jbx-opt { position:relative; padding:22px 24px 24px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); display:flex; flex-direction:column; gap:8px; }
-  .jbx-opt.is-pick { border-color:rgba(95,203,156,0.75); }
-  .jbx-opt-pick { position:absolute; left:20px; top:0; transform:translateY(-50%); padding:3px 12px; border-radius:999px; border:1px solid rgba(95,203,156,0.75); background:#0A0D0C; font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#5FCB9C; letter-spacing:.02em; white-space:nowrap; }
-  .jbx-opt h4 { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
-  .jbx-opt.is-pick h4 { color:#5FCB9C; }
-  .jbx-opt p { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; margin:0; }
-  .jbx-opt ul { list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:4px; }
-  .jbx-opt li { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; line-height:1.6; padding-left:20px; position:relative; color:#E0E0E0; }
-  .jbx-opt li::before { position:absolute; left:0; top:0; font-weight:400; }
-  .jbx-opt li.plus::before { content:'+'; color:#5FCB9C; }
-  .jbx-opt li.minus::before { content:'−'; color:#979797; }
-  .jbx-opt li.minus { color:#979797; }
   /* collaboration: two voices, then the resolution */
-  .jbx-vs { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; }
-  .jbx-res { padding:20px 24px; border-radius:14px; background:rgba(95,203,156,0.05); font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   /* tables (solution decisions, trade-offs) */
-  .jbx-table { display:grid; column-gap:24px; border-bottom:1px solid rgba(255,255,255,0.10); }
-  .jbx-table--3 { grid-template-columns:200px minmax(0,1.2fr) minmax(0,1fr); }
-  .jbx-table--4 { grid-template-columns:150px minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr); }
-  .jbx-table .th { font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#5FCB9C; letter-spacing:.1em; text-transform:uppercase; padding:0 0 14px; }
-  .jbx-table .td { font-family:'Figtree',sans-serif; font-size:1rem; font-weight:200; color:#E0E0E0; line-height:1.7; padding:20px 0; border-top:1px solid rgba(255,255,255,0.10); }
-  .jbx-table .td.k { color:#fff; font-weight:400; }
-  .jbx-table .td[data-h]::before { display:none; }
   /* flow strip */
-  .jbx-flow { display:flex; align-items:stretch; gap:10px; flex-wrap:wrap; }
-  .jbx-flow-step { flex:1 1 120px; min-width:0; padding:14px 16px; border-radius:12px; background:rgba(255,255,255,0.06); font-family:'Figtree',sans-serif; font-size:1rem; font-weight:400; color:#fff; line-height:1.4; display:flex; flex-direction:column; gap:4px; }
-  .jbx-flow-step small { font-size:12px; font-weight:300; color:#979797; letter-spacing:.02em; }
-  .jbx-flow-arrow { flex:none; align-self:center; color:#979797; font-family:'Figtree',sans-serif; }
-  .jbx-flow-side { flex:0 0 auto; align-self:center; padding:8px 14px; border-radius:999px; border:1px dashed rgba(255,255,255,0.25); font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; }
   /* chips (rejected directions) */
-  .jbx-chips { display:flex; flex-wrap:wrap; gap:10px; }
-  .jbx-chip { padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.14); font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#E0E0E0; line-height:1.4; text-decoration:line-through; text-decoration-color:rgba(255,255,255,0.35); }
-  .jbx-note { font-family:'Figtree',sans-serif; font-size:14px; font-weight:300; color:#979797; line-height:1.6; margin:0; font-style:italic; }
-  /* metrics to watch */
-  .jbx-watch { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; }
 
-  @media(max-width:1100px) {
-    .jbx-table--4 { grid-template-columns:130px minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr); }
-  }
   @media(max-width:860px) {
     .jbx-sec { padding:0 32px 80px; }
     .jbx-sec-inner { gap:40px; }
@@ -622,22 +541,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .jbx-sec-inner--items > .jbx-block-label { margin-bottom:calc(16px - 80px); }
     .jbx-sec-inner--tight { gap:56px; }
     .jbx-sec-inner--tight > .jbx-block-label { margin-bottom:calc(16px - 56px); }
-    .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-4px; }
+    .jbx-sec-head + .jbx-body { margin-top:-4px; }
     .jbx-sec-title { font-size:1.5rem; }
-    .jbx-cards, .jbx-quotes, .jbx-swatches { grid-template-columns:minmax(0,1fr); }
-    .jbx-figs { grid-template-columns:minmax(0,1fr); }
-    /* tables become one card per row, the column heading printed above each cell */
-    .jbx-table { display:flex; flex-direction:column; column-gap:0; }
-    .jbx-table .th { display:none; }
-    .jbx-table .td { padding:6px 0; border-top:0; }
-    .jbx-table .td.k { padding-top:24px; border-top:1px solid rgba(255,255,255,0.10); font-size:1.125rem; }
-    .jbx-table .td:last-child, .jbx-table .td.row-end { padding-bottom:24px; }
-    .jbx-table .td[data-h]::before { display:block; content:attr(data-h); font-size:12px; font-weight:300; color:#5FCB9C; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px; }
-  }
-  @media(max-width:640px) {
-    .jbx-opts, .jbx-vs, .jbx-watch, .jbx-cards--2 { grid-template-columns:minmax(0,1fr); }
-    .jbx-flow-arrow { display:none; }
-    .jbx-flow-step { flex-basis:100%; }
   }
 
   /* ── Anchor scroll offset ── */
