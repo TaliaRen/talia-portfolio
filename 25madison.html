@@ -767,7 +767,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-body">Every value shows where it came from, quoted from the RFP, calculated, estimated by Jain, or missing. No digging required.</p>
         <div class="jbx-sol-figs">
           <figure class="jbx-sol-fig">
-            <video class="jbx-sol-vid" src="Jain/design%201.mp4" autoplay muted loop playsinline preload="auto" aria-label="Hovering values in the X-Ray: each underline style, then the hover card with the source, what the value affects and what it depends on"></video>
+            <video class="jbx-sol-vid" data-src="Jain/design%201.mp4" muted loop playsinline preload="none" aria-label="Hovering values in the X-Ray: each underline style, then the hover card with the source, what the value affects and what it depends on"></video>
             <figcaption>Hover any value to see the RFP quote or the formula behind it. Click the source to open the RFP at that exact line.</figcaption>
           </figure>
         </div>
@@ -777,11 +777,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-body">One edit can move many values. Anything that can be calculated, Jain updates for you and shows you what moved. Anything that needs judgment, Jain suggests and waits for you to decide.</p>
         <div class="jbx-sol-figs">
           <figure class="jbx-sol-fig">
-            <video class="jbx-sol-vid" src="Jain/design%202.1.mp4" autoplay muted loop playsinline preload="auto" aria-label="Editing a value: a preview card lists what will change, then every affected value is marked"></video>
+            <video class="jbx-sol-vid" data-src="Jain/design%202.1.mp4" muted loop playsinline preload="none" aria-label="Editing a value: a preview card lists what will change, then every affected value is marked"></video>
             <figcaption>Preview an edit before applying it, then see every affected value marked.</figcaption>
           </figure>
           <figure class="jbx-sol-fig">
-            <video class="jbx-sol-vid" src="Jain/design%202.2.mp4" autoplay muted loop playsinline preload="auto" aria-label="An edit that affects the scope: Jain suggests what else should change and waits for approval"></video>
+            <video class="jbx-sol-vid" data-src="Jain/design%202.2.mp4" muted loop playsinline preload="none" aria-label="An edit that affects the scope: Jain suggests what else should change and waits for approval"></video>
             <figcaption>When an edit affects the scope, Jain suggests what else should change and waits for your approval.</figcaption>
           </figure>
         </div>
@@ -791,7 +791,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-body">Not every edit fits in a cell. Select any part of the report, tell Jain what it should be, and preview the result. If it isn’t right, one click puts it back.</p>
         <div class="jbx-sol-figs">
           <figure class="jbx-sol-fig">
-            <video class="jbx-sol-vid" src="Jain/design%203.mp4" autoplay muted loop playsinline preload="auto" aria-label="Selecting a row, asking Jain to remove it, then undoing the change"></video>
+            <video class="jbx-sol-vid" data-src="Jain/design%203.mp4" muted loop playsinline preload="none" aria-label="Selecting a row, asking Jain to remove it, then undoing the change"></video>
             <figcaption>Select a row, ask Jain to remove it, and undo it if you change your mind.</figcaption>
           </figure>
         </div>
@@ -801,11 +801,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-body">Every edit is recorded, by you or by Jain. Comparing with the original takes one switch.</p>
         <div class="jbx-sol-figs">
           <figure class="jbx-sol-fig">
-            <video class="jbx-sol-vid" src="Jain/design%204.1.mp4" autoplay muted loop playsinline preload="auto" aria-label="The edit history: each change by you or by Jain, and clicking an entry jumps to that value in the report"></video>
+            <video class="jbx-sol-vid" data-src="Jain/design%204.1.mp4" muted loop playsinline preload="none" aria-label="The edit history: each change by you or by Jain, and clicking an entry jumps to that value in the report"></video>
             <figcaption>Click any edit in the history to find it in the report.</figcaption>
           </figure>
           <figure class="jbx-sol-fig">
-            <video class="jbx-sol-vid" src="Jain/design%204.2.mp4" autoplay muted loop playsinline preload="auto" aria-label="Switching on Original to compare with what Jain first generated"></video>
+            <video class="jbx-sol-vid" data-src="Jain/design%204.2.mp4" muted loop playsinline preload="none" aria-label="Switching on Original to compare with what Jain first generated"></video>
             <figcaption>Use the Original toggle to view the first version, then restore it with a click.</figcaption>
           </figure>
         </div>
@@ -815,7 +815,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="jbx-body">A long report makes it easy to miss changes. So estimators are guided to review every edit before pricing begins.</p>
         <div class="jbx-sol-figs">
           <figure class="jbx-sol-fig">
-            <video class="jbx-sol-vid" src="Jain/design%205.mp4" autoplay muted loop playsinline preload="auto" aria-label="Review mode: stepping through each edit and what it touched, with marks on the scrollbar for the whole report"></video>
+            <video class="jbx-sol-vid" data-src="Jain/design%205.mp4" muted loop playsinline preload="none" aria-label="Review mode: stepping through each edit and what it touched, with marks on the scrollbar for the whole report"></video>
             <figcaption>Review each edit and its connections, and use the scrollbar to see the whole report at a glance.</figcaption>
           </figure>
         </div>
@@ -1168,6 +1168,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.addEventListener('resize', update);
   document.getElementById('jbxLocked')?.addEventListener('animationend', update);   // after the unlock reveal
   update();
+})();
+
+// ── Solution videos: each one downloads only when it comes within about a screen of the viewport
+//    (not all 17 MB at unlock, so the one being looked at gets the bandwidth), then plays while on screen.
+(function () {
+  const vids = document.querySelectorAll('.jbx-sol-vid[data-src]');
+  if (!vids.length) return;
+  const load = v => { if (v.dataset.src) { v.src = v.dataset.src; v.removeAttribute('data-src'); v.preload = 'auto'; } };
+  const play = v => { const p = v.play(); if (p) p.catch(() => {}); };
+  if (!('IntersectionObserver' in window)) { vids.forEach(v => { load(v); play(v); }); return; }
+  const near = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { load(e.target); near.unobserve(e.target); }
+  }), { rootMargin: '100% 0px' });
+  const seen = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { load(e.target); play(e.target); } else e.target.pause();
+  }));
+  vids.forEach(v => { near.observe(v); seen.observe(v); });
 })();
 
 </script>
