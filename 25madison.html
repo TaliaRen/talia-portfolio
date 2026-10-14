@@ -490,7 +490,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   /* Solution: five numbered parts, 120px apart; video placeholders until the recordings are in */
   .jbx-sec-inner.jbx-sol { gap:120px; }
   .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-48px; }   /* intro → first part: 72px */
-  .jbx-sol-intro { display:grid; grid-template-columns:400px minmax(0,1fr); gap:40px; align-items:center; }
+  .jbx-sol-intro { display:grid; grid-template-columns:400px minmax(0,1fr); gap:40px; align-items:center; background:#1C1C1C; border-radius:16px; padding:28px; }
   .jbx-sol-intro .code { order:-1; }
   .jbx-sol-intro .code { background:#0E1210; border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; }
   .jbx-sol-intro .bar { display:flex; align-items:center; gap:6px; padding:9px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
@@ -505,8 +505,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-sol-intro .log .ag { color:#9A9A9A; padding-left:0; } .jbx-sol-intro .log .ag em { color:#5FCB9C; font-size:8px; line-height:18px; }
   .jbx-sol-intro .log .ag + .me { margin-top:6px; }
   .jbx-sol-intro .add { color:#5FCB9C; margin-left:6px; } .jbx-sol-intro .del { color:#D97B6C; }
-  @media(max-width:1100px) { .jbx-sol-intro { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-sol-intro .code { order:0; } .jbx-sol-intro .code { max-width:420px; } }
-  @media(max-width:640px) { .jbx-sol-intro .log { font-size:11px; padding:12px; } }
+  @media(max-width:1100px) { .jbx-sol-intro { grid-template-columns:minmax(0,1fr); gap:24px; padding:24px; } .jbx-sol-intro .code { order:0; } .jbx-sol-intro .code { max-width:420px; } }
+  @media(max-width:640px) { .jbx-sol-intro { padding:20px 16px; } .jbx-sol-intro .log { font-size:11px; padding:12px; } }
   .jbx-sol-item { display:flex; flex-direction:column; gap:36px; }
   .jbx-sol-n { color:#fff; }
   .jbx-sol-figs { display:flex; flex-direction:column; gap:32px; margin-top:12px; }   /* body → first video: 48px */
