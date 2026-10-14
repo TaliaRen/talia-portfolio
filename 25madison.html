@@ -540,6 +540,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .jbx-sec-head + .jbx-copy, .jbx-sec-head + .jbx-body { margin-top:-12px; } /* title → body 36px inside the 48px stack */
   .jbx-sec-title { font-family:'Figtree',sans-serif; font-size:1.75rem; font-weight:400; color:#fff; line-height:1.3; margin:0; }
   .jbx-copy { display:flex; flex-direction:column; gap:24px; }
+  .jbx-sec-head + .jbx-tk { margin-top:-12px; }   /* title → cards 36px, same as title → body */
+  .jbx-tk { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+  .jbx-tk > .jbx-body { background:#1C1C1C; border-radius:16px; padding:28px; }
+  @media(max-width:1100px) { .jbx-tk { grid-template-columns:minmax(0,1fr); gap:16px; } .jbx-tk > .jbx-body { padding:24px; } }
+  @media(max-width:640px) { .jbx-sec-head + .jbx-tk { margin-top:-4px; } .jbx-tk > .jbx-body { padding:20px 16px; } }
   .jbx-body { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:200; color:#E0E0E0; line-height:1.8; margin:0; }
   .jbx-mini { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#5FCB9C; line-height:1.5; margin:0; }
   .jbx-sub { font-family:'Figtree',sans-serif; font-size:1.125rem; font-weight:400; color:#fff; line-height:1.5; margin:0; }
@@ -919,7 +924,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="jbx-block-label">Takeaways</span>
         <h2 class="jbx-sec-title">What I've learned</h2>
       </div>
-      <div class="jbx-copy">
+      <div class="jbx-tk">
         <p class="jbx-body">It’s tempting to let AI do more as it gets better. But the estimator signs the bid, so anything that changes what the bid commits to stays with them. That line shouldn’t move just because the model improves.</p>
         <p class="jbx-body">Working with an agent, I could have several working versions of an idea in an hour. Choosing between them, and sometimes overruling the agent’s recommendation, became the real design work.</p>
       </div>
