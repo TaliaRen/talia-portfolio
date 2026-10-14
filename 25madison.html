@@ -490,20 +490,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   /* Solution: five numbered parts, 120px apart; video placeholders until the recordings are in */
   .jbx-sec-inner.jbx-sol { gap:120px; }
   .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-48px; }   /* intro → first part: 72px */
-  .jbx-sol-intro { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:48px; align-items:center; }
+  .jbx-sol-intro { display:grid; grid-template-columns:minmax(0,1fr) 400px; gap:40px; align-items:center; }
   .jbx-sol-intro .code { background:#0E1210; border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; }
   .jbx-sol-intro .bar { display:flex; align-items:center; gap:6px; padding:9px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
   .jbx-sol-intro .bar i { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.14); }
+  .jbx-sol-intro .bar b { margin-left:auto; display:flex; align-items:center; gap:6px; font-family:'Figtree',sans-serif; font-size:11px; font-weight:300; color:#979797; }
+  .jbx-sol-intro .bar b::before { content:""; width:6px; height:6px; border-radius:50%; background:#5FCB9C; box-shadow:0 0 0 3px rgba(95,203,156,0.18); }
   .jbx-sol-intro .bar span { margin-left:8px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; color:#7A7A7A; }
-  .jbx-sol-intro .log { padding:14px 16px; display:flex; flex-direction:column; gap:7px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:1.5; }
+  .jbx-sol-intro .log { padding:12px 16px; display:flex; flex-direction:column; gap:4px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:1.5; }
   .jbx-sol-intro .log p { margin:0; display:flex; gap:9px; }
   .jbx-sol-intro .log em { flex:none; width:10px; font-style:normal; }
   .jbx-sol-intro .log .me { color:#fff; } .jbx-sol-intro .log .me em { color:#5FCB9C; }
   .jbx-sol-intro .log .ag { color:#9A9A9A; padding-left:0; } .jbx-sol-intro .log .ag em { color:#5FCB9C; font-size:8px; line-height:18px; }
-  .jbx-sol-intro .log .me + .ag { margin-top:-1px; } .jbx-sol-intro .log .ag + .me { margin-top:8px; }
+  .jbx-sol-intro .log .ag + .me { margin-top:6px; }
   .jbx-sol-intro .add { color:#5FCB9C; margin-left:6px; } .jbx-sol-intro .del { color:#D97B6C; }
-  .jbx-sol-intro .status { display:flex; align-items:center; gap:8px; padding:9px 16px; border-top:1px solid rgba(255,255,255,0.06); font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; }
-  .jbx-sol-intro .status b { width:7px; height:7px; border-radius:50%; background:#5FCB9C; box-shadow:0 0 0 3px rgba(95,203,156,0.18); }
   @media(max-width:1100px) { .jbx-sol-intro { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-sol-intro .code { max-width:420px; } }
   @media(max-width:640px) { .jbx-sol-intro .log { font-size:11px; padding:12px; } }
   .jbx-sol-item { display:flex; flex-direction:column; gap:36px; }
@@ -846,16 +846,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="jbx-sol-intro">
           <p class="jbx-body">I designed and tested this in code, not in static screens. PM and engineering reviewed a working prototype, and what I handed off was logic that already ran.</p>
           <div class="code" aria-hidden="true">
-            <div class="bar"><i></i><i></i><i></i><span>agent · jain-prototype</span></div>
+            <div class="bar"><i></i><i></i><i></i><span>agent · jain-prototype</span><b>Running</b></div>
             <div class="log">
               <p class="me"><em>›</em>Show what an edit will move before it lands</p>
-              <p class="ag"><em>●</em>Updated ConfirmCard.tsx <span class="add">+42</span> <span class="del">−8</span></p>
-              <p class="ag"><em>●</em>Built 2 versions to compare</p>
-              <p class="ag"><em>●</em>Tested both on 3 real RFPs</p>
+              <p class="ag"><em>●</em>Built 2 versions · tested on 3 real RFPs</p>
               <p class="me"><em>›</em>Keep B, and let the list collapse</p>
               <p class="ag"><em>●</em>Updated ConfirmCard.tsx <span class="add">+11</span> <span class="del">−3</span></p>
             </div>
-            <div class="status"><b></b>Running in the prototype</div>
           </div>
         </div>
       </div>
