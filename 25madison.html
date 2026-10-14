@@ -490,19 +490,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   /* Solution: five numbered parts, 120px apart; video placeholders until the recordings are in */
   .jbx-sec-inner.jbx-sol { gap:120px; }
   .jbx-sec-inner.jbx-sol > .jbx-section-block + .jbx-sol-item { margin-top:-48px; }   /* intro → first part: 72px */
-  .jbx-sol-intro { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:32px; align-items:center; background:#1C1C1C; border-radius:16px; padding:32px; }
-  .jbx-sol-intro > p { font-family:'Figtree',sans-serif; font-size:1.25rem; font-weight:300; color:#fff; line-height:1.6; margin:0; }
-  .jbx-sol-intro .code { background:#0E1210; border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden; }
-  .jbx-sol-intro .bar { display:flex; align-items:center; gap:6px; padding:10px 14px; border-bottom:1px solid rgba(255,255,255,0.06); }
-  .jbx-sol-intro .bar i { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.14); }
-  .jbx-sol-intro .bar span { margin-left:8px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; color:#7A7A7A; }
-  .jbx-sol-intro pre { margin:0; padding:14px 16px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:1.75; color:#C9D1D6; overflow-x:auto; }
-  .jbx-sol-intro .ln { display:inline-block; width:18px; margin-right:12px; color:#4A4F4C; text-align:right; user-select:none; }
-  .jbx-sol-intro .kw { color:#D9A441; } .jbx-sol-intro .fn { color:#5FCB9C; } .jbx-sol-intro .st { color:#E8C88A; } .jbx-sol-intro .cm { color:#5E6662; }
-  .jbx-sol-intro .status { display:flex; align-items:center; gap:8px; padding:10px 16px; border-top:1px solid rgba(255,255,255,0.06); font-family:'Figtree',sans-serif; font-size:12px; font-weight:300; color:#979797; }
-  .jbx-sol-intro .status b { width:7px; height:7px; border-radius:50%; background:#5FCB9C; box-shadow:0 0 0 3px rgba(95,203,156,0.18); }
-  @media(max-width:860px) { .jbx-sol-intro { grid-template-columns:minmax(0,1fr); gap:24px; padding:24px 20px; } .jbx-sol-intro > p { font-size:1.125rem; } }
-  @media(max-width:640px) { .jbx-sol-intro { padding:20px 16px; } .jbx-sol-intro pre { font-size:11px; padding:12px; } .jbx-sol-intro .ln { width:12px; margin-right:10px; } .jbx-sol-intro .cm { display:none; } }
+  .jbx-sol-intro { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:48px; align-items:center; }
+  .jbx-sol-intro .viz { background:#1C1C1C; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:10px; font-family:'Figtree',sans-serif; }
+  .jbx-sol-intro .msg { display:flex; align-items:flex-start; gap:10px; font-size:13px; font-weight:300; line-height:1.5; color:#E0E0E0; }
+  .jbx-sol-intro .msg .who { flex:none; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:9px; font-weight:500; }
+  .jbx-sol-intro .you .who { background:#2B2B2B; color:#B5B5B5; }
+  .jbx-sol-intro .ai .who { background:#1D3A2E; color:#5FCB9C; }
+  .jbx-sol-intro .msg > span:last-child { padding-top:3px; }
+  .jbx-sol-intro .ai > span:last-child { color:#9FD9BF; }
+  .jbx-sol-intro .win { margin-top:6px; border-radius:10px; background:#0E1210; border:1px solid rgba(255,255,255,0.08); overflow:hidden; }
+  .jbx-sol-intro .bar { display:flex; align-items:center; gap:5px; padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .jbx-sol-intro .bar i { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.14); }
+  .jbx-sol-intro .bar b { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:10px; font-weight:400; color:#5FCB9C; letter-spacing:.04em; }
+  .jbx-sol-intro .bar b::before { content:""; width:6px; height:6px; border-radius:50%; background:#5FCB9C; box-shadow:0 0 0 3px rgba(95,203,156,0.18); }
+  .jbx-sol-intro .pane { display:flex; flex-direction:column; gap:7px; padding:12px; }
+  .jbx-sol-intro .l { display:block; height:6px; border-radius:3px; background:rgba(255,255,255,0.12); }
+  .jbx-sol-intro .l.acc { background:#5FCB9C; opacity:.8; }
+  .jbx-sol-intro .w40 { width:40%; } .jbx-sol-intro .w50 { width:50%; } .jbx-sol-intro .w60 { width:60%; } .jbx-sol-intro .w70 { width:70%; } .jbx-sol-intro .w80 { width:80%; }
+  .jbx-sol-intro .card { display:flex; flex-direction:column; gap:6px; padding:9px 10px; border-radius:7px; background:rgba(95,203,156,0.08); border:1px solid rgba(95,203,156,0.3); }
+  @media(max-width:860px) { .jbx-sol-intro { grid-template-columns:minmax(0,1fr); gap:24px; } .jbx-sol-intro .viz { max-width:340px; } }
   .jbx-sol-item { display:flex; flex-direction:column; gap:36px; }
   .jbx-sol-n { color:#fff; }
   .jbx-sol-figs { display:flex; flex-direction:column; gap:32px; margin-top:12px; }   /* body → first video: 48px */
@@ -841,19 +847,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="jbx-section-block">
         <span class="jbx-block-label">Solution</span>
         <div class="jbx-sol-intro">
-          <p>I designed and tested this in code, not in static screens. PM and engineering reviewed a working prototype, and what I handed off was logic that already ran.</p>
-          <div class="code" aria-hidden="true">
-            <div class="bar"><i></i><i></i><i></i><span>x-ray/edit.ts</span></div>
-            <pre><span class="ln">1</span><span class="kw">function</span> <span class="fn">onEdit</span>(cell, value) {
-<span class="ln">2</span>  <span class="kw">const</span> moved = <span class="fn">affected</span>(cell)
-<span class="ln">3</span>  <span class="fn">preview</span>(moved) <span class="cm">// before it lands</span>
-<span class="ln">4</span>  <span class="kw">for</span> (<span class="kw">const</span> c <span class="kw">of</span> moved)
-<span class="ln">5</span>    c.source === <span class="st">'formula'</span>
-<span class="ln">6</span>      ? <span class="fn">recalc</span>(c)
-<span class="ln">7</span>      : <span class="fn">ask</span>(person, c)
-<span class="ln">8</span>}</pre>
-            <div class="status"><b></b>Running · reviewed by PM and engineering</div>
+          <p class="jbx-body">I designed and tested this in code, not in static screens. PM and engineering reviewed a working prototype, and what I handed off was logic that already ran.</p>
+          <div class="viz" aria-hidden="true">
+            <div class="msg you"><span class="who">You</span><span>Show what an edit will move before it lands</span></div>
+            <div class="msg ai"><span class="who">AI</span><span>Built two versions to try on real RFP data</span></div>
+            <div class="win">
+              <div class="bar"><i></i><i></i><i></i><b>Live</b></div>
+              <div class="pane"><span class="l w60"></span><span class="l w80"></span><span class="card"><span class="l w50 acc"></span><span class="l w70"></span></span><span class="l w40"></span></div>
+            </div>
           </div>
+        </div>
         </div>
       </div>
       <div class="jbx-sol-item">
