@@ -636,7 +636,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   /* ── Anchor scroll offset ── */
-  #overview, #problem, #goals, #principle, #exploration, #collab, #solution, #pricing, #tradeoffs, #takeaways { scroll-margin-top: 140px; }
+  #overview, #problem, #goals, #principle, #solution { scroll-margin-top: 140px; }
 </style>
 
 <aside class="case-sidebar">
@@ -646,11 +646,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="#goals" data-locked>Design strategies</a>
   <a href="#principle" data-locked>AI boundary</a>
   <a href="#solution" data-locked>Solution</a>
-  <a href="#exploration" data-locked>Exploration</a>
-  <a href="#collab" data-locked>Collaboration</a>
-  <a href="#pricing" data-locked>Pricing</a>
-  <a href="#tradeoffs" data-locked>Trade-offs</a>
-  <a href="#takeaways" data-locked>Takeaways</a>
 </aside>
 
 <main>
@@ -917,156 +912,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <section class="jbx-sec " id="exploration">
-    <div class="jbx-sec-inner">
-      <div class="jbx-sec-head">
-        <span class="jbx-block-label">Exploration</span>
-        <h2 class="jbx-sec-title">Showing what a change touched: four options, one that answers the real question</h2>
-      </div>
-      <div class="jbx-opts">
-        <div class="jbx-opt"><h4>Minimap</h4><p>A thumbnail of the report with dots and lines.</p><ul><li class="plus">Whole-page overview</li><li class="minus">Too far from the data; "what is this for?"</li></ul></div>
-        <div class="jbx-opt"><h4>All lines, toggle</h4><p>Every dependency drawn at once.</p><ul><li class="plus">Nothing hidden</li><li class="minus">Unreadable past three edits</li></ul></div>
-        <div class="jbx-opt"><h4>Routed lines</h4><p>Lines run round the margin.</p><ul><li class="plus">Off the text</li><li class="minus">Impossible to follow</li></ul></div>
-        <div class="jbx-opt is-pick"><span class="jbx-opt-pick">Chosen</span><h4>Spotlight</h4><p>Pick a value; only its lines draw, the rest dims.</p><ul><li class="plus">Answers the one question review asks</li><li class="minus">No overview; scrollbar marks carry it</li></ul></div>
-      </div>
-      <figure class="jbx-fig"><img src="Jain/case/review-spotlight.png" alt="" loading="lazy"><figcaption>Review mode: pick a changed value, only its dependencies draw.</figcaption></figure>
-      <p class="jbx-body">Midway, a bug: the hover card listed three affected items, review drew one line. Three surfaces were reading three copies of the dependency data. Now they read one function. If the card lists it, the line is drawn.</p>
-      <div class="jbx-group" style="margin-top:24px;">
-        <h3 class="jbx-sec-title" style="font-size:1.375rem;">Taking a change back: three options, one explainable in a sentence.</h3>
-        <div class="jbx-opts" style="margin-top:12px;">
-        <div class="jbx-opt"><h4>Version history</h4><p>Restore to a point in time.</p><ul><li class="plus">Predictable</li><li class="minus">Later edits are lost</li></ul></div>
-        <div class="jbx-opt"><h4>Selective undo</h4><p>Remove one record, replay the rest.</p><ul><li class="plus">Correct</li><li class="minus">Not explainable in a connected table</li></ul></div>
-        <div class="jbx-opt is-pick"><span class="jbx-opt-pick">Chosen</span><h4>"Back to"</h4><p>The old value goes in as a new change at the top.</p><ul><li class="plus">Nothing deleted; formulas recompute; later edits stay</li><li class="minus">A reverted value appears twice</li></ul></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="jbx-sec " id="collab">
-    <div class="jbx-sec-inner">
-      <div class="jbx-sec-head">
-        <span class="jbx-block-label">Collaboration</span>
-        <h2 class="jbx-sec-title">Two constraints contradicted each other. The principle is how they were reconciled</h2>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">Product vs. engineering</h3>
-        <div class="jbx-vs">
-          <div class="jbx-card"><h4>Roy, product</h4><p>"Users handle exceptions. The document has to feel like theirs." Show less; let the AI stay out of the way.</p></div>
-          <div class="jbx-card"><h4>Tan, engineering</h4><p>"Change anything, everything recalculates." Show everything; the user has to see what moved.</p></div>
-        </div>
-        <p class="jbx-res">Both are right about different cells. Formulas recalculate silently with a dot (Tan's system stays live); only RFP contradictions and Jain's own revisions surface (Roy's exceptions). The confirm card shows consequences before the change lands, so the document never changes behind the user's back.</p>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">Engineering alignment</h3>
-        <p class="jbx-body">Agreed with Tan that the dependency graph comes from the parser, not front-end rules; that each cell carries origin, source page, original value, who changed it and when; and that review is read-only so Jain can't move a value mid-check.</p>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">Where I overruled the AI agent I built with</h3>
-        <div class="jbx-vs">
-          <div class="jbx-card"><h4>Agent</h4><p>A sidebar list of all changes for review, click to jump. A pricing dialog that appears only when something changed, with "don't ask again."</p></div>
-          <div class="jbx-card"><h4>Decision</h4><p>Spotlight on the data, not a list beside it. Ask every time: an untouched report still carries estimates and gaps that go straight into the price.</p></div>
-        </div>
-        <p class="jbx-res">The list stays in the prototype behind a switch for user testing. The dialog's skip rate is the first number to watch; if most people skip, this call was wrong.</p>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">Open with product</h3>
-        <div class="jbx-cards jbx-cards--2">
-        <div class="jbx-card"><h4>What counts as "needs a person"?</h4><p>Amber is only for real decisions. Every new type has to pass that bar.</p></div>
-        <div class="jbx-card"><h4>What is "Jain recommends" based on?</h4><p>Win history, usual margin, or the client's scoring criteria. Who sets the three plans' parameters.</p></div>
-        <div class="jbx-card"><h4>How do assumptions reach the proposal?</h4><p>Unconfirmed values become stated basis of the price; wording needs product and legal.</p></div>
-        <div class="jbx-card"><h4>Is review mandatory?</h4><p>Currently asked every time, skippable. Decide from skip rate and post-pricing error rate.</p></div>
-        </div>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">How the prototype was built</h3>
-        <p class="jbx-body">With an AI agent, under rules I wrote for it: a plain-language case before any "where should this go"; variations in a switcher inside the prototype, decided by clicking; one change per iteration, verified in the browser; no silent removals; "reference, don't copy" after the first panel came back as chat bubbles with an avatar. The rules live in a file so another agent, or engineering, can continue.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="jbx-sec " id="pricing">
-    <div class="jbx-sec-inner">
-      <div class="jbx-sec-head">
-        <span class="jbx-block-label">Pricing</span>
-        <h2 class="jbx-sec-title">A price is a choice between strategies, not a number</h2>
-      </div>
-      <div class="jbx-copy">
-        <p class="jbx-body">Three plans, Competitive / Balanced / Premium, each with annual price, price per square foot, margin and cleaning efficiency; the selected plan drives every figure on the page. Below it, where the money goes, staffing per building and shift, and the contract value over the term. Every value from the X-ray keeps its origin label; the assumptions are listed in one place with a link back to the cell they rest on, so they can be stated to the client as the basis of the price rather than discovered later.</p>
-        <p class="jbx-note">Market comparison and rate data in the prototype are illustrative.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="jbx-sec " id="tradeoffs">
-    <div class="jbx-sec-inner">
-      <div class="jbx-sec-head">
-        <span class="jbx-block-label">Trade-offs</span>
-        <h2 class="jbx-sec-title">What was chosen, what was given up, and what was accepted under constraint</h2>
-      </div>
-      <div class="jbx-table jbx-table--4">
-        <div class="th">Decision</div><div class="th">Chose</div><div class="th">Gave up</div><div class="th">Why it's worth it</div>
-        <div class="td k">Consequences</div><div class="td" data-h="Chose">Formulas recalculate silently; only judgment calls are asked</div><div class="td" data-h="Gave up">A changed number may go unnoticed</div><div class="td" data-h="Why it's worth it">Avoids confirmation fatigue; the dot, hover card and review cover it</div>
-        <div class="td k">Review</div><div class="td" data-h="Chose">Spotlight on the report</div><div class="td" data-h="Gave up">A list of all changes at a glance</div><div class="td" data-h="Why it's worth it">Checking happens on the data; scrollbar marks carry the overview</div>
-        <div class="td k">Lines</div><div class="td" data-h="Chose">Only for the picked value, straight across the page</div><div class="td" data-h="Gave up">Seeing the whole graph; lines never crossing content</div><div class="td" data-h="Why it's worth it">All lines at once reads as nothing; white stroke and dimming make the crossing legible</div>
-        <div class="td k">Ask</div><div class="td" data-h="Chose">Every time</div><div class="td" data-h="Gave up">One click per bid</div><div class="td" data-h="Why it's worth it">Estimates and gaps enter the price whether or not anything was edited</div>
-        <div class="td k">Navigation</div><div class="td" data-h="Chose">Step bar, no breadcrumb</div><div class="td" data-h="Gave up">Bid name and level-up at a glance</div><div class="td" data-h="Why it's worth it">In a fixed sequence the step bar says more</div>
-        <div class="td k">No bid</div><div class="td" data-h="Chose">A side door under "⋯"</div><div class="td" data-h="Gave up">An explicit go / no-go step</div><div class="td row-end" data-h="Why it's worth it">Three steps at most; declining shouldn't be a step everyone walks through</div>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">Compromises</h3>
-        <p class="jbx-body">A trade-off is wanting both and picking one. A compromise is accepting something imperfect because of a limit or a disagreement.</p>
-        <div class="jbx-cards jbx-cards--2">
-        <div class="jbx-card"><h4>Lines cross content</h4><p>No routing around text. Mitigated three ways: white stroke, lines only on selection, everything else dimmed.</p></div>
-        <div class="jbx-card"><h4>Purple dot on the Jain button</h4><p>I thought "you changed something" was noise and proposed removing it; the team kept it as a useful reminder. The purple / amber split is the middle ground.</p></div>
-        <div class="jbx-card"><h4>Custom scrollbar</h4><p>Cleaner, and width doesn't jump when the panel opens; keyboard and screen-reader behaviour need engineering to confirm.</p></div>
-        <div class="jbx-card"><h4>Illustrative data</h4><p>Market comparison and rates in the prototype are invented to make the interface credible, and are labelled as such.</p></div>
-        </div>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">Rejected along the way</h3>
-        <div class="jbx-chips">
-          <span class="jbx-chip">Panel as chat bubbles with an avatar (copied the reference)</span>
-          <span class="jbx-chip">Nine panel workflows; only "approve in place" survived</span>
-          <span class="jbx-chip">A handoff flow before pricing (Ready to price → checklist → mark priceable)</span>
-          <span class="jbx-chip">A separate "Before you price" page</span>
-          <span class="jbx-chip">Five entry points to pricing: nav card, end-of-report card, sticky footer, price preview, "Jain suggests" card</span>
-          <span class="jbx-chip">"Create PowerPoint"</span>
-          <span class="jbx-chip">Minimap (panel → review → gone)</span>
-          <span class="jbx-chip">Line toggle button and its six icons</span>
-          <span class="jbx-chip">Lines routed round the margin</span>
-          <span class="jbx-chip">Three review visual treatments: dark full-width bar, teal edge glow, bold marker rail</span>
-          <span class="jbx-chip">Unread count on the history icon</span>
-          <span class="jbx-chip">Breadcrumb alongside the step bar</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="jbx-sec " id="takeaways">
-    <div class="jbx-sec-inner">
-      <div class="jbx-sec-head">
-        <span class="jbx-block-label">Takeaways</span>
-        <h2 class="jbx-sec-title">The AI is an addition, not the premise</h2>
-      </div>
-      <div class="jbx-copy">
-        <p class="jbx-body">The report had to work with Jain closed. Everything Jain does is a second layer on a document a person already owns. The rules for when Jain may act alone turned out to be the same rules I gave the agent I built this with: reason before building, no silent removals, rules written as a file. Bounding both was one skill.</p>
-        <p class="jbx-body">If a mechanism can't be explained in one sentence, it isn't done. Selective undo was correct. I cut it anyway.</p>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">What I'd measure after launch</h3>
-        <div class="jbx-watch">
-        <div class="jbx-card"><h4>Review skip rate</h4><p>Is the dialog earning its click?</p></div>
-        <div class="jbx-card"><h4>Edits made after review</h4><p>Is the spotlight catching anything?</p></div>
-        <div class="jbx-card"><h4>Time from queue to zero</h4><p>Is the queue the right unit of work?</p></div>
-        <div class="jbx-card"><h4>Suggestion accept rate</h4><p>Too high, Jain isn't asking real questions. Too low, it's interrupting.</p></div>
-        </div>
-      </div>
-      <div class="jbx-group">
-        <h3 class="jbx-mini">Open</h3>
-        <p class="jbx-body">The proposal step. Whether scrollbar marks and spotlight still hold with dozens of changes. Spotlight vs. list with real users. Narrow screens. Accessibility beyond colour: shape, text, keyboard in review.</p>
-      </div>
-    </div>
-  </section>
   </div><!-- /.jbx-locked -->
 
   <section class="case-more" style="--accent:#5FCB9C;">
