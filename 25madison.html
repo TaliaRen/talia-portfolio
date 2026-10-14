@@ -536,6 +536,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   @media(max-width:860px) {
     .jbx-sec { padding:0 32px 80px; }
+    /* shell.css gives every direct child of <main> the frame gutter below 860; the locked wrapper is one of
+       them, so pass the gutter down to its sections instead of stacking it on top of theirs */
+    html.embed main > .jbx-locked { padding-left:0; padding-right:0; }
+    html.embed .jbx-locked > .jbx-sec { padding-left:calc(var(--frame-inset) + 7px + 16px); padding-right:calc(var(--frame-inset) + 7px + 16px); }
     .jbx-sec-inner { gap:40px; }
     .jbx-sec-inner--items { gap:80px; }
     .jbx-sec-inner--items > .jbx-block-label { margin-bottom:calc(16px - 80px); }
