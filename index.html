@@ -4208,8 +4208,8 @@ if (location.hash && !/[?&]project=/.test(location.search)) {
   (function () {
     const board = document.getElementById('scope'), items = [...document.querySelectorAll('.sig-item')];
     if (!board || !items.length) return;
-    // the phone is 19% of the board's width (96–210px) so its proportion holds at every size
-    const sizePhone = () => board.style.setProperty('--phone-w', Math.max(96, Math.min(210, board.clientWidth * 0.19)) + 'px');
+    // the phone is 15% of the board's width (88–168px) so its proportion holds at every size
+    const sizePhone = () => board.style.setProperty('--phone-w', Math.max(88, Math.min(168, board.clientWidth * 0.15)) + 'px');
     sizePhone(); window.addEventListener('resize', sizePhone);
     if ('ResizeObserver' in window) new ResizeObserver(sizePhone).observe(board);
     items.forEach(p => {
