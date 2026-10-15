@@ -251,12 +251,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; left:24px; top:-14px; margin:0; padding:5px 12px; background:#5FE39A;
     font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:#0A0D0C;
   }
-  /* Two rows on a 12-column grid. Row 1: the featured print + the phone. Row 2: two wide prints sized so their heights match. */
+  /* Two rows on a 12-column grid. Row 1: the two landscape videos (Haze + Memory Tree) side by side.
+     Row 2: the phone (Truthly) + the wide before/after pair (tiger). */
   .scrap-flow { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:52px 40px; align-items:center; }
-  .scrap-flow > .exp-feature { grid-column:1 / span 7; }
-  .scrap-flow > .exp-side    { grid-column:8 / span 5; justify-self:center; }
-  .scrap-flow > .exp-a       { grid-column:1 / span 5; }
-  .scrap-flow > .exp-b       { grid-column:6 / span 7; }
+  .scrap-flow > .exp-feature { grid-column:1 / span 6; }
+  .scrap-flow > .exp-a       { grid-column:7 / span 6; }
+  .scrap-flow > .exp-side    { grid-column:1 / span 4; justify-self:center; }
+  .scrap-flow > .exp-b       { grid-column:5 / span 8; }
   .sig-item {
     display:block; width:var(--w, 100%); margin:0;
     color:inherit; text-decoration:none; transform:rotate(var(--r, 0deg));
@@ -1709,6 +1710,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <source src="playground/haze.mp4" type="video/mp4">
         </video>
       </a>
+      <a class="sig-item exp-a" style="--r:1.2deg" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Memory Tree" data-note="A tree that grows to match the season, decorated with your photos and controlled with your hands">
+        <video autoplay muted loop playsinline preload="metadata">
+          <source src="playground/memory%20tree.mp4" type="video/mp4">
+        </video>
+      </a>
       <a class="sig-item sig-phone exp-side" style="--r:1.8deg" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
         <div class="phone-mockup">
           <div class="phone-island"></div>
@@ -1718,11 +1724,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </video>
           </div>
         </div>
-      </a>
-      <a class="sig-item exp-a" style="--r:1.2deg" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Memory Tree" data-note="A tree that grows to match the season, decorated with your own photos and controlled with just your hands">
-        <video autoplay muted loop playsinline preload="metadata">
-          <source src="playground/memory%20tree.mp4" type="video/mp4">
-        </video>
       </a>
       <a class="sig-item sig-pair exp-b" style="--r:-1.2deg" href="https://github.com/TaliaRen/geometric-illustration-skill" target="_blank" rel="noopener" data-title="Geometric Illustration Skill" data-note="A Codex skill that rebuilds a photo from primitive shapes">
         <img src="playground/true tiger.jpg" alt="Source photo of a tiger" loading="lazy">
