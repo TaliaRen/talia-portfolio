@@ -251,10 +251,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     position:absolute; left:24px; top:-14px; margin:0; padding:5px 12px; background:#5FE39A;
     font-family:'Figtree',sans-serif; font-size:14px; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:#0A0D0C;
   }
-  .scrap-flow { display:grid; grid-template-columns:36% 1fr; grid-template-rows:auto auto; gap:44px 48px; align-items:center; }
-  .scrap-flow > .sig-phone { grid-row:1 / 3; justify-self:center; }
-  .scrap-flow > .sig-item:nth-child(2) { grid-column:2; justify-self:end; }
-  .scrap-flow > .sig-item:nth-child(3) { grid-column:2; justify-self:start; }
+  /* Two rows on a 12-column grid. Row 1: the featured print + the phone. Row 2: two wide prints sized so their heights match. */
+  .scrap-flow { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:52px 40px; align-items:center; }
+  .scrap-flow > .exp-feature { grid-column:1 / span 7; }
+  .scrap-flow > .exp-side    { grid-column:8 / span 5; justify-self:center; }
+  .scrap-flow > .exp-a       { grid-column:1 / span 5; }
+  .scrap-flow > .exp-b       { grid-column:6 / span 7; }
   .sig-item {
     display:block; width:var(--w, 100%); margin:0;
     color:inherit; text-decoration:none; transform:rotate(var(--r, 0deg));
@@ -292,9 +294,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:640px) {
     #vibe { padding-top:96px; }
     .scrap { padding:40px 16px 40px; background-size:36px 36px; }
-    .scrap-flow { grid-template-columns:1fr; grid-template-rows:none; gap:28px; }
+    .scrap-flow { grid-template-columns:1fr; gap:32px; }
     .sig-phone .phone-mockup { width:150px !important; }
-    .scrap-flow > .sig-phone, .scrap-flow > .sig-item:nth-child(2), .scrap-flow > .sig-item:nth-child(3) { grid-column:auto; grid-row:auto; justify-self:center; }
+    .scrap-flow > .exp-feature, .scrap-flow > .exp-side, .scrap-flow > .exp-a, .scrap-flow > .exp-b { grid-column:auto; justify-self:center; }   /* one column, most important first */
     .sig-item { --w:100% !important; --r:0deg !important; }
     .scrap-title { left:auto; right:16px; }                 /* clear of the hamburger at the frame's top-left */
     .sig-item.sig-phone { margin-left:auto !important; margin-right:auto !important; }   /* the tall phone print sits centred on phones */
@@ -1697,12 +1699,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </section>
 
-<!-- Vibe coding: two playground pieces, live on the homepage -->
+<!-- Vibe coding: playground pieces, live on the homepage -->
 <section id="vibe">
   <div class="scrap" id="scope">
     <p class="scrap-title">Experiment Log</p>
     <div class="scrap-flow">
-      <a class="sig-item sig-phone" style="--r:-2.2deg" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
+      <a class="sig-item exp-feature" style="--r:-0.8deg" href="https://taliaren.github.io/haze/" target="_blank" rel="noopener" data-title="Haze" data-note="A tool for soft, flowing gradients, exported as stills or seamless looping videos">
+        <video autoplay muted loop playsinline preload="metadata">
+          <source src="playground/haze.mp4" type="video/mp4">
+        </video>
+      </a>
+      <a class="sig-item sig-phone exp-side" style="--r:1.8deg" href="https://truthordare-self.vercel.app/" target="_blank" rel="noopener" data-title="Truthly" data-note="A Truth or Dare app that adapts prompts to different social scenarios and relationship stages">
         <div class="phone-mockup">
           <div class="phone-island"></div>
           <div class="phone-screen">
@@ -1712,12 +1719,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </a>
-      <a class="sig-item" style="--r:1.6deg; --w:88%" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Christmas Tree" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
+      <a class="sig-item exp-a" style="--r:1.2deg" href="https://christmas-memory-five.vercel.app/" target="_blank" rel="noopener" data-title="Gesture-Controlled Christmas Tree" data-note="Decorate a Christmas tree with your own photos and control it all with just your hands">
         <video autoplay muted loop playsinline preload="metadata">
           <source src="playground/christmas memory.mp4" type="video/mp4">
         </video>
       </a>
-      <a class="sig-item sig-pair" style="--r:-1.4deg; --w:84%" href="https://github.com/TaliaRen/geometric-illustration-skill" target="_blank" rel="noopener" data-title="Geometric Illustration Skill" data-note="A Codex skill that rebuilds a photo from primitive shapes">
+      <a class="sig-item sig-pair exp-b" style="--r:-1.2deg" href="https://github.com/TaliaRen/geometric-illustration-skill" target="_blank" rel="noopener" data-title="Geometric Illustration Skill" data-note="A Codex skill that rebuilds a photo from primitive shapes">
         <img src="playground/true tiger.jpg" alt="Source photo of a tiger" loading="lazy">
         <img src="playground/tiger.png" alt="The same tiger rebuilt from geometric shapes" loading="lazy">
       </a>
